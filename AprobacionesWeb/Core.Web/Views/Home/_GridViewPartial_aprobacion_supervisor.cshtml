@@ -1,0 +1,62 @@
+@model Core.Info.general.FILTRO_INFO
+@using System.Web.UI.WebControls;
+@{
+    var grid = Html.DevExpress().GridView(settings => {
+        settings.Name = "GridView_aprobacion_supervisor";
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "GridViewPartial_aprobacion_supervisor", bodega = ViewBag.bodega, sucursal = ViewBag.sucursal, proveedor = ViewBag.proveedor, viaje = ViewBag.viaje, num_ot = ViewBag.num_ot, solicitado = ViewBag.solicitado, estado_jefe_bahia = ViewBag.estado_jefe_bahia, estado_supervisor = ViewBag.estado_supervisor, fecha_inicio = ViewBag.fecha_inicio, fecha_fin = ViewBag.fecha_fin };
+        settings.Width = Unit.Percentage(100);
+        settings.KeyFieldName = "CINV_NUM";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = false;
+
+        //Configuración checkbox
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+
+        //Configuración click derecho
+        settings.SettingsContextMenu.Enabled = true;
+        settings.SettingsBehavior.EnableCustomizationWindow = true;
+        settings.SettingsContextMenu.EnableRowMenu = DefaultBoolean.False;
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCells;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 500;
+
+        settings.Columns.Add("CINV_NUM","OT").Width = Unit.Percentage(5);
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CINV_FECING";
+            column.Caption = "Fecha";
+            column.Width = Unit.Percentage(5);
+            column.PropertiesEdit.DisplayFormatString = "d";
+        });
+        settings.Columns.Add("CINV_COM1","Detalle").Width = Unit.Percentage(40);
+        settings.Columns.Add("CINV_NOMID", "Proveedor").Width = Unit.Percentage(20);
+        settings.Columns.Add("NOM_SOLICITADO","Solicitante").Width = Unit.Percentage(20);
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "VALOR_OT";
+            column.Caption = "Valor";
+            column.Width = Unit.Percentage(5);
+            column.PropertiesEdit.DisplayFormatString = "n2";
+        });
+        settings.Columns.Add("CINV_STCUMPLI2", "Estado Sup").Width = Unit.Percentage(5);
+
+        settings.Columns.Add("CINV_ST", "Estado").Visible = false;
+        settings.Columns.Add("CINV_BOD", "Bodega").Visible = false;
+        settings.Columns.Add("CODIGOTR", "Barco").Visible = false;
+        settings.Columns.Add("CINV_FPAGO", "Viaje").Visible = false;
+        settings.Columns.Add("CODIGO1", "Proveedor").Visible = false;
+        settings.Columns.Add("CINV_FECING", "Fecha ingreso").Visible = false;
+
+        settings.ClientSideEvents.SelectionChanged = "OnSelectionChanged";
+        settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+    });
+}
+@grid.Bind(Model.lst_ot).GetHtml()

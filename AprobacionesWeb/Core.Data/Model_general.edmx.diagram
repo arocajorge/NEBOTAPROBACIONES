@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="54f092a762ee40f1b3f456e6e989988f" Name="Diagram1">
+        <EntityTypeShape EntityType="Model_general.ARINDEX" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model_general.ARPROVEEDOR" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model_general.TBCINV" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model_general.TBDINV" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model_general.USUARIO" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model_general.SUCURSAL" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Model_general.VW_ORDENES_TRABAJO" Width="1.5" PointX="8.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Model_general.VW_ORDENES_TRABAJO_TOTAL" Width="1.5" PointX="10.75" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

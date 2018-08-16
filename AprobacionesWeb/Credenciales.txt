@@ -1,0 +1,6 @@
+Servidor: 				192.168.1.245
+Cadena de conexion a DATASOURCE:	192.168.1.245:1516/INDIGO
+Usuario:				INDIGO
+Contraseña:				INDIGO
+Usuario servidor:			Administrador
+Contraseña servidor			1qa2ws3ed.*

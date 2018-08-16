@@ -1,0 +1,24 @@
+@using System.Web.UI.WebControls;
+@{
+    var grid = Html.DevExpress().GridView(settings => {
+        settings.Name = "GridView_detalle_OT";
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "GridViewPartial_detalle_OC", CINV_TDOC = ViewBag.CINV_TDOC, CINV_NUM = ViewBag.CINV_NUM };
+        settings.Width = Unit.Percentage(100);
+        settings.KeyFieldName = "DINV_LINEA";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.ShowFilterRow = false;
+        settings.SettingsBehavior.AllowSelectByRowClick = false;
+
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+        settings.Columns.Add("DINV_LINEA","Línea").Width = Unit.Percentage(5);
+        settings.Columns.Add("DINV_DETALLEDSCTO","Detalle").Width = Unit.Percentage(90);
+    });
+}
+@grid.Bind(Model).GetHtml()

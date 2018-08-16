@@ -1,0 +1,340 @@
+﻿@model Core.Info.general.FILTRO_INFO
+@{
+    ViewBag.Title = "Aprobaciones Supervisor";
+    if (Session["IdUsuario"] == null)
+    {
+        Response.Redirect("~/Account/Login");
+    }
+}
+<script>
+    var selectedIDs;
+    function OnBeginCallback(s, e) {
+        //Pass all selected keys to GridView callback action
+        e.customArgs["selectedIDs"] = selectedIDs;
+    }
+    function OnSelectionChanged(s, e) {
+        s.GetSelectedFieldValues("CINV_NUM", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+        //Capture all selected keys
+        selectedIDs = values.join(',');
+    }
+
+    function get_ot_seleccionadas() {
+        var titulo = "Cumplir órdenes de trabajo # " + selectedIDs;
+        document.getElementById("titulo_modal").innerHTML = titulo;
+        $("#modal-default").modal()
+    }
+
+    function guardar() {
+        var comentarios = $("#txt_comentarios").val();        
+        var radios = document.getElementsByName('option_radios');
+        var opcion = "";
+        for (var i = 0, length = radios.length; i < length; i++) {
+            if (radios[i].checked) {                
+                opcion = radios[i].value;
+                break;
+            }
+        }
+
+
+        var datos = {
+            IDs: selectedIDs,
+            comentario: comentarios,
+            estado: opcion
+        }
+
+        $.ajax({
+            type: 'POST',
+            data: JSON.stringify(datos),
+            url: '@Url.Action("guardar_supervisor", "Home")',
+            async: false,
+            bDeferRender: true,
+            bProcessing: true,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data == "1") {
+                    $("#myform").submit();
+                }
+            },
+            error: function (error) {
+            }
+        });
+    }
+</script>
+@using (Html.BeginForm("AprobacionSupervisor","Home",FormMethod.Post, new { @class = "form", @role = "form", @id = "myform" }))
+{
+<div class="box collapsed-box">
+    <div class="box-header with-border">
+        <h3 class="box-title">Filtros</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                <i class="fa fa-plus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="IdBodega">Bodega</label>
+                            @Html.DevExpress().ComboBoxFor(q => q.IdBodega, settings =>
+                            {
+                                settings.Name = "IdBodega";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Properties.DisplayFormatString = "[{0}] - {1}";
+                                settings.Properties.Columns.Add("CODIGO", "Código").Width = System.Web.UI.WebControls.Unit.Percentage(20);
+                                settings.Properties.Columns.Add("NOMBRE", "Bodega").Width = System.Web.UI.WebControls.Unit.Percentage(80);
+                                //Campo ID
+                                settings.Properties.ValueField = "CODIGO";
+                                settings.Properties.ValueType = typeof(string);
+                                //Boton para seleccionar ningun registro
+                                settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.Always;
+                                settings.Properties.NullText = "Todas";
+                                settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+                            }).BindList(ViewBag.lst_bodega).GetHtml()
+                        </div>
+                    </div>   
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="IdProveedor">Proveedor</label>
+                            @Html.DevExpress().ComboBoxFor(q => q.IdProveedor, settings =>
+                            {
+                                settings.Name = "IdProveedor";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Properties.DisplayFormatString = "[{0}] - {1}";
+                                settings.Properties.Columns.Add("CODIGO1", "Código").Width = System.Web.UI.WebControls.Unit.Percentage(20);
+                                settings.Properties.Columns.Add("NOMBRE", "Proveedor").Width = System.Web.UI.WebControls.Unit.Percentage(80);
+                                //Campo ID
+                                settings.Properties.AllowNull = true;
+                                settings.Properties.ValueField = "CODIGO";
+                                settings.Properties.ValueType = typeof(string);
+                                //Boton para seleccionar ningun registro
+                                settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.Always;
+                                settings.Properties.NullText = "Todos";
+                                settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+                            }).BindList(ViewBag.lst_proveedor).GetHtml()
+                        </div>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="IdSucursal">Centro de costo</label>
+                            @Html.DevExpress().ComboBoxFor(q => q.IdSucursal, settings =>
+                            {
+                                settings.Name = "IdSucursal";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Properties.DisplayFormatString = "[{0}] - {1}";
+                                settings.Properties.Columns.Add("CODIGO", "Código").Width = System.Web.UI.WebControls.Unit.Percentage(20);
+                                settings.Properties.Columns.Add("NOMBRE", "Centro de costo").Width = System.Web.UI.WebControls.Unit.Percentage(80);
+                                //Campo ID
+                                settings.Properties.ValueField = "CODIGO";
+                                settings.Properties.ValueType = typeof(string);
+                                //Boton para seleccionar ningun registro
+                                settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.Always;
+                                settings.Properties.NullText = "Todos";
+                                settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+                            }).BindList(ViewBag.lst_sucursal).GetHtml()
+                        </div>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="IdViaje">Viaje</label>
+                            @Html.DevExpress().ComboBoxFor(q => q.IdViaje, settings =>
+                            {
+                                settings.Name = "IdViaje";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Properties.DisplayFormatString = "[{0}] - {1}";
+                                settings.Properties.Columns.Add("CODIGO", "Código").Width = System.Web.UI.WebControls.Unit.Percentage(20);
+                                settings.Properties.Columns.Add("NOMBRE", "Viaje").Width = System.Web.UI.WebControls.Unit.Percentage(80);
+                                //Campo ID
+                                settings.Properties.ValueField = "CODIGO";
+                                settings.Properties.ValueType = typeof(string);
+                                //Boton para seleccionar ningun registro
+                                settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.Always;
+                                settings.Properties.NullText = "Todos";
+                                settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+                            }).BindList(ViewBag.lst_viaje).GetHtml()
+                        </div>
+                    </div>
+                </div>                             
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="solicitado_por"> Solicitante</label>
+                            @Html.TextBoxFor(q => q.solicitado_por, new { @class = "form-control input-sm" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="num_ot"> # OT</label>
+                            @Html.TextBoxFor(q => q.num_ot, new { @class = "form-control input-sm" })
+                        </div>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="num_ot"> Fecha desde</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                @Html.TextBoxFor(q => q.Fecha_inicio, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm", @id = "Fecha_inicio" })
+                                @Html.ValidationMessageFor(q => q.Fecha_inicio, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="num_ot"> Fecha hasta</label>
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                @Html.TextBoxFor(q => q.Fecha_fin, "{0:dd/MM/yyyy}", new { @class = "form-control input-sm", @id = "Fecha_fin" })
+                                @Html.ValidationMessageFor(q => q.Fecha_fin, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="estado_jefe_bahia">Estado jefe de bahía</label>
+                            @Html.DropDownListFor(q => q.estado_jefe_bahia, new SelectList(ViewBag.lst_estado_jefe_bahia, "Key", "Value"), new { @class = "form-control input-sm" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="estado_supervisor">Estado supervisor</label>
+                            @Html.DropDownListFor(q => q.estado_supervisor, new SelectList(ViewBag.lst_estado_supervisor, "Key", "Value"), new { @class = "form-control input-sm" })
+                        </div>
+                    </div>
+                </div>
+                
+
+            </div>
+        </div>
+        <div class="box-footer">
+            <button type="submit" class="btn btn-primary">Aplicar filtros</button>
+            <a class="btn btn-default" href="@Url.Action("Index", "Home", null)">Cancelar</a>
+        </div>        
+    </div>
+    <!-- /.box-body -->
+</div>
+<div id="modal-default" class="modal fade" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <p class="modal-title" id="titulo_modal">Cumplir órdenes de trabajo #</p>
+                @Html.Hidden("ot_seleccionadas",new { @id = "ot_seleccionadas" })               
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="radio">
+                                    <label for="op_cumplida"><input id="op_cumplida" checked="checked" name="option_radios" type="radio" value="P" /> Cumplida</label>
+                                </div>
+                                <div class="radio">
+                                    <label for="op_negada"><input id="op_negada" name="option_radios" type="radio" value="X" /> Negada</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="txt_comentarios">Comentarios</label>
+                                <textarea class="form-control" id="txt_comentarios" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-primary" id="btn_guardar" onclick="guardar()">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="box">
+    <div class="box-header with-border">
+        <h3 class="box-title">@ViewBag.Title</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body">       
+
+            @Html.Action("GridViewPartial_aprobacion_supervisor", new { bodega = Model.IdBodega, sucursal = Model.IdSucursal, proveedor = Model.IdProveedor, viaje = Model.IdViaje, num_ot = Model.num_ot, solicitado = Model.solicitado_por, estado_jefe_bahia = Model.estado_jefe_bahia, estado_supervisor = Model.estado_supervisor, fecha_inicio = Model.Fecha_inicio, fecha_fin = Model.Fecha_fin})
+        
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" id="btn_cumplimiento" onclick="get_ot_seleccionadas()">Cumplir OT</button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>        
+    </div>
+    <!-- /.box-footer-->
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+}
+<script>
+    $(function () {
+        $('#Fecha_inicio').datepicker({
+            autoclose: true
+        })
+        $('#Fecha_fin').datepicker({
+            autoclose: true
+        })
+
+        
+    })
+
+    
+</script>
