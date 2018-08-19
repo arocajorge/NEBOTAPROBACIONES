@@ -15,7 +15,7 @@ namespace Core.Data.general
 
             using (Entities_general Context = new Entities_general())
             {
-                Lista = (from q in Context.SUCURSALs
+                Lista = (from q in Context.SUCURSAL
                          where q.ESTADO == "Vigente"
                          select new SUCURSAL_INFO
                          {

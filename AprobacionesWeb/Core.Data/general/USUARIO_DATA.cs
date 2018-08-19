@@ -14,12 +14,12 @@ namespace Core.Data.general
             USUARIO_INFO info = new USUARIO_INFO();
             using (Entities_general Context = new Entities_general())
             {
-                USUARIO Entity = Context.USUARIOS.FirstOrDefault(q => q.USUARIO1 == NOM_USUARIO && q.CLAVE == CONTRASENIA);
+                USUARIOS Entity = Context.USUARIOS.FirstOrDefault(q => q.USUARIO == NOM_USUARIO && q.CLAVE == CONTRASENIA);
                 if (Entity == null)
                     return null;
                 info = new USUARIO_INFO
                 {
-                    USUARIO1 = Entity.USUARIO1,
+                    USUARIO1 = Entity.USUARIO,
                     CLAVE = Entity.CLAVE,
                     CODIGO = Entity.CODIGO,
                     ROL_APRO = Entity.ROL_APRO,

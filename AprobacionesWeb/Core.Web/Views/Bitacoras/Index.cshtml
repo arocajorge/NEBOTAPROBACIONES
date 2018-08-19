@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Asignar OT a bitácora";
+    if (Session["IdUsuario"] == null)
+    {
+        Response.Redirect("~/Account/Login");
+    }
+}
+
+@using (Html.BeginForm("Index", "Bitacoras", FormMethod.Post, new { @class = "form", @role = "form", @id = "myform" }))
+{
+
+}

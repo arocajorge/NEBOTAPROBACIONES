@@ -75,5 +75,6 @@ namespace Core.Data
         public decimal DINV_PRCT_DSC { get; set; }
         public decimal DINV_VTA { get; set; }
         public string TELEFONOS { get; set; }
+        public string DETALLE_ORDEN { get; set; }
     }
 }

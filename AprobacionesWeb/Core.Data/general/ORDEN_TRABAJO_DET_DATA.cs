@@ -94,5 +94,25 @@ namespace Core.Data.general
 
             return Lista.OrderBy(q=>q.DINV_LINEA).ToList();
         }
+
+        public decimal GetTotalOrden(string TipoDoc, int CINV_NUM)
+        {
+            decimal Total = 0;
+
+            using (Entities_general Context = new Entities_general())
+            {
+                var Lista = (from q in Context.VW_ORDENES_TRABAJO
+                          where q.CINV_TDOC == TipoDoc
+                          && q.CINV_NUM == CINV_NUM
+                          select q).ToList();
+                NumberFormatInfo provider = new NumberFormatInfo();
+                provider.NumberDecimalSeparator = ".";
+                provider.NumberGroupSeparator = ",";
+                provider.NumberGroupSizes = new int[] { 3 };
+                Lista.ForEach(q => { Total +=  (Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) + q.DINV_IVA); });
+            }
+
+            return Total;
+        }
     }
 }

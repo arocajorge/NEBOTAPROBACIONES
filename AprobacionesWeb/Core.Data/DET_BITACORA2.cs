@@ -12,17 +12,14 @@ namespace Core.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class USUARIO
+    public partial class DET_BITACORA2
     {
-        public int CODIGO { get; set; }
-        public string CLAVE { get; set; }
-        public string USUARIO1 { get; set; }
-        public string NOMBRE { get; set; }
-        public decimal P_VENTAS { get; set; }
-        public System.DateTime FECHA { get; set; }
-        public string OFICREDA { get; set; }
-        public string OFICRECO { get; set; }
-        public string GERCRE { get; set; }
-        public string ROL_APRO { get; set; }
+        public int ID { get; set; }
+        public short LINEA { get; set; }
+        public short LINEA_DETALLE { get; set; }
+        public string NUMERO_ORDEN { get; set; }
+        public Nullable<decimal> VALOR { get; set; }
+        public Nullable<short> CUMPLIMIENTO { get; set; }
+        public Nullable<short> EMPRESA { get; set; }
     }
 }

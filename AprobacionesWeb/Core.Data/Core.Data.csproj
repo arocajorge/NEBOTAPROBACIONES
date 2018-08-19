@@ -69,8 +69,21 @@
     <Compile Include="ARPROVEEDOR.cs">
       <DependentUpon>Model_general.tt</DependentUpon>
     </Compile>
+    <Compile Include="BODEGAS.cs">
+      <DependentUpon>Model_general.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CAB_BITACORA.cs">
+      <DependentUpon>Model_general.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DET_BITACORA.cs">
+      <DependentUpon>Model_general.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DET_BITACORA2.cs">
+      <DependentUpon>Model_general.tt</DependentUpon>
+    </Compile>
     <Compile Include="general\ARINDEX_DATA.cs" />
     <Compile Include="general\ARPROVEEDOR_DATA.cs" />
+    <Compile Include="general\BITACORAS_DATA.cs" />
     <Compile Include="general\ORDEN_TRABAJO_DATA.cs" />
     <Compile Include="general\ORDEN_TRABAJO_DET_DATA.cs" />
     <Compile Include="general\SUCURSAL_DATA.cs" />
@@ -100,7 +113,10 @@
     <Compile Include="TBDINV.cs">
       <DependentUpon>Model_general.tt</DependentUpon>
     </Compile>
-    <Compile Include="USUARIO.cs">
+    <Compile Include="USUARIOS.cs">
+      <DependentUpon>Model_general.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VW_BITACORAS.cs">
       <DependentUpon>Model_general.tt</DependentUpon>
     </Compile>
     <Compile Include="VW_ORDENES_TRABAJO.cs">

@@ -185,7 +185,7 @@ namespace Core.Data.general
                     foreach (var item in array)
                     {
                         int ID = Convert.ToInt32(item);
-                        TBCINV Entity = Context.TBCINVs.FirstOrDefault(q => q.CINV_NUM == ID && q.CINV_TDOC == "OT");
+                        TBCINV Entity = Context.TBCINV.FirstOrDefault(q => q.CINV_NUM == ID && q.CINV_TDOC == "OT");
                         if(Entity != null)
                         {
                             Entity.CINV_STCUMPLI2 = estado;
@@ -212,7 +212,7 @@ namespace Core.Data.general
                     foreach (var item in array)
                     {
                         int ID = Convert.ToInt32(item);
-                        TBCINV Entity = Context.TBCINVs.FirstOrDefault(q => q.CINV_NUM == ID && q.CINV_TDOC == "OT");
+                        TBCINV Entity = Context.TBCINV.FirstOrDefault(q => q.CINV_NUM == ID && q.CINV_TDOC == "OT");
                         if (Entity != null)
                         {
                             Entity.CINV_STCUMPLI1 = estado;
@@ -239,7 +239,7 @@ namespace Core.Data.general
                     foreach (var item in array)
                     {
                         int ID = Convert.ToInt32(item);
-                        TBCINV Entity = Context.TBCINVs.FirstOrDefault(q => q.CINV_NUM == ID && q.CINV_TDOC == tipo_doc);
+                        TBCINV Entity = Context.TBCINV.FirstOrDefault(q => q.CINV_NUM == ID && q.CINV_TDOC == tipo_doc);
                         if (Entity != null)
                         {
                             Entity.CINV_ST = estado;

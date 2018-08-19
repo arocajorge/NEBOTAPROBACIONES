@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="general\ARINDEX_INFO.cs" />
     <Compile Include="general\ARPROVEEDOR_INFO.cs" />
+    <Compile Include="general\BITACORAS_INFO.cs" />
     <Compile Include="general\FILTRO_INFO.cs" />
     <Compile Include="general\ORDEN_TRABAJO_DET_INFO.cs" />
     <Compile Include="general\ORDEN_TRABAJO_INFO.cs" />

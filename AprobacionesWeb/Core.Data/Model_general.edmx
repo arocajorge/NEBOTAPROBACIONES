@@ -65,7 +65,61 @@
           <Property Name="CONTACTO" Type="varchar2" MaxLength="60" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'INDIGO.SUCURSAL' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'INDIGON.BODEGAS' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="BODEGAS">
+          <Key>
+            <PropertyRef Name="NUMERO_ITEM" />
+            <PropertyRef Name="EMPRESA" />
+          </Key>
+          <Property Name="BODEGA" Type="varchar2" MaxLength="5" />
+          <Property Name="NUMERO_ITEM" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="INICIO" Type="date" />
+          <Property Name="FIN" Type="date" />
+          <Property Name="STOCK" Type="number" Precision="19" Scale="4" />
+          <Property Name="COSTO" Type="number" Precision="19" Scale="4" />
+          <Property Name="COSTOD" Type="number" Precision="19" Scale="4" />
+          <Property Name="EMPRESA" Type="number" Precision="5" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CAB_BITACORA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="VIAJE" Type="varchar2" MaxLength="10" />
+          <Property Name="DATA_VIAJE" Type="varchar2" MaxLength="5" />
+          <Property Name="FECINGRESO" Type="date" />
+          <Property Name="BARCO" Type="varchar2" MaxLength="10" />
+          <Property Name="LOGIN" Type="varchar2" MaxLength="10" />
+          <Property Name="ESTADO" Type="varchar2" MaxLength="1" />
+          <Property Name="EMPRESA" Type="number" Precision="5" Scale="0" />
+        </EntityType>
+        <EntityType Name="DET_BITACORA">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LINEA" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="LINEA" Type="number" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar2" MaxLength="200" />
+          <Property Name="CONTRATISTA" Type="varchar2" MaxLength="200" />
+          <Property Name="EMPRESA" Type="number" Precision="5" Scale="0" />
+        </EntityType>
+        <EntityType Name="DET_BITACORA2">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LINEA" />
+            <PropertyRef Name="LINEA_DETALLE" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="LINEA" Type="number" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="LINEA_DETALLE" Type="number" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="NUMERO_ORDEN" Type="varchar2" MaxLength="200" />
+          <Property Name="VALOR" Type="number" Precision="19" Scale="2" />
+          <Property Name="CUMPLIMIENTO" Type="number" Precision="5" Scale="0" />
+          <Property Name="EMPRESA" Type="number" Precision="5" Scale="0" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'INDIGON.SUCURSAL' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="SUCURSAL">
           <Key>
             <PropertyRef Name="CODIGO" />
@@ -173,7 +227,33 @@ advertencia 6002: La tabla o vista 'INDIGO.SUCURSAL' no tiene definida ninguna c
           <Property Name="ROL_APRO" Type="varchar2" MaxLength="10" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'INDIGON.VW_BITACORAS' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="VW_BITACORAS">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LINEA" />
+          </Key>
+          <Property Name="EMPRESA" Type="number" Precision="5" Scale="0" />
+          <Property Name="ID" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="VIAJE" Type="varchar2" MaxLength="10" />
+          <Property Name="NOM_VIAJE" Type="varchar2" MaxLength="200" />
+          <Property Name="FECINGRESO" Type="date" />
+          <Property Name="BARCO" Type="varchar2" MaxLength="10" />
+          <Property Name="NOM_BARCO" Type="varchar2" MaxLength="100" />
+          <Property Name="LOGIN" Type="varchar2" MaxLength="10" />
+          <Property Name="ESTADO" Type="varchar2" MaxLength="1" />
+          <Property Name="LINEA" Type="number" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar2" MaxLength="200" />
+          <Property Name="CONTRATISTA" Type="varchar2" MaxLength="200" />
+          <Property Name="LINEA_DETALLE" Type="number" Precision="5" Scale="0" />
+          <Property Name="NUMERO_ORDEN" Type="varchar2" MaxLength="200" />
+          <Property Name="VALOR" Type="number" Precision="19" Scale="2" />
+          <Property Name="STCUMPLI1" Type="varchar2" MaxLength="1" />
+          <Property Name="STCUMPLI2" Type="varchar2" MaxLength="1" />
+          <Property Name="STORDEN" Type="varchar2" MaxLength="1" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'INDIGON.VW_ORDENES_TRABAJO' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="VW_ORDENES_TRABAJO">
           <Key>
             <PropertyRef Name="CINV_SEC" />
@@ -220,7 +300,7 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO' no tiene definida
           <Property Name="CINV_FECDESADUA" Type="date" />
           <Property Name="CINV_MOTIVOANULA" Type="varchar2" MaxLength="200" />
           <Property Name="DINV_LINEA" Type="number" Precision="5" Scale="0" Nullable="false" />
-          <Property Name="DINV_DETALLEDSCTO" Type="varchar2" MaxLength="288" />
+          <Property Name="DINV_DETALLEDSCTO" Type="varchar2" MaxLength="286" />
           <Property Name="DINV_DETALLEADVAL1" Type="varchar2" MaxLength="100" />
           <Property Name="DINV_DETALLEADVAL2" Type="varchar2" MaxLength="100" />
           <Property Name="DINV_DETALLEADVAL3" Type="varchar2" MaxLength="100" />
@@ -250,9 +330,10 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO' no tiene definida
           <Property Name="DINV_PRCT_DSC" Type="number" Precision="19" Scale="4" Nullable="false" />
           <Property Name="DINV_VTA" Type="number" Precision="19" Scale="4" Nullable="false" />
           <Property Name="TELEFONOS" Type="varchar2" MaxLength="40" />
+          <Property Name="DETALLE_ORDEN" Type="varchar2" MaxLength="255" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'INDIGON.VW_ORDENES_TRABAJO_TOTAL' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="VW_ORDENES_TRABAJO_TOTAL">
           <Key>
             <PropertyRef Name="CINV_SEC" />
@@ -315,12 +396,27 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL' no tiene de
           <Property Name="CINV_COMENCUMPLI2" Type="varchar2" MaxLength="200" />
         </EntityType>
         <EntityContainer Name="Model_generalStoreContainer">
-          <EntitySet Name="ARINDEX" EntityType="Self.ARINDEX" Schema="INDIGO" store:Type="Tables" />
-          <EntitySet Name="ARPROVEEDOR" EntityType="Self.ARPROVEEDOR" Schema="INDIGO" store:Type="Tables" />
-          <EntitySet Name="TBCINV" EntityType="Self.TBCINV" Schema="INDIGO" store:Type="Tables" />
-          <EntitySet Name="TBDINV" EntityType="Self.TBDINV" Schema="INDIGO" store:Type="Tables" />
-          <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" Schema="INDIGO" store:Type="Tables" />
-          <EntitySet Name="SUCURSAL" EntityType="Self.SUCURSAL" store:Type="Tables" store:Schema="INDIGO">
+          <EntitySet Name="ARINDEX" EntityType="Self.ARINDEX" Schema="INDIGON" store:Type="Tables" />
+          <EntitySet Name="ARPROVEEDOR" EntityType="Self.ARPROVEEDOR" Schema="INDIGON" store:Type="Tables" />
+          <EntitySet Name="CAB_BITACORA" EntityType="Self.CAB_BITACORA" Schema="INDIGON" store:Type="Tables" />
+          <EntitySet Name="DET_BITACORA" EntityType="Self.DET_BITACORA" Schema="INDIGON" store:Type="Tables" />
+          <EntitySet Name="DET_BITACORA2" EntityType="Self.DET_BITACORA2" Schema="INDIGON" store:Type="Tables" />
+          <EntitySet Name="TBCINV" EntityType="Self.TBCINV" Schema="INDIGON" store:Type="Tables" />
+          <EntitySet Name="TBDINV" EntityType="Self.TBDINV" Schema="INDIGON" store:Type="Tables" />
+          <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" Schema="INDIGON" store:Type="Tables" />
+          <EntitySet Name="BODEGAS" EntityType="Self.BODEGAS" store:Type="Tables" store:Schema="INDIGON">
+            <DefiningQuery>SELECT 
+"BODEGAS"."BODEGA" AS "BODEGA", 
+"BODEGAS"."NUMERO_ITEM" AS "NUMERO_ITEM", 
+"BODEGAS"."INICIO" AS "INICIO", 
+"BODEGAS"."FIN" AS "FIN", 
+"BODEGAS"."STOCK" AS "STOCK", 
+"BODEGAS"."COSTO" AS "COSTO", 
+"BODEGAS"."COSTOD" AS "COSTOD", 
+"BODEGAS"."EMPRESA" AS "EMPRESA"
+FROM "INDIGON"."BODEGAS" "BODEGAS"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SUCURSAL" EntityType="Self.SUCURSAL" store:Type="Tables" store:Schema="INDIGON">
             <DefiningQuery>SELECT 
 "SUCURSAL"."CODIGO" AS "CODIGO", 
 "SUCURSAL"."NOMBRE" AS "NOMBRE", 
@@ -328,9 +424,31 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL' no tiene de
 "SUCURSAL"."TELEFONO" AS "TELEFONO", 
 "SUCURSAL"."ESTADO" AS "ESTADO", 
 "SUCURSAL"."EMPRESA" AS "EMPRESA"
-FROM "INDIGO"."SUCURSAL" "SUCURSAL"</DefiningQuery>
+FROM "INDIGON"."SUCURSAL" "SUCURSAL"</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="VW_ORDENES_TRABAJO" EntityType="Self.VW_ORDENES_TRABAJO" store:Type="Views" store:Schema="INDIGO">
+          <EntitySet Name="VW_BITACORAS" EntityType="Self.VW_BITACORAS" store:Type="Views" store:Schema="INDIGON">
+            <DefiningQuery>SELECT 
+"VW_BITACORAS"."EMPRESA" AS "EMPRESA", 
+"VW_BITACORAS"."ID" AS "ID", 
+"VW_BITACORAS"."VIAJE" AS "VIAJE", 
+"VW_BITACORAS"."NOM_VIAJE" AS "NOM_VIAJE", 
+"VW_BITACORAS"."FECINGRESO" AS "FECINGRESO", 
+"VW_BITACORAS"."BARCO" AS "BARCO", 
+"VW_BITACORAS"."NOM_BARCO" AS "NOM_BARCO", 
+"VW_BITACORAS"."LOGIN" AS "LOGIN", 
+"VW_BITACORAS"."ESTADO" AS "ESTADO", 
+"VW_BITACORAS"."LINEA" AS "LINEA", 
+"VW_BITACORAS"."DESCRIPCION" AS "DESCRIPCION", 
+"VW_BITACORAS"."CONTRATISTA" AS "CONTRATISTA", 
+"VW_BITACORAS"."LINEA_DETALLE" AS "LINEA_DETALLE", 
+"VW_BITACORAS"."NUMERO_ORDEN" AS "NUMERO_ORDEN", 
+"VW_BITACORAS"."VALOR" AS "VALOR", 
+"VW_BITACORAS"."STCUMPLI1" AS "STCUMPLI1", 
+"VW_BITACORAS"."STCUMPLI2" AS "STCUMPLI2", 
+"VW_BITACORAS"."STORDEN" AS "STORDEN"
+FROM "INDIGON"."VW_BITACORAS" "VW_BITACORAS"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_ORDENES_TRABAJO" EntityType="Self.VW_ORDENES_TRABAJO" store:Type="Views" store:Schema="INDIGON">
             <DefiningQuery>SELECT 
 "VW_ORDENES_TRABAJO"."CINV_SEC" AS "CINV_SEC", 
 "VW_ORDENES_TRABAJO"."CINV_TDOC" AS "CINV_TDOC", 
@@ -392,10 +510,11 @@ FROM "INDIGO"."SUCURSAL" "SUCURSAL"</DefiningQuery>
 "VW_ORDENES_TRABAJO"."DINV_DSC" AS "DINV_DSC", 
 "VW_ORDENES_TRABAJO"."DINV_PRCT_DSC" AS "DINV_PRCT_DSC", 
 "VW_ORDENES_TRABAJO"."DINV_VTA" AS "DINV_VTA", 
-"VW_ORDENES_TRABAJO"."TELEFONOS" AS "TELEFONOS"
-FROM "INDIGO"."VW_ORDENES_TRABAJO" "VW_ORDENES_TRABAJO"</DefiningQuery>
+"VW_ORDENES_TRABAJO"."TELEFONOS" AS "TELEFONOS", 
+"VW_ORDENES_TRABAJO"."DETALLE_ORDEN" AS "DETALLE_ORDEN"
+FROM "INDIGON"."VW_ORDENES_TRABAJO" "VW_ORDENES_TRABAJO"</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL" EntityType="Self.VW_ORDENES_TRABAJO_TOTAL" store:Type="Views" store:Schema="INDIGO">
+          <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL" EntityType="Self.VW_ORDENES_TRABAJO_TOTAL" store:Type="Views" store:Schema="INDIGON">
             <DefiningQuery>SELECT 
 "VW_ORDENES_TRABAJO_TOTAL"."CINV_SEC" AS "CINV_SEC", 
 "VW_ORDENES_TRABAJO_TOTAL"."CINV_TDOC" AS "CINV_TDOC", 
@@ -449,7 +568,7 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO" "VW_ORDENES_TRABAJO"</DefiningQuery>
 "VW_ORDENES_TRABAJO_TOTAL"."CINV_COMENCUMPLI1" AS "CINV_COMENCUMPLI1", 
 "VW_ORDENES_TRABAJO_TOTAL"."CINV_STCUMPLI2" AS "CINV_STCUMPLI2", 
 "VW_ORDENES_TRABAJO_TOTAL"."CINV_COMENCUMPLI2" AS "CINV_COMENCUMPLI2"
-FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQuery>
+FROM "INDIGON"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQuery>
           </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -457,14 +576,19 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQue
     <edmx:ConceptualModels>
       <Schema Namespace="Model_general" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="Entities_general" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="ARINDEXes" EntityType="Model_general.ARINDEX" />
-          <EntitySet Name="ARPROVEEDORs" EntityType="Model_general.ARPROVEEDOR" />
-          <EntitySet Name="TBCINVs" EntityType="Model_general.TBCINV" />
-          <EntitySet Name="TBDINVs" EntityType="Model_general.TBDINV" />
-          <EntitySet Name="USUARIOS" EntityType="Model_general.USUARIO" />
-          <EntitySet Name="SUCURSALs" EntityType="Model_general.SUCURSAL" />
+          <EntitySet Name="ARINDEX" EntityType="Model_general.ARINDEX" />
+          <EntitySet Name="ARPROVEEDOR" EntityType="Model_general.ARPROVEEDOR" />
+          <EntitySet Name="TBCINV" EntityType="Model_general.TBCINV" />
+          <EntitySet Name="TBDINV" EntityType="Model_general.TBDINV" />
+          <EntitySet Name="BODEGAS" EntityType="Model_general.BODEGAS" />
           <EntitySet Name="VW_ORDENES_TRABAJO" EntityType="Model_general.VW_ORDENES_TRABAJO" />
           <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL" EntityType="Model_general.VW_ORDENES_TRABAJO_TOTAL" />
+          <EntitySet Name="USUARIOS" EntityType="Model_general.USUARIOS" />
+          <EntitySet Name="SUCURSAL" EntityType="Model_general.SUCURSAL" />
+          <EntitySet Name="CAB_BITACORA" EntityType="Model_general.CAB_BITACORA" />
+          <EntitySet Name="DET_BITACORA" EntityType="Model_general.DET_BITACORA" />
+          <EntitySet Name="DET_BITACORA2" EntityType="Model_general.DET_BITACORA2" />
+          <EntitySet Name="VW_BITACORAS" EntityType="Model_general.VW_BITACORAS" />
         </EntityContainer>
         <EntityType Name="ARINDEX">
           <Key>
@@ -605,31 +729,19 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQue
           <Property Name="DINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="DINV_OC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="USUARIO">
+        <EntityType Name="BODEGAS">
           <Key>
-            <PropertyRef Name="CODIGO" />
+            <PropertyRef Name="NUMERO_ITEM" />
+            <PropertyRef Name="EMPRESA" />
           </Key>
-          <Property Name="CODIGO" Type="Int32" Nullable="false" />
-          <Property Name="CLAVE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="USUARIO1" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="NOMBRE" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="P_VENTAS" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="FECHA" Type="DateTime" Nullable="false" />
-          <Property Name="OFICREDA" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="OFICRECO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="GERCRE" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
-          <Property Name="ROL_APRO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="SUCURSAL">
-          <Key>
-            <PropertyRef Name="CODIGO" />
-          </Key>
-          <Property Name="CODIGO" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="NOMBRE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="DIRECCION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="TELEFONO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ESTADO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="EMPRESA" Type="Int16" />
+          <Property Name="BODEGA" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="NUMERO_ITEM" Type="Int32" Nullable="false" />
+          <Property Name="INICIO" Type="DateTime" />
+          <Property Name="FIN" Type="DateTime" />
+          <Property Name="STOCK" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="COSTO" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="COSTOD" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="EMPRESA" Type="Int16" Nullable="false" />
         </EntityType>
         <EntityType Name="VW_ORDENES_TRABAJO">
           <Key>
@@ -677,7 +789,7 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQue
           <Property Name="CINV_FECDESADUA" Type="DateTime" />
           <Property Name="CINV_MOTIVOANULA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="DINV_LINEA" Type="Int16" Nullable="false" />
-          <Property Name="DINV_DETALLEDSCTO" Type="String" MaxLength="288" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_DETALLEDSCTO" Type="String" MaxLength="286" FixedLength="false" Unicode="false" />
           <Property Name="DINV_DETALLEADVAL1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="DINV_DETALLEADVAL2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="DINV_DETALLEADVAL3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -707,6 +819,7 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQue
           <Property Name="DINV_PRCT_DSC" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="DINV_VTA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="TELEFONOS" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="DETALLE_ORDEN" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="VW_ORDENES_TRABAJO_TOTAL">
           <Key>
@@ -769,13 +882,101 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQue
           <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="CINV_COMENCUMPLI2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="USUARIOS">
+          <Key>
+            <PropertyRef Name="CODIGO" />
+          </Key>
+          <Property Name="CODIGO" Type="Int32" Nullable="false" />
+          <Property Name="CLAVE" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="USUARIO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="P_VENTAS" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="FECHA" Type="DateTime" Nullable="false" />
+          <Property Name="OFICREDA" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="OFICRECO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="GERCRE" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ROL_APRO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SUCURSAL">
+          <Key>
+            <PropertyRef Name="CODIGO" />
+          </Key>
+          <Property Name="CODIGO" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DIRECCION" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TELEFONO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EMPRESA" Type="Int16" />
+        </EntityType>
+        <EntityType Name="CAB_BITACORA">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="VIAJE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DATA_VIAJE" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="FECINGRESO" Type="DateTime" />
+          <Property Name="BARCO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPRESA" Type="Int16" />
+        </EntityType>
+        <EntityType Name="DET_BITACORA">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LINEA" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="LINEA" Type="Int16" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CONTRATISTA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EMPRESA" Type="Int16" />
+        </EntityType>
+        <EntityType Name="DET_BITACORA2">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LINEA" />
+            <PropertyRef Name="LINEA_DETALLE" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="LINEA" Type="Int16" Nullable="false" />
+          <Property Name="LINEA_DETALLE" Type="Int16" Nullable="false" />
+          <Property Name="NUMERO_ORDEN" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="VALOR" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="CUMPLIMIENTO" Type="Int16" />
+          <Property Name="EMPRESA" Type="Int16" />
+        </EntityType>
+        <EntityType Name="VW_BITACORAS">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LINEA" />
+          </Key>
+          <Property Name="EMPRESA" Type="Int16" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="VIAJE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FECINGRESO" Type="DateTime" />
+          <Property Name="BARCO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_BARCO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LINEA" Type="Int16" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CONTRATISTA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="LINEA_DETALLE" Type="Int16" />
+          <Property Name="NUMERO_ORDEN" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="VALOR" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="STORDEN" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Model_generalStoreContainer" CdmEntityContainer="Entities_general">
-          <EntitySetMapping Name="ARINDEXes">
+          <EntitySetMapping Name="ARINDEX">
             <EntityTypeMapping TypeName="Model_general.ARINDEX">
               <MappingFragment StoreEntitySet="ARINDEX">
                 <ScalarProperty Name="COD_UND_CAE" ColumnName="COD_UND_CAE" />
@@ -798,7 +999,7 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQue
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ARPROVEEDORs">
+          <EntitySetMapping Name="ARPROVEEDOR">
             <EntityTypeMapping TypeName="Model_general.ARPROVEEDOR">
               <MappingFragment StoreEntitySet="ARPROVEEDOR">
                 <ScalarProperty Name="CONTACTO" ColumnName="CONTACTO" />
@@ -834,7 +1035,7 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQue
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TBCINVs">
+          <EntitySetMapping Name="TBCINV">
             <EntityTypeMapping TypeName="Model_general.TBCINV">
               <MappingFragment StoreEntitySet="TBCINV">
                 <ScalarProperty Name="CINV_COMENCUMPLI2" ColumnName="CINV_COMENCUMPLI2" />
@@ -879,7 +1080,7 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQue
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TBDINVs">
+          <EntitySetMapping Name="TBDINV">
             <EntityTypeMapping TypeName="Model_general.TBDINV">
               <MappingFragment StoreEntitySet="TBDINV">
                 <ScalarProperty Name="DINV_OC" ColumnName="DINV_OC" />
@@ -916,37 +1117,24 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQue
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="USUARIOS">
-            <EntityTypeMapping TypeName="Model_general.USUARIO">
-              <MappingFragment StoreEntitySet="USUARIOS">
-                <ScalarProperty Name="ROL_APRO" ColumnName="ROL_APRO" />
-                <ScalarProperty Name="GERCRE" ColumnName="GERCRE" />
-                <ScalarProperty Name="OFICRECO" ColumnName="OFICRECO" />
-                <ScalarProperty Name="OFICREDA" ColumnName="OFICREDA" />
-                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
-                <ScalarProperty Name="P_VENTAS" ColumnName="P_VENTAS" />
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-                <ScalarProperty Name="USUARIO1" ColumnName="USUARIO" />
-                <ScalarProperty Name="CLAVE" ColumnName="CLAVE" />
-                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SUCURSALs">
-            <EntityTypeMapping TypeName="Model_general.SUCURSAL">
-              <MappingFragment StoreEntitySet="SUCURSAL">
+          <EntitySetMapping Name="BODEGAS">
+            <EntityTypeMapping TypeName="Model_general.BODEGAS">
+              <MappingFragment StoreEntitySet="BODEGAS">
                 <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
-                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
-                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
-                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
+                <ScalarProperty Name="COSTOD" ColumnName="COSTOD" />
+                <ScalarProperty Name="COSTO" ColumnName="COSTO" />
+                <ScalarProperty Name="STOCK" ColumnName="STOCK" />
+                <ScalarProperty Name="FIN" ColumnName="FIN" />
+                <ScalarProperty Name="INICIO" ColumnName="INICIO" />
+                <ScalarProperty Name="NUMERO_ITEM" ColumnName="NUMERO_ITEM" />
+                <ScalarProperty Name="BODEGA" ColumnName="BODEGA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VW_ORDENES_TRABAJO">
             <EntityTypeMapping TypeName="Model_general.VW_ORDENES_TRABAJO">
               <MappingFragment StoreEntitySet="VW_ORDENES_TRABAJO">
+                <ScalarProperty Name="DETALLE_ORDEN" ColumnName="DETALLE_ORDEN" />
                 <ScalarProperty Name="TELEFONOS" ColumnName="TELEFONOS" />
                 <ScalarProperty Name="DINV_VTA" ColumnName="DINV_VTA" />
                 <ScalarProperty Name="DINV_PRCT_DSC" ColumnName="DINV_PRCT_DSC" />
@@ -1069,6 +1257,96 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQue
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="USUARIOS">
+            <EntityTypeMapping TypeName="Model_general.USUARIOS">
+              <MappingFragment StoreEntitySet="USUARIOS">
+                <ScalarProperty Name="ROL_APRO" ColumnName="ROL_APRO" />
+                <ScalarProperty Name="GERCRE" ColumnName="GERCRE" />
+                <ScalarProperty Name="OFICRECO" ColumnName="OFICRECO" />
+                <ScalarProperty Name="OFICREDA" ColumnName="OFICREDA" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="P_VENTAS" ColumnName="P_VENTAS" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+                <ScalarProperty Name="CLAVE" ColumnName="CLAVE" />
+                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SUCURSAL">
+            <EntityTypeMapping TypeName="Model_general.SUCURSAL">
+              <MappingFragment StoreEntitySet="SUCURSAL">
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="TELEFONO" ColumnName="TELEFONO" />
+                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CAB_BITACORA">
+            <EntityTypeMapping TypeName="Model_general.CAB_BITACORA">
+              <MappingFragment StoreEntitySet="CAB_BITACORA">
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
+                <ScalarProperty Name="BARCO" ColumnName="BARCO" />
+                <ScalarProperty Name="FECINGRESO" ColumnName="FECINGRESO" />
+                <ScalarProperty Name="DATA_VIAJE" ColumnName="DATA_VIAJE" />
+                <ScalarProperty Name="VIAJE" ColumnName="VIAJE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DET_BITACORA">
+            <EntityTypeMapping TypeName="Model_general.DET_BITACORA">
+              <MappingFragment StoreEntitySet="DET_BITACORA">
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+                <ScalarProperty Name="CONTRATISTA" ColumnName="CONTRATISTA" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DET_BITACORA2">
+            <EntityTypeMapping TypeName="Model_general.DET_BITACORA2">
+              <MappingFragment StoreEntitySet="DET_BITACORA2">
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+                <ScalarProperty Name="CUMPLIMIENTO" ColumnName="CUMPLIMIENTO" />
+                <ScalarProperty Name="VALOR" ColumnName="VALOR" />
+                <ScalarProperty Name="NUMERO_ORDEN" ColumnName="NUMERO_ORDEN" />
+                <ScalarProperty Name="LINEA_DETALLE" ColumnName="LINEA_DETALLE" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_BITACORAS">
+            <EntityTypeMapping TypeName="Model_general.VW_BITACORAS">
+              <MappingFragment StoreEntitySet="VW_BITACORAS">
+                <ScalarProperty Name="STORDEN" ColumnName="STORDEN" />
+                <ScalarProperty Name="STCUMPLI2" ColumnName="STCUMPLI2" />
+                <ScalarProperty Name="STCUMPLI1" ColumnName="STCUMPLI1" />
+                <ScalarProperty Name="VALOR" ColumnName="VALOR" />
+                <ScalarProperty Name="NUMERO_ORDEN" ColumnName="NUMERO_ORDEN" />
+                <ScalarProperty Name="LINEA_DETALLE" ColumnName="LINEA_DETALLE" />
+                <ScalarProperty Name="CONTRATISTA" ColumnName="CONTRATISTA" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
+                <ScalarProperty Name="NOM_BARCO" ColumnName="NOM_BARCO" />
+                <ScalarProperty Name="BARCO" ColumnName="BARCO" />
+                <ScalarProperty Name="FECINGRESO" ColumnName="FECINGRESO" />
+                <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
+                <ScalarProperty Name="VIAJE" ColumnName="VIAJE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1083,7 +1361,7 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQue
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />

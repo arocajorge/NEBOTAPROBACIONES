@@ -15,7 +15,7 @@ namespace Core.Data.general
 
             using (Entities_general Context = new Entities_general())
             {
-                Lista = (from q in Context.ARINDEXes
+                Lista = (from q in Context.ARINDEX
                          where q.DATA == DATA
                          && q.ESTADO == "Vigente"
                          select new ARINDEX_INFO

@@ -195,6 +195,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BitacorasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -7113,6 +7114,7 @@
     <Content Include="Views\Home\AprobacionJefe.cshtml" />
     <Content Include="Views\Home\_GridViewPartial_aprobacion_jefe.cshtml" />
     <Content Include="Views\Home\_GridViewPartial_detalle_OC.cshtml" />
+    <Content Include="Views\Bitacoras\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

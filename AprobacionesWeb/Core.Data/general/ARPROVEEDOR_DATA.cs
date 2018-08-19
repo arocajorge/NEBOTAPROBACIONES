@@ -15,7 +15,7 @@ namespace Core.Data.general
 
             using (Entities_general Context = new Entities_general())
             {
-                Lista = (from q in Context.ARPROVEEDORs
+                Lista = (from q in Context.ARPROVEEDOR
                          where q.ESTADO == "Activo"
                          select new ARPROVEEDOR_INFO
                          {
