@@ -27,6 +27,7 @@ namespace Core.Web.Controllers
         [HttpPost]
         public ActionResult Index(FILTRO_INFO model)
         {
+            model.ID = odata_bit.GetID(model.IdViaje, model.IdSucursal);
             return View(model);
         }
         #endregion
@@ -72,6 +73,32 @@ namespace Core.Web.Controllers
             return PartialView("_GridViewPartialBitacora",model);
         }
 
+        #endregion
+
+        #region Json
+        public JsonResult GetTotalOrden(int OT = 0)
+        {
+            decimal valor = 0;
+
+            valor = odata_ot.GetTotalOrden("OT", OT);
+
+            return Json(valor, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ADDLINEA(int ID = 0, short LINEA = 0, string ORDEN = "", decimal VALOR = 0)
+        {
+            decimal valor = 0;
+
+            if (odata_bit.ADDLINEA(new BITACORAS_INFO
+            {
+                ID = ID,
+                LINEA = LINEA,
+                NUMERO_ORDEN = ORDEN,
+                VALOR = VALOR
+            })) valor = 1;
+
+            return Json(valor, JsonRequestBehavior.AllowGet);
+        }
         #endregion
     }
 }

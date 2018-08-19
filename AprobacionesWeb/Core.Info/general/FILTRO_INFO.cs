@@ -20,7 +20,7 @@ namespace Core.Info.general
         public DateTime Fecha_fin { get; set; }
         public string mensaje_exito { get; set; }
         public string tipo_doc { get; set; }
-
+        public int ID { get; set; }
         public List<ORDEN_TRABAJO_INFO> lst_ot { get; set; }
         public List<BITACORAS_INFO> lst_bit { get; set; }
     }

@@ -33,6 +33,18 @@ namespace Core.Data.general
             return Lista.OrderBy(q=>q.LINEA).ToList();
         }
 
+        public int GetID(string VIAJE, string BARCO)
+        {
+            int ID = 0;
+            using (Entities_general Context = new Entities_general())
+            {
+                var lst = Context.CAB_BITACORA.Where(q => q.VIAJE == VIAJE && q.BARCO == BARCO).ToList();
+                if (lst.Count > 0)
+                    ID = lst.Max(q => q.ID); 
+            }
+            return ID;
+        }
+
         public List<BITACORAS_INFO> get_list_det(int ID, short LINEA)
         {
             List<BITACORAS_INFO> Lista;
