@@ -7115,6 +7115,9 @@
     <Content Include="Views\Home\_GridViewPartial_aprobacion_jefe.cshtml" />
     <Content Include="Views\Home\_GridViewPartial_detalle_OC.cshtml" />
     <Content Include="Views\Bitacoras\Index.cshtml" />
+    <Content Include="Views\Bitacoras\_CmbSucursal.cshtml" />
+    <Content Include="Views\Bitacoras\_CmbViaje.cshtml" />
+    <Content Include="Views\Bitacoras\_GridViewPartialBitacora.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

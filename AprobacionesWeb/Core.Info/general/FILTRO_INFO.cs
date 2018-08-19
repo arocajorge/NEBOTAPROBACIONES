@@ -22,5 +22,6 @@ namespace Core.Info.general
         public string tipo_doc { get; set; }
 
         public List<ORDEN_TRABAJO_INFO> lst_ot { get; set; }
+        public List<BITACORAS_INFO> lst_bit { get; set; }
     }
 }

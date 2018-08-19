@@ -1,0 +1,58 @@
+﻿@using System.Web.UI.WebControls;
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "GridViewBitacoras";
+        settings.CallbackRouteValues = new { Controller = "Bitacoras", Action = "GridViewPartialBitacora", BARCO = ViewBag.BARCO, VIAJE = ViewBag.VIAJE };
+        settings.Width = Unit.Percentage(100);
+        settings.KeyFieldName = "LINEA";
+
+        //CConfiguracion responsive
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCellsWindowLimit;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 500;
+        //Configuración scrolling y pager
+        settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Hidden;
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+        settings.Settings.VerticalScrollableHeight = 500;
+        settings.SettingsPager.Visible = true;
+        settings.SettingsPager.PageSize = 10;
+        settings.SettingsPager.Mode = GridViewPagerMode.ShowPager;
+        settings.SettingsPager.AlwaysShowPager = true;
+        //Configuración filtro por columna
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        //Evento para pintar de rojo las filas anuladas
+        settings.HtmlRowPrepared = (s, e) =>
+        {
+            if (Convert.ToInt32(e.GetValue("CANTLINEAS")) > 0)
+            {
+                e.Row.ForeColor = System.Drawing.Color.Blue;
+            }
+        };
+        settings.Columns.Add("LINEA", "#").Width = Unit.Percentage(10);
+        settings.Columns.Add("DESCRIPCION", "Descripción").Width = Unit.Percentage(40);
+        settings.Columns.Add("CONTRATISTA", "Contratista").Width = Unit.Percentage(30);
+        
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "OT";
+            column.Width = Unit.Percentage(10);
+            column.UnboundType = DevExpress.Data.UnboundColumnType.String;
+            column.SetDataItemTemplateContent(c =>
+            {
+                Html.DevExpress().Button(settingsBtn =>
+                {
+                    var ID = DataBinder.Eval(c.DataItem, "ID");
+                    var LINEA = DataBinder.Eval(c.DataItem, "LINEA");
+                    settingsBtn.Name = "btn" + LINEA;
+                    settingsBtn.Text = "OT";
+                    settingsBtn.ClientSideEvents.Click = "function(s, e) {MostrarModal('" + ID + "','" + LINEA + "');}";
+                }).Render();
+            });
+        });
+    });
+}
+@grid.Bind(Model.lst_bit).GetHtml()

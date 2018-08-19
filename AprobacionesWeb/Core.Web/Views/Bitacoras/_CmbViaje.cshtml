@@ -1,0 +1,26 @@
+﻿@using System.Web.UI.WebControls;
+@{
+    var comboBox = Html.DevExpress().ComboBox(settings =>
+    {
+        settings.Name = "IdViaje";
+        settings.Width = Unit.Percentage(100);
+        settings.Properties.DropDownWidth = Unit.Percentage(100);
+        settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+        settings.CallbackRouteValues = new { Controller = "Bitacoras", Action = "CmbViaje" };
+        settings.Properties.CallbackPageSize = 15;
+        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+        settings.Properties.TextField = "NOMBRE";
+        settings.Properties.TextFormatString = "[{0}] {1}";
+        settings.Properties.ValueField = "CODIGO";
+        settings.Properties.ValueType = typeof(string);
+
+        settings.Properties.Columns.Add("CODIGO", "Código", 30);
+        settings.Properties.Columns.Add("NOMBRE", "Viaje", 70);
+
+        settings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.Never;
+    })
+    .BindList(new Core.Web.Controllers.BitacorasController().get_list_bajo_demanda_viaje, new Core.Web.Controllers.BitacorasController().get_info_bajo_demanda_viaje)
+    .Bind(Model.IdViaje);
+
+}
+@comboBox.GetHtml()

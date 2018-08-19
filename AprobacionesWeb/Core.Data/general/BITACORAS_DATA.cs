@@ -19,23 +19,18 @@ namespace Core.Data.general
                          where q.VIAJE == VIAJE
                          && q.BARCO == BARCO
                          && q.ESTADO == "A"
-                         group q by new
-                         {
-                             q.ID, q.VIAJE, q.NOM_VIAJE, q.NOM_BARCO, q.BARCO, q.CONTRATISTA, q.DESCRIPCION,
-                             q.LINEA, q.ESTADO
-                         } into grouping
+                         group q by q.LINEA into grouping                         
                          select new BITACORAS_INFO
                          {
-                             ID = grouping.Key.ID,
-                             DESCRIPCION = grouping.Key.DESCRIPCION,
-                             CONTRATISTA = grouping.Key.CONTRATISTA,
-                             LINEA = grouping.Key.LINEA,
-                             CANTLINEAS = grouping.Where(c => c.LINEA_DETALLE != null).Count(),
-                             ESTADO = grouping.Key.ESTADO
+                             ID = grouping.Max(c=> c.ID),
+                             DESCRIPCION = grouping.Max(c => c.DESCRIPCION),
+                             CONTRATISTA = grouping.Max(c => c.CONTRATISTA),
+                             LINEA = grouping.Key,
+                             CANTLINEAS = grouping.Where(c => c.LINEA_DETALLE != null).Count()
                          }).ToList();
             }
 
-            return Lista;
+            return Lista.OrderBy(q=>q.LINEA).ToList();
         }
 
         public List<BITACORAS_INFO> get_list_det(int ID, short LINEA)

@@ -1,4 +1,4 @@
-﻿
+﻿@model Core.Info.general.FILTRO_INFO
 @{
     ViewBag.Title = "Asignar OT a bitácora";
     if (Session["IdUsuario"] == null)
@@ -9,5 +9,62 @@
 
 @using (Html.BeginForm("Index", "Bitacoras", FormMethod.Post, new { @class = "form", @role = "form", @id = "myform" }))
 {
+    <div class="box">
+        <div class="box-header with-border">
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">Aplicar filtros</button>
+                </div>
+            </div>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="IdSucursal">Centro de costo</label>
+                        @Html.Partial("_CmbSucursal", Model)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="IdViaje">Viaje</label>
+                        @Html.Partial("_CmbViaje", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
 
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">@ViewBag.Title</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            @Html.Action("GridViewPartialBitacora", new { BARCO = Model.IdSucursal, VIAJE = Model.IdViaje})
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            
+        </div>
+        <!-- /.box-footer-->
+    </div>
 }
