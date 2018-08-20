@@ -73,6 +73,14 @@ namespace Core.Web.Controllers
             return PartialView("_GridViewPartialBitacora",model);
         }
 
+        public ActionResult GridViewPartialBitacoraDet()
+        {
+            int ID = Request.Params["PKID"] != null ? Convert.ToInt32(Request.Params["PKID"]) : 0;
+            short LINEA = Request.Params["PKLINEA"] != null ? Convert.ToInt16(Request.Params["PKLINEA"]) : (short)0;
+            FILTRO_INFO model = new FILTRO_INFO { lst_bit = odata_bit.get_list_det(ID,LINEA) };
+            return PartialView("_GridViewPartialBitacoraDet", model);
+        }
+
         #endregion
 
         #region Json
@@ -87,7 +95,7 @@ namespace Core.Web.Controllers
 
         public JsonResult ADDLINEA(int ID = 0, short LINEA = 0, string ORDEN = "", decimal VALOR = 0)
         {
-            decimal valor = 0;
+            decimal resultado = 0;
 
             if (odata_bit.ADDLINEA(new BITACORAS_INFO
             {
@@ -95,9 +103,9 @@ namespace Core.Web.Controllers
                 LINEA = LINEA,
                 NUMERO_ORDEN = ORDEN,
                 VALOR = VALOR
-            })) valor = 1;
+            })) resultado = 1;
 
-            return Json(valor, JsonRequestBehavior.AllowGet);
+            return Json(resultado, JsonRequestBehavior.AllowGet);
         }
         #endregion
     }

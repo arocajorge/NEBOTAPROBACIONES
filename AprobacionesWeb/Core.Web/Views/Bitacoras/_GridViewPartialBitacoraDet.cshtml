@@ -1,0 +1,52 @@
+﻿@using System.Web.UI.WebControls;
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "GridViewBitacoraDet";
+        settings.CallbackRouteValues = new { Controller = "Bitacoras", Action = "GridViewPartialBitacoraDet" };
+        settings.Width = Unit.Percentage(100);
+        settings.KeyFieldName = "LINEA_DETALLE";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.ShowFilterRow = true;
+
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        //settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Bitacoras", Action = "EditingUpdate", Area = "" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Bitacoras", Action = "EditingDelete", Area = "" };
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowNewButton = false;
+        settings.CommandColumn.ShowEditButton = false;
+        settings.CommandColumn.ShowDeleteButton = true;
+
+        settings.SettingsContextMenu.Enabled = true;
+        settings.SettingsContextMenu.RowMenuItemVisibility.NewRow = false;
+        settings.SettingsContextMenu.RowMenuItemVisibility.EditRow = false;
+        settings.SettingsBehavior.EnableCustomizationWindow = true;
+
+        //Configuración click derecho
+        settings.SettingsContextMenu.Enabled = true;
+        settings.SettingsBehavior.EnableCustomizationWindow = true;
+        settings.SettingsContextMenu.EnableRowMenu = DefaultBoolean.True;
+
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+
+        settings.Columns.Add("NUMERO_ORDEN", "# Orden").Width = Unit.Percentage(30);
+        settings.Columns.Add("LINEA_DETALLE", "#").Width = Unit.Percentage(30);
+        settings.Columns.Add(c =>
+        {
+            c.Caption = "Valor";
+            c.FieldName = "VALOR";
+            c.Width = Unit.Percentage(30);
+            c.PropertiesEdit.DisplayFormatString = "{0:N2}";
+        });
+
+        settings.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['PKID'] = $('#ID').val(); e.customArgs['PKLINEA'] = $('#LINEA').text(); }";
+    });
+}
+@grid.Bind(Model.lst_bit).GetHtml()

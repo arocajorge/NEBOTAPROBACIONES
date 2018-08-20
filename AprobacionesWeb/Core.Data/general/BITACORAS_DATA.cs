@@ -60,7 +60,7 @@ namespace Core.Data.general
                              LINEA = q.LINEA,
                              LINEA_DETALLE = q.LINEA_DETALLE,
                              VALOR = q.VALOR,
-                             NUMERO_ORDEN = q.NUMERO_ORDEN
+                             NUMERO_ORDEN = q.NUMERO_ORDEN                             
                          }).ToList();
 
             }

@@ -8,7 +8,7 @@
 }
 <script type="text/javascript">
     $(function () {
-        $("#txtOrden").change(function () {
+        $("#txtOrden").keyup(function () {
             GetTotalOrden();
         });
     })
@@ -18,6 +18,7 @@
         $("#LINEA").text(LINEA);
         $("#txtOrden").val(0);
         $("#txtValor").val(0);
+        GridViewBitacoraDet.PerformCallback();
         $("#ModalDetalle").modal("show");
     }
 
@@ -60,17 +61,21 @@
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
                 if (data == 1) {
-
+                    $("#txtOrden").val(0);
+                    $("#txtValor").val(0);
                 }
             },
             error: function (error) {
             }
         });
+        GridViewBitacoraDet.PerformCallback();
+        GridViewBitacoras.PerformCallback();
     }
 </script>
 @using (Html.BeginForm("Index", "Bitacoras", FormMethod.Post, new { @class = "form", @role = "form", @id = "myform" }))
 {
     @Html.HiddenFor(q=>q.ID, new { @id = "ID"})
+
     <div class="modal fade" id="ModalDetalle" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -91,10 +96,14 @@
                     <div class="col-md-12">
                         <button type="button" class="btn btn-primary" onclick="ADDLINEA();">Aceptar</button>
                     </div>
+                    <div class="col-md-12">
+                        @Html.Action("GridViewPartialBitacoraDet")
+                    </div>                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 </div>
+                
             </div>
         </div>
     </div>

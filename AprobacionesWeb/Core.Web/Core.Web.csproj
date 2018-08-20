@@ -7118,6 +7118,7 @@
     <Content Include="Views\Bitacoras\_CmbSucursal.cshtml" />
     <Content Include="Views\Bitacoras\_CmbViaje.cshtml" />
     <Content Include="Views\Bitacoras\_GridViewPartialBitacora.cshtml" />
+    <Content Include="Views\Bitacoras\_GridViewPartialBitacoraDet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
