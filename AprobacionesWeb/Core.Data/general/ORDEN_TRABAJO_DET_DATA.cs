@@ -89,7 +89,7 @@ namespace Core.Data.general
                 provider.NumberDecimalSeparator = ".";
                 provider.NumberGroupSeparator = ",";
                 provider.NumberGroupSizes = new int[] { 3 };
-                Lista.ForEach(q => { q.TOTAL = q.CINV_TDOC == "OT" ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : q.DINV_COS + q.DINV_IVA; });
+                Lista.ForEach(q => { q.TOTAL = (q.CINV_TDOC == "OT" ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : q.DINV_COS) + q.DINV_IVA; });
             }
 
             return Lista.OrderBy(q=>q.DINV_LINEA).ToList();
@@ -101,7 +101,7 @@ namespace Core.Data.general
 
             using (Entities_general Context = new Entities_general())
             {
-                var Lista = (from q in Context.VW_ORDENES_TRABAJO
+                var Lista = (from q in Context.VW_ORDENES_TRABAJO_TOTAL
                           where q.CINV_TDOC == TipoDoc
                           && q.CINV_NUM == CINV_NUM
                           select q).ToList();
@@ -109,7 +109,7 @@ namespace Core.Data.general
                 provider.NumberDecimalSeparator = ".";
                 provider.NumberGroupSeparator = ",";
                 provider.NumberGroupSizes = new int[] { 3 };
-                Lista.ForEach(q => { Total +=  (Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) + q.DINV_IVA); });
+                Lista.ForEach(q => { Total +=  (Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider)); });
             }
 
             return Total;

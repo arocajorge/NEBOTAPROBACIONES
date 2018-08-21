@@ -12,7 +12,6 @@ namespace Core.Data
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-
     [DbConfigurationType(typeof(MyDbConfiguration))]
     public partial class Entities_general : DbContext
     {
@@ -28,16 +27,16 @@ namespace Core.Data
     
         public virtual DbSet<ARINDEX> ARINDEX { get; set; }
         public virtual DbSet<ARPROVEEDOR> ARPROVEEDOR { get; set; }
-        public virtual DbSet<TBCINV> TBCINV { get; set; }
-        public virtual DbSet<TBDINV> TBDINV { get; set; }
-        public virtual DbSet<BODEGAS> BODEGAS { get; set; }
-        public virtual DbSet<VW_ORDENES_TRABAJO> VW_ORDENES_TRABAJO { get; set; }
-        public virtual DbSet<VW_ORDENES_TRABAJO_TOTAL> VW_ORDENES_TRABAJO_TOTAL { get; set; }
-        public virtual DbSet<USUARIOS> USUARIOS { get; set; }
-        public virtual DbSet<SUCURSAL> SUCURSAL { get; set; }
         public virtual DbSet<CAB_BITACORA> CAB_BITACORA { get; set; }
         public virtual DbSet<DET_BITACORA> DET_BITACORA { get; set; }
         public virtual DbSet<DET_BITACORA2> DET_BITACORA2 { get; set; }
+        public virtual DbSet<TBCINV> TBCINV { get; set; }
+        public virtual DbSet<TBDINV> TBDINV { get; set; }
+        public virtual DbSet<USUARIOS> USUARIOS { get; set; }
+        public virtual DbSet<BODEGAS> BODEGAS { get; set; }
+        public virtual DbSet<SUCURSAL> SUCURSAL { get; set; }
+        public virtual DbSet<VW_ORDENES_TRABAJO> VW_ORDENES_TRABAJO { get; set; }
+        public virtual DbSet<VW_ORDENES_TRABAJO_TOTAL> VW_ORDENES_TRABAJO_TOTAL { get; set; }
         public virtual DbSet<VW_BITACORAS> VW_BITACORAS { get; set; }
     }
 }

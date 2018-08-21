@@ -7,17 +7,17 @@
       <Diagram DiagramId="54f092a762ee40f1b3f456e6e989988f" Name="Diagram1">
         <EntityTypeShape EntityType="Model_general.ARINDEX" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="Model_general.ARPROVEEDOR" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Model_general.TBCINV" Width="1.5" PointX="4.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Model_general.TBDINV" Width="1.5" PointX="6.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Model_general.BODEGAS" Width="1.5" PointX="8.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Model_general.VW_ORDENES_TRABAJO" Width="1.5" PointX="0.75" PointY="8.75" />
-        <EntityTypeShape EntityType="Model_general.VW_ORDENES_TRABAJO_TOTAL" Width="1.5" PointX="8.75" PointY="4.75" />
-        <EntityTypeShape EntityType="Model_general.USUARIOS" Width="1.5" PointX="3.375" PointY="10.75" />
-        <EntityTypeShape EntityType="Model_general.SUCURSAL" Width="1.5" PointX="5.375" PointY="10.75" />
-        <EntityTypeShape EntityType="Model_general.CAB_BITACORA" Width="1.5" PointX="11.375" PointY="0.75" />
-        <EntityTypeShape EntityType="Model_general.DET_BITACORA" Width="1.5" PointX="11.375" PointY="4.75" />
-        <EntityTypeShape EntityType="Model_general.DET_BITACORA2" Width="1.5" PointX="11.375" PointY="7.75" />
-        <EntityTypeShape EntityType="Model_general.VW_BITACORAS" Width="1.5" PointX="11.375" PointY="11.75" />
+        <EntityTypeShape EntityType="Model_general.CAB_BITACORA" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model_general.DET_BITACORA" Width="1.5" PointX="4.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Model_general.DET_BITACORA2" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model_general.TBCINV" Width="1.5" PointX="6.75" PointY="4.75" />
+        <EntityTypeShape EntityType="Model_general.TBDINV" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model_general.USUARIOS" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Model_general.BODEGAS" Width="1.5" PointX="2.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Model_general.SUCURSAL" Width="1.5" PointX="8.75" PointY="8.75" />
+        <EntityTypeShape EntityType="Model_general.VW_ORDENES_TRABAJO" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model_general.VW_ORDENES_TRABAJO_TOTAL" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="Model_general.VW_BITACORAS" Width="1.5" PointX="0.75" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
