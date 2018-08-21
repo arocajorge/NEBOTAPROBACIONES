@@ -90,5 +90,17 @@ namespace Core.Data.general
             }
             return true;
         }
+
+        public bool DELETELINEA(int ID, short LINEA, short LINEA_DETALLE)
+        {
+            using (Entities_general Context = new Entities_general())
+            {
+                var borrar = Context.DET_BITACORA2.Where(q => q.ID == ID && q.LINEA == LINEA && q.LINEA_DETALLE == LINEA_DETALLE).FirstOrDefault();
+                if (borrar != null)
+                    Context.DET_BITACORA2.Remove(borrar);
+                Context.SaveChanges();
+            }
+            return true;
+        }
     }
 }

@@ -53,8 +53,7 @@ namespace Core.Data.general
 
         public ARINDEX_INFO get_info_bajo_demanda(ListEditItemRequestedByValueEventArgs args, string DATA)
         {
-            decimal id;
-            if (args.Value == null || !decimal.TryParse(args.Value.ToString(), out id))
+            if (args.Value == null )
                 return null;
             using (Entities_general Context = new Entities_general())
             {

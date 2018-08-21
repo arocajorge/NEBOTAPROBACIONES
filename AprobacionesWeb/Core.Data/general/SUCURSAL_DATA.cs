@@ -50,8 +50,7 @@ namespace Core.Data.general
 
         public SUCURSAL_INFO get_info_bajo_demanda(ListEditItemRequestedByValueEventArgs args)
         {
-            decimal id;
-            if (args.Value == null || !decimal.TryParse(args.Value.ToString(), out id))
+            if (args.Value == null)
                 return null;
             using (Entities_general Context = new Entities_general())
             {

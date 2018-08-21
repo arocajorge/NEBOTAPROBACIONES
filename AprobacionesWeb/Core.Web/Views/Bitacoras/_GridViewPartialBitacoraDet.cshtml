@@ -30,23 +30,25 @@
         settings.SettingsBehavior.EnableCustomizationWindow = true;
         settings.SettingsContextMenu.EnableRowMenu = DefaultBoolean.True;
 
-        settings.SettingsBehavior.AllowSelectByRowClick = true;
-        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.Off;
+        //CConfiguracion responsive
+        settings.SettingsAdaptivity.AdaptivityMode = GridViewAdaptivityMode.HideDataCellsWindowLimit;
         settings.SettingsAdaptivity.AdaptiveColumnPosition = GridViewAdaptiveColumnPosition.Right;
+        settings.SettingsAdaptivity.AdaptiveDetailColumnCount = 1;
         settings.SettingsAdaptivity.AllowOnlyOneAdaptiveDetailExpanded = false;
-        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 0;
+        settings.SettingsAdaptivity.HideDataCellsAtWindowInnerWidth = 500;
 
-        settings.Columns.Add("NUMERO_ORDEN", "# Orden").Width = Unit.Percentage(30);
-        settings.Columns.Add("LINEA_DETALLE", "#").Width = Unit.Percentage(30);
+        settings.Columns.Add("LINEA_DETALLE", "#").Width = Unit.Percentage(20);
+        settings.Columns.Add("NUMERO_ORDEN", "# Orden").Width = Unit.Percentage(20);        
         settings.Columns.Add(c =>
         {
             c.Caption = "Valor";
             c.FieldName = "VALOR";
-            c.Width = Unit.Percentage(30);
+            c.Width = Unit.Percentage(40);
             c.PropertiesEdit.DisplayFormatString = "{0:N2}";
         });
 
         settings.ClientSideEvents.BeginCallback = "function(s, e) { e.customArgs['PKID'] = $('#ID').val(); e.customArgs['PKLINEA'] = $('#LINEA').text(); }";
+        settings.ClientSideEvents.EndCallback = "function(s,e){GridViewBitacoras.PerformCallback();}";
     });
 }
 @grid.Bind(Model.lst_bit).GetHtml()

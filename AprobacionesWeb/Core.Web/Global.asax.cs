@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Web.Helps;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,6 +18,7 @@ namespace Core.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ModelBinders.Binders.DefaultBinder = new DevExpress.Web.Mvc.DevExpressEditorsBinder();
+            SessionFixed.SetSessionValueProvider(new WebSessionValueProvider());
         }
     }
 }

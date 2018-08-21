@@ -1,8 +1,10 @@
 ﻿using Core.Data.general;
 using Core.Info.general;
+using Core.Web.Helps;
 using DevExpress.Web;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -75,12 +77,17 @@ namespace Core.Web.Controllers
 
         public ActionResult GridViewPartialBitacoraDet()
         {
-            int ID = Request.Params["PKID"] != null ? Convert.ToInt32(Request.Params["PKID"]) : 0;
-            short LINEA = Request.Params["PKLINEA"] != null ? Convert.ToInt16(Request.Params["PKLINEA"]) : (short)0;
-            FILTRO_INFO model = new FILTRO_INFO { lst_bit = odata_bit.get_list_det(ID,LINEA) };
+            SessionFixed.ID = Request.Params["PKID"] != null ? Request.Params["PKID"] :"0";
+            SessionFixed.LINEA = Request.Params["PKLINEA"] != null ? Request.Params["PKLINEA"]: "0";
+            FILTRO_INFO model = new FILTRO_INFO { lst_bit = odata_bit.get_list_det(Convert.ToInt32(SessionFixed.ID), Convert.ToInt16(SessionFixed.LINEA)) };
             return PartialView("_GridViewPartialBitacoraDet", model);
         }
-
+        public ActionResult EditingDelete(short LINEA_DETALLE)
+        {
+            odata_bit.DELETELINEA(Convert.ToInt32(SessionFixed.ID), Convert.ToInt16(SessionFixed.LINEA), LINEA_DETALLE);
+            FILTRO_INFO model = new FILTRO_INFO { lst_bit = odata_bit.get_list_det(Convert.ToInt32(SessionFixed.ID), Convert.ToInt16(SessionFixed.LINEA)) };
+            return PartialView("_GridViewPartialBitacoraDet", model);
+        }
         #endregion
 
         #region Json
@@ -93,16 +100,20 @@ namespace Core.Web.Controllers
             return Json(valor, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ADDLINEA(int ID = 0, short LINEA = 0, string ORDEN = "", decimal VALOR = 0)
+        public JsonResult ADDLINEA(int ID = 0, short LINEA = 0, string ORDEN = "", string VALOROT = "")
         {
             decimal resultado = 0;
-
+            VALOROT = VALOROT == "" ? "0" : VALOROT;
+            NumberFormatInfo provider = new NumberFormatInfo();
+            provider.NumberDecimalSeparator = ".";
+            provider.NumberGroupSeparator = ",";
+            provider.NumberGroupSizes = new int[] { 3 };
             if (odata_bit.ADDLINEA(new BITACORAS_INFO
             {
                 ID = ID,
                 LINEA = LINEA,
                 NUMERO_ORDEN = ORDEN,
-                VALOR = VALOR
+                VALOR = Convert.ToDecimal(VALOROT,provider)
             })) resultado = 1;
 
             return Json(resultado, JsonRequestBehavior.AllowGet);
