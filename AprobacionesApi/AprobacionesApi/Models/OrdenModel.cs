@@ -25,5 +25,7 @@ namespace AprobacionesApi.Models
         public string CINV_COM4 { get;   set; }
         public decimal? VALOR_OC { get;   set; }
         public List<OrdenDetalleModel> lst { get; set; }
+        public string CINV_MOTIVOANULA { get; set; }
+        public string CINV_LOGIN { get; set; }
     }
 }

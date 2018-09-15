@@ -68,5 +68,19 @@ namespace AprobacionesApi.Controllers
 
             return orden;
         }
+
+        public void Post([FromBody]OrdenModel value)
+        {
+            if(!string.IsNullOrEmpty(value.CINV_LOGIN))value.CINV_LOGIN = value.CINV_LOGIN.Length >= 10 ? value.CINV_LOGIN.Substring(0, 10) : value.CINV_LOGIN;
+            var Entity = db.TBCINV.Where(q => q.CINV_NUM == value.CINV_NUM && q.CINV_TDOC == value.CINV_TDOC).FirstOrDefault();
+            if (Entity != null)
+            {
+                Entity.CINV_ST = value.CINV_ST;
+                Entity.CINV_MOTIVOANULA = value.CINV_MOTIVOANULA;
+                Entity.CINV_FECAPRUEBA = DateTime.Now.Date;
+                Entity.CINV_LOGIN = value.CINV_LOGIN;
+                db.SaveChanges();
+            }
+        }
     }
 }
