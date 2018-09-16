@@ -30,5 +30,6 @@ namespace AprobacionesApi.Data
         public DbSet<USUARIOS> USUARIOS { get; set; }
         public DbSet<VW_ORDENES_TRABAJO> VW_ORDENES_TRABAJO { get; set; }
         public DbSet<VW_ORDENES_TRABAJO_TOTAL> VW_ORDENES_TRABAJO_TOTAL { get; set; }
+        public DbSet<TBCINV_APPCORREOS> TBCINV_APPCORREOS { get; set; }
     }
 }

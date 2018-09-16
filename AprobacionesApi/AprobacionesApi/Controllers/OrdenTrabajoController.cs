@@ -18,7 +18,7 @@ namespace AprobacionesApi.Controllers
             DateTime Desde = DateTime.Now.Date.AddMonths(-10);
             var orden = (from q in db.VW_ORDENES_TRABAJO_TOTAL
                         where q.CINV_FECING >= Desde
-                        && (q.CINV_ST == "P" || q.CINV_ST == "G")
+                        && (q.CINV_ST == "A")
                         && (q.CINV_TDOC == "OT" || q.CINV_TDOC == "OC")
                         select new OrdenModel
                         {
@@ -79,6 +79,18 @@ namespace AprobacionesApi.Controllers
                 Entity.CINV_MOTIVOANULA = value.CINV_MOTIVOANULA;
                 Entity.CINV_FECAPRUEBA = DateTime.Now.Date;
                 Entity.CINV_LOGIN = value.CINV_LOGIN;
+
+                if(db.TBCINV_APPCORREOS.Where(q=>q.CINV_NUM == value.CINV_NUM && q.CINV_TDOC == value.CINV_TDOC).Count() == 0)
+                {
+                    db.TBCINV_APPCORREOS.Add(new TBCINV_APPCORREOS
+                    {
+                        CINV_TDOC = value.CINV_TDOC,
+                        CINV_NUM = value.CINV_NUM,
+                        CINV_LOGIN = value.CINV_LOGIN,
+                        CINV_ST = value.CINV_ST,
+                        FECHA_APRO = Entity.CINV_FECAPRUEBA                        
+                    });
+                }
                 db.SaveChanges();
             }
         }

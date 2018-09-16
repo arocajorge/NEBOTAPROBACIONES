@@ -70,9 +70,6 @@
     <Compile Include="ARPROVEEDOR.cs">
       <DependentUpon>Model_general.tt</DependentUpon>
     </Compile>
-    <Compile Include="BODEGAS.cs">
-      <DependentUpon>Model_general.tt</DependentUpon>
-    </Compile>
     <Compile Include="CAB_BITACORA.cs">
       <DependentUpon>Model_general.tt</DependentUpon>
     </Compile>
@@ -88,6 +85,7 @@
     <Compile Include="general\ORDEN_TRABAJO_DATA.cs" />
     <Compile Include="general\ORDEN_TRABAJO_DET_DATA.cs" />
     <Compile Include="general\SUCURSAL_DATA.cs" />
+    <Compile Include="general\TBCINV_APPCORREOS_DATA.cs" />
     <Compile Include="general\USUARIO_DATA.cs" />
     <Compile Include="Model_general.Context.cs">
       <AutoGen>True</AutoGen>
@@ -113,6 +111,9 @@
     <Compile Include="TBCINV.cs">
       <DependentUpon>Model_general.tt</DependentUpon>
     </Compile>
+    <Compile Include="TBCINV_APPCORREOS.cs">
+      <DependentUpon>Model_general.tt</DependentUpon>
+    </Compile>
     <Compile Include="TBDINV.cs">
       <DependentUpon>Model_general.tt</DependentUpon>
     </Compile>
@@ -130,7 +131,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <EntityDeploy Include="Model_general.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model_general.Designer.cs</LastGenOutput>
@@ -147,6 +150,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Ayuda modelo.txt" />
     <Content Include="Dynamic Expressions.html" />
     <Content Include="Model_general.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

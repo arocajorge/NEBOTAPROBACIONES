@@ -166,7 +166,10 @@ namespace Core.Data.general
                         CINV_COM1 = Entity.CINV_COM1,
                         E_MAIL = Entity.E_MAIL,
                         CODIGOTR = Entity.CODIGOTR,
-                        CINV_TDOC = Entity.CINV_TDOC
+                        CINV_TDOC = Entity.CINV_TDOC,
+                        CORREO_CENTROCOSTO = Entity.CORREO_CENTROCOSTO,
+                        CORREO_CENTROCOSTO2 = Entity.CORREO_CENTROCOSTO2,
+                        CORREO_SOLICITADO = Entity.CORREO_SOLICITADO
                     };
                 }
             }

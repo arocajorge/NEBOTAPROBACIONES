@@ -125,6 +125,9 @@
     <Compile Include="Data\TBCINV.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\TBCINV_APPCORREOS.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\TBDINV.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>

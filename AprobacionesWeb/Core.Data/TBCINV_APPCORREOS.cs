@@ -12,15 +12,14 @@ namespace Core.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class BODEGAS
+    public partial class TBCINV_APPCORREOS
     {
-        public string BODEGA { get; set; }
-        public int NUMERO_ITEM { get; set; }
-        public Nullable<System.DateTime> INICIO { get; set; }
-        public Nullable<System.DateTime> FIN { get; set; }
-        public Nullable<decimal> STOCK { get; set; }
-        public Nullable<decimal> COSTO { get; set; }
-        public Nullable<decimal> COSTOD { get; set; }
-        public short EMPRESA { get; set; }
+        public string CINV_TDOC { get; set; }
+        public int CINV_NUM { get; set; }
+        public string CINV_LOGIN { get; set; }
+        public string CINV_ST { get; set; }
+        public Nullable<System.DateTime> FECHA_ENVIO { get; set; }
+        public Nullable<System.DateTime> FECHA_APRO { get; set; }
+        public string COMENTARIO { get; set; }
     }
 }

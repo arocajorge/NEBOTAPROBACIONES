@@ -31,12 +31,12 @@ namespace Core.Data
         public virtual DbSet<DET_BITACORA> DET_BITACORA { get; set; }
         public virtual DbSet<DET_BITACORA2> DET_BITACORA2 { get; set; }
         public virtual DbSet<TBCINV> TBCINV { get; set; }
+        public virtual DbSet<TBCINV_APPCORREOS> TBCINV_APPCORREOS { get; set; }
         public virtual DbSet<TBDINV> TBDINV { get; set; }
         public virtual DbSet<USUARIOS> USUARIOS { get; set; }
-        public virtual DbSet<BODEGAS> BODEGAS { get; set; }
         public virtual DbSet<SUCURSAL> SUCURSAL { get; set; }
+        public virtual DbSet<VW_BITACORAS> VW_BITACORAS { get; set; }
         public virtual DbSet<VW_ORDENES_TRABAJO> VW_ORDENES_TRABAJO { get; set; }
         public virtual DbSet<VW_ORDENES_TRABAJO_TOTAL> VW_ORDENES_TRABAJO_TOTAL { get; set; }
-        public virtual DbSet<VW_BITACORAS> VW_BITACORAS { get; set; }
     }
 }
