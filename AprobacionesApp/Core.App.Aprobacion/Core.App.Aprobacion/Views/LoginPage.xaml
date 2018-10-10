@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.LoginPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Login">
+    <ContentPage.Content>
+        <ScrollView
+            BindingContext="{Binding Login}">
+            <StackLayout
+                Padding="20">
+                <Image
+                    WidthRequest="200"
+                    Source="Login">
+                </Image>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label      
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        FontAttributes="Bold"
+                        Text="Usuario"
+                        VerticalOptions ="Center"
+                    ></Label>
+                    <Entry
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        Placeholder="Ingrese su usuario"
+                        Text="{Binding usuario, Mode=TwoWay}"
+                        >
+                    </Entry>
+                    <Label                
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        FontAttributes="Bold"
+                        Text="Contraseña"
+                        VerticalOptions ="Center"
+                    ></Label>
+                    <Entry
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        IsPassword="True"
+                        Placeholder="Ingrese su contraseña"
+                        Text="{Binding contrasenia, Mode=TwoWay}">
+                    </Entry>
+                </Grid>
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                    VerticalOptions="CenterAndExpand">
+                </ActivityIndicator>
+                <Button
+                    BackgroundColor="CornflowerBlue"
+                    TextColor="White"
+                    Command="{Binding LoginCommand}"
+                    IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                    Text="Ingresar">
+                </Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
