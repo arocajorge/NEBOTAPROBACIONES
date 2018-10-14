@@ -69,8 +69,7 @@
     <MtouchArch>ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Distribution: Jorge Aroca (S27X3S56M2)</CodesignKey>
-    <CodesignEntitlements>
-    </CodesignEntitlements>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignProvision>Indigo App</CodesignProvision>
     <CodesignExtraArgs />
     <CodesignResourceRules />
@@ -200,7 +199,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\Core.App.Aprobacion\Core.App.Aprobacion.csproj">
-      <Project>{E34036D8-8D23-452A-AEC1-6FB8CFD51634}</Project>
+      <Project>{8F743231-1C08-44CF-897A-02ACAD4CDD69}</Project>
       <Name>Core.App.Aprobacion</Name>
     </ProjectReference>
   </ItemGroup>
