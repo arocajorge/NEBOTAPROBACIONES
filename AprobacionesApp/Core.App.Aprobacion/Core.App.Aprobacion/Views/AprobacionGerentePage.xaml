@@ -54,10 +54,12 @@
                             FontAttributes="Bold"
                             Text="Detalle: "
                             TextColor="Black"></Label>
-                    <ListView
+                    
+                        <ListView
                             SeparatorVisibility="None"
-                            ItemsSource="{Binding Orden.lst}"
-                            HasUnevenRows="True">
+                            ItemsSource="{Binding Orden.lst}"                        
+                            HasUnevenRows="True"
+                            HeightRequest="{Binding Height}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
@@ -69,6 +71,7 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
+                    
                     <StackLayout 
                         Orientation="Horizontal">
                         <Label

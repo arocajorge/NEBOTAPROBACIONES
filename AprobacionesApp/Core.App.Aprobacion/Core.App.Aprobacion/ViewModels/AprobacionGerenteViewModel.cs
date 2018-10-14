@@ -14,6 +14,7 @@
         private bool _IsEnabled;
         private ApiService apiService;
         private OrdenModel _orden;
+        private int _Height;
         #endregion
 
         #region Propiedades
@@ -32,6 +33,11 @@
             get { return this._IsEnabled; }
             set { SetValue(ref this._IsEnabled, value); }
         }
+        public int Height
+        {
+            get { return this._Height; }
+            set { SetValue(ref this._Height, value); }
+        }
         #endregion
 
         #region Constructor
@@ -45,6 +51,7 @@
         #region Metodos
         private async void CargarOrden()
         {
+            Height = 0;
             Response con = await apiService.CheckConnection(Settings.UrlConexion);
             if (!con.IsSuccess)
             {
@@ -95,6 +102,8 @@
                     "Aceptar");
                 return;
             }
+
+            Height = Orden.lst.Count * 40;
             this.IsEnabled = true;
             this.IsRunning = false;
         }
