@@ -91,6 +91,7 @@
             if (Orden != null)
             {
                 Orden.Titulo = Orden.TipoDocumento + " # " + Orden.NumeroOrden;
+                Height = Orden.lst == null ? 0 : Orden.lst.Count * 100;
             }
             else
             {
@@ -102,8 +103,7 @@
                     "Aceptar");
                 return;
             }
-
-            Height = Orden.lst.Count * 40;
+            
             this.IsEnabled = true;
             this.IsRunning = false;
         }

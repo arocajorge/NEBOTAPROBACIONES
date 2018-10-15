@@ -29,10 +29,12 @@
 	<key>CFBundleName</key>
 	<string>Core.App.Aprobacion</string>
 	<key>XSAppIconAssets</key>
-	<string>Resources/Media.xcassets/AppIcons.appiconset</string>
+	<string>Resources/Assets.xcassets/AppIcon.appiconset</string>
 	<key>CFBundleDisplayName</key>
 	<string>Indigo app</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1</string>
 	<key>XSLaunchImageAssets</key>
-	<string>Resources/Media.xcassets/LaunchImages.launchimage</string>
+	<string>Resources/Assets.xcassets/LaunchImages.launchimage</string>
 </dict>
 </plist>
