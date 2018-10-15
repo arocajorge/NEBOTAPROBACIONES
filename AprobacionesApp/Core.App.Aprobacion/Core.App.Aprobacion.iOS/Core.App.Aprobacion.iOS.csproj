@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>iPhone Distribution</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>
     </CodesignEntitlements>
@@ -69,13 +69,13 @@
     <MtouchArch>ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Distribution: Jorge Aroca (S27X3S56M2)</CodesignKey>
-    <CodesignEntitlements>
-    </CodesignEntitlements>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignProvision>Indigo App</CodesignProvision>
     <CodesignExtraArgs />
     <CodesignResourceRules />
     <OptimizePNGs>true</OptimizePNGs>
     <MtouchFloat32>true</MtouchFloat32>
+    <BuildIpa>true</BuildIpa>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -86,9 +86,8 @@
     <ConsolePause>False</ConsolePause>
     <MtouchArch>ARM64</MtouchArch>
     <BuildIpa>True</BuildIpa>
-    <CodesignProvision>
-    </CodesignProvision>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignProvision>Indigo Ad-Hoc</CodesignProvision>
+    <CodesignKey>iPhone Distribution: Jorge Aroca (S27X3S56M2)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignExtraArgs />
     <CodesignResourceRules />
