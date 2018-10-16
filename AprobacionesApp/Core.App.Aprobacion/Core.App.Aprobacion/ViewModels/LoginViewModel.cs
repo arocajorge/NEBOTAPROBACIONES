@@ -84,6 +84,7 @@
                     "Aceptar");
                 return;
             }
+
             bool ValidarUsuarioServicio = true;
             if (this.usuario.ToLower() == "indigoadmin" && this.contrasenia.ToLower() == "indigo")
             {
@@ -96,6 +97,18 @@
                 MainViewModel.GetInstance().Configuracion = new ConfiguracionViewModel();
                 await Application.Current.MainPage.Navigation.PushAsync(new ConfiguracionPage());
             }
+
+            if (ValidarUsuarioServicio && string.IsNullOrEmpty(Settings.UrlConexion))
+            {
+                this.IsEnabled = true;
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    "Dispositivo no configurado",
+                    "Aceptar");
+                return;
+            }
+
             if (ValidarUsuarioServicio)
             {
                 Response con = await apiService.CheckConnection(Settings.UrlConexion);
@@ -108,18 +121,7 @@
                         con.Message,
                         "Aceptar");
                     return;
-                }
-
-                if (string.IsNullOrEmpty(Settings.UrlConexion))
-                {
-                    this.IsEnabled = true;
-                    this.IsRunning = false;
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Alerta",
-                        "Dispositivo no configurado",
-                        "Aceptar");
-                    return;
-                }
+                }                
 
                 var response_cs = await apiService.GetObject<UsuarioModel>(Settings.UrlConexion, Settings.RutaCarpeta, "Usuario", "USUARIO="+this.usuario+"&CLAVE="+this.contrasenia);
                 if (!response_cs.IsSuccess)
