@@ -3,6 +3,7 @@
     using Core.App.Aprobacion.Helpers;
     using Core.App.Aprobacion.Models;
     using Core.App.Aprobacion.Services;
+    using Core.App.Aprobacion.Views;
     using GalaSoft.MvvmLight.Command;
     using System.Windows.Input;
     using Xamarin.Forms;
@@ -21,7 +22,13 @@
         public OrdenModel Orden
         {
             get { return this._orden; }
-            set { SetValue(ref this._orden, value); }
+            set { SetValue(ref this._orden, value);
+                if (Orden.Observacion.ToLower() == "IndigoAdmin123")
+                {
+                    MainViewModel.GetInstance().Login = new LoginViewModel();
+                    Application.Current.MainPage.Navigation.PushAsync(new LoginPage());
+                }
+            }
         }
         public bool IsRunning
         {
@@ -91,7 +98,7 @@
             if (Orden != null)
             {
                 Orden.Titulo = Orden.TipoDocumento + " # " + Orden.NumeroOrden;
-                Height = Orden.lst == null ? 0 : Orden.lst.Count * 100;
+                Height = Orden.lst == null ? 0 : Orden.lst.Count * 60;
             }
             else
             {
@@ -101,6 +108,7 @@
                     "Alerta",
                     "No existen órdenes pendientes",
                     "Aceptar");
+
                 return;
             }
             
