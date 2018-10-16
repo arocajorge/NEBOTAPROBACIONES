@@ -65,7 +65,7 @@
             this.xrTableRow11 = new DevExpress.XtraReports.UI.XRTableRow();
             this.xrTableCell20 = new DevExpress.XtraReports.UI.XRTableCell();
             this.xrTableCell27 = new DevExpress.XtraReports.UI.XRTableCell();
-            this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
+            this.lblEstado = new DevExpress.XtraReports.UI.XRLabel();
             this.xrLabel2 = new DevExpress.XtraReports.UI.XRLabel();
             this.reportHeaderBand1 = new DevExpress.XtraReports.UI.ReportHeaderBand();
             this.xrTable1 = new DevExpress.XtraReports.UI.XRTable();
@@ -442,17 +442,17 @@
             this.xrTableCell27.Text = "xrTableCell27";
             this.xrTableCell27.Weight = 3.4D;
             // 
-            // xrLabel3
+            // lblEstado
             // 
-            this.xrLabel3.Font = new System.Drawing.Font("Times New Roman", 40F, System.Drawing.FontStyle.Bold);
-            this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(0F, 53.98041F);
-            this.xrLabel3.Name = "xrLabel3";
-            this.xrLabel3.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.xrLabel3.SizeF = new System.Drawing.SizeF(749.0001F, 62.00002F);
-            this.xrLabel3.StylePriority.UseFont = false;
-            this.xrLabel3.StylePriority.UseTextAlignment = false;
-            this.xrLabel3.Text = "APROBADA";
-            this.xrLabel3.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
+            this.lblEstado.Font = new System.Drawing.Font("Times New Roman", 40F, System.Drawing.FontStyle.Bold);
+            this.lblEstado.LocationFloat = new DevExpress.Utils.PointFloat(0F, 53.98041F);
+            this.lblEstado.Name = "lblEstado";
+            this.lblEstado.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.lblEstado.SizeF = new System.Drawing.SizeF(749.0001F, 62.00002F);
+            this.lblEstado.StylePriority.UseFont = false;
+            this.lblEstado.StylePriority.UseTextAlignment = false;
+            this.lblEstado.Text = "APROBADA";
+            this.lblEstado.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
             // 
             // xrLabel2
             // 
@@ -865,7 +865,7 @@
             this.xrTable5,
             this.xrTable4,
             this.xrTable3,
-            this.xrLabel3,
+            this.lblEstado,
             this.xrLabel2});
             this.ReportFooter.HeightF = 386.6178F;
             this.ReportFooter.Name = "ReportFooter";
@@ -962,7 +962,7 @@
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell19;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell23;
         private DevExpress.XtraReports.UI.XRLabel xrLabel2;
-        private DevExpress.XtraReports.UI.XRLabel xrLabel3;
+        private DevExpress.XtraReports.UI.XRLabel lblEstado;
         private DevExpress.XtraReports.UI.XRTable xrTable3;
         private DevExpress.XtraReports.UI.XRTableRow xrTableRow11;
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell20;

@@ -29,6 +29,7 @@ namespace Core.Data
         public Nullable<short> LINEA_DETALLE { get; set; }
         public string NUMERO_ORDEN { get; set; }
         public Nullable<decimal> VALOR { get; set; }
+        public Nullable<short> CUMPLIMIENTO { get; set; }
         public string STCUMPLI1 { get; set; }
         public string STCUMPLI2 { get; set; }
         public string STORDEN { get; set; }

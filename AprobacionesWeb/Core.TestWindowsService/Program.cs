@@ -16,8 +16,8 @@ namespace Core.TestWindowsService
 {
     class Program
     {
-        public static string correo_desde = "arocajorge92@gmail.com" /*ordenpesca@gmail.com"*/;
-        public static string contrasenia = "Mimamamemima13*"/*"ordenpesca2016"*/;
+        public static string correo_desde = "ordenpesca@gmail.com";
+        public static string contrasenia = "ordenpesca2016";
         public static string host = "smtp.gmail.com";
         public static bool enableSSL = true;
         public static int port = 587;

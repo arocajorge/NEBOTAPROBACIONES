@@ -129,6 +129,7 @@
                             @if (Session["ROL_APRO"] != null && Session["ROL_APRO"].ToString() == "S")
                             {
                                 <li><a href="@Url.Action("AprobacionSupervisor","Home",new { area = ""})"><i class="fa fa-circle-o"></i> Supervisor</a></li>
+              <li><a href="@Url.Action("Index","Bitacoras",new { area = ""})"><i class="fa fa-circle-o"></i> Bitácoras</a></li>
                             }
                             @if (Session["ROL_APRO"] != null && Session["ROL_APRO"].ToString() == "G")
                             {

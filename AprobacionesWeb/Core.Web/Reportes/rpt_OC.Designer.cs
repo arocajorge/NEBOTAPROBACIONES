@@ -124,6 +124,7 @@
             this.p_tipo_doc = new DevExpress.XtraReports.Parameters.Parameter();
             this.p_num = new DevExpress.XtraReports.Parameters.Parameter();
             this.ReportFooter = new DevExpress.XtraReports.UI.ReportFooterBand();
+            this.lblEstado = new DevExpress.XtraReports.UI.XRLabel();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable4)).BeginInit();
@@ -344,13 +345,13 @@
             // 
             // xrLine2
             // 
-            this.xrLine2.LocationFloat = new DevExpress.Utils.PointFloat(574.1074F, 30.14715F);
+            this.xrLine2.LocationFloat = new DevExpress.Utils.PointFloat(574.1074F, 55.14714F);
             this.xrLine2.Name = "xrLine2";
             this.xrLine2.SizeF = new System.Drawing.SizeF(164.8927F, 8F);
             // 
             // xrLine1
             // 
-            this.xrLine1.LocationFloat = new DevExpress.Utils.PointFloat(574.1074F, 38.14717F);
+            this.xrLine1.LocationFloat = new DevExpress.Utils.PointFloat(574.1074F, 63.14717F);
             this.xrLine1.Name = "xrLine1";
             this.xrLine1.SizeF = new System.Drawing.SizeF(164.8927F, 8F);
             // 
@@ -367,7 +368,7 @@
             // 
             // xrTable4
             // 
-            this.xrTable4.LocationFloat = new DevExpress.Utils.PointFloat(476.0017F, 52.88243F);
+            this.xrTable4.LocationFloat = new DevExpress.Utils.PointFloat(476.0017F, 77.88244F);
             this.xrTable4.Name = "xrTable4";
             this.xrTable4.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow14,
@@ -518,7 +519,7 @@
             // 
             // xrTable3
             // 
-            this.xrTable3.LocationFloat = new DevExpress.Utils.PointFloat(10.14036F, 53.48048F);
+            this.xrTable3.LocationFloat = new DevExpress.Utils.PointFloat(10.14036F, 78.48048F);
             this.xrTable3.Name = "xrTable3";
             this.xrTable3.Rows.AddRange(new DevExpress.XtraReports.UI.XRTableRow[] {
             this.xrTableRow11});
@@ -994,6 +995,7 @@
             // ReportFooter
             // 
             this.ReportFooter.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.lblEstado,
             this.xrLabel3,
             this.xrLine2,
             this.xrLabel2,
@@ -1003,6 +1005,18 @@
             this.xrLine1});
             this.ReportFooter.HeightF = 378.3333F;
             this.ReportFooter.Name = "ReportFooter";
+            // 
+            // lblEstado
+            // 
+            this.lblEstado.Font = new System.Drawing.Font("Times New Roman", 35F, System.Drawing.FontStyle.Bold);
+            this.lblEstado.LocationFloat = new DevExpress.Utils.PointFloat(0F, 0F);
+            this.lblEstado.Name = "lblEstado";
+            this.lblEstado.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
+            this.lblEstado.SizeF = new System.Drawing.SizeF(749.0001F, 53.14714F);
+            this.lblEstado.StylePriority.UseFont = false;
+            this.lblEstado.StylePriority.UseTextAlignment = false;
+            this.lblEstado.Text = "APROBADA";
+            this.lblEstado.TextAlignment = DevExpress.XtraPrinting.TextAlignment.TopCenter;
             // 
             // rpt_OC
             // 
@@ -1136,5 +1150,6 @@
         private DevExpress.XtraReports.UI.XRTableCell xrTableCell48;
         private DevExpress.XtraReports.UI.XRLabel xrLabel3;
         private DevExpress.XtraReports.UI.ReportFooterBand ReportFooter;
+        private DevExpress.XtraReports.UI.XRLabel lblEstado;
     }
 }

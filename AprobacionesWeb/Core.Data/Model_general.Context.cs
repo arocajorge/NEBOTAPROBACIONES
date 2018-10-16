@@ -34,9 +34,9 @@ namespace Core.Data
         public virtual DbSet<TBCINV_APPCORREOS> TBCINV_APPCORREOS { get; set; }
         public virtual DbSet<TBDINV> TBDINV { get; set; }
         public virtual DbSet<USUARIOS> USUARIOS { get; set; }
-        public virtual DbSet<SUCURSAL> SUCURSAL { get; set; }
         public virtual DbSet<VW_BITACORAS> VW_BITACORAS { get; set; }
         public virtual DbSet<VW_ORDENES_TRABAJO> VW_ORDENES_TRABAJO { get; set; }
         public virtual DbSet<VW_ORDENES_TRABAJO_TOTAL> VW_ORDENES_TRABAJO_TOTAL { get; set; }
+        public virtual DbSet<SUCURSAL> SUCURSAL { get; set; }
     }
 }

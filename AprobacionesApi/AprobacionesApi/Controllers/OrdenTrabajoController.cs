@@ -19,7 +19,8 @@ namespace AprobacionesApi.Controllers
             var orden = (from q in db.VW_ORDENES_TRABAJO_TOTAL
                         where q.CINV_FECING >= Desde
                         && (q.CINV_ST == "A")
-                        && (q.CINV_TDOC == "OT" || q.CINV_TDOC == "OC")
+                        && q.CINV_TDOC == "OT" //|| q.CINV_TDOC == "OC")
+                        orderby q.CINV_FECING
                         select new OrdenModel
                         {
                             CINV_NUM = q.CINV_NUM,
@@ -36,7 +37,8 @@ namespace AprobacionesApi.Controllers
                             CINV_TDOC = q.CINV_TDOC,
                             CINV_COM3 = q.CINV_COM3,
                             CINV_COM4 = q.CINV_COM4,
-                            VALOR_OC = q.VALOR_OC
+                            VALOR_OC = q.VALOR_OC,
+                            NOM_CENTROCOSTO = q.NOM_CENTROCOSTO
                         }).FirstOrDefault();
 
             NumberFormatInfo provider = new NumberFormatInfo();
@@ -62,9 +64,10 @@ namespace AprobacionesApi.Controllers
                            CINV_COM3 = q.CINV_COM3,
                            CINV_COM4 = q.CINV_COM4,
                            DINV_IVA = q.DINV_IVA,
+                           NOM_VIAJE = q.NOM_VIAJE
                        }).ToList();
 
-            orden.lst.ForEach(q => { q.TOTAL = (q.CINV_TDOC == "OT" ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : q.DINV_COS) + q.DINV_IVA; });
+            orden.lst.ForEach(q => { q.TOTAL = (q.CINV_TDOC == "OT" ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : q.DINV_COS) + q.DINV_IVA; orden.NOM_VIAJE = q.NOM_VIAJE; });
 
             return orden;
         }

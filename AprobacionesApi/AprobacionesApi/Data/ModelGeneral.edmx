@@ -114,7 +114,7 @@
           <Property Name="ROL_APRO" Type="varchar2" MaxLength="10" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'INDIGON.VW_ORDENES_TRABAJO' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="VW_ORDENES_TRABAJO">
           <Key>
             <PropertyRef Name="CINV_SEC" />
@@ -194,7 +194,7 @@ advertencia 6002: La tabla o vista 'INDIGON.VW_ORDENES_TRABAJO' no tiene definid
           <Property Name="DETALLE_ORDEN" Type="varchar2" MaxLength="255" />
         </EntityType>
         <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'INDIGON.VW_ORDENES_TRABAJO_TOTAL' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="VW_ORDENES_TRABAJO_TOTAL">
           <Key>
             <PropertyRef Name="CINV_SEC" />
@@ -257,11 +257,11 @@ advertencia 6002: La tabla o vista 'INDIGON.VW_ORDENES_TRABAJO_TOTAL' no tiene d
           <Property Name="CINV_COMENCUMPLI2" Type="varchar2" MaxLength="200" />
         </EntityType>
         <EntityContainer Name="ModelGeneralStoreContainer">
-          <EntitySet Name="TBCINV" EntityType="Self.TBCINV" Schema="INDIGON" store:Type="Tables" />
-          <EntitySet Name="TBCINV_APPCORREOS" EntityType="Self.TBCINV_APPCORREOS" Schema="INDIGON" store:Type="Tables" />
-          <EntitySet Name="TBDINV" EntityType="Self.TBDINV" Schema="INDIGON" store:Type="Tables" />
-          <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" Schema="INDIGON" store:Type="Tables" />
-          <EntitySet Name="VW_ORDENES_TRABAJO" EntityType="Self.VW_ORDENES_TRABAJO" store:Type="Views" store:Schema="INDIGON">
+          <EntitySet Name="TBCINV" EntityType="Self.TBCINV" Schema="INDIGO" store:Type="Tables" />
+          <EntitySet Name="TBCINV_APPCORREOS" EntityType="Self.TBCINV_APPCORREOS" Schema="INDIGO" store:Type="Tables" />
+          <EntitySet Name="TBDINV" EntityType="Self.TBDINV" Schema="INDIGO" store:Type="Tables" />
+          <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" Schema="INDIGO" store:Type="Tables" />
+          <EntitySet Name="VW_ORDENES_TRABAJO" EntityType="Self.VW_ORDENES_TRABAJO" store:Type="Views" store:Schema="INDIGO">
             <DefiningQuery>SELECT 
 "VW_ORDENES_TRABAJO"."CINV_SEC" AS "CINV_SEC", 
 "VW_ORDENES_TRABAJO"."CINV_TDOC" AS "CINV_TDOC", 
@@ -325,9 +325,9 @@ advertencia 6002: La tabla o vista 'INDIGON.VW_ORDENES_TRABAJO_TOTAL' no tiene d
 "VW_ORDENES_TRABAJO"."DINV_VTA" AS "DINV_VTA", 
 "VW_ORDENES_TRABAJO"."TELEFONOS" AS "TELEFONOS", 
 "VW_ORDENES_TRABAJO"."DETALLE_ORDEN" AS "DETALLE_ORDEN"
-FROM "INDIGON"."VW_ORDENES_TRABAJO" "VW_ORDENES_TRABAJO"</DefiningQuery>
+FROM "INDIGO"."VW_ORDENES_TRABAJO" "VW_ORDENES_TRABAJO"</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL" EntityType="Self.VW_ORDENES_TRABAJO_TOTAL" store:Type="Views" store:Schema="INDIGON">
+          <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL" EntityType="Self.VW_ORDENES_TRABAJO_TOTAL" store:Type="Views" store:Schema="INDIGO">
             <DefiningQuery>SELECT 
 "VW_ORDENES_TRABAJO_TOTAL"."CINV_SEC" AS "CINV_SEC", 
 "VW_ORDENES_TRABAJO_TOTAL"."CINV_TDOC" AS "CINV_TDOC", 
@@ -381,7 +381,7 @@ FROM "INDIGON"."VW_ORDENES_TRABAJO" "VW_ORDENES_TRABAJO"</DefiningQuery>
 "VW_ORDENES_TRABAJO_TOTAL"."CINV_COMENCUMPLI1" AS "CINV_COMENCUMPLI1", 
 "VW_ORDENES_TRABAJO_TOTAL"."CINV_STCUMPLI2" AS "CINV_STCUMPLI2", 
 "VW_ORDENES_TRABAJO_TOTAL"."CINV_COMENCUMPLI2" AS "CINV_COMENCUMPLI2"
-FROM "INDIGON"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQuery>
+FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQuery>
           </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -390,11 +390,11 @@ FROM "INDIGON"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQu
       <Schema Namespace="ModelGeneral" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="EntitiesGeneral" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="TBCINV" EntityType="ModelGeneral.TBCINV" />
+          <EntitySet Name="TBCINV_APPCORREOS" EntityType="ModelGeneral.TBCINV_APPCORREOS" />
           <EntitySet Name="TBDINV" EntityType="ModelGeneral.TBDINV" />
           <EntitySet Name="USUARIOS" EntityType="ModelGeneral.USUARIOS" />
           <EntitySet Name="VW_ORDENES_TRABAJO" EntityType="ModelGeneral.VW_ORDENES_TRABAJO" />
           <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL" EntityType="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL" />
-          <EntitySet Name="TBCINV_APPCORREOS" EntityType="ModelGeneral.TBCINV_APPCORREOS" />
         </EntityContainer>
         <EntityType Name="TBCINV">
           <Key>
@@ -439,6 +439,19 @@ FROM "INDIGON"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQu
           <Property Name="CINV_COMENCUMPLI1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="CINV_COMENCUMPLI2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBCINV_APPCORREOS">
+          <Key>
+            <PropertyRef Name="CINV_TDOC" />
+            <PropertyRef Name="CINV_NUM" />
+          </Key>
+          <Property Name="CINV_TDOC" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NUM" Type="Int32" Nullable="false" />
+          <Property Name="CINV_LOGIN" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_ENVIO" Type="DateTime" />
+          <Property Name="FECHA_APRO" Type="DateTime" />
+          <Property Name="COMENTARIO" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TBDINV">
           <Key>
@@ -630,19 +643,6 @@ FROM "INDIGON"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQu
           <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="CINV_COMENCUMPLI2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="TBCINV_APPCORREOS">
-          <Key>
-            <PropertyRef Name="CINV_TDOC" />
-            <PropertyRef Name="CINV_NUM" />
-          </Key>
-          <Property Name="CINV_TDOC" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NUM" Type="Int32" Nullable="false" />
-          <Property Name="CINV_LOGIN" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="FECHA_ENVIO" Type="DateTime" />
-          <Property Name="FECHA_APRO" Type="DateTime" />
-          <Property Name="COMENTARIO" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -691,6 +691,19 @@ FROM "INDIGON"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQu
                 <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
                 <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
                 <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBCINV_APPCORREOS">
+            <EntityTypeMapping TypeName="ModelGeneral.TBCINV_APPCORREOS">
+              <MappingFragment StoreEntitySet="TBCINV_APPCORREOS">
+                <ScalarProperty Name="COMENTARIO" ColumnName="COMENTARIO" />
+                <ScalarProperty Name="FECHA_APRO" ColumnName="FECHA_APRO" />
+                <ScalarProperty Name="FECHA_ENVIO" ColumnName="FECHA_ENVIO" />
+                <ScalarProperty Name="CINV_ST" ColumnName="CINV_ST" />
+                <ScalarProperty Name="CINV_LOGIN" ColumnName="CINV_LOGIN" />
+                <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
+                <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -870,19 +883,6 @@ FROM "INDIGON"."VW_ORDENES_TRABAJO_TOTAL" "VW_ORDENES_TRABAJO_TOTAL"</DefiningQu
                 <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
                 <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
                 <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBCINV_APPCORREOS">
-            <EntityTypeMapping TypeName="ModelGeneral.TBCINV_APPCORREOS">
-              <MappingFragment StoreEntitySet="TBCINV_APPCORREOS">
-                <ScalarProperty Name="COMENTARIO" ColumnName="COMENTARIO" />
-                <ScalarProperty Name="FECHA_APRO" ColumnName="FECHA_APRO" />
-                <ScalarProperty Name="FECHA_ENVIO" ColumnName="FECHA_ENVIO" />
-                <ScalarProperty Name="CINV_ST" ColumnName="CINV_ST" />
-                <ScalarProperty Name="CINV_LOGIN" ColumnName="CINV_LOGIN" />
-                <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
-                <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

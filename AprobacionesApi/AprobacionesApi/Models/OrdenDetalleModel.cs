@@ -19,5 +19,6 @@ namespace AprobacionesApi.Models
         public string CINV_COM3 { get; set; }
         public decimal DINV_IVA { get; set; }
         public string CINV_TDOC { get; set; }
+        public string NOM_VIAJE { get; set; }
     }
 }

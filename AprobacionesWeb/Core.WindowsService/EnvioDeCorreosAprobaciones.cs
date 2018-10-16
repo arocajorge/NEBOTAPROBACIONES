@@ -20,8 +20,8 @@ namespace Core.WindowsService
 {
     public partial class EnvioDeCorreosAprobaciones : ServiceBase
     {
-        public static string correo_desde = "arocajorge92@gmail.com" /*ordenpesca@gmail.com"*/;
-        public static string contrasenia = "Mimamamemima13*"/*"ordenpesca2016"*/;
+        public static string correo_desde = "ordenpesca@gmail.com";
+        public static string contrasenia = "ordenpesca2016";
         public static string host = "smtp.gmail.com";
         public static bool enableSSL = true;
         public static int port = 587;
@@ -55,13 +55,10 @@ namespace Core.WindowsService
                 {
                     int CINV_NUM = Orden.CINV_NUM;
                     string CINV_TDOC = Orden.CINV_TDOC;
-
-                    if (Orden.CINV_ST == "P")
-                    {
-                        enviar_correo_proveedor(Orden.CINV_NUM, Orden.CINV_TDOC);
-                    }
-
-                    enviar_correo(Orden.CINV_NUM, "Supervisor", Orden.CINV_TDOC);
+                    
+                        enviar_correo_proveedor(Orden.CINV_NUM, Orden.CINV_TDOC, Orden.CINV_ST);
+                    
+            //        enviar_correo(Orden.CINV_NUM, "Supervisor", Orden.CINV_TDOC);
                     Orden.FECHA_ENVIO = DateTime.Now;
                     Orden.COMENTARIO = "Enviado";
                     Odata.GUARDAR(Orden);
@@ -126,7 +123,7 @@ namespace Core.WindowsService
             }
         }
 
-        private static void enviar_correo_proveedor(int ID, string tipo_doc)
+        private static void enviar_correo_proveedor(int ID, string tipo_doc, string Estado)
         {
             #region Armar cuerpo del correo correo
             MailMessage mail = new MailMessage();
@@ -135,10 +132,20 @@ namespace Core.WindowsService
             ORDEN_TRABAJO_INFO info = data_ot.get_info(Convert.ToInt32(ID), tipo_doc);
 
 
-            if (string.IsNullOrEmpty(info.E_MAIL))
-                return;
-            mail.To.Add(info.E_MAIL);
-            mail.Subject = "Ordenes de " + (tipo_doc == "OT" ? "trabajo" : "compra") + " Aprobada No." + (tipo_doc == "OT" ? (info.CODIGOTR + "-") : "") + ID.ToString();
+            if (Estado.Trim() == "P")
+            {
+                if (string.IsNullOrEmpty(info.E_MAIL))
+                    return;
+                mail.To.Add(info.E_MAIL);
+            }
+            if (!string.IsNullOrEmpty(info.CORREO_SOLICITADO))
+                mail.To.Add(info.CORREO_SOLICITADO);
+            if (!string.IsNullOrEmpty(info.CORREO_CENTROCOSTO))
+                mail.To.Add(info.CORREO_CENTROCOSTO);
+            if (!string.IsNullOrEmpty(info.CORREO_CENTROCOSTO2))
+                mail.To.Add(info.CORREO_CENTROCOSTO2);
+
+            mail.Subject = "Ordenes de " + (tipo_doc == "OT" ? "trabajo" : "compra") + (Estado == "P"  ?" Aprobada " : " Anulada ")+ "No." + (tipo_doc == "OT" ? (info.CODIGOTR + "-") : "") + ID.ToString();
             string Body = "";
             Body += "<p>Saludos, se detalla orden de " + (tipo_doc == "OT" ? "trabajo" : "compra") + " para: " + info.CINV_COM1 + "</p>";
             Body += "<p>Estimado Proveedor</p>";
