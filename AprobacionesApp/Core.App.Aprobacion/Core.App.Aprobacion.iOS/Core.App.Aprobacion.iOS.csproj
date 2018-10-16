@@ -90,7 +90,8 @@
     <CodesignKey>iPhone Distribution: Jorge Aroca (S27X3S56M2)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignExtraArgs />
-    <CodesignResourceRules />
+    <CodesignResourceRules>
+    </CodesignResourceRules>
     <MtouchFloat32>true</MtouchFloat32>
     <OptimizePNGs>true</OptimizePNGs>
   </PropertyGroup>

@@ -12,6 +12,19 @@
     {
         public async Task<Response> CheckConnection(string urlServidor = "")
         {
+            string[] cadena = urlServidor.Split(':');
+            urlServidor = string.Empty;
+            urlServidor = cadena[0]+":";
+            urlServidor += cadena[1];
+
+            if (string.IsNullOrEmpty(urlServidor))
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "Configuración incorrecta"
+                };
+            }
             if (!CrossConnectivity.Current.IsConnected)
             {
                 return new Response

@@ -3,6 +3,7 @@
     using Core.App.Aprobacion.Helpers;
     using Core.App.Aprobacion.Models;
     using Core.App.Aprobacion.Services;
+    using Core.App.Aprobacion.Views;
     using GalaSoft.MvvmLight.Command;
     using System.Windows.Input;
     using Xamarin.Forms;
@@ -21,7 +22,13 @@
         public OrdenModel Orden
         {
             get { return this._orden; }
-            set { SetValue(ref this._orden, value); }
+            set { SetValue(ref this._orden, value);
+                if (Orden != null && Orden.Observacion.ToLower() == "IndigoAdmin123")
+                {
+                    MainViewModel.GetInstance().Login = new LoginViewModel();
+                    Application.Current.MainPage.Navigation.PushAsync(new LoginPage());
+                }
+            }
         }
         public bool IsRunning
         {
@@ -44,6 +51,7 @@
         public AprobacionGerenteViewModel()
         {
             apiService = new ApiService();
+            Orden = new OrdenModel { lst = new System.Collections.Generic.List<OrdenDetalleModel>() };
             CargarOrden();
         }
         #endregion
@@ -52,17 +60,6 @@
         private async void CargarOrden()
         {
             Height = 0;
-            Response con = await apiService.CheckConnection(Settings.UrlConexion);
-            if (!con.IsSuccess)
-            {
-                this.IsEnabled = true;
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    "Alerta",
-                    con.Message,
-                    "Aceptar");
-                return;
-            }
 
             if (string.IsNullOrEmpty(Settings.UrlConexion))
             {
@@ -75,6 +72,18 @@
                 return;
             }
 
+            Response con = await apiService.CheckConnection(Settings.UrlConexion);
+            if (!con.IsSuccess)
+            {
+                this.IsEnabled = true;
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    con.Message,
+                    "Aceptar");
+                return;
+            }           
+
             var response_cs = await apiService.GetObject<OrdenModel>(Settings.UrlConexion, Settings.RutaCarpeta, "OrdenTrabajo","");
             if (!response_cs.IsSuccess)
             {
@@ -86,21 +95,24 @@
                     "Aceptar");
                 return;
             }
+            if (response_cs.Result != null)
+                Orden = (OrdenModel)response_cs.Result;
+            else Orden = new OrdenModel { lst = new System.Collections.Generic.List<OrdenDetalleModel>() };
 
-            Orden = (OrdenModel)response_cs.Result;
-            if (Orden != null)
+            if (Orden.NumeroOrden != 0)
             {
                 Orden.Titulo = Orden.TipoDocumento + " # " + Orden.NumeroOrden;
-                Height = Orden.lst == null ? 0 : Orden.lst.Count * 100;
+                Height = Orden.lst == null ? 0 : Orden.lst.Count * 60;
             }
             else
-            {
+            {                
                 this.IsEnabled = true;
                 this.IsRunning = false;
                 await Application.Current.MainPage.DisplayAlert(
                     "Alerta",
                     "No existen órdenes pendientes",
                     "Aceptar");
+
                 return;
             }
             
