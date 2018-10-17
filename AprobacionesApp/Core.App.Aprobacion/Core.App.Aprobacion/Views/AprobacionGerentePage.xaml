@@ -27,6 +27,31 @@
                             Text="{Binding Orden.Fecha, StringFormat='{0:dd/MM/yyyy}'}"
                             TextColor="Black">
                     </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Barco: "
+                            TextColor="Black">
+                    </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.NomCentroCosto}"
+                            TextColor="Black">
+                    </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Viaje: "
+                            TextColor="Black">
+                    </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.NomViaje}"
+                            TextColor="Black">
+                    </Label>
                     <Label
                             FontSize="Medium"
                             FontAttributes="Bold"
@@ -39,6 +64,8 @@
                             Text="{Binding Orden.NombreProveedor}"
                             TextColor="Black">
                         </Label>
+                    
+                    
                         <Label
                             FontSize="Medium"
                             FontAttributes="Bold"
