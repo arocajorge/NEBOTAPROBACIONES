@@ -22,13 +22,7 @@
         public OrdenModel Orden
         {
             get { return this._orden; }
-            set { SetValue(ref this._orden, value);
-                if (Orden != null && Orden.Observacion.ToLower() == "IndigoAdmin123")
-                {
-                    MainViewModel.GetInstance().Login = new LoginViewModel();
-                    Application.Current.MainPage.Navigation.PushAsync(new LoginPage());
-                }
-            }
+            set { SetValue(ref this._orden, value);}
         }
         public bool IsRunning
         {
@@ -48,10 +42,19 @@
         #endregion
 
         #region Constructor
+        public AprobacionGerenteViewModel(OrdenModel model)
+        {
+            this.IsEnabled = true;
+            this.IsRunning = false;
+            apiService = new ApiService();
+            Orden = model;
+            Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
+        }
         public AprobacionGerenteViewModel()
         {
-            apiService = new ApiService();
-            Orden = new OrdenModel { lst = new System.Collections.Generic.List<OrdenDetalleModel>() };
+            this.IsEnabled = true;
+            this.IsRunning = false;
+            apiService = new ApiService();            
             CargarOrden();
         }
         #endregion
@@ -59,62 +62,68 @@
         #region Metodos
         private async void CargarOrden()
         {
-            Height = 0;
-
-            if (string.IsNullOrEmpty(Settings.UrlConexion))
+            try
             {
-                this.IsEnabled = true;
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    "Alerta",
-                    "Dispositivo no configurado",
-                    "Aceptar");
-                return;
+                Height = 0;
+
+                if (string.IsNullOrEmpty(Settings.UrlConexion))
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        "Dispositivo no configurado",
+                        "Aceptar");
+                    return;
+                }
+
+                Response con = await apiService.CheckConnection(Settings.UrlConexion);
+                if (!con.IsSuccess)
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        con.Message,
+                        "Aceptar");
+                    return;
+                }
+
+                var response_cs = await apiService.GetObject<OrdenModel>(Settings.UrlConexion, Settings.RutaCarpeta, "OrdenTrabajo", "");
+                if (!response_cs.IsSuccess)
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        response_cs.Message,
+                        "Aceptar");
+                    return;
+                }
+
+                Orden = (OrdenModel)response_cs.Result;
+                if (Orden != null && Orden.NumeroOrden != 0)
+                {
+                    Orden.Titulo = Orden.TipoDocumento + " # " + Orden.NumeroOrden;
+                    Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
+                }
+                else
+                {
+                    MainViewModel.GetInstance().NoHayOrdenesPendientes = new NoHayOrdenesPendientesViewModel();
+                    Application.Current.MainPage = new NavigationPage(new NoHayOrdenesPendientesPage());
+                }
             }
-
-            Response con = await apiService.CheckConnection(Settings.UrlConexion);
-            if (!con.IsSuccess)
+            catch (System.Exception ex)
             {
                 this.IsEnabled = true;
                 this.IsRunning = false;
                 await Application.Current.MainPage.DisplayAlert(
                     "Alerta",
-                    con.Message,
+                    ex.Message,
                     "Aceptar");
+
                 return;
             }           
-
-            var response_cs = await apiService.GetObject<OrdenModel>(Settings.UrlConexion, Settings.RutaCarpeta, "OrdenTrabajo","");
-            if (!response_cs.IsSuccess)
-            {
-                this.IsEnabled = true;
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    "Alerta",
-                    response_cs.Message,
-                    "Aceptar");
-                return;
-            }
-            if (response_cs.Result != null)
-                Orden = (OrdenModel)response_cs.Result;
-            else Orden = new OrdenModel { lst = new System.Collections.Generic.List<OrdenDetalleModel>() };
-
-            if (Orden.NumeroOrden != 0)
-            {
-                Orden.Titulo = Orden.TipoDocumento + " # " + Orden.NumeroOrden;
-                Height = Orden.lst == null ? 0 : Orden.lst.Count * 60;
-            }
-            else
-            {                
-                this.IsEnabled = true;
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    "Alerta",
-                    "No existen órdenes pendientes",
-                    "Aceptar");
-
-                return;
-            }
             
             this.IsEnabled = true;
             this.IsRunning = false;
@@ -136,13 +145,7 @@
             this.IsRunning = true;
             if (string.IsNullOrEmpty(this.Orden.Observacion))
             {
-                this.IsEnabled = true;
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    "Alerta",
-                    "Debe ingresar la observación",
-                    "Aceptar");
-                return;
+                this.Orden.Observacion = string.Empty;
             }
             this.Orden.Usuario = Settings.IdUsuario;
             this.Orden.Estado = "P";
@@ -189,13 +192,7 @@
             this.IsRunning = true;
             if (string.IsNullOrEmpty(this.Orden.Observacion))
             {
-                this.IsEnabled = true;
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    "Alerta",
-                    "Debe ingresar la observación",
-                    "Aceptar");
-                return;
+                this.Orden.Observacion = string.Empty;
             }
             this.Orden.Usuario = Settings.IdUsuario;
             this.Orden.Estado = "X";

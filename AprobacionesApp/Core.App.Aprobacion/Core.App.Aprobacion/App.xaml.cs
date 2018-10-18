@@ -22,7 +22,7 @@ namespace Core.App.Aprobacion
             {
                 MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();
                 MainPage = new NavigationPage(new AprobacionGerentePage());
-            }            
+            }
         }
         #endregion
 

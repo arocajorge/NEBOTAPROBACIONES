@@ -45,7 +45,7 @@ namespace Core.App.Aprobacion.ViewModels
         {
             this.IsEnabled = true;
             apiService = new ApiService();
-            this.UrlServidor = string.IsNullOrEmpty(Settings.UrlConexion) ? "http://192.168.1.122" : Settings.UrlConexion;
+            this.UrlServidor = string.IsNullOrEmpty(Settings.UrlConexion) ? "http://190.110.211.82:20000" : Settings.UrlConexion;
             this.RutaCarpeta = string.IsNullOrEmpty(Settings.RutaCarpeta) ? "/Api" : Settings.RutaCarpeta;
         }
         #endregion

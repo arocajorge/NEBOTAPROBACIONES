@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.NoHayOrdenesPendientesPage"
+              BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Mensaje">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Icon="ic_search"
+            Command="{Binding BuscarOrdenCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+            <StackLayout
+                BindingContext="{Binding NoHayOrdenesPendientes}">
+            <ScrollView>
+                <StackLayout
+                    Padding="20">                    
+                    <Image
+                        Source="ic_ok">
+                    </Image>
+                    <Label                    
+                        HorizontalTextAlignment="Center"
+                        FontAttributes="Bold"
+                        TextColor="Black"
+                        Text="No existen órdenes pendientes de aprobar"
+                        HorizontalOptions ="Center"
+                    ></Label>
+                    <ActivityIndicator
+                        IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                        VerticalOptions="CenterAndExpand">
+                    </ActivityIndicator>
+                    <Button
+                        BackgroundColor="CornflowerBlue"
+                        TextColor="White"
+                        Command="{Binding BuscarCommand}"
+                        IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                        Text="Buscar"
+                        HorizontalOptions="FillAndExpand">
+                    </Button>
+                </StackLayout>                
+            </ScrollView>
+        </StackLayout>              
+    </ContentPage.Content>
+</ContentPage>

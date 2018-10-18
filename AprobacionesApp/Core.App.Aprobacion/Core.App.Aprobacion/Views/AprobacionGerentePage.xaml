@@ -4,6 +4,11 @@
              x:Class="Core.App.Aprobacion.Views.AprobacionGerentePage"
               BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Aprobación">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Icon="ic_search"
+            Command="{Binding BuscarOrdenCommand}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout
             BindingContext="{Binding AprobacionGerente}">
@@ -27,6 +32,31 @@
                             Text="{Binding Orden.Fecha, StringFormat='{0:dd/MM/yyyy}'}"
                             TextColor="Black">
                     </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Barco: "
+                            TextColor="Black">
+                    </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.NomCentroCosto}"
+                            TextColor="Black">
+                    </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Viaje: "
+                            TextColor="Black">
+                    </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.NomViaje}"
+                            TextColor="Black">
+                    </Label>
                     <Label
                             FontSize="Medium"
                             FontAttributes="Bold"
@@ -39,6 +69,8 @@
                             Text="{Binding Orden.NombreProveedor}"
                             TextColor="Black">
                         </Label>
+                    
+                    
                         <Label
                             FontSize="Medium"
                             FontAttributes="Bold"
@@ -63,10 +95,18 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
+                                    <StackLayout
+                                        Orientation="Horizontal">                                        
                                         <Label
                                             Text="{Binding Detalle}"
-                                            TextColor="Black">
+                                            TextColor="Black"
+                                            HorizontalOptions="StartAndExpand">
                                         </Label>
+                                        <Switch                
+                                            IsToggled="{Binding EsChatarra, Mode=TwoWay}"
+                                            HorizontalOptions="End">
+                                        </Switch>
+                                    </StackLayout>                                        
                                     </ViewCell>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
@@ -121,7 +161,6 @@
                             HorizontalOptions="FillAndExpand">
                         </Button>
                     </StackLayout>
-
                 </StackLayout>
             </ScrollView>
         </StackLayout>

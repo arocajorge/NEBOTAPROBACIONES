@@ -25,6 +25,7 @@
         public string TipoDocumento { get; set; }
         [JsonProperty("UNIDAD")]
         public string Unidad { get; set; }
-
+        [JsonProperty("ESCHATARRA")]
+        public bool EsChatarra { get; set; }
     }
 }

@@ -1,4 +1,10 @@
-﻿namespace Core.App.Aprobacion.ViewModels
+﻿using Core.App.Aprobacion.Views;
+using GalaSoft.MvvmLight.Command;
+using Rg.Plugins.Popup.Services;
+using System.Windows.Input;
+using Xamarin.Forms;
+
+namespace Core.App.Aprobacion.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
@@ -6,6 +12,8 @@
         public LoginViewModel Login { get; set; }
         public ConfiguracionViewModel Configuracion { get; set; }
         public AprobacionGerenteViewModel AprobacionGerente { get; set; }
+        public NoHayOrdenesPendientesViewModel NoHayOrdenesPendientes { get; set; }
+        public PopUpBuscarOrdenViewModel PopUpBuscarOrden { get; set; }
         #endregion
 
         #region Constructor
@@ -13,6 +21,7 @@
         {
             instance = this;
             this.Login = new LoginViewModel();
+            
         }
         #endregion
 
@@ -28,5 +37,37 @@
                 return instance;
         }
         #endregion
+
+        
+
+        #region Comandos
+        public ICommand BuscarOrdenCommand
+        {
+            get
+            {
+                return new RelayCommand(BuscarOrden);
+            }
+        }
+
+        private async void BuscarOrden()
+        {
+            try
+            {
+                PopUpBuscarOrden = new PopUpBuscarOrdenViewModel();
+                await PopupNavigation.PushAsync(new PopUpBuscarOrdenPage());
+            }
+            catch (System.Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                       "Alerta",
+                       ex.Message,
+                       "Aceptar");
+                return;
+            }
+            
+        }
+        #endregion
+
+      
     }
 }
