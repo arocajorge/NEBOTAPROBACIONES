@@ -4,6 +4,11 @@
              x:Class="Core.App.Aprobacion.Views.AprobacionGerentePage"
               BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Aprobación">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Icon="ic_search"
+            Command="{Binding BuscarOrdenCommand}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout
             BindingContext="{Binding AprobacionGerente}">
@@ -90,10 +95,18 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
+                                    <StackLayout
+                                        Orientation="Horizontal">                                        
                                         <Label
                                             Text="{Binding Detalle}"
-                                            TextColor="Black">
+                                            TextColor="Black"
+                                            HorizontalOptions="StartAndExpand">
                                         </Label>
+                                        <Switch                
+                                            IsToggled="{Binding EsChatarra, Mode=TwoWay}"
+                                            HorizontalOptions="End">
+                                        </Switch>
+                                    </StackLayout>                                        
                                     </ViewCell>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
@@ -148,7 +161,6 @@
                             HorizontalOptions="FillAndExpand">
                         </Button>
                     </StackLayout>
-
                 </StackLayout>
             </ScrollView>
         </StackLayout>

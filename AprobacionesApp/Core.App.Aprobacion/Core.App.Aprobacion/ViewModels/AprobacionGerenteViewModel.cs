@@ -42,10 +42,19 @@
         #endregion
 
         #region Constructor
+        public AprobacionGerenteViewModel(OrdenModel model)
+        {
+            this.IsEnabled = true;
+            this.IsRunning = false;
+            apiService = new ApiService();
+            Orden = model;
+            Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
+        }
         public AprobacionGerenteViewModel()
         {
-            apiService = new ApiService();
-            
+            this.IsEnabled = true;
+            this.IsRunning = false;
+            apiService = new ApiService();            
             CargarOrden();
         }
         #endregion
@@ -93,21 +102,15 @@
                 }
 
                 Orden = (OrdenModel)response_cs.Result;
-                if (Orden != null)
+                if (Orden != null && Orden.NumeroOrden != 0)
                 {
                     Orden.Titulo = Orden.TipoDocumento + " # " + Orden.NumeroOrden;
-                    Height = Orden.lst == null ? 0 : Orden.lst.Count * 60;
+                    Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
                 }
                 else
                 {
-                    this.IsEnabled = true;
-                    this.IsRunning = false;
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Alerta",
-                        "No existen órdenes pendientes",
-                        "Aceptar");
-
-                    return;
+                    MainViewModel.GetInstance().NoHayOrdenesPendientes = new NoHayOrdenesPendientesViewModel();
+                    Application.Current.MainPage = new NavigationPage(new NoHayOrdenesPendientesPage());
                 }
             }
             catch (System.Exception ex)

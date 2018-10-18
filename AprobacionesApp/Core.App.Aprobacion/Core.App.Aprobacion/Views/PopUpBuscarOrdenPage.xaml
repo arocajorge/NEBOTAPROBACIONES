@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.PopUpBuscarOrdenPage"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Buscar">
+    <ScrollView
+        BindingContext="{Binding PopUpBuscarOrden}">
+        <StackLayout
+            Padding="20"
+            BackgroundColor="White"
+            HorizontalOptions="Center"
+            VerticalOptions="Center">
+            <StackLayout
+                Orientation="Horizontal">
+                <Image
+                HeightRequest="30"
+                Source="ic_cancel"
+                HorizontalOptions="EndAndExpand">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CerrarCommand}"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </StackLayout>
+            <Picker
+                FontSize="Medium"
+                ItemsSource="{Binding ListaTipos}"
+                SelectedItem="{Binding TipoSelectedIndex, Mode=TwoWay}"
+                Title="Seleccione el Tipo">
+            </Picker>
+            <Entry
+                FontSize="Medium"
+                Text="{Binding NumeroOrden, Mode=TwoWay}"
+                Keyboard="Numeric">                
+            </Entry>
+            <ActivityIndicator
+                IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                VerticalOptions="CenterAndExpand">
+            </ActivityIndicator>
+            <Button
+                BackgroundColor="CornflowerBlue"
+                TextColor="White"
+                Command="{Binding SearchCommand}"
+                IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                VerticalOptions="EndAndExpand"
+                Text="Buscar">
+            </Button>
+        </StackLayout>
+    </ScrollView>
+</pages:PopupPage>
