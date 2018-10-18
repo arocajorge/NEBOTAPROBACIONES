@@ -153,7 +153,7 @@ namespace Core.WindowsService
             Body += "<p>Gracias por su colaboración</p><br>";
 
             MemoryStream mem = new MemoryStream();
-            if (tipo_doc == "OT")
+            if (tipo_doc == "OT" || tipo_doc == "OK")
             {
                 rpt_OT rpt = new rpt_OT();
                 rpt.p_tipo_doc.Value = info.CINV_TDOC;

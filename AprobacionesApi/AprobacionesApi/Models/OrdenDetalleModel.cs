@@ -20,5 +20,6 @@ namespace AprobacionesApi.Models
         public decimal DINV_IVA { get; set; }
         public string CINV_TDOC { get; set; }
         public string NOM_VIAJE { get; set; }
+        public bool ESCHATARRA { get; set; }
     }
 }

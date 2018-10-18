@@ -112,6 +112,7 @@
             this.p_tipo_doc = new DevExpress.XtraReports.Parameters.Parameter();
             this.p_num = new DevExpress.XtraReports.Parameters.Parameter();
             this.ReportFooter = new DevExpress.XtraReports.UI.ReportFooterBand();
+            this.xrLabel3 = new DevExpress.XtraReports.UI.XRLabel();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xrTable5)).BeginInit();
@@ -251,13 +252,13 @@
             // 
             // xrLine2
             // 
-            this.xrLine2.LocationFloat = new DevExpress.Utils.PointFloat(563.9667F, 135.9805F);
+            this.xrLine2.LocationFloat = new DevExpress.Utils.PointFloat(563.9667F, 140.9805F);
             this.xrLine2.Name = "xrLine2";
             this.xrLine2.SizeF = new System.Drawing.SizeF(164.8927F, 8F);
             // 
             // xrLine1
             // 
-            this.xrLine1.LocationFloat = new DevExpress.Utils.PointFloat(563.9667F, 143.9805F);
+            this.xrLine1.LocationFloat = new DevExpress.Utils.PointFloat(563.9667F, 148.9805F);
             this.xrLine1.Name = "xrLine1";
             this.xrLine1.SizeF = new System.Drawing.SizeF(164.8927F, 8F);
             // 
@@ -444,11 +445,11 @@
             // 
             // lblEstado
             // 
-            this.lblEstado.Font = new System.Drawing.Font("Times New Roman", 40F, System.Drawing.FontStyle.Bold);
+            this.lblEstado.Font = new System.Drawing.Font("Times New Roman", 35F, System.Drawing.FontStyle.Bold);
             this.lblEstado.LocationFloat = new DevExpress.Utils.PointFloat(0F, 53.98041F);
             this.lblEstado.Name = "lblEstado";
             this.lblEstado.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 100F);
-            this.lblEstado.SizeF = new System.Drawing.SizeF(749.0001F, 62.00002F);
+            this.lblEstado.SizeF = new System.Drawing.SizeF(749.0001F, 47.00002F);
             this.lblEstado.StylePriority.UseFont = false;
             this.lblEstado.StylePriority.UseTextAlignment = false;
             this.lblEstado.Text = "APROBADA";
@@ -838,7 +839,8 @@
             // 
             // CC_NOMBRE_REPORTE
             // 
-            this.CC_NOMBRE_REPORTE.Expression = "Concat(\'ORDEN DE TRABAJO No.\',[CODIGOTR],\'-\',[CINV_NUM] )";
+            this.CC_NOMBRE_REPORTE.Expression = "Iif([CINV_TDOC]=\'OT\', Concat(\'ORDEN DE TRABAJO No.\',[CODIGOTR],\'-\',[CINV_NUM] ), " +
+    "Concat(\'ORDEN DE COMPRA DE CAJA CHICA No.\',[CINV_NUM] ) )";
             this.CC_NOMBRE_REPORTE.Name = "CC_NOMBRE_REPORTE";
             // 
             // objectDataSource1
@@ -859,6 +861,7 @@
             // ReportFooter
             // 
             this.ReportFooter.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLabel3,
             this.xrLine2,
             this.xrLine1,
             this.xrLabel4,
@@ -869,6 +872,18 @@
             this.xrLabel2});
             this.ReportFooter.HeightF = 386.6178F;
             this.ReportFooter.Name = "ReportFooter";
+            // 
+            // xrLabel3
+            // 
+            this.xrLabel3.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[CINV_MOTIVOANULA]")});
+            this.xrLabel3.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.xrLabel3.LocationFloat = new DevExpress.Utils.PointFloat(43.36423F, 100.9804F);
+            this.xrLabel3.Name = "xrLabel3";
+            this.xrLabel3.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
+            this.xrLabel3.SizeF = new System.Drawing.SizeF(646.469F, 35.0001F);
+            this.xrLabel3.StylePriority.UseFont = false;
+            this.xrLabel3.Text = "xrLabel3";
             // 
             // rpt_OT
             // 
@@ -994,5 +1009,6 @@
         private DevExpress.XtraReports.UI.XRLine xrLine2;
         private DevExpress.XtraReports.UI.XRLine xrLine1;
         private DevExpress.XtraReports.UI.ReportFooterBand ReportFooter;
+        private DevExpress.XtraReports.UI.XRLabel xrLabel3;
     }
 }

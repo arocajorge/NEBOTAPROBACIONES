@@ -89,7 +89,7 @@ namespace Core.Data.general
                 provider.NumberDecimalSeparator = ".";
                 provider.NumberGroupSeparator = ",";
                 provider.NumberGroupSizes = new int[] { 3 };
-                Lista.ForEach(q => { q.TOTAL = (q.CINV_TDOC == "OT" ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : q.DINV_COS) + q.DINV_IVA; });
+                Lista.ForEach(q => { q.TOTAL = ( (q.CINV_TDOC == "OT" || q.CINV_TDOC == "OK") ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : q.DINV_COS) + q.DINV_IVA; });
             }
 
             return Lista.OrderBy(q=>q.DINV_LINEA).ToList();
