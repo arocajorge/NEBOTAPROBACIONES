@@ -61,9 +61,15 @@
             apiService = new ApiService();
             Orden = model;
             if (Orden.TipoDocumento == "OC")
+            {
+                NoEsChatarraVisible = false;
                 EsChatarraVisible = true;
+            }
             else
+            {
+                NoEsChatarraVisible = true;
                 EsChatarraVisible = false;
+            }
 
             Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
         }
