@@ -81,11 +81,23 @@
                             Text="{Binding Orden.NombreSolicitante}"
                             TextColor="Black">
                         </Label>
-                    <Label
+                    <StackLayout
+                        Orientation="Horizontal">
+                        <Label
                             FontSize="Medium"
                             FontAttributes="Bold"
                             Text="Detalle: "
-                            TextColor="Black"></Label>
+                            TextColor="Black">                            
+                        </Label>
+                        <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Chatarra "
+                            HorizontalOptions="EndAndExpand"
+                            TextColor="Black">
+                        </Label>
+                    </StackLayout>
+                    
                     
                         <ListView
                             SeparatorVisibility="None"
