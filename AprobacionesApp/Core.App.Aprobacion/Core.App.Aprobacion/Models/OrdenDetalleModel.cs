@@ -1,7 +1,8 @@
 ﻿namespace Core.App.Aprobacion.Models
 {
+    using Core.App.Aprobacion.ViewModels;
     using Newtonsoft.Json;
-    public class OrdenDetalleModel
+    public class OrdenDetalleModel 
     {
         [JsonProperty("DINV_LINEA")]
         public int Linea { get; set; }

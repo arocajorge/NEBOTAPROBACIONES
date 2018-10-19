@@ -17,6 +17,7 @@
         private OrdenModel _orden;
         private int _Height;
         private bool _EsChatarraVisible;
+        private bool _NoEsChatarraVisible;
         #endregion
 
         #region Propiedades
@@ -34,6 +35,11 @@
         {
             get { return this._EsChatarraVisible; }
             set { SetValue(ref this._EsChatarraVisible, value); }
+        }
+        public bool NoEsChatarraVisible
+        {
+            get { return this._NoEsChatarraVisible; }
+            set { SetValue(ref this._NoEsChatarraVisible, value); }
         }
         public bool IsEnabled
         {
@@ -137,9 +143,15 @@
                     }
 
                     if (Orden.TipoDocumento == "OC")
+                    {
+                        NoEsChatarraVisible = false;
                         EsChatarraVisible = true;
+                    }
                     else
+                    {
+                        NoEsChatarraVisible = true;
                         EsChatarraVisible = false;
+                    }
 
                     Orden.Titulo = TipoDocumento + " No. " + Orden.NumeroOrden;
                     Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
