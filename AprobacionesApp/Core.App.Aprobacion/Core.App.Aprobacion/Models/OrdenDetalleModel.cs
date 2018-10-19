@@ -28,5 +28,7 @@
         public string Unidad { get; set; }
         [JsonProperty("ESCHATARRA")]
         public bool EsChatarra { get; set; }
+        [JsonProperty("DINV_CANT")]
+        public bool Cantidad { get; set; }
     }
 }

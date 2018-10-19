@@ -81,6 +81,16 @@
                             Text="{Binding Orden.NombreSolicitante}"
                             TextColor="Black">
                         </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Comentario: "
+                            TextColor="Black"></Label>
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.Comentario}"
+                            TextColor="Black">
+                    </Label>
                     <StackLayout
                         Orientation="Horizontal">
                         <Label
@@ -110,11 +120,16 @@
                                 <DataTemplate>
                                     <ViewCell>
                                     <StackLayout
-                                        Orientation="Horizontal">                                        
+                                        Orientation="Horizontal">
+                                        <Label
+                                            Text="{Binding Cantidad}"
+                                            TextColor="Black"
+                                            HorizontalOptions="Start">
+                                        </Label>
                                         <Label
                                             Text="{Binding Detalle}"
                                             TextColor="Black"
-                                            HorizontalOptions="StartAndExpand">
+                                            HorizontalOptions="CenterAndExpand">
                                         </Label>
                                         <Switch
                                             IsToggled="{Binding EsChatarra, Mode=TwoWay}"

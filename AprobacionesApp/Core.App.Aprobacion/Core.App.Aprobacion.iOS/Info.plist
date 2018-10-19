@@ -31,7 +31,7 @@
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>CFBundleDisplayName</key>
-	<string>Fish App</string>
+	<string>Indigo Fish</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1</string>
 	<key>XSLaunchImageAssets</key>

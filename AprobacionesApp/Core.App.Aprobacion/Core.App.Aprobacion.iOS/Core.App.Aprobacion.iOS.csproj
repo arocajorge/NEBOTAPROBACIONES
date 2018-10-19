@@ -89,7 +89,8 @@
     <BuildIpa>True</BuildIpa>
     <CodesignProvision>Indigo Ad-Hoc</CodesignProvision>
     <CodesignKey>iPhone Distribution: Jorge Aroca (S27X3S56M2)</CodesignKey>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <CodesignEntitlements>
+    </CodesignEntitlements>
     <CodesignExtraArgs />
     <CodesignResourceRules>
     </CodesignResourceRules>
