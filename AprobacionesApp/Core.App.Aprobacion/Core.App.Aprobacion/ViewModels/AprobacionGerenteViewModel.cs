@@ -122,7 +122,7 @@
                 Orden = (OrdenModel)response_cs.Result;
                 if (Orden != null && Orden.NumeroOrden != 0)
                 {
-                    string TipoDocumento = string.Empty;
+                    string TipoDocumento = Orden.TipoDocumento;
                     switch (TipoDocumento)
                     {
                         case "OC":

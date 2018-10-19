@@ -167,7 +167,7 @@ namespace Core.App.Aprobacion.ViewModels
             if (Orden != null && Orden.NumeroOrden != 0)
             {
 
-                string TipoDocumento = string.Empty;
+                string TipoDocumento = Orden.TipoDocumento;
                 switch (TipoDocumento)
                 {
                     case "OC":
