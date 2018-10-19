@@ -18,14 +18,14 @@ namespace Core.App.Aprobacion.ViewModels
         #region Variables
         private ObservableCollection<string> _ListaTipos;
         private string _TipoSelectedIndex;
-        private int? _NumeroOrden;
+        private string _NumeroOrden;
         private ApiService apiService;
         private bool _IsEnabled;
         private bool _IsRunning;
         #endregion
 
         #region Propiedades        
-        public int? NumeroOrden
+        public string NumeroOrden
         {
             get { return this._NumeroOrden; }
             set { SetValue(ref this._NumeroOrden, value); }
@@ -98,7 +98,7 @@ namespace Core.App.Aprobacion.ViewModels
                 return;
             }
 
-            if (this.NumeroOrden == null || this.NumeroOrden == 0 || string.IsNullOrEmpty(this.NumeroOrden.ToString()))
+            if (string.IsNullOrEmpty(this.NumeroOrden))
             {
                 this.IsEnabled = true;
                 this.IsRunning = false;
