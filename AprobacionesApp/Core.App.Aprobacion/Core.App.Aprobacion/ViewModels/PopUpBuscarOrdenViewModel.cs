@@ -68,6 +68,7 @@ namespace Core.App.Aprobacion.ViewModels
             ListaTipos = new ObservableCollection<string>();
             ListaTipos.Add("Orden de trabajo");
             ListaTipos.Add("Orden de compra");
+            ListaTipos.Add("Orden de caja chica");
             TipoSelectedIndex = "Orden de trabajo";
         }
         #endregion
@@ -138,6 +139,9 @@ namespace Core.App.Aprobacion.ViewModels
                     break;
                 case "Orden de compra":
                     CINV_TDOC = "OC";
+                    break;
+                case "Orden de caja chica":
+                    CINV_TDOC = "OK";
                     break;
             }
             var response_cs = await apiService.GetObject<OrdenModel>(Settings.UrlConexion, Settings.RutaCarpeta, "OrdenTrabajo", "CINV_TDOC="+CINV_TDOC+"&CINV_NUM="+NumeroOrden);
