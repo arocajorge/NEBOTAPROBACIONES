@@ -12,11 +12,20 @@
                 <Label
                     FontAttributes="Bold"
                     FontSize="Large"                    
-                    Text="Url servidor">
+                    Text="Url servidor externo">
                 </Label>
                 <Entry
-                    Text="{Binding UrlServidor, Mode=TwoWay}"
-                    Placeholder="http://192.168.1.115">
+                    Text="{Binding UrlServidorExterno, Mode=TwoWay}"
+                    Placeholder="http://190.110.211.82:20000">
+                </Entry>
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Large"                    
+                    Text="Url servidor interno">
+                </Label>
+                <Entry
+                    Text="{Binding UrlServidorInterno, Mode=TwoWay}"
+                    Placeholder="http://192.168.1.7:20000">
                 </Entry>
                 <Label
                     FontAttributes="Bold"

@@ -109,7 +109,7 @@ namespace Core.App.Aprobacion.ViewModels
                 return;
             }
 
-            if (string.IsNullOrEmpty(Settings.UrlConexion))
+            if (string.IsNullOrEmpty(Settings.UrlConexionActual))
             {
                 this.IsEnabled = true;
                 this.IsRunning = false;
@@ -120,16 +120,23 @@ namespace Core.App.Aprobacion.ViewModels
                 return;
             }
 
-            Response con = await apiService.CheckConnection(Settings.UrlConexion);
+            Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
             if (!con.IsSuccess)
             {
-                this.IsEnabled = true;
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    "Alerta",
-                    con.Message,
-                    "Aceptar");
-                return;
+                string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
+                con = await apiService.CheckConnection(UrlDistinto);
+                if (!con.IsSuccess)
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        con.Message,
+                        "Aceptar");
+                    return;
+                }
+                else
+                    Settings.UrlConexionActual = UrlDistinto;
             }
             string CINV_TDOC = string.Empty;
             switch (TipoSelectedIndex)
@@ -144,7 +151,7 @@ namespace Core.App.Aprobacion.ViewModels
                     CINV_TDOC = "OK";
                     break;
             }
-            var response_cs = await apiService.GetObject<OrdenModel>(Settings.UrlConexion, Settings.RutaCarpeta, "OrdenTrabajo", "CINV_TDOC="+CINV_TDOC+"&CINV_NUM="+NumeroOrden);
+            var response_cs = await apiService.GetObject<OrdenModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "OrdenTrabajo", "CINV_TDOC="+CINV_TDOC+"&CINV_NUM="+NumeroOrden);
             if (!response_cs.IsSuccess)
             {
                 this.IsEnabled = true;
@@ -159,7 +166,21 @@ namespace Core.App.Aprobacion.ViewModels
             var Orden = (OrdenModel)response_cs.Result;
             if (Orden != null && Orden.NumeroOrden != 0)
             {
-                Orden.Titulo = Orden.TipoDocumento + " # " + Orden.NumeroOrden;
+
+                string TipoDocumento = string.Empty;
+                switch (TipoDocumento)
+                {
+                    case "OC":
+                        TipoDocumento = "Orden de compra";
+                        break;
+                    case "OK":
+                        TipoDocumento = "Orden de caja chica";
+                        break;
+                    case "OT":
+                        TipoDocumento = "Orden de trabajo";
+                        break;
+                }
+                Orden.Titulo = TipoDocumento + " No. " + Orden.NumeroOrden;
 
                 MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel(Orden);
                 Application.Current.MainPage = new NavigationPage(new AprobacionGerentePage());

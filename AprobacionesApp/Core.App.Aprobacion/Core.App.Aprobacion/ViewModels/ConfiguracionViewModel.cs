@@ -1,6 +1,7 @@
 ﻿using Core.App.Aprobacion.Helpers;
 using Core.App.Aprobacion.Models;
 using Core.App.Aprobacion.Services;
+using Core.App.Aprobacion.Views;
 using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -10,7 +11,8 @@ namespace Core.App.Aprobacion.ViewModels
     public class ConfiguracionViewModel : BaseViewModel
     {
         #region Variables
-        private string _urlServidor;
+        private string _urlServidorExterno;
+        private string _urlServidorInterno;
         private string _RutaCarpeta;
         private bool _IsRunning;
         private bool _IsEnabled;
@@ -18,10 +20,15 @@ namespace Core.App.Aprobacion.ViewModels
         #endregion
 
         #region Propiedades
-        public string UrlServidor
+        public string UrlServidorExterno
         {
-            get { return this._urlServidor; }
-            set { SetValue(ref this._urlServidor, value); }
+            get { return this._urlServidorExterno; }
+            set { SetValue(ref this._urlServidorExterno, value); }
+        }
+        public string UrlServidorInterno
+        {
+            get { return this._urlServidorInterno; }
+            set { SetValue(ref this._urlServidorInterno, value); }
         }
         public string RutaCarpeta
         {
@@ -45,7 +52,8 @@ namespace Core.App.Aprobacion.ViewModels
         {
             this.IsEnabled = true;
             apiService = new ApiService();
-            this.UrlServidor = string.IsNullOrEmpty(Settings.UrlConexion) ? "http://190.110.211.82:20000" : Settings.UrlConexion;
+            this.UrlServidorExterno = string.IsNullOrEmpty(Settings.UrlConexionExterna) ? "http://190.110.211.82:20000" : Settings.UrlConexionExterna;
+            this.UrlServidorInterno = string.IsNullOrEmpty(Settings.UrlConexionInterna) ? "http://192.168.1.7:20000" : Settings.UrlConexionInterna;
             this.RutaCarpeta = string.IsNullOrEmpty(Settings.RutaCarpeta) ? "/Api" : Settings.RutaCarpeta;
         }
         #endregion
@@ -65,30 +73,50 @@ namespace Core.App.Aprobacion.ViewModels
             this.IsRunning = true;
 
             #region Validaciones
-            if (string.IsNullOrEmpty(UrlServidor))
+            if (string.IsNullOrEmpty(UrlServidorExterno))
             {
                 this.IsEnabled = true;
                 this.IsRunning = false;
                 await Application.Current.MainPage.DisplayAlert(
                     "Alerta",
-                    "Debe ingresar la url del servidor",
+                    "Debe ingresar la url del servidor externo",
                     "Aceptar");
                 return;
             }
-            Response con = await apiService.CheckConnection(this.UrlServidor);
+            if (string.IsNullOrEmpty(UrlServidorInterno))
+            {
+                this.IsEnabled = true;
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    "Debe ingresar la url del servidor interno",
+                    "Aceptar");
+                return;
+            }
+
+            Response con = await apiService.CheckConnection(this.UrlServidorExterno);
             if (!con.IsSuccess)
             {
-                this.IsEnabled = true;
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    "Alerta",
-                    con.Message,
-                    "Aceptar");
-                return;
+                con = await apiService.CheckConnection(this.UrlServidorInterno);
+                if (!con.IsSuccess)
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        con.Message,
+                        "Aceptar");
+                    return;
+                }
+                else
+                    Settings.UrlConexionActual = this.UrlServidorInterno;
             }
+            else
+                Settings.UrlConexionActual = this.UrlServidorExterno;
             #endregion
 
-            Settings.UrlConexion = this.UrlServidor;
+            Settings.UrlConexionExterna = this.UrlServidorExterno;
+            Settings.UrlConexionInterna = this.UrlServidorInterno;
             Settings.RutaCarpeta = this.RutaCarpeta;            
            
             #region Limpio los settings
@@ -101,6 +129,9 @@ namespace Core.App.Aprobacion.ViewModels
                     "Alerta",
                     "Configuración OK",
                     "Aceptar");
+
+            MainViewModel.GetInstance().Login = new LoginViewModel();
+            Application.Current.MainPage = new LoginPage();
         }
         #endregion
     }
