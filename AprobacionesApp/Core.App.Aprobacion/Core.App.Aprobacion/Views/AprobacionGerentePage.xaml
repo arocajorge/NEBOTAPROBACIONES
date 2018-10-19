@@ -94,7 +94,8 @@
                             FontAttributes="Bold"
                             Text="Chatarra "
                             HorizontalOptions="EndAndExpand"
-                            TextColor="Black">
+                            TextColor="Black"
+                            IsVisible="{Binding EsChatarraVisible, Mode=TwoWay}">
                         </Label>
                     </StackLayout>
                     
@@ -115,7 +116,7 @@
                                             TextColor="Black"
                                             HorizontalOptions="StartAndExpand">
                                         </Label>
-                                        <Switch      
+                                        <Switch
                                             IsToggled="{Binding EsChatarra, Mode=TwoWay}"
                                             HorizontalOptions="End">
                                         </Switch>
