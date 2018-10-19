@@ -131,7 +131,7 @@ namespace Core.App.Aprobacion.ViewModels
                     "Aceptar");
 
             MainViewModel.GetInstance().Login = new LoginViewModel();
-            Application.Current.MainPage = new LoginPage();
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
         #endregion
     }
