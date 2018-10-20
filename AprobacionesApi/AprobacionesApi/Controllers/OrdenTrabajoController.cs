@@ -20,7 +20,7 @@ namespace AprobacionesApi.Controllers
 
             if (CINV_NUM != 0)
             {
-                orden = db.VW_ORDENES_TRABAJO_TOTAL.Where(q => q.CINV_TDOC == CINV_TDOC && q.CINV_NUM == CINV_NUM && q.CINV_ST == "A").Select(q => new OrdenModel
+                orden = db.VW_ORDENES_TRABAJO_TOTAL.Where(q => q.CINV_TDOC == CINV_TDOC && q.CINV_NUM == CINV_NUM).Select(q => new OrdenModel
                 {
                     CINV_NUM = q.CINV_NUM,
                     NOM_SOLICITADO = q.NOM_SOLICITADO,
@@ -44,7 +44,7 @@ namespace AprobacionesApi.Controllers
                 orden = (from q in db.VW_ORDENES_TRABAJO_TOTAL
                          where q.CINV_FECING >= Desde
                          && (q.CINV_ST == "A")
-                         && (q.CINV_TDOC == "OT" || q.CINV_TDOC == "OC")
+                         && (q.CINV_TDOC == "OT" || q.CINV_TDOC == "OC" || q.CINV_TDOC == "OK")
                          orderby q.CINV_FECING
                          select new OrdenModel
                          {
@@ -63,7 +63,8 @@ namespace AprobacionesApi.Controllers
                              CINV_COM3 = q.CINV_COM3,
                              CINV_COM4 = q.CINV_COM4,
                              VALOR_OC = q.VALOR_OC,
-                             NOM_CENTROCOSTO = q.NOM_CENTROCOSTO
+                             NOM_CENTROCOSTO = q.NOM_CENTROCOSTO,
+                             
                          }).FirstOrDefault();
 
             if (orden == null)
@@ -74,7 +75,7 @@ namespace AprobacionesApi.Controllers
             provider.NumberGroupSeparator = ",";
             provider.NumberGroupSizes = new int[] { 3 };
             if(orden.CINV_NUM != 0)
-                orden.VALOR_OT = (orden.CINV_TDOC == "OT" /*|| orden.CINV_TDOC == "OK"*/) ? (Convert.ToDecimal(orden.CINV_COM3, provider) + Convert.ToDecimal(orden.CINV_COM4, provider)) : (orden.VALOR_OC == null ? 0 : Convert.ToDecimal(orden.VALOR_OC));
+                orden.VALOR_OT = (orden.CINV_TDOC == "OT" || orden.CINV_TDOC == "OK") ? (Convert.ToDecimal(orden.CINV_COM3, provider) + Convert.ToDecimal(orden.CINV_COM4, provider)) : (orden.VALOR_OC == null ? 0 : Convert.ToDecimal(orden.VALOR_OC));
 
             orden.lst = (from q in db.VW_ORDENES_TRABAJO
                          where q.CINV_TDOC == orden.CINV_TDOC
@@ -93,10 +94,10 @@ namespace AprobacionesApi.Controllers
                              CINV_COM3 = q.CINV_COM3,
                              CINV_COM4 = q.CINV_COM4,
                              DINV_IVA = q.DINV_IVA,
-                             NOM_VIAJE = q.NOM_VIAJE
+                             NOM_VIAJE = q.NOM_VIAJE,
                          }).ToList();
             if (orden.lst != null)
-                orden.lst.ForEach(q => { q.TOTAL = ((orden.CINV_TDOC == "OT" /*|| orden.CINV_TDOC == "OK"*/) ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : q.DINV_COS) + q.DINV_IVA; orden.NOM_VIAJE = q.NOM_VIAJE; });
+                orden.lst.ForEach(q => { q.TOTAL = ((orden.CINV_TDOC == "OT" || orden.CINV_TDOC == "OK") ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : q.DINV_COS) + q.DINV_IVA; orden.NOM_VIAJE = q.NOM_VIAJE; });
 
             return orden;
         }
@@ -129,7 +130,8 @@ namespace AprobacionesApi.Controllers
                         FECHA_APRO = Entity.CINV_FECAPRUEBA                        
                     });
                 }
-                db.SaveChanges();
+                if (value.CINV_LOGIN != "INDIGO")
+                    db.SaveChanges();
             }
         }
     }
