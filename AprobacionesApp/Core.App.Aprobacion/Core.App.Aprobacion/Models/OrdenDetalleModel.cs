@@ -29,6 +29,6 @@
         [JsonProperty("ESCHATARRA")]
         public bool EsChatarra { get; set; }
         [JsonProperty("DINV_CANT")]
-        public bool Cantidad { get; set; }
+        public double Cantidad { get; set; }
     }
 }
