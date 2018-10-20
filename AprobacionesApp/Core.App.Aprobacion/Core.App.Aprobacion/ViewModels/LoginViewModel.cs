@@ -98,8 +98,13 @@
                 await Application.Current.MainPage.Navigation.PushAsync(new ConfiguracionPage());
             }
 
-            if (ValidarUsuarioServicio && string.IsNullOrEmpty(Settings.UrlConexion))
+            if (ValidarUsuarioServicio && string.IsNullOrEmpty(Settings.UrlConexionActual))
             {
+                Settings.UrlConexionExterna = string.IsNullOrEmpty(Settings.UrlConexionExterna) ? "http://190.110.211.82:20000" : Settings.UrlConexionExterna;
+                Settings.UrlConexionInterna = string.IsNullOrEmpty(Settings.UrlConexionInterna) ? "http://192.168.1.7:20000" : Settings.UrlConexionInterna;
+                Settings.RutaCarpeta = string.IsNullOrEmpty(Settings.RutaCarpeta) ? "/Api" : Settings.RutaCarpeta;
+                Settings.UrlConexionActual = Settings.UrlConexionExterna;
+                /*
                 this.IsEnabled = true;
                 this.IsRunning = false;
                 await Application.Current.MainPage.DisplayAlert(
@@ -107,23 +112,31 @@
                     "Dispositivo no configurado",
                     "Aceptar");
                 return;
+                */
             }
 
             if (ValidarUsuarioServicio)
             {
-                Response con = await apiService.CheckConnection(Settings.UrlConexion);
+                Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
                 if (!con.IsSuccess)
                 {
-                    this.IsEnabled = true;
-                    this.IsRunning = false;
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Alerta",
-                        con.Message,
-                        "Aceptar");
-                    return;
-                }                
+                    string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
+                    con = await apiService.CheckConnection(UrlDistinto);
+                    if (!con.IsSuccess)
+                    {
+                        this.IsEnabled = true;
+                        this.IsRunning = false;
+                        await Application.Current.MainPage.DisplayAlert(
+                            "Alerta",
+                            con.Message,
+                            "Aceptar");
+                        return;
+                    }
+                    else
+                        Settings.UrlConexionActual = UrlDistinto;
+                }
 
-                var response_cs = await apiService.GetObject<UsuarioModel>(Settings.UrlConexion, Settings.RutaCarpeta, "Usuario", "USUARIO="+this.usuario+"&CLAVE="+this.contrasenia);
+                var response_cs = await apiService.GetObject<UsuarioModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Usuario", "USUARIO="+this.usuario+"&CLAVE="+this.contrasenia);
                 if (!response_cs.IsSuccess)
                 {
                     this.IsEnabled = true;

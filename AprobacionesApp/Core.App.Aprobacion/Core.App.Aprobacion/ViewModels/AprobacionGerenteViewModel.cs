@@ -16,6 +16,8 @@
         private ApiService apiService;
         private OrdenModel _orden;
         private int _Height;
+        private bool _EsChatarraVisible;
+        private bool _NoEsChatarraVisible;
         #endregion
 
         #region Propiedades
@@ -28,6 +30,16 @@
         {
             get { return this._IsRunning; }
             set { SetValue(ref this._IsRunning, value); }
+        }
+        public bool EsChatarraVisible
+        {
+            get { return this._EsChatarraVisible; }
+            set { SetValue(ref this._EsChatarraVisible, value); }
+        }
+        public bool NoEsChatarraVisible
+        {
+            get { return this._NoEsChatarraVisible; }
+            set { SetValue(ref this._NoEsChatarraVisible, value); }
         }
         public bool IsEnabled
         {
@@ -48,6 +60,17 @@
             this.IsRunning = false;
             apiService = new ApiService();
             Orden = model;
+            if (Orden.TipoDocumento == "OC")
+            {
+                NoEsChatarraVisible = false;
+                EsChatarraVisible = true;
+            }
+            else
+            {
+                NoEsChatarraVisible = true;
+                EsChatarraVisible = false;
+            }
+
             Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
         }
         public AprobacionGerenteViewModel()
@@ -66,7 +89,7 @@
             {
                 Height = 0;
 
-                if (string.IsNullOrEmpty(Settings.UrlConexion))
+                if (string.IsNullOrEmpty(Settings.UrlConexionActual))
                 {
                     this.IsEnabled = true;
                     this.IsRunning = false;
@@ -77,19 +100,26 @@
                     return;
                 }
 
-                Response con = await apiService.CheckConnection(Settings.UrlConexion);
+                Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
                 if (!con.IsSuccess)
                 {
-                    this.IsEnabled = true;
-                    this.IsRunning = false;
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Alerta",
-                        con.Message,
-                        "Aceptar");
-                    return;
+                    string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
+                    con = await apiService.CheckConnection(UrlDistinto);
+                    if (!con.IsSuccess)
+                    {
+                        this.IsEnabled = true;
+                        this.IsRunning = false;
+                        await Application.Current.MainPage.DisplayAlert(
+                            "Alerta",
+                            con.Message,
+                            "Aceptar");
+                        return;
+                    }
+                    else
+                        Settings.UrlConexionActual = UrlDistinto;
                 }
 
-                var response_cs = await apiService.GetObject<OrdenModel>(Settings.UrlConexion, Settings.RutaCarpeta, "OrdenTrabajo", "");
+                var response_cs = await apiService.GetObject<OrdenModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "OrdenTrabajo", "");
                 if (!response_cs.IsSuccess)
                 {
                     this.IsEnabled = true;
@@ -104,8 +134,36 @@
                 Orden = (OrdenModel)response_cs.Result;
                 if (Orden != null && Orden.NumeroOrden != 0)
                 {
-                    Orden.Titulo = Orden.TipoDocumento + " # " + Orden.NumeroOrden;
+                    string TipoDocumento = Orden.TipoDocumento;
+                    switch (TipoDocumento)
+                    {
+                        case "OC":
+                            TipoDocumento = "Orden de compra";
+                            break;
+                        case "OK":
+                            TipoDocumento = "Orden de caja chica";
+                            break;
+                        case "OT":
+                            TipoDocumento = "Orden de trabajo";
+                            break;
+                    }
+
+                    if (Orden.TipoDocumento == "OC")
+                    {
+                        NoEsChatarraVisible = false;
+                        EsChatarraVisible = true;
+                    }
+                    else
+                    {
+                        NoEsChatarraVisible = true;
+                        EsChatarraVisible = false;
+                    }
+
+                    Orden.Titulo = TipoDocumento + " No. " + Orden.NumeroOrden;
                     Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
+
+                    IsEnabled = true;
+                    IsRunning = false;
                 }
                 else
                 {
@@ -123,10 +181,7 @@
                     "Aceptar");
 
                 return;
-            }           
-            
-            this.IsEnabled = true;
-            this.IsRunning = false;
+            }
         }
         #endregion
 
@@ -147,10 +202,30 @@
             {
                 this.Orden.Observacion = string.Empty;
             }
+
+            Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
+            if (!con.IsSuccess)
+            {
+                string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
+                con = await apiService.CheckConnection(UrlDistinto);
+                if (!con.IsSuccess)
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        con.Message,
+                        "Aceptar");
+                    return;
+                }
+                else
+                    Settings.UrlConexionActual = UrlDistinto;
+            }
+
             this.Orden.Usuario = Settings.IdUsuario;
             this.Orden.Estado = "P";
             var response_sinc = await apiService.Post<OrdenModel>(
-                Settings.UrlConexion,
+                Settings.UrlConexionActual,
                 Settings.RutaCarpeta,
                 "OrdenTrabajo",
                 this.Orden);
@@ -194,10 +269,30 @@
             {
                 this.Orden.Observacion = string.Empty;
             }
+
+            Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
+            if (!con.IsSuccess)
+            {
+                string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
+                con = await apiService.CheckConnection(UrlDistinto);
+                if (!con.IsSuccess)
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        con.Message,
+                        "Aceptar");
+                    return;
+                }
+                else
+                    Settings.UrlConexionActual = UrlDistinto;
+            }
+
             this.Orden.Usuario = Settings.IdUsuario;
             this.Orden.Estado = "X";
             var response_sinc = await apiService.Post<OrdenModel>(
-                Settings.UrlConexion,
+                Settings.UrlConexionActual,
                 Settings.RutaCarpeta,
                 "OrdenTrabajo",
                 this.Orden);
@@ -220,8 +315,7 @@
             CargarOrden();
 
             this.IsEnabled = true;
-            this.IsRunning = false;
-            
+            this.IsRunning = false;            
         }
         #endregion
     }

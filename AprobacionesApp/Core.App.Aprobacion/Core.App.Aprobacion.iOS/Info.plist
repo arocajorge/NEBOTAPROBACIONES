@@ -23,7 +23,7 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.Fixed.Core.App.Aprobacion</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.2</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
@@ -31,7 +31,7 @@
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>CFBundleDisplayName</key>
-	<string>Indigo app</string>
+	<string>Indigo Fish</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1</string>
 	<key>XSLaunchImageAssets</key>

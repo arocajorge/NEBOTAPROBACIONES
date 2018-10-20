@@ -52,7 +52,7 @@ namespace Core.App.Aprobacion.ViewModels
 
         private async void Buscar()
         {
-            if (string.IsNullOrEmpty(Settings.UrlConexion))
+            if (string.IsNullOrEmpty(Settings.UrlConexionActual))
             {
                 this.IsEnabled = true;
                 this.IsRunning = false;
@@ -63,19 +63,26 @@ namespace Core.App.Aprobacion.ViewModels
                 return;
             }
 
-            Response con = await apiService.CheckConnection(Settings.UrlConexion);
+            Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
             if (!con.IsSuccess)
             {
-                this.IsEnabled = true;
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    "Alerta",
-                    con.Message,
-                    "Aceptar");
-                return;
+                string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
+                con = await apiService.CheckConnection(UrlDistinto);
+                if (!con.IsSuccess)
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        con.Message,
+                        "Aceptar");
+                    return;
+                }
+                else
+                    Settings.UrlConexionActual = UrlDistinto;
             }
 
-            var response_cs = await apiService.GetObject<OrdenModel>(Settings.UrlConexion, Settings.RutaCarpeta, "OrdenTrabajo", "");
+            var response_cs = await apiService.GetObject<OrdenModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "OrdenTrabajo", "");
             if (!response_cs.IsSuccess)
             {
                 this.IsEnabled = true;

@@ -29,6 +29,8 @@
         public string NomCentroCosto { get; set; }
         [JsonProperty("NOM_VIAJE")]
         public string NomViaje { get; set; }
+        [JsonProperty("CINV_COM1")]
+        public string Comentario { get; set; }
         public string Titulo { get; set; }
         public List<OrdenDetalleModel> lst { get; set; }
     }

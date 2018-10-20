@@ -11,21 +11,44 @@
                 return CrossSettings.Current;
             }
         }
-        const string urlConexion = "urlConexion";
+        const string urlConexionExterna = "urlConexionExterna";
+        const string urlConexionInterna = "urlConexionInterna";
+        const string urlConexionActual = "urlConexionActual";
         const string rutaCarpeta = "rutaCarpeta";
         const string idUsuario = "idUsuario";
         static readonly string stringDefault = string.Empty;
-        static readonly int intDefault = 0;
 
-        public static string UrlConexion
+        public static string UrlConexionExterna
         {
             get
             {
-                return AppSettings.GetValueOrDefault(urlConexion, stringDefault);
+                return AppSettings.GetValueOrDefault(urlConexionExterna, stringDefault);
             }
             set
             {
-                AppSettings.AddOrUpdateValue(urlConexion, value);
+                AppSettings.AddOrUpdateValue(urlConexionExterna, value);
+            }
+        }
+        public static string UrlConexionInterna
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(urlConexionInterna, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(urlConexionInterna, value);
+            }
+        }
+        public static string UrlConexionActual
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(urlConexionActual, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(urlConexionActual, value);
             }
         }
         public static string RutaCarpeta

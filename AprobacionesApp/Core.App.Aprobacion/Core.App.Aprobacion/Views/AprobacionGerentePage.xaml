@@ -84,25 +84,54 @@
                     <Label
                             FontSize="Medium"
                             FontAttributes="Bold"
-                            Text="Detalle: "
+                            Text="Comentario: "
                             TextColor="Black"></Label>
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.Comentario}"
+                            TextColor="Black">
+                    </Label>
+                    <StackLayout
+                        Orientation="Horizontal">
+                        <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Detalle: "
+                            TextColor="Black">                            
+                        </Label>
+                        <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Chatarra "
+                            HorizontalOptions="EndAndExpand"
+                            TextColor="Black"
+                            IsVisible="{Binding EsChatarraVisible, Mode=TwoWay}">
+                        </Label>
+                    </StackLayout>
+                    
                     
                         <ListView
                             SeparatorVisibility="None"
                             ItemsSource="{Binding Orden.lst}"                        
                             HasUnevenRows="True"
-                            HeightRequest="{Binding Height}">
+                            HeightRequest="{Binding Height}"
+                            IsVisible="{Binding EsChatarraVisible, Mode=TwoWay}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
                                     <StackLayout
-                                        Orientation="Horizontal">                                        
+                                        Orientation="Horizontal">
+                                        <Label
+                                            Text="{Binding Cantidad}"
+                                            TextColor="Black"
+                                            HorizontalOptions="Start">
+                                        </Label>
                                         <Label
                                             Text="{Binding Detalle}"
                                             TextColor="Black"
-                                            HorizontalOptions="StartAndExpand">
+                                            HorizontalOptions="CenterAndExpand">
                                         </Label>
-                                        <Switch                
+                                        <Switch
                                             IsToggled="{Binding EsChatarra, Mode=TwoWay}"
                                             HorizontalOptions="End">
                                         </Switch>
@@ -111,7 +140,29 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                    
+
+                    <ListView
+                            SeparatorVisibility="None"
+                            ItemsSource="{Binding Orden.lst}"                        
+                            HasUnevenRows="True"
+                            HeightRequest="{Binding Height}"
+                            IsVisible="{Binding NoEsChatarraVisible, Mode=TwoWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout
+                                        Orientation="Horizontal">
+                                        <Label
+                                            Text="{Binding Detalle}"
+                                            TextColor="Black"
+                                            HorizontalOptions="StartAndExpand">
+                                        </Label>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
                     <StackLayout 
                         Orientation="Horizontal">
                         <Label
