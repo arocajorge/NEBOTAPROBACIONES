@@ -43,6 +43,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dynamic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=68293a411f0cabcc, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamicQuery.1.0\lib\35\Dynamic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -98,6 +102,7 @@
       <DependentUpon>ModelGeneral.edmx</DependentUpon>
       <LastGenOutput>ModelGeneral.cs</LastGenOutput>
     </Content>
+    <Content Include="Dynamic Expressions.html" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -105,8 +110,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AprobacionJefeSupController.cs" />
+    <Compile Include="Controllers\CatalogosController.cs" />
     <Compile Include="Controllers\OrdenTrabajoController.cs" />
+    <Compile Include="Controllers\PoliticaDePrivacidadController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Data\ARINDEX.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\CAB_BITACORA.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\DET_BITACORA.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\DET_BITACORA2.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\ModelGeneral.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -122,6 +142,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelGeneral.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Data\SUCURSAL.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\TBCINV.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
@@ -134,15 +157,19 @@
     <Compile Include="Data\USUARIOS.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\VW_ORDENES_TRABAJO.cs">
+    <Compile Include="Data\VW_BITACORAS.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\VW_ORDENES_TRABAJO_TOTAL.cs">
+    <Compile Include="Data\VW_ORDENES_TRABAJO_APP.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_ORDENES_TRABAJO_TOTAL_APP.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CatalogoModel.cs" />
     <Compile Include="Models\OrdenDetalleModel.cs" />
     <Compile Include="Models\OrdenModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

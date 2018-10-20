@@ -12,12 +12,13 @@ namespace AprobacionesApi.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class DET_BITACORA
+    public partial class SUCURSAL
     {
-        public int ID { get; set; }
-        public short LINEA { get; set; }
-        public string DESCRIPCION { get; set; }
-        public string CONTRATISTA { get; set; }
+        public string CODIGO { get; set; }
+        public string NOMBRE { get; set; }
+        public string DIRECCION { get; set; }
+        public string TELEFONO { get; set; }
+        public string ESTADO { get; set; }
         public Nullable<short> EMPRESA { get; set; }
     }
 }

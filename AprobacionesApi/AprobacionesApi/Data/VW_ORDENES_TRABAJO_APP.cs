@@ -12,7 +12,7 @@ namespace AprobacionesApi.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class VW_ORDENES_TRABAJO_TOTAL
+    public partial class VW_ORDENES_TRABAJO_APP
     {
         public int CINV_SEC { get; set; }
         public string CINV_TDOC { get; set; }
@@ -44,27 +44,37 @@ namespace AprobacionesApi.Data
         public Nullable<System.DateTime> CINV_FECEMBARQUE { get; set; }
         public Nullable<System.DateTime> CINV_FECDESADUA { get; set; }
         public string CINV_MOTIVOANULA { get; set; }
-        public Nullable<int> CINV_PROVISION { get; set; }
+        public short DINV_LINEA { get; set; }
+        public string DINV_DETALLEDSCTO { get; set; }
+        public string DINV_DETALLEADVAL1 { get; set; }
+        public string DINV_DETALLEADVAL2 { get; set; }
+        public string DINV_DETALLEADVAL3 { get; set; }
+        public string DINV_DETALLEADVAL4 { get; set; }
         public string CODIGO1 { get; set; }
         public string NOMBRE { get; set; }
         public string APELLIDO { get; set; }
         public string RUC { get; set; }
         public string CEDULA { get; set; }
         public string DOMICILIO { get; set; }
-        public string E_MAIL { get; set; }
+        public string NOM_EMPLEADO { get; set; }
+        public string CENTRO_COSTO { get; set; }
         public string NOM_BODEGA { get; set; }
-        public string NOM_CENTROCOSTO { get; set; }
-        public string CORREO_CENTROCOSTO { get; set; }
-        public string CORREO_CENTROCOSTO2 { get; set; }
-        public string NOM_SOLICITADO { get; set; }
-        public string CORREO_SOLICITADO { get; set; }
-        public Nullable<decimal> VALOR_OC { get; set; }
+        public string NOM_VIAJE { get; set; }
         public string CINV_COM5 { get; set; }
         public string CINV_COM6 { get; set; }
         public string CINV_COM7 { get; set; }
+        public string CINV_DETAPAGO { get; set; }
         public string CINV_STCUMPLI1 { get; set; }
-        public string CINV_COMENCUMPLI1 { get; set; }
         public string CINV_STCUMPLI2 { get; set; }
-        public string CINV_COMENCUMPLI2 { get; set; }
+        public string UNIDAD { get; set; }
+        public decimal DINV_CANT { get; set; }
+        public decimal DINV_COS { get; set; }
+        public Nullable<decimal> DINV_PRECIO_REAL { get; set; }
+        public decimal DINV_IVA { get; set; }
+        public decimal DINV_DSC { get; set; }
+        public decimal DINV_PRCT_DSC { get; set; }
+        public decimal DINV_VTA { get; set; }
+        public string TELEFONOS { get; set; }
+        public string DETALLE_ORDEN { get; set; }
     }
 }

@@ -53,5 +53,9 @@ namespace AprobacionesApi.Data
         public string CINV_COMENCUMPLI1 { get; set; }
         public string CINV_STCUMPLI2 { get; set; }
         public string CINV_COMENCUMPLI2 { get; set; }
+        public Nullable<System.DateTime> CINV_FECCUMPLI1 { get; set; }
+        public Nullable<System.DateTime> CINV_FECCUMPLI2 { get; set; }
+        public string CINV_LOGINCUMPLI1 { get; set; }
+        public string CINV_LOGINCUMPLI2 { get; set; }
     }
 }

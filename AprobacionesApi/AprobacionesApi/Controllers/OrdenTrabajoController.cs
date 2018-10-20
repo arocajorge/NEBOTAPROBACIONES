@@ -20,7 +20,7 @@ namespace AprobacionesApi.Controllers
 
             if (CINV_NUM != 0)
             {
-                orden = db.VW_ORDENES_TRABAJO_TOTAL.Where(q => q.CINV_TDOC == CINV_TDOC && q.CINV_NUM == CINV_NUM).Select(q => new OrdenModel
+                orden = db.VW_ORDENES_TRABAJO_TOTAL_APP.Where(q => q.CINV_TDOC == CINV_TDOC && q.CINV_NUM == CINV_NUM).Select(q => new OrdenModel
                 {
                     CINV_NUM = q.CINV_NUM,
                     NOM_SOLICITADO = q.NOM_SOLICITADO,
@@ -37,11 +37,12 @@ namespace AprobacionesApi.Controllers
                     CINV_COM3 = q.CINV_COM3,
                     CINV_COM4 = q.CINV_COM4,
                     VALOR_OC = q.VALOR_OC,
-                    NOM_CENTROCOSTO = q.NOM_CENTROCOSTO
+                    NOM_CENTROCOSTO = q.NOM_CENTROCOSTO,
+                    NOM_VIAJE = q.NOM_VIAJE
                 }).FirstOrDefault();
             }
             else
-                orden = (from q in db.VW_ORDENES_TRABAJO_TOTAL
+                orden = (from q in db.VW_ORDENES_TRABAJO_TOTAL_APP
                          where q.CINV_FECING >= Desde
                          && (q.CINV_ST == "A")
                          && (q.CINV_TDOC == "OT" || q.CINV_TDOC == "OC" || q.CINV_TDOC == "OK")
@@ -64,7 +65,7 @@ namespace AprobacionesApi.Controllers
                              CINV_COM4 = q.CINV_COM4,
                              VALOR_OC = q.VALOR_OC,
                              NOM_CENTROCOSTO = q.NOM_CENTROCOSTO,
-                             
+                             NOM_VIAJE = q.NOM_VIAJE
                          }).FirstOrDefault();
 
             if (orden == null)
@@ -77,7 +78,7 @@ namespace AprobacionesApi.Controllers
             if(orden.CINV_NUM != 0)
                 orden.VALOR_OT = (orden.CINV_TDOC == "OT" || orden.CINV_TDOC == "OK") ? (Convert.ToDecimal(orden.CINV_COM3, provider) + Convert.ToDecimal(orden.CINV_COM4, provider)) : (orden.VALOR_OC == null ? 0 : Convert.ToDecimal(orden.VALOR_OC));
 
-            orden.lst = (from q in db.VW_ORDENES_TRABAJO
+            orden.lst = (from q in db.VW_ORDENES_TRABAJO_APP
                          where q.CINV_TDOC == orden.CINV_TDOC
                          && q.CINV_NUM == orden.CINV_NUM
                          orderby q.DINV_LINEA
@@ -104,13 +105,33 @@ namespace AprobacionesApi.Controllers
 
         public void Post([FromBody]OrdenModel value)
         {
-            if(!string.IsNullOrEmpty(value.CINV_LOGIN))value.CINV_LOGIN = value.CINV_LOGIN.Length >= 10 ? value.CINV_LOGIN.Substring(0, 10) : value.CINV_LOGIN;
+            var usuario = db.USUARIOS.Where(q => q.USUARIO.ToLower() == value.CINV_LOGIN.ToLower()).FirstOrDefault();
+            if (usuario == null)
+                return;
+
             var Entity = db.TBCINV.Where(q => q.CINV_NUM == value.CINV_NUM && q.CINV_TDOC == value.CINV_TDOC).FirstOrDefault();
             if (Entity != null)
             {
-                Entity.CINV_ST = value.CINV_ST;
-                Entity.CINV_MOTIVOANULA = value.CINV_MOTIVOANULA;
-                Entity.CINV_FECAPRUEBA = DateTime.Now.Date;
+                switch (usuario.ROL_APRO)
+                {
+                    case "G":
+                        Entity.CINV_ST = value.CINV_ST;
+                        Entity.CINV_MOTIVOANULA = value.CINV_MOTIVOANULA;
+                        Entity.CINV_FECAPRUEBA = DateTime.Now.Date;
+                        break;                        
+                    case "J":
+                        Entity.CINV_STCUMPLI1 = value.CINV_ST;
+                        Entity.CINV_COMENCUMPLI1 = value.CINV_MOTIVOANULA;
+                        Entity.CINV_FECCUMPLI1 = DateTime.Now.Date;
+                        Entity.CINV_LOGINCUMPLI1 = value.CINV_LOGIN;
+                        break;
+                    case "S":
+                        Entity.CINV_STCUMPLI2 = value.CINV_ST;
+                        Entity.CINV_COMENCUMPLI2 = value.CINV_MOTIVOANULA;
+                        Entity.CINV_FECCUMPLI2 = DateTime.Now.Date;
+                        Entity.CINV_LOGINCUMPLI2 = value.CINV_LOGIN;
+                        break;
+                }                
 
                 foreach (var item in value.lst.Where(q=>q.ESCHATARRA == true).ToList())
                 {
@@ -118,19 +139,17 @@ namespace AprobacionesApi.Controllers
                     if (detalle != null)
                         detalle.DINV_ST = item.ESCHATARRA == true ? "S" : "N";
                 }
-
-                if(db.TBCINV_APPCORREOS.Where(q=>q.CINV_NUM == value.CINV_NUM && q.CINV_TDOC == value.CINV_TDOC).Count() == 0)
-                {
                     db.TBCINV_APPCORREOS.Add(new TBCINV_APPCORREOS
                     {
                         CINV_TDOC = value.CINV_TDOC,
                         CINV_NUM = value.CINV_NUM,
-                        CINV_LOGIN = value.CINV_LOGIN,
+                        CINV_LOGIN = usuario.USUARIO,
                         CINV_ST = value.CINV_ST,
-                        FECHA_APRO = Entity.CINV_FECAPRUEBA                        
+                        FECHA_APRO = Entity.CINV_FECAPRUEBA,
+                        ROL_APRO = usuario.ROL_APRO
                     });
-                }
-                if (value.CINV_LOGIN != "INDIGO")
+                
+                if (value.CINV_LOGIN.ToLower() != "indigo")
                     db.SaveChanges();
             }
         }
