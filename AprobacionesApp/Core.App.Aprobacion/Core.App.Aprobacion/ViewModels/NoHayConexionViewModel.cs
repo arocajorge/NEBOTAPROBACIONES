@@ -82,8 +82,11 @@ namespace Core.App.Aprobacion.ViewModels
                 {
                     this.IsEnabled = true;
                     this.IsRunning = false;
-                    MainViewModel.GetInstance().NoHayConexion = new NoHayConexionViewModel();
-                    Application.Current.MainPage = new NavigationPage(new NoHayConexionPage());
+                    await Application.Current.MainPage.DisplayAlert(
+                         "Alerta",
+                         con.Message,
+                         "Aceptar");
+                    return;
                 }
                 var usuario = (UsuarioModel)response_cs.Result;
                 if (usuario != null)
@@ -110,7 +113,7 @@ namespace Core.App.Aprobacion.ViewModels
                         {
                             this.IsEnabled = true;
                             this.IsRunning = false;
-                            MainViewModel.GetInstance().FiltroJefeSupervisor = new FiltroJefeSupervisorViewModel();
+                            MainViewModel.GetInstance().FiltroJefeSupervisor = new FiltroJefeSupervisorViewModel(usuario.RolApro.Trim().ToUpper());
                             Application.Current.MainPage = new NavigationPage(new FiltroJefeSupervisorPage());
                         }
                         else

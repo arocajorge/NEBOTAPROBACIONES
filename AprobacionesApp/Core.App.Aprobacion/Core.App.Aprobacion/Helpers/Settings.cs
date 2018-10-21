@@ -23,6 +23,8 @@
         const string fechaInicio = "fechaInicio";
         const string fechaFin = "fechaFin";
         const string numeroOrden = "numeroOrden";
+        const string estadoSupervisor = "estadoSupervisor";
+        const string estadoJefe = "estadoJefe";
 
         static readonly string stringDefault = string.Empty;        
 
@@ -116,6 +118,31 @@
                 AppSettings.AddOrUpdateValue(viaje, value);
             }
         }
+
+        public static string EstadoJefe
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(estadoJefe, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(estadoJefe, value);
+            }
+        }
+
+        public static string EstadoSupervisor
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(estadoSupervisor, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(estadoSupervisor, value);
+            }
+        }
+
         public static string FechaInicio
         {
             get

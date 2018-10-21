@@ -62,7 +62,7 @@
             {
                 var client = new HttpClient();
                 client.BaseAddress = new Uri(urlBase);
-                var url = string.Format("{0}/{1}", servicePrefix, controller) + "?" + parameters;
+                var url = string.Format("{0}/{1}", servicePrefix, controller) + (string.IsNullOrEmpty(parameters) ? "" : ("?" + parameters));
                 var response = await client.GetAsync(url);
                 var result = await response.Content.ReadAsStringAsync();
 

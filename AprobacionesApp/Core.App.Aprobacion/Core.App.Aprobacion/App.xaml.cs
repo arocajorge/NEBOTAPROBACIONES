@@ -100,7 +100,7 @@ namespace Core.App.Aprobacion
                     {
                         if (string.IsNullOrEmpty(Settings.FechaInicio) || Convert.ToDateTime(Settings.FechaFin) != DateTime.Now.Date)
                         {
-                            MainViewModel.GetInstance().FiltroJefeSupervisor = new FiltroJefeSupervisorViewModel();
+                            MainViewModel.GetInstance().FiltroJefeSupervisor = new FiltroJefeSupervisorViewModel(usuario.RolApro.Trim().ToUpper());
                             MainPage = new NavigationPage(new FiltroJefeSupervisorPage());
                             return;
                         }

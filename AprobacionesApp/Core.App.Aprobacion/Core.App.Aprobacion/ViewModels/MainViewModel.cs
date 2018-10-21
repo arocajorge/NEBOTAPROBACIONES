@@ -1,6 +1,7 @@
 ﻿using Core.App.Aprobacion.Views;
 using GalaSoft.MvvmLight.Command;
 using Rg.Plugins.Popup.Services;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -17,6 +18,8 @@ namespace Core.App.Aprobacion.ViewModels
         public FiltroJefeSupervisorViewModel FiltroJefeSupervisor { get; set; }
         public NoHayConexionViewModel NoHayConexion { get; set; }
         public JefeSupervisorOrdenesViewModel JefeSupervisorOrdenes { get; set; }
+        public ObservableCollection<JefeSupervisorMenuItemViewModel> Menus { get; set; }
+        public JefeSupervisorBitacorasViewModel JefeSupervisorBitacoras { get; set; }
         #endregion
 
         #region Constructor
@@ -24,7 +27,7 @@ namespace Core.App.Aprobacion.ViewModels
         {
             instance = this;
             this.Login = new LoginViewModel();
-            
+            loadMenu();
         }
         #endregion
 
@@ -41,7 +44,37 @@ namespace Core.App.Aprobacion.ViewModels
         }
         #endregion
 
-        
+        #region Metodos
+        private void loadMenu()
+        {
+            this.Menus = new ObservableCollection<JefeSupervisorMenuItemViewModel>();
+            
+            this.Menus.Add(new JefeSupervisorMenuItemViewModel
+            {
+                Icon = "ic_filter_1",
+                PageName = "JefeSupervisorOrdenesPage",
+                Title = "Ordenes"
+            });
+            this.Menus.Add(new JefeSupervisorMenuItemViewModel
+            {
+                Icon = "ic_filter_2",
+                PageName = "JefeSupervisorBitacorasPage",
+                Title = "Bitácoras"
+            });
+            this.Menus.Add(new JefeSupervisorMenuItemViewModel
+            {
+                Icon = "ic_location_on",
+                PageName = "JefeSupervisorFiltrosPage",
+                Title = "Filtros"
+            });
+            this.Menus.Add(new JefeSupervisorMenuItemViewModel
+            {
+                Icon = "ic_exit_to_app",
+                PageName = "LoginPage",
+                Title = "Cerrar sesión"
+            });
+        }
+        #endregion
 
         #region Comandos
         public ICommand BuscarOrdenCommand

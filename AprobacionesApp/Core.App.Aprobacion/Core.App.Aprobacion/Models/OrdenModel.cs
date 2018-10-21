@@ -24,13 +24,19 @@
         public string Observacion { get; set; }
         [JsonProperty("CINV_LOGIN")]
         public string Usuario { get; set; }
-
         [JsonProperty("NOM_CENTROCOSTO")]
         public string NomCentroCosto { get; set; }
         [JsonProperty("NOM_VIAJE")]
         public string NomViaje { get; set; }
         [JsonProperty("CINV_COM1")]
         public string Comentario { get; set; }
+
+
+        [JsonProperty("CINV_STCUMPLI1")]
+        public string EstadoJefe { get; set; }
+        [JsonProperty("CINV_STCUMPLI2")]
+        public string EstadoSupervisor { get; set; }
+
         public string Titulo { get; set; }
         public List<OrdenDetalleModel> lst { get; set; }
     }

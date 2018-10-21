@@ -101,7 +101,8 @@
 
             if (ValidarUsuarioServicio && string.IsNullOrEmpty(Settings.UrlConexionActual))
             {
-                Settings.UrlConexionExterna = string.IsNullOrEmpty(Settings.UrlConexionExterna) ? "http://190.110.211.82:20000" : Settings.UrlConexionExterna;
+                //Settings.UrlConexionExterna = string.IsNullOrEmpty(Settings.UrlConexionExterna) ? "http://190.110.211.82:20000" : Settings.UrlConexionExterna;
+                Settings.UrlConexionExterna = string.IsNullOrEmpty(Settings.UrlConexionExterna) ? "http://192.168.1.122" : Settings.UrlConexionExterna;
                 Settings.UrlConexionInterna = string.IsNullOrEmpty(Settings.UrlConexionInterna) ? "http://192.168.1.7:20000" : Settings.UrlConexionInterna;
                 Settings.RutaCarpeta = string.IsNullOrEmpty(Settings.RutaCarpeta) ? "/Api" : Settings.RutaCarpeta;
                 Settings.UrlConexionActual = Settings.UrlConexionExterna;
@@ -169,6 +170,8 @@
                         Settings.IdUsuario = this.usuario;
                         MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();
                         await Application.Current.MainPage.Navigation.PushAsync(new AprobacionGerentePage());
+                        return;
+
                     }
 
                     if (usuario.RolApro.Trim().ToUpper() == "J" || usuario.RolApro.Trim().ToUpper() == "S")
@@ -176,23 +179,17 @@
                         this.IsEnabled = true;
                         this.IsRunning = false;
                         Settings.IdUsuario = this.usuario;
-                        MainViewModel.GetInstance().FiltroJefeSupervisor = new FiltroJefeSupervisorViewModel();
-                        await Application.Current.MainPage.Navigation.PushAsync(new FiltroJefeSupervisorPage());
-                    }
-
-                    if (usuario.RolApro.Trim().ToUpper() == "J" || usuario.RolApro.Trim().ToUpper() == "S")
-                    {
-                        this.IsEnabled = true;
-                        this.IsRunning = false;
                         if (string.IsNullOrEmpty(Settings.FechaInicio) || Convert.ToDateTime(Settings.FechaFin) != DateTime.Now.Date)
                         {
-                            MainViewModel.GetInstance().FiltroJefeSupervisor = new FiltroJefeSupervisorViewModel();
+                            MainViewModel.GetInstance().FiltroJefeSupervisor = new FiltroJefeSupervisorViewModel(usuario.RolApro.Trim().ToUpper());
                             Application.Current.MainPage = new NavigationPage(new FiltroJefeSupervisorPage());
+                            return;
                         }
                         else
                         {
                             MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
                             Application.Current.MainPage = new JefeSupervisorMasterPage();
+                            return;
                         }
                     }
                 }

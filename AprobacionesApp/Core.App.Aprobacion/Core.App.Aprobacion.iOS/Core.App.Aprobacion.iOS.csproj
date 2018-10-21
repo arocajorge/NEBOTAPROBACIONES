@@ -273,4 +273,16 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_wifi_off.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_filter_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_filter_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_location_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_exit_to_app.png" />
+  </ItemGroup>
 </Project>
