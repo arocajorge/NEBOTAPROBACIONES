@@ -3,6 +3,7 @@ using Core.App.Aprobacion.Models;
 using Core.App.Aprobacion.Services;
 using Core.App.Aprobacion.Views;
 using GalaSoft.MvvmLight.Command;
+using System;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -75,6 +76,51 @@ namespace Core.App.Aprobacion.ViewModels
                     }
                     else
                         Settings.UrlConexionActual = UrlDistinto;
+                }
+                var response_cs = await apiService.GetObject<UsuarioModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Usuario", "USUARIO=" + Settings.IdUsuario);
+                if (!response_cs.IsSuccess)
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    MainViewModel.GetInstance().NoHayConexion = new NoHayConexionViewModel();
+                    Application.Current.MainPage = new NavigationPage(new NoHayConexionPage());
+                }
+                var usuario = (UsuarioModel)response_cs.Result;
+                if (usuario != null)
+                {
+                    if (string.IsNullOrEmpty(usuario.RolApro))
+                    {
+                        this.IsEnabled = true;
+                        this.IsRunning = false;
+                        MainViewModel.GetInstance().Login = new LoginViewModel();
+                        Application.Current.MainPage = new NavigationPage(new LoginPage());
+                    }
+
+                    if (usuario.RolApro.Trim().ToUpper() == "G")
+                    {
+                        this.IsEnabled = true;
+                        this.IsRunning = false;
+                        MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();
+                        await Application.Current.MainPage.Navigation.PushAsync(new AprobacionGerentePage());
+                    }
+
+                    if (usuario.RolApro.Trim().ToUpper() == "J" || usuario.RolApro.Trim().ToUpper() == "S")
+                    {
+                        if (string.IsNullOrEmpty(Settings.FechaInicio) || Convert.ToDateTime(Settings.FechaFin) != DateTime.Now.Date)
+                        {
+                            this.IsEnabled = true;
+                            this.IsRunning = false;
+                            MainViewModel.GetInstance().FiltroJefeSupervisor = new FiltroJefeSupervisorViewModel();
+                            Application.Current.MainPage = new NavigationPage(new FiltroJefeSupervisorPage());
+                        }
+                        else
+                        {
+                            this.IsEnabled = true;
+                            this.IsRunning = false;
+                            MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
+                            Application.Current.MainPage = new JefeSupervisorMasterPage();
+                        }
+                    }
                 }
             }
             this.IsEnabled = true;
