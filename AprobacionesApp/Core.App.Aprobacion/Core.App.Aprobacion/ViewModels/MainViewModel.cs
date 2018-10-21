@@ -14,6 +14,9 @@ namespace Core.App.Aprobacion.ViewModels
         public AprobacionGerenteViewModel AprobacionGerente { get; set; }
         public NoHayOrdenesPendientesViewModel NoHayOrdenesPendientes { get; set; }
         public PopUpBuscarOrdenViewModel PopUpBuscarOrden { get; set; }
+        public FiltroJefeSupervisorViewModel FiltroJefeSupervisor { get; set; }
+        public NoHayConexionViewModel NoHayConexion { get; set; }
+        public JefeSupervisorOrdenesViewModel JefeSupervisorOrdenes { get; set; }
         #endregion
 
         #region Constructor

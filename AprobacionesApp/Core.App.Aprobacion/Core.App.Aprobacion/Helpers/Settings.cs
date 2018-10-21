@@ -16,7 +16,15 @@
         const string urlConexionActual = "urlConexionActual";
         const string rutaCarpeta = "rutaCarpeta";
         const string idUsuario = "idUsuario";
-        static readonly string stringDefault = string.Empty;
+
+        const string sucursal = "sucursal";
+        const string bodega = "bodega";
+        const string viaje = "viaje";
+        const string fechaInicio = "fechaInicio";
+        const string fechaFin = "fechaFin";
+        const string numeroOrden = "numeroOrden";
+
+        static readonly string stringDefault = string.Empty;        
 
         public static string UrlConexionExterna
         {
@@ -72,6 +80,73 @@
             set
             {
                 AppSettings.AddOrUpdateValue(idUsuario, value);
+            }
+        }
+
+        public static string Sucursal
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(sucursal, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(sucursal, value);
+            }
+        }
+        public static string Bodega
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(bodega, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(bodega, value);
+            }
+        }
+        public static string Viaje
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(viaje, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(viaje, value);
+            }
+        }
+        public static string FechaInicio
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(fechaInicio, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(fechaInicio, value);
+            }
+        }
+        public static string FechaFin
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(fechaFin, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(fechaFin, value);
+            }
+        }
+        public static string NumeroOrden
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(numeroOrden, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(numeroOrden, value);
             }
         }
     }

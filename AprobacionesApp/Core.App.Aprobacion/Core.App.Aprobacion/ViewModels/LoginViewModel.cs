@@ -5,6 +5,7 @@
     using Core.App.Aprobacion.Services;
     using Core.App.Aprobacion.Views;
     using GalaSoft.MvvmLight.Command;
+    using System;
     using System.Collections.Generic;
     using System.Windows.Input;
     using Xamarin.Forms;
@@ -168,6 +169,31 @@
                         Settings.IdUsuario = this.usuario;
                         MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();
                         await Application.Current.MainPage.Navigation.PushAsync(new AprobacionGerentePage());
+                    }
+
+                    if (usuario.RolApro.Trim().ToUpper() == "J" || usuario.RolApro.Trim().ToUpper() == "S")
+                    {
+                        this.IsEnabled = true;
+                        this.IsRunning = false;
+                        Settings.IdUsuario = this.usuario;
+                        MainViewModel.GetInstance().FiltroJefeSupervisor = new FiltroJefeSupervisorViewModel();
+                        await Application.Current.MainPage.Navigation.PushAsync(new FiltroJefeSupervisorPage());
+                    }
+
+                    if (usuario.RolApro.Trim().ToUpper() == "J" || usuario.RolApro.Trim().ToUpper() == "S")
+                    {
+                        this.IsEnabled = true;
+                        this.IsRunning = false;
+                        if (string.IsNullOrEmpty(Settings.FechaInicio) || Convert.ToDateTime(Settings.FechaFin) != DateTime.Now.Date)
+                        {
+                            MainViewModel.GetInstance().FiltroJefeSupervisor = new FiltroJefeSupervisorViewModel();
+                            Application.Current.MainPage = new NavigationPage(new FiltroJefeSupervisorPage());
+                        }
+                        else
+                        {
+                            MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
+                            Application.Current.MainPage = new JefeSupervisorMasterPage();
+                        }
                     }
                 }
                 else

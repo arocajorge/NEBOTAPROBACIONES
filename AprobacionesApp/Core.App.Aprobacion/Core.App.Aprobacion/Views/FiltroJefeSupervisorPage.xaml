@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.FiltroJefeSupervisorPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Filtros">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout
+                Padding="20"
+                BindingContext="{Binding FiltroJefeSupervisor}">
+                <Label      
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    Text="Desde">
+                </Label>
+                <DatePicker                            
+                    Date="{Binding FechaInicio, Mode=TwoWay}">
+                    <DatePicker.Format>dd/MM/yyyy</DatePicker.Format>
+                </DatePicker>
+
+                <Label      
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    Text="Hasta">
+                </Label>
+                <DatePicker                            
+                    Date="{Binding FechaFin, Mode=TwoWay}">
+                    <DatePicker.Format>dd/MM/yyyy</DatePicker.Format>
+                </DatePicker>
+
+                <Label      
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        Text="Barco">
+                </Label>
+                <Picker
+                        ItemsSource="{Binding ListaSucursal}"
+                        ItemDisplayBinding="{Binding Descripcion}"
+                        SelectedIndex="{Binding SucursalSelectedIndex, Mode=TwoWay}"
+                        Title="Seleccione el barco">
+                </Picker>
+
+                <Label      
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        Text="Viaje">
+                </Label>
+                <Picker
+                        ItemsSource="{Binding ListaViaje}"
+                        ItemDisplayBinding="{Binding Descripcion}"
+                        SelectedIndex="{Binding ViajeSelectedIndex, Mode=TwoWay}"
+                        Title="Seleccione el barco">
+                </Picker>
+
+                <Label      
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        Text="Bodega">
+                </Label>
+                <Picker
+                        ItemsSource="{Binding ListaBodega}"
+                        ItemDisplayBinding="{Binding Descripcion}"
+                        SelectedIndex="{Binding BodegaSelectedIndex, Mode=TwoWay}"
+                        Title="Seleccione la bodega">
+                </Picker>
+
+                <Label
+                    FontSize="Medium"
+                    FontAttributes="Bold"
+                    Text="No. Orden: "
+                    TextColor="Black"></Label>
+                <Entry
+                    Keyboard="Numeric"
+                    Text="{Binding NumeroOrden, Mode=TwoWay}">
+                </Entry>
+                
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                    VerticalOptions="CenterAndExpand">
+                </ActivityIndicator>
+                <Button
+                        BackgroundColor="CornflowerBlue"
+                        TextColor="White"
+                        Command="{Binding FiltrarCommand}"
+                        IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                        VerticalOptions="End"
+                        Text="Guardar">
+                </Button>
+            </StackLayout>
+        </ScrollView>        
+    </ContentPage.Content>
+</ContentPage>
