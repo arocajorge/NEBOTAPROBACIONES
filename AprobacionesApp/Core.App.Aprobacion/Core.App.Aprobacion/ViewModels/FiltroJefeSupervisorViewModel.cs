@@ -308,6 +308,7 @@ namespace Core.App.Aprobacion.ViewModels
                     Descripcion = "TODO",
                 });
 
+                ListaEstadoJefe = new ObservableCollection<CatalogoModel>();
                 ListaEstadoJefe.Add(new CatalogoModel
                 {
                     Tipo = "EstadoJefe",
@@ -323,7 +324,7 @@ namespace Core.App.Aprobacion.ViewModels
                 ListaEstadoJefe.Add(new CatalogoModel
                 {
                     Tipo = "EstadoJefe",
-                    Codigo = "x",
+                    Codigo = "X",
                     Descripcion = "Anulado",
                 });
                 ListaEstadoJefe.Add(new CatalogoModel
@@ -333,7 +334,7 @@ namespace Core.App.Aprobacion.ViewModels
                     Descripcion = "Aprobado",
                 });
 
-
+                ListaEstadoSupervisor = new ObservableCollection<CatalogoModel>();
                 ListaEstadoSupervisor.Add(new CatalogoModel
                 {
                     Tipo = "EstadoSupervisor",
@@ -349,7 +350,7 @@ namespace Core.App.Aprobacion.ViewModels
                 ListaEstadoSupervisor.Add(new CatalogoModel
                 {
                     Tipo = "EstadoSupervisor",
-                    Codigo = "x",
+                    Codigo = "X",
                     Descripcion = "Anulado",
                 });
                 ListaEstadoSupervisor.Add(new CatalogoModel

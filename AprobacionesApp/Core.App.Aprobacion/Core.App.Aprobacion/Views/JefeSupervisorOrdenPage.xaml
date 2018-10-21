@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.JefeSupervisorOrdenPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Orden de trabajo">
+    <ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding AprobacionGerente}">
+            <ScrollView>
+                <StackLayout
+                    Padding="20">
+                    <Label
+                        FontSize="Large"
+                        FontAttributes="Bold"
+                        Text="{Binding Orden.Titulo}"
+                        HorizontalTextAlignment="Center"
+                        TextColor="Black">
+                    </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Fecha: "
+                            TextColor="Black"></Label>
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.Fecha, StringFormat='{0:dd/MM/yyyy}'}"
+                            TextColor="Black">
+                    </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Barco: "
+                            TextColor="Black">
+                    </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.NomCentroCosto}"
+                            TextColor="Black">
+                    </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Viaje: "
+                            TextColor="Black">
+                    </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.NomViaje}"
+                            TextColor="Black">
+                    </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Proveedor: "
+                            TextColor="Black">
+                    </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.NombreProveedor}"
+                            TextColor="Black">
+                    </Label>
+
+
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Solicitante: "
+                            TextColor="Black"></Label>
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.NombreSolicitante}"
+                            TextColor="Black">
+                    </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Comentario: "
+                            TextColor="Black"></Label>
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.Comentario}"
+                            TextColor="Black">
+                    </Label>
+                    <StackLayout
+                        Orientation="Horizontal">
+                        <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Detalle: "
+                            TextColor="Black">
+                        </Label>
+                        <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Chatarra "
+                            HorizontalOptions="EndAndExpand"
+                            TextColor="Black"
+                            IsVisible="{Binding EsChatarraVisible, Mode=TwoWay}">
+                        </Label>
+                    </StackLayout>
+
+                    <ListView
+                            SeparatorVisibility="None"
+                            ItemsSource="{Binding Orden.lst}"                        
+                            HasUnevenRows="True"
+                            HeightRequest="{Binding Height}"
+                            IsVisible="{Binding NoEsChatarraVisible, Mode=TwoWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout
+                                        Orientation="Horizontal">
+                                        <Label
+                                            Text="{Binding Detalle}"
+                                            TextColor="Black"
+                                            HorizontalOptions="StartAndExpand">
+                                        </Label>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <StackLayout 
+                        Orientation="Horizontal">
+                        <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Total: "
+                            TextColor="Black"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Medium"
+                            Text="{Binding Orden.ValorOrden, StringFormat='{0:N2}'}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                    </StackLayout>
+                    <ActivityIndicator
+                            IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                            VerticalOptions="CenterAndExpand">
+                    </ActivityIndicator>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Observación: "
+                            TextColor="Black"></Label>
+                    <Entry
+                            FontSize="Medium"
+                            Text="{Binding Orden.Observacion}"
+                            TextColor="Black">
+                    </Entry>
+                    <StackLayout
+                        Orientation="Horizontal">
+                        <Button
+                            BackgroundColor="CornflowerBlue"
+                            TextColor="White"
+                            Command="{Binding AprobarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Aprobar"
+                            HorizontalOptions="FillAndExpand">
+                        </Button>
+                        <Button
+                            BackgroundColor="Red"
+                            TextColor="White"
+                            Command="{Binding ReprobarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Anular"
+                            HorizontalOptions="FillAndExpand">
+                        </Button>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

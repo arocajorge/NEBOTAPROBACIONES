@@ -20,6 +20,7 @@ namespace Core.App.Aprobacion.ViewModels
         public JefeSupervisorOrdenesViewModel JefeSupervisorOrdenes { get; set; }
         public ObservableCollection<JefeSupervisorMenuItemViewModel> Menus { get; set; }
         public JefeSupervisorBitacorasViewModel JefeSupervisorBitacoras { get; set; }
+        public JefeSupervisorOrdenViewModel JefeSupervisorOrden { get; set; }
         #endregion
 
         #region Constructor

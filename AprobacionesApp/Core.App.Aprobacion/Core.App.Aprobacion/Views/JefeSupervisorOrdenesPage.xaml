@@ -1,12 +1,97 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Core.App.Aprobacion.Views.JefeSupervisorOrdenesPage">
+             x:Class="Core.App.Aprobacion.Views.JefeSupervisorOrdenesPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Ordenes de trabajo">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout
+            BindingContext="{Binding JefeSupervisorOrdenes}"
+            Padding="5">
+            <ListView                 
+                HasUnevenRows="True"
+                IsRefreshing="{Binding IsRefreshing,Mode=TwoWay}"
+                ItemsSource="{Binding LstOrdenes}"
+                SeparatorVisibility="Default">
+                
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout
+                                    Grid.Column="0"
+                                    VerticalOptions="Center">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="Small"
+                                                Text="{Binding NumeroOrden, StringFormat='OT No.{0}'}"
+                                                TextColor="Black">
+                                            </Label>
+                                            <Label
+                                                HorizontalOptions="EndAndExpand"
+                                                Text="{Binding Fecha, StringFormat='{0:dd/MM/yyyy}'}"
+                                                FontAttributes="None"
+                                                TextColor="Black">
+                                            </Label>
+                                        </StackLayout>
+                                    <StackLayout
+                                        Orientation="Horizontal">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="Small"
+                                            Text="Proveedor:"
+                                            TextColor="Black">
+                                        </Label>
+                                        <Label
+                                            FontAttributes="None"
+                                            FontSize="Small"
+                                            HorizontalOptions="EndAndExpand"
+                                            Text="{Binding NombreProveedor}"
+                                            TextColor="Black">
+                                        </Label>
+                                    </StackLayout>
+                                    <StackLayout 
+                                        Orientation="Horizontal">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="Small"
+                                            Text="Solicitante:"
+                                            TextColor="Black">
+                                        </Label>
+                                        <Label
+                                            FontAttributes="None"
+                                            FontSize="Small"
+                                            HorizontalOptions="EndAndExpand"
+                                            Text="{Binding NombreSolicitante}"
+                                            TextColor="Black">
+                                        </Label>
+                                    </StackLayout>                                        
+                                        <Label
+                                            FontAttributes="None"
+                                            FontSize="Small"
+                                            Text="{Binding Comentario}"
+                                            TextColor="Black">
+                                        </Label>
+                                </StackLayout>
+                                    <Image
+                                        Grid.Column="1"
+                                        HorizontalOptions="End"
+                                        Source="ic_arrow_forward_ios">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SelectOrdenCommand}"></TapGestureRecognizer>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

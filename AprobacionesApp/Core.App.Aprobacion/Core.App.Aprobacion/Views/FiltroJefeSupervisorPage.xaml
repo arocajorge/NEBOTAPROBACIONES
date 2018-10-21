@@ -64,12 +64,22 @@
                         SelectedIndex="{Binding BodegaSelectedIndex, Mode=TwoWay}"
                         Title="Seleccione la bodega">
                 </Picker>
+                <Label      
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        Text="Estado jefe">
+                </Label>
                 <Picker
                         ItemsSource="{Binding ListaEstadoJefe}"
                         ItemDisplayBinding="{Binding Descripcion}"
                         SelectedIndex="{Binding EstadoJefeSelectedIndex, Mode=TwoWay}"
                         Title="Seleccione el estado">
                 </Picker>
+                <Label      
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        Text="Estado Supervisor">
+                </Label>
                 <Picker
                         ItemsSource="{Binding ListaEstadoSupervisor}"
                         ItemDisplayBinding="{Binding Descripcion}"
