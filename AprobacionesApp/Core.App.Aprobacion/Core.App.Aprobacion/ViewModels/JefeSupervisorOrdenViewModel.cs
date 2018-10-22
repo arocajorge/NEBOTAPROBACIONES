@@ -157,7 +157,7 @@ namespace Core.App.Aprobacion.ViewModels
                         EsJefe = false;
                         EsSupervisor = true;
                         Color = Orden.EstadoSupervisor == "A" ? "Black" : (Orden.EstadoSupervisor == "P" ? "Green" : (Orden.EstadoSupervisor == "X" ? "Red" : "Black"));
-                        Color = Orden.EstadoSupervisor == "A" ? "Pendiente" : (Orden.EstadoSupervisor == "P" ? "Aprobada" : (Orden.EstadoSupervisor == "X" ? "Anulada" : "Pendiente"));
+                        Orden.EstadoSupervisor = Orden.EstadoSupervisor == "A" ? "Pendiente" : (Orden.EstadoSupervisor == "P" ? "Aprobada" : (Orden.EstadoSupervisor == "X" ? "Anulada" : "Pendiente"));
                         MostrarAnular = Orden.EstadoSupervisor == "Anulada" ? false : true;
                     }
 

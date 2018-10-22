@@ -59,7 +59,7 @@
                                     <Image
                                         Grid.Column="1"
                                         HorizontalOptions="End"
-                                        Source="ic_keyboard_arrow_right">
+                                        Source="{Binding Imagen}">
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding SelectBitacoraCommand}"></TapGestureRecognizer>
                                         </Image.GestureRecognizers>

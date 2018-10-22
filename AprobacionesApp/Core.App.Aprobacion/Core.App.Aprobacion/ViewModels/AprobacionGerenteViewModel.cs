@@ -133,7 +133,7 @@
                         Settings.UrlConexionActual = UrlDistinto;
                 }
 
-                var response_cs = await apiService.GetObject<OrdenModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "OrdenTrabajo", "");
+                var response_cs = await apiService.GetObject<OrdenModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "OrdenTrabajo", "CINV_LOGIN="+Settings.IdUsuario);
                 if (!response_cs.IsSuccess)
                 {
                     this.IsEnabled = true;

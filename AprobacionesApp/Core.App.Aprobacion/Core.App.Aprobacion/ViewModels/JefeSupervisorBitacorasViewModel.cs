@@ -131,6 +131,12 @@ namespace Core.App.Aprobacion.ViewModels
                            "No existen resultados para los filtros seleccionados ", //+ parameters,
                            "Aceptar");
                 }
+                if (Settings.RolApro == "J")
+                {
+                    _lstBitacora.ForEach(q => q.Imagen = q.PendienteJefe == true ? "ic_assignment_turned_in" : "ic_access_time");
+                }else
+                    _lstBitacora.ForEach(q => q.Imagen = q.PendienteSupervisor == true ? "ic_assignment_turned_in" : "ic_access_time");
+
                 _lstBitacora = _lstBitacora.OrderBy(q => q.Linea).ToList();
                 this.LstBitacoras = new ObservableCollection<BitacoraItemViewModel>(ToBitacoraItemModel());
                 IsRefreshing = false;
@@ -166,7 +172,7 @@ namespace Core.App.Aprobacion.ViewModels
                     this.LstBitacoras = new ObservableCollection<BitacoraItemViewModel>(ToBitacoraItemModel());
                 else
                     this.LstBitacoras = new ObservableCollection<BitacoraItemViewModel>(
-                        ToBitacoraItemModel().Where(q => q.Contratista.ToLower().Contains(filter.ToLower()) || q.Descripcion.ToLower().Contains(filter.ToLower())
+                        ToBitacoraItemModel().Where(q => q.Contratista.ToLower().Contains(filter.ToLower()) || q.Linea.ToString().Contains(filter.ToLower()) || q.Descripcion.ToLower().Contains(filter.ToLower())
                         ).OrderBy(q => q.Linea));
                 IsRefreshing = false;
             }

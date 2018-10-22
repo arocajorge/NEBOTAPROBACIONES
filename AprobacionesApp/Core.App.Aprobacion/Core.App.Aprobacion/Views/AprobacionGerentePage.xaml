@@ -223,7 +223,7 @@
                         </Button>
                     </StackLayout>
                     <Button
-                            BackgroundColor="Default"
+                            BackgroundColor="Gray"
                             TextColor="Black"
                             Command="{Binding PasarCommand}"
                             IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
