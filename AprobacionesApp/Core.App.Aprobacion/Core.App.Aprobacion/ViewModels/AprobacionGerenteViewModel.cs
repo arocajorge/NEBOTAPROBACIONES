@@ -89,6 +89,25 @@
                 NoEsChatarraVisible = true;
                 EsChatarraVisible = false;
             }
+            MostrarAnular = true;
+            if (Orden.Estado.Trim().ToUpper() == "X")
+            {
+                Color = "Red";
+                MostrarAnular = false;
+                Estado = "Anulada";
+            }
+            else
+                if (Orden.Estado.Trim().ToUpper() == "A")
+            {
+                Color = "Black";
+                Estado = "Pendiente";
+            }
+            else
+            if (Orden.Estado.Trim().ToUpper() == "P")
+            {
+                Color = "Green";
+                Estado = "Aprobada";
+            }
 
             Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
         }
