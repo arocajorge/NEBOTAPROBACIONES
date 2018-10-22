@@ -20,6 +20,7 @@
         private bool _NoEsChatarraVisible;
         private string _color;
         private bool _mostrarAnular;
+        private string _estado;
         #endregion
 
         #region Propiedades
@@ -62,6 +63,11 @@
         {
             get { return this._Height; }
             set { SetValue(ref this._Height, value); }
+        }
+        public string Estado
+        {
+            get { return this._estado; }
+            set { SetValue(ref this._estado, value); }
         }
         #endregion
 
@@ -172,25 +178,24 @@
                         NoEsChatarraVisible = true;
                         EsChatarraVisible = false;
                     }
+
                     MostrarAnular = true;
-                    if (Orden.Estado == "X")
+                    if (Orden.Estado.Trim().ToUpper() == "X")
                     {
                         Color = "Red";
                         MostrarAnular = false;
-                        Orden.Estado = "Anulada";
+                        Estado = "Anulada";
                     }else
-                        if (Orden.Estado == "A")
+                        if (Orden.Estado.Trim().ToUpper() == "A")
                     {
                         Color = "Black";
-                        Orden.Estado = "Pendiente";
+                        Estado = "Pendiente";
                     }else
-                    if (Orden.Estado == "P")
+                    if (Orden.Estado.Trim().ToUpper() == "P")
                     {
                         Color = "Green";
-                        Orden.Estado = "Aprobada";
+                       Estado = "Aprobada";
                     }
-
-
                     Orden.Titulo = TipoDocumento + " No. " + Orden.NumeroOrden;
                     Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
 

@@ -26,7 +26,7 @@
                     <Label
                         FontSize="Large"
                         FontAttributes="Bold"
-                        Text="{Binding Orden.Estado}"
+                        Text="{Binding Estado}"
                         HorizontalTextAlignment="Center"
                         TextColor="{Binding Color}">
                     </Label>
