@@ -8,18 +8,28 @@
         <StackLayout
             BindingContext="{Binding JefeSupervisorOrdenes}"
             Padding="5">
-            <ListView                 
+            <SearchBar
+                SearchCommand="{Binding BuscarCommand}"
+                Text="{Binding filter, Mode=TwoWay}"
+                Placeholder="Buscar..."
+                HeightRequest="50">
+            </SearchBar>
+            <ListView          
+                BackgroundColor="Silver"
                 HasUnevenRows="True"
+                RefreshCommand="{Binding RefreshCommand}"
                 IsRefreshing="{Binding IsRefreshing,Mode=TwoWay}"
                 ItemsSource="{Binding LstOrdenes}"
-                SeparatorVisibility="Default">
-                
+                SeparatorVisibility="Default">                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
+                            <Frame                                
+                                HasShadow="True"
+                                CornerRadius="20"
+                                Margin="5">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
@@ -29,8 +39,7 @@
                                         <StackLayout Orientation="Horizontal">
                                             <Label
                                                 FontAttributes="Bold"
-                                                FontSize="Small"
-                                                Text="{Binding NumeroOrden, StringFormat='OT No.{0}'}"
+                                                Text="{Binding NumeroOrden, StringFormat='No.{0}'}"
                                                 TextColor="Black">
                                             </Label>
                                             <Label
@@ -40,41 +49,20 @@
                                                 TextColor="Black">
                                             </Label>
                                         </StackLayout>
-                                    <StackLayout
-                                        Orientation="Horizontal">
-                                        <Label
-                                            FontAttributes="Bold"
-                                            FontSize="Small"
-                                            Text="Proveedor:"
-                                            TextColor="Black">
-                                        </Label>
                                         <Label
                                             FontAttributes="None"
-                                            FontSize="Small"
-                                            HorizontalOptions="EndAndExpand"
+                                            HorizontalOptions="StartAndExpand"
                                             Text="{Binding NombreProveedor}"
                                             TextColor="Black">
                                         </Label>
-                                    </StackLayout>
-                                    <StackLayout 
-                                        Orientation="Horizontal">
-                                        <Label
-                                            FontAttributes="Bold"
-                                            FontSize="Small"
-                                            Text="Solicitante:"
-                                            TextColor="Black">
-                                        </Label>
                                         <Label
                                             FontAttributes="None"
-                                            FontSize="Small"
-                                            HorizontalOptions="EndAndExpand"
+                                            HorizontalOptions="StartAndExpand"
                                             Text="{Binding NombreSolicitante}"
                                             TextColor="Black">
-                                        </Label>
-                                    </StackLayout>                                        
+                                        </Label>                                     
                                         <Label
                                             FontAttributes="None"
-                                            FontSize="Small"
                                             Text="{Binding Comentario}"
                                             TextColor="Black">
                                         </Label>
@@ -82,12 +70,13 @@
                                     <Image
                                         Grid.Column="1"
                                         HorizontalOptions="End"
-                                        Source="ic_arrow_forward_ios">
+                                        Source="{Binding Imagen}">
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding SelectOrdenCommand}"></TapGestureRecognizer>
                                         </Image.GestureRecognizers>
                                     </Image>
                                 </Grid>
+                            </Frame>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

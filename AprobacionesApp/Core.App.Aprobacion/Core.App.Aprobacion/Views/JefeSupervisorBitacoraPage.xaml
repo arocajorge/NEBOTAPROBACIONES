@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.JefeSupervisorBitacoraPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Bitácora">
+    <ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding JefeSupervisorBitacora}">
+            <ScrollView>
+                <StackLayout
+                    Padding="20">
+                    <Label
+                        FontSize="Large"
+                        FontAttributes="Bold"
+                        Text="{Binding Bitacora.Linea, StringFormat= 'Linea No. {0}'}"
+                        HorizontalTextAlignment="Center"
+                        TextColor="Black">
+                    </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Fecha: "
+                            TextColor="Black"></Label>
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Bitacora.Contratista, StringFormat='{0:dd/MM/yyyy}'}"
+                            TextColor="Black">
+                    </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Comentario: "
+                            TextColor="Black"></Label>
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Bitacora.Comentario}"
+                            TextColor="Black">
+                    </Label>
+
+                    <StackLayout
+                        Orientation="Horizontal">
+                        <Entry
+                            HorizontalOptions="StartAndExpand"
+                            Text="{Binding NumeroOrden}"
+                            Keyboard="Numeric">                            
+                        </Entry>
+                    </StackLayout>
+                    
+                        <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Detalle: "
+                            TextColor="Black">
+                        </Label>
+                    
+
+                    <ListView
+                            SeparatorVisibility="Default"
+                            ItemsSource="{Binding Bitacora.lst}"                        
+                            HasUnevenRows="True"
+                            HeightRequest="{Binding Height}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout>
+                                        <StackLayout 
+                                            Orientation="Horizontal">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="{Binding CinvNum, StringFormat='OT No.{0}'}"
+                                                TextColor="Black"
+                                                HorizontalOptions="Start">
+                                            </Label>
+                                            <Label
+                                                Text="{Binding Valor, StringFormat='{0:N2}'}"
+                                                TextColor="Black"
+                                                HorizontalOptions="EndAndExpand">
+                                            </Label>
+                                        </StackLayout>
+                                        <Label
+                                            Text="{Binding NomProveedor}"
+                                            TextColor="Black"
+                                            HorizontalOptions="StartAndExpand">
+                                        </Label>
+                                        <Label
+                                            Text="{Binding Comentario}"
+                                            TextColor="Black"
+                                            HorizontalOptions="StartAndExpand">
+                                        </Label>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>                   
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

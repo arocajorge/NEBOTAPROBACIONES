@@ -30,13 +30,12 @@
         public string NomViaje { get; set; }
         [JsonProperty("CINV_COM1")]
         public string Comentario { get; set; }
-
-
         [JsonProperty("CINV_STCUMPLI1")]
         public string EstadoJefe { get; set; }
         [JsonProperty("CINV_STCUMPLI2")]
         public string EstadoSupervisor { get; set; }
 
+        public string Imagen { get; set; }
         public string Titulo { get; set; }
         public List<OrdenDetalleModel> lst { get; set; }
     }

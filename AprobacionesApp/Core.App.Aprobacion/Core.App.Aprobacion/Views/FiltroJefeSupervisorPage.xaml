@@ -18,7 +18,6 @@
                     Date="{Binding FechaInicio, Mode=TwoWay}">
                     <DatePicker.Format>dd/MM/yyyy</DatePicker.Format>
                 </DatePicker>
-
                 <Label      
                     TextColor="Black"
                     FontAttributes="Bold"
@@ -28,63 +27,62 @@
                     Date="{Binding FechaFin, Mode=TwoWay}">
                     <DatePicker.Format>dd/MM/yyyy</DatePicker.Format>
                 </DatePicker>
-
                 <Label      
-                        TextColor="Black"
-                        FontAttributes="Bold"
-                        Text="Barco">
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    Text="Barco">
                 </Label>
                 <Picker
-                        ItemsSource="{Binding ListaSucursal}"
-                        ItemDisplayBinding="{Binding Descripcion}"
-                        SelectedIndex="{Binding SucursalSelectedIndex, Mode=TwoWay}"
-                        Title="Seleccione el barco">
+                    ItemsSource="{Binding ListaSucursal}"
+                    ItemDisplayBinding="{Binding Descripcion}"
+                    SelectedIndex="{Binding SucursalSelectedIndex, Mode=TwoWay}"
+                    Title="Seleccione la sucursal">
                 </Picker>
 
                 <Label      
-                        TextColor="Black"
-                        FontAttributes="Bold"
-                        Text="Viaje">
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    Text="Viaje">
                 </Label>
                 <Picker
-                        ItemsSource="{Binding ListaViaje}"
-                        ItemDisplayBinding="{Binding Descripcion}"
-                        SelectedIndex="{Binding ViajeSelectedIndex, Mode=TwoWay}"
-                        Title="Seleccione el barco">
+                    ItemsSource="{Binding ListaViaje}"
+                    ItemDisplayBinding="{Binding Descripcion}"
+                    SelectedIndex="{Binding ViajeSelectedIndex, Mode=TwoWay}"
+                    Title="Seleccione el viaje">
                 </Picker>
 
                 <Label      
-                        TextColor="Black"
-                        FontAttributes="Bold"
-                        Text="Bodega">
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    Text="Bodega">
                 </Label>
                 <Picker
-                        ItemsSource="{Binding ListaBodega}"
-                        ItemDisplayBinding="{Binding Descripcion}"
-                        SelectedIndex="{Binding BodegaSelectedIndex, Mode=TwoWay}"
-                        Title="Seleccione la bodega">
+                    ItemsSource="{Binding ListaBodega}"
+                    ItemDisplayBinding="{Binding Descripcion}"
+                    SelectedIndex="{Binding BodegaSelectedIndex, Mode=TwoWay}"
+                    Title="Seleccione la bodega">
                 </Picker>
                 <Label      
-                        TextColor="Black"
-                        FontAttributes="Bold"
-                        Text="Estado jefe">
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    Text="Estado jefe">
                 </Label>
                 <Picker
-                        ItemsSource="{Binding ListaEstadoJefe}"
-                        ItemDisplayBinding="{Binding Descripcion}"
-                        SelectedIndex="{Binding EstadoJefeSelectedIndex, Mode=TwoWay}"
-                        Title="Seleccione el estado">
+                    ItemsSource="{Binding ListaEstadoJefe}"
+                    ItemDisplayBinding="{Binding Descripcion}"
+                    SelectedIndex="{Binding EstadoJefeSelectedIndex, Mode=TwoWay}"
+                    Title="Seleccione el estado">
                 </Picker>
                 <Label      
-                        TextColor="Black"
-                        FontAttributes="Bold"
-                        Text="Estado Supervisor">
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    Text="Estado supervisor">
                 </Label>
                 <Picker
-                        ItemsSource="{Binding ListaEstadoSupervisor}"
-                        ItemDisplayBinding="{Binding Descripcion}"
-                        SelectedIndex="{Binding EstadoSupervisorSelectedIndex, Mode=TwoWay}"
-                        Title="Seleccione el estado">
+                    ItemsSource="{Binding ListaEstadoSupervisor}"
+                    ItemDisplayBinding="{Binding Descripcion}"
+                    SelectedIndex="{Binding EstadoSupervisorSelectedIndex, Mode=TwoWay}"
+                    Title="Seleccione el estado">
                 </Picker>
 
                 <Label

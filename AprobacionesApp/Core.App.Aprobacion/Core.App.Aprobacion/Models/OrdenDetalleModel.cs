@@ -30,5 +30,7 @@
         public bool EsChatarra { get; set; }
         [JsonProperty("DINV_CANT")]
         public double Cantidad { get; set; }
+
+        
     }
 }

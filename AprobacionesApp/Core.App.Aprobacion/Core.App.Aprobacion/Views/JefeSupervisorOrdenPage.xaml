@@ -6,7 +6,7 @@
              Title="Orden de trabajo">
     <ContentPage.Content>
         <StackLayout
-            BindingContext="{Binding AprobacionGerente}">
+            BindingContext="{Binding JefeSupervisorOrden}">
             <ScrollView>
                 <StackLayout
                     Padding="20">
@@ -17,6 +17,25 @@
                         HorizontalTextAlignment="Center"
                         TextColor="Black">
                     </Label>
+
+                    <Label
+                        FontSize="Large"
+                        FontAttributes="Bold"
+                        Text="{Binding Orden.EstadoJefe}"
+                        HorizontalTextAlignment="Center"
+                        IsVisible="{Binding EsJefe}"
+                        TextColor="{Binding Color}">
+                    </Label>
+
+                    <Label
+                        FontSize="Large"
+                        FontAttributes="Bold"
+                        Text="{Binding Orden.EstadoSupervisor}"
+                        HorizontalTextAlignment="Center"
+                        IsVisible="{Binding EsSupervisor}"
+                        TextColor="{Binding Color}">
+                    </Label>
+
                     <Label
                             FontSize="Medium"
                             FontAttributes="Bold"
@@ -94,14 +113,6 @@
                             Text="Detalle: "
                             TextColor="Black">
                         </Label>
-                        <Label
-                            FontSize="Medium"
-                            FontAttributes="Bold"
-                            Text="Chatarra "
-                            HorizontalOptions="EndAndExpand"
-                            TextColor="Black"
-                            IsVisible="{Binding EsChatarraVisible, Mode=TwoWay}">
-                        </Label>
                     </StackLayout>
 
                     <ListView
@@ -172,6 +183,7 @@
                             Command="{Binding ReprobarCommand}"
                             IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                             Text="Anular"
+                            IsVisible="{Binding MostrarAnular}"
                             HorizontalOptions="FillAndExpand">
                         </Button>
                     </StackLayout>

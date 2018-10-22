@@ -79,8 +79,9 @@ namespace Core.App.Aprobacion.ViewModels
                 SetValue(ref this._ListaSucursal, value);
                 if (SetSettings)
                 {
-                    SelectedSucursal = _ListaSucursal.Where(q => q.Codigo == Settings.Sucursal).FirstOrDefault();
-                    SucursalSelectedIndex = _ListaSucursal.IndexOf(SelectedSucursal == null ? new CatalogoModel() : SelectedSucursal);
+                    SelectedSucursal = ListaSucursal.Where(q => q.Codigo == Settings.Sucursal).FirstOrDefault();
+                    if (SelectedSucursal != null)
+                        SucursalSelectedIndex = _ListaSucursal.IndexOf(SelectedSucursal);
                 }
             }
         }
@@ -95,18 +96,20 @@ namespace Core.App.Aprobacion.ViewModels
             set
             {
                 SetValue(ref this._SucursalSelectedIndex, value);
-                _SelectedSucursal = _SucursalSelectedIndex < 0 ? new CatalogoModel() : ListaSucursal[_SucursalSelectedIndex];
+                SelectedSucursal = _SucursalSelectedIndex < 0 ? new CatalogoModel() : ListaSucursal[_SucursalSelectedIndex];
             }
         }
 
         public ObservableCollection<CatalogoModel> ListaViaje
         {
             get { return this._ListaViaje; }
-            set { SetValue(ref this._ListaViaje, value);
-                if (SetSettings)
+            set {
+                SetValue(ref this._ListaViaje, value);
+                if(SetSettings)
                 {
-                    SelectedViaje = _ListaViaje.Where(q => q.Codigo == Settings.Viaje).FirstOrDefault();
-                    ViajeSelectedIndex = _ListaViaje.IndexOf(SelectedViaje == null ? new CatalogoModel() : SelectedViaje);
+                    SelectedViaje = ListaViaje.Where(q => q.Codigo == Settings.Viaje).FirstOrDefault();
+                    if (SelectedViaje != null)
+                        ViajeSelectedIndex = _ListaViaje.IndexOf(SelectedViaje);
                 }
             }
         }
@@ -128,11 +131,13 @@ namespace Core.App.Aprobacion.ViewModels
         public ObservableCollection<CatalogoModel> ListaBodega
         {
             get { return this._ListaBodega; }
-            set { SetValue(ref this._ListaBodega, value);
+            set {
+                SetValue(ref this._ListaBodega, value);
                 if (SetSettings)
                 {
-                    SelectedBodega = _ListaBodega.Where(q => q.Codigo == Settings.Bodega).FirstOrDefault();
-                    BodegaSelectedIndex = _ListaBodega.IndexOf(SelectedBodega == null ? new CatalogoModel() : SelectedBodega);
+                    SelectedBodega = ListaBodega.Where(q => q.Codigo == Settings.Bodega).FirstOrDefault();
+                    if (SelectedBodega != null)
+                        BodegaSelectedIndex = ListaBodega.IndexOf(SelectedBodega);
                 }
             }
         }
@@ -147,7 +152,7 @@ namespace Core.App.Aprobacion.ViewModels
             set
             {
                 SetValue(ref this._BodegaSelectedIndex, value);
-                SelectedBodega = _BodegaSelectedIndex < 0 ? new CatalogoModel() : ListaViaje[_BodegaSelectedIndex];
+                SelectedBodega = _BodegaSelectedIndex < 0 ? new CatalogoModel() : ListaBodega[_BodegaSelectedIndex];
             }
         }
 
@@ -159,8 +164,9 @@ namespace Core.App.Aprobacion.ViewModels
                 SetValue(ref this._ListaEstadoJefe, value);
                 if (SetSettings)
                 {
-                    SelectedEstadoJefe = _ListaEstadoJefe.Where(q => q.Codigo == Settings.EstadoJefe).FirstOrDefault();
-                    EstadoJefeSelectedIndex = _ListaEstadoJefe.IndexOf(SelectedEstadoJefe == null ? new CatalogoModel() : SelectedEstadoJefe);
+                    SelectedEstadoJefe = ListaEstadoJefe.Where(q => q.Codigo == Settings.EstadoJefe).FirstOrDefault();
+                    if (SelectedEstadoJefe != null)
+                        EstadoJefeSelectedIndex = ListaEstadoJefe.IndexOf(SelectedEstadoJefe);
                 }
             }
         }
@@ -175,7 +181,7 @@ namespace Core.App.Aprobacion.ViewModels
             set
             {
                 SetValue(ref this._EstadoJefeSelectedIndex, value);
-                SelectedEstadoSupervisor = _EstadoJefeSelectedIndex < 0 ? new CatalogoModel() : ListaViaje[_EstadoJefeSelectedIndex];
+                SelectedEstadoJefe = _EstadoJefeSelectedIndex < 0 ? new CatalogoModel() : ListaEstadoJefe[_EstadoJefeSelectedIndex];
             }
         }
 
@@ -188,7 +194,8 @@ namespace Core.App.Aprobacion.ViewModels
                 if (SetSettings)
                 {
                     SelectedEstadoSupervisor = _ListaEstadoSupervisor.Where(q => q.Codigo == Settings.EstadoSupervisor).FirstOrDefault();
-                    EstadoSupervisorSelectedIndex = _ListaEstadoSupervisor.IndexOf(SelectedEstadoSupervisor == null ? new CatalogoModel() : SelectedEstadoSupervisor);
+                    if (SelectedEstadoSupervisor != null)
+                        EstadoSupervisorSelectedIndex = ListaEstadoSupervisor.IndexOf(SelectedEstadoSupervisor);
                 }
             }
         }
@@ -203,7 +210,7 @@ namespace Core.App.Aprobacion.ViewModels
             set
             {
                 SetValue(ref this._EstadoSupervisorSelectedIndex, value);
-                SelectedEstadoSupervisor = _EstadoSupervisorSelectedIndex < 0 ? new CatalogoModel() : ListaViaje[_EstadoSupervisorSelectedIndex];
+                SelectedEstadoSupervisor = _EstadoSupervisorSelectedIndex < 0 ? new CatalogoModel() : ListaEstadoSupervisor[_EstadoSupervisorSelectedIndex];
             }
         }
         #endregion
@@ -216,22 +223,16 @@ namespace Core.App.Aprobacion.ViewModels
             SelectedSucursal = new CatalogoModel();
             SelectedViaje = new CatalogoModel();
             SelectedBodega = new CatalogoModel();
-            FechaInicio = DateTime.Now.Date.AddMonths(-2);
+            SelectedEstadoJefe = new CatalogoModel();
+            SelectedEstadoSupervisor = new CatalogoModel();
+            FechaInicio = string.IsNullOrEmpty(Settings.FechaInicio) ? DateTime.Now.Date.AddMonths(-2) : Convert.ToDateTime(Settings.FechaInicio);
             FechaFin = DateTime.Now.Date;
-            switch (ROL_APRO)
-            {
-                case "J":
-                    Settings.EstadoJefe = "A";
-                    Settings.EstadoSupervisor = "";
-                    break;
-                case "S":
-                    Settings.EstadoJefe = "";
-                    Settings.EstadoSupervisor = "A";
-                    break;
-            }
-            SetSettings = true;
+            Settings.RolApro = ROL_APRO;
+
+          if(!string.IsNullOrEmpty(Settings.FechaInicio))
+                SetSettings = true;
             CargarCombos();
-            SetSettings = false;            
+            SetSettings = false;
         }
         #endregion
 
@@ -285,80 +286,54 @@ namespace Core.App.Aprobacion.ViewModels
                 }
 
                 var ListaCatalogos = (List<CatalogoModel>)response_cs.Result;
+                ListaCatalogos.Add(new CatalogoModel { Codigo = "", Descripcion = "Todo", Tipo = "Sucursal" });
+                ListaCatalogos.Add(new CatalogoModel { Codigo = "", Descripcion = "Todo", Tipo = "Bodega" });
+                ListaCatalogos.Add(new CatalogoModel { Codigo = "", Descripcion = "Todo", Tipo = "Viaje" });
+                List<CatalogoModel> _lstJefe = new List<CatalogoModel>();
+                _lstJefe.Add(new CatalogoModel
+                {
+                    Codigo = "A",
+                    Descripcion = "Pendiente",
+                });
+                _lstJefe.Add(new CatalogoModel
+                {
+                    Codigo = "X",
+                    Descripcion = "Anulado",
+                });
+                _lstJefe.Add(new CatalogoModel
+                {
+                    Codigo = "P",
+                    Descripcion = "Aprobado",
+                });
+                _lstJefe.Add(new CatalogoModel
+                {
+                    Codigo = "",
+                    Descripcion = "Todo"
+                });
+
+                ListaSucursal = new ObservableCollection<CatalogoModel>(ListaCatalogos.Where(q => q.Tipo == "Sucursal").Select(q=>new CatalogoModel { Codigo = q.Codigo, Descripcion = q.Descripcion}).OrderBy(q => q.Descripcion).ToList());                
+
+                ListaBodega = new ObservableCollection<CatalogoModel>(ListaCatalogos.Where(q => q.Tipo == "Bodega").Select(q => new CatalogoModel { Codigo = q.Codigo, Descripcion = q.Descripcion }).OrderBy(q => q.Descripcion).ToList());                
+
+                ListaViaje = new ObservableCollection<CatalogoModel>(ListaCatalogos.Where(q => q.Tipo == "Viaje").Select(q => new CatalogoModel { Codigo = q.Codigo, Descripcion = q.Descripcion }).OrderBy(q => q.Descripcion).ToList());                
+
+                ListaEstadoJefe = new ObservableCollection<CatalogoModel>(_lstJefe);                
                 
-                ListaSucursal = new ObservableCollection<CatalogoModel>(ListaCatalogos.Where(q => q.Tipo == "Sucursal").OrderBy(q => q.Descripcion).ToList());
-                ListaSucursal.Add(new CatalogoModel
-                {
-                    Tipo = "Sucursal",
-                    Codigo = "",
-                    Descripcion = "TODO",
-                });
-                ListaBodega = new ObservableCollection<CatalogoModel>(ListaCatalogos.Where(q => q.Tipo == "Bodega").OrderBy(q => q.Descripcion).ToList());
-                ListaBodega.Add(new CatalogoModel
-                {
-                    Tipo = "Bodega",
-                    Codigo = "",
-                    Descripcion = "TODO",
-                });
-                ListaViaje = new ObservableCollection<CatalogoModel>(ListaCatalogos.Where(q => q.Tipo == "Viaje").OrderBy(q => q.Descripcion).ToList());
-                ListaViaje.Add(new CatalogoModel
-                {
-                    Tipo = "Viaje",
-                    Codigo = "",
-                    Descripcion = "TODO",
-                });
+                ListaEstadoSupervisor = new ObservableCollection<CatalogoModel>(_lstJefe);
 
-                ListaEstadoJefe = new ObservableCollection<CatalogoModel>();
-                ListaEstadoJefe.Add(new CatalogoModel
+                if (string.IsNullOrEmpty(Settings.FechaInicio))
                 {
-                    Tipo = "EstadoJefe",
-                    Codigo = "",
-                    Descripcion = "Todo",
-                });
-                ListaEstadoJefe.Add(new CatalogoModel
-                {
-                    Tipo = "EstadoJefe",
-                    Codigo = "A",
-                    Descripcion = "Pendiente",
-                });
-                ListaEstadoJefe.Add(new CatalogoModel
-                {
-                    Tipo = "EstadoJefe",
-                    Codigo = "X",
-                    Descripcion = "Anulado",
-                });
-                ListaEstadoJefe.Add(new CatalogoModel
-                {
-                    Tipo = "EstadoJefe",
-                    Codigo = "P",
-                    Descripcion = "Aprobado",
-                });
-
-                ListaEstadoSupervisor = new ObservableCollection<CatalogoModel>();
-                ListaEstadoSupervisor.Add(new CatalogoModel
-                {
-                    Tipo = "EstadoSupervisor",
-                    Codigo = "",
-                    Descripcion = "Todo",
-                });
-                ListaEstadoSupervisor.Add(new CatalogoModel
-                {
-                    Tipo = "EstadoSupervisor",
-                    Codigo = "A",
-                    Descripcion = "Pendiente",
-                });
-                ListaEstadoSupervisor.Add(new CatalogoModel
-                {
-                    Tipo = "EstadoSupervisor",
-                    Codigo = "X",
-                    Descripcion = "Anulado",
-                });
-                ListaEstadoSupervisor.Add(new CatalogoModel
-                {
-                    Tipo = "EstadoSupervisor",
-                    Codigo = "P",
-                    Descripcion = "Aprobado",
-                });
+                    if (Settings.RolApro == "J")
+                    {
+                        EstadoJefeSelectedIndex = 0;
+                        EstadoSupervisorSelectedIndex = 3;
+                    }
+                    else
+                    {
+                        EstadoJefeSelectedIndex = 3;
+                        EstadoSupervisorSelectedIndex = 0;
+                    }
+                }
 
                 this.IsEnabled = true;
                 this.IsRunning = false;
@@ -398,8 +373,24 @@ namespace Core.App.Aprobacion.ViewModels
                 Settings.Sucursal = SelectedSucursal == null ? "" : SelectedSucursal.Codigo;
                 Settings.Bodega = SelectedBodega == null ? "" : SelectedBodega.Codigo;
                 Settings.Viaje = SelectedViaje == null ? "" : SelectedViaje.Codigo;
+                Settings.EstadoJefe = SelectedEstadoJefe == null ? "" : SelectedEstadoJefe.Codigo;
+                Settings.EstadoSupervisor = SelectedEstadoSupervisor == null ? "" : SelectedEstadoSupervisor.Codigo;
                 Settings.NumeroOrden = NumeroOrden;
-
+                /*
+                string mensaje = "FechaInicio="+Settings.FechaInicio;
+                mensaje += "&FechaFin=" + Settings.FechaFin;
+                mensaje += "&Sucursal=" + Settings.Sucursal;
+                mensaje += "&Bodega=" + Settings.Bodega;
+                mensaje += "&Viaje=" + Settings.Viaje;
+                mensaje += "&EstadoJefe=" + Settings.EstadoJefe;
+                mensaje += "&EstadoSupervisor=" + Settings.EstadoSupervisor;
+                mensaje += "&NumeroOrden=" + Settings.NumeroOrden;
+                
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    mensaje,
+                    "Aceptar");
+                    */
                 IsRunning = false;
                 IsEnabled = true;
 

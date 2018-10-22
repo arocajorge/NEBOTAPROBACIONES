@@ -285,6 +285,15 @@
     <BundleResource Include="Resources\ic_exit_to_app.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\ic_arrow_forward_ios.png" />
+    <BundleResource Include="Resources\ic_access_time.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_assignment_late.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_assignment_turned_in.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_keyboard_arrow_right.png" />
   </ItemGroup>
 </Project>

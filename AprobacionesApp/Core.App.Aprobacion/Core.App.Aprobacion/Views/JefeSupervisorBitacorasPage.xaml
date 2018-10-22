@@ -5,10 +5,71 @@
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Bitácoras">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Página en construcción"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout
+            BindingContext="{Binding JefeSupervisorBitacoras}"
+            Padding="5">
+            <SearchBar
+                SearchCommand="{Binding BuscarCommand}"
+                Text="{Binding filter, Mode=TwoWay}"
+                Placeholder="Buscar..."
+                HeightRequest="50">
+            </SearchBar>
+            <ListView          
+                BackgroundColor="Silver"
+                HasUnevenRows="True"
+                RefreshCommand="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsRefreshing,Mode=TwoWay}"
+                ItemsSource="{Binding LstBitacoras}"
+                SeparatorVisibility="Default">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame                                
+                                HasShadow="True"
+                                CornerRadius="20"
+                                Margin="5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout
+                                    Grid.Column="0"
+                                    VerticalOptions="Center">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="{Binding Linea, StringFormat='No.{0}'}"
+                                                TextColor="Black">
+                                            </Label>
+                                        </StackLayout>
+                                        <Label
+                                            FontAttributes="None"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="{Binding Contratista}"
+                                            TextColor="Black">
+                                        </Label>
+                                        <Label
+                                            FontAttributes="None"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="{Binding Descripcion}"
+                                            TextColor="Black">
+                                        </Label>
+                                    </StackLayout>
+                                    <Image
+                                        Grid.Column="1"
+                                        HorizontalOptions="End"
+                                        Source="ic_keyboard_arrow_right">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SelectBitacoraCommand}"></TapGestureRecognizer>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

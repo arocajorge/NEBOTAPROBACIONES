@@ -1,13 +1,11 @@
 ﻿using Core.App.Aprobacion.Helpers;
 using Core.App.Aprobacion.Models;
 using Core.App.Aprobacion.Services;
-using Core.App.Aprobacion.Views;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -21,8 +19,6 @@ namespace Core.App.Aprobacion.ViewModels
         private string _filter;
         private ApiService apiService;
         private bool _IsRefreshing;
-        private int size = 20;
-        private int Contador;
         #endregion
 
         #region Propiedades
@@ -62,9 +58,9 @@ namespace Core.App.Aprobacion.ViewModels
         #endregion
 
         #region Metodos
-        private IEnumerable<OrdenItemViewModel> ToOrdenItemModel(int page)
+        private IEnumerable<OrdenItemViewModel> ToOrdenItemModel()
         {
-            var temp = _lstOrden.Skip((page - 1) * size).Take(size).Select(l => new OrdenItemViewModel
+            var temp = _lstOrden.Select(l => new OrdenItemViewModel
             {
                 TipoDocumento = l.TipoDocumento,
                 NumeroOrden = l.NumeroOrden,
@@ -77,9 +73,9 @@ namespace Core.App.Aprobacion.ViewModels
                 NomViaje = l.NomViaje,
                 Comentario = l.Comentario,
                 EstadoJefe = l.EstadoJefe,
-                EstadoSupervisor = l.EstadoSupervisor
+                EstadoSupervisor = l.EstadoSupervisor,
+                Imagen = l.Imagen
             });
-            page++;
             return temp;
         }
 
@@ -88,6 +84,7 @@ namespace Core.App.Aprobacion.ViewModels
             IsRefreshing = true;
             try
             {
+                this.LstOrdenes = new ObservableCollection<OrdenItemViewModel>();
                 if (string.IsNullOrEmpty(Settings.UrlConexionActual))
                 {
                     this.IsRefreshing = false;
@@ -115,12 +112,19 @@ namespace Core.App.Aprobacion.ViewModels
                     else
                         Settings.UrlConexionActual = UrlDistinto;
                 }
-                string parameters = "FECHAINI=" + Settings.FechaInicio + "&FECHAFIN=" + Settings.FechaFin + "&USUARIO=" + Settings.IdUsuario;
+                string parameters ="USUARIO=" + Settings.IdUsuario;
+                if (!string.IsNullOrEmpty(Settings.Sucursal)) parameters += "&BARCO=" + Settings.Sucursal;
                 if (!string.IsNullOrEmpty(Settings.Bodega)) parameters += "&BODEGA=" + Settings.Bodega;
                 if (!string.IsNullOrEmpty(Settings.Viaje)) parameters += "&VIAJE=" + Settings.Viaje;
                 if (!string.IsNullOrEmpty(Settings.NumeroOrden)) parameters += "&CINV_NUM=" + Settings.NumeroOrden;
                 if (!string.IsNullOrEmpty(Settings.EstadoJefe)) parameters += "&ESTADOJEFE=" + Settings.EstadoJefe;
                 if (!string.IsNullOrEmpty(Settings.EstadoSupervisor)) parameters += "&ESTADOSUPERVISOR=" + Settings.EstadoSupervisor;
+                DateTime FechaIni = Convert.ToDateTime(Settings.FechaInicio);
+                DateTime FechaFin = Convert.ToDateTime(Settings.FechaFin);
+
+                parameters += "&DIAINI=" + FechaIni.Day + "&MESINI=" + FechaIni.Month + "&ANIOINI=" + FechaIni.Year;
+                parameters += "&DIAFIN=" + FechaFin.Day + "&MESFIN=" + FechaFin.Month + "&ANIOFIN=" + FechaFin.Year;
+
                 var response_cs = await apiService.GetList<OrdenModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "AprobacionJefeSup", parameters);
                 if (!response_cs.IsSuccess)
                 {
@@ -131,9 +135,26 @@ namespace Core.App.Aprobacion.ViewModels
                         "Aceptar");
                     return;
                 }
-
                 _lstOrden = (List<OrdenModel>)response_cs.Result;
-                this.LstOrdenes = new ObservableCollection<OrdenItemViewModel>(ToOrdenItemModel(0));
+                if (_lstOrden.Count == 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                           "Alerta",
+                           "No existen resultados para los filtros seleccionados ",//+parameters,
+                           "Aceptar");
+                }
+                _lstOrden.ForEach(l => l.Imagen = (Settings.RolApro == "J" ?
+                ((l.EstadoJefe == null || l.EstadoJefe.Trim().ToLower() == "pendiente") 
+                ? "ic_access_time.png" 
+                : (l.EstadoJefe.Trim().ToLower() == "aprobado" ? "ic_assignment_turned_in.png" : "ic_assignment_late.png")) :
+
+                ((l.EstadoSupervisor == null  || l.EstadoSupervisor.Trim().ToLower() == "pendiente") 
+                ? "ic_access_time.png" 
+                : (l.EstadoSupervisor.Trim().ToLower() == "aprobado" 
+                ? "ic_assignment_turned_in.png" : "ic_assignment_late.png"))));
+
+                this.LstOrdenes = new ObservableCollection<OrdenItemViewModel>(ToOrdenItemModel());
+                IsRefreshing = false;
             }
             catch (Exception ex)
             {
@@ -152,6 +173,10 @@ namespace Core.App.Aprobacion.ViewModels
         {
             get { return new RelayCommand(Buscar); }
         }
+        public ICommand RefreshCommand
+        {
+            get { return new RelayCommand(LoadLista); }
+        }
 
         private async void Buscar()
         {
@@ -159,10 +184,10 @@ namespace Core.App.Aprobacion.ViewModels
             try
             {
                 if (string.IsNullOrEmpty(filter))
-                    this.LstOrdenes = new ObservableCollection<OrdenItemViewModel>(ToOrdenItemModel(0));
+                    this.LstOrdenes = new ObservableCollection<OrdenItemViewModel>(ToOrdenItemModel());
                 else
                     this.LstOrdenes = new ObservableCollection<OrdenItemViewModel>(
-                        ToOrdenItemModel(0).Where(q => q.NumeroOrden.ToString().Contains(filter.ToLower())
+                        ToOrdenItemModel().Where(q => q.NumeroOrden.ToString().Contains(filter.ToLower())
                         || q.NombreProveedor.ToLower().Contains(filter.ToLower())
                         || q.NombreSolicitante.ToLower().Contains(filter.ToLower())
                         || q.Fecha.ToShortDateString().Contains(filter.ToLower())

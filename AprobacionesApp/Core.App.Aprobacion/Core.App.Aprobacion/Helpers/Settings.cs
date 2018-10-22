@@ -25,6 +25,7 @@
         const string numeroOrden = "numeroOrden";
         const string estadoSupervisor = "estadoSupervisor";
         const string estadoJefe = "estadoJefe";
+        const string rolApro = "rolApro";
 
         static readonly string stringDefault = string.Empty;        
 
@@ -84,6 +85,17 @@
                 AppSettings.AddOrUpdateValue(idUsuario, value);
             }
         }
+        public static string RolApro
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(rolApro, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(rolApro, value);
+            }
+        }
 
         public static string Sucursal
         {
@@ -118,7 +130,6 @@
                 AppSettings.AddOrUpdateValue(viaje, value);
             }
         }
-
         public static string EstadoJefe
         {
             get
@@ -130,7 +141,6 @@
                 AppSettings.AddOrUpdateValue(estadoJefe, value);
             }
         }
-
         public static string EstadoSupervisor
         {
             get
@@ -142,7 +152,6 @@
                 AppSettings.AddOrUpdateValue(estadoSupervisor, value);
             }
         }
-
         public static string FechaInicio
         {
             get
