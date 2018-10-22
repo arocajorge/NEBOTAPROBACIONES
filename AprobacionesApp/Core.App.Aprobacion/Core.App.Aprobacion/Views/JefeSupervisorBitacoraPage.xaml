@@ -21,32 +21,55 @@
                     <Label
                             FontSize="Medium"
                             FontAttributes="Bold"
-                            Text="Fecha: "
+                            Text="Contratista: "
                             TextColor="Black"></Label>
                     <Label
                             FontSize="Medium"
-                            Text="{Binding Bitacora.Contratista, StringFormat='{0:dd/MM/yyyy}'}"
+                            Text="{Binding Bitacora.Contratista}"
                             TextColor="Black">
                     </Label>
                     <Label
                             FontSize="Medium"
                             FontAttributes="Bold"
-                            Text="Comentario: "
+                            Text="Descripción: "
                             TextColor="Black"></Label>
                     <Label
                             FontSize="Medium"
-                            Text="{Binding Bitacora.Comentario}"
+                            Text="{Binding Bitacora.Descripcion}"                        
                             TextColor="Black">
                     </Label>
 
-                    <StackLayout
-                        Orientation="Horizontal">
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
                         <Entry
+                            Grid.Row="0"
+                            Grid.Column="0"
                             HorizontalOptions="StartAndExpand"
-                            Text="{Binding NumeroOrden}"
-                            Keyboard="Numeric">                            
+                            Text="{Binding NumeroOrden, Mode=TwoWay}"
+                            Placeholder="Ingrese el número de la orden de trabajo"
+                            Keyboard="Numeric">
                         </Entry>
-                    </StackLayout>
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Command="{Binding AgregarCommand}"
+                            HorizontalOptions="End"
+                            Image="ic_add_circle_outline">
+                        </Button>
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Command="{Binding EliminarCommand}"
+                            HorizontalOptions="End"
+                            Image="ic_highlight_off">
+                        </Button>
+                    </Grid>                        
+                    
                     
                         <Label
                             FontSize="Medium"
@@ -57,14 +80,19 @@
                     
 
                     <ListView
-                            SeparatorVisibility="Default"
-                            ItemsSource="{Binding Bitacora.lst}"                        
-                            HasUnevenRows="True"
-                            HeightRequest="{Binding Height}">
+                            SeparatorVisibility="None"
+                            ItemsSource="{Binding LstDet}"                        
+                            HasUnevenRows="True">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <StackLayout>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                    <StackLayout
+                                        Grid.Column="0">                                        
                                         <StackLayout 
                                             Orientation="Horizontal">
                                             <Label
@@ -74,13 +102,13 @@
                                                 HorizontalOptions="Start">
                                             </Label>
                                             <Label
-                                                Text="{Binding Valor, StringFormat='{0:N2}'}"
+                                                Text="{Binding Valor, StringFormat='$ {0:N2}'}"
                                                 TextColor="Black"
                                                 HorizontalOptions="EndAndExpand">
                                             </Label>
                                         </StackLayout>
                                         <Label
-                                            Text="{Binding NomProveedor}"
+                                            Text="{Binding Nomproveedor}"
                                             TextColor="Black"
                                             HorizontalOptions="StartAndExpand">
                                         </Label>
@@ -90,6 +118,8 @@
                                             HorizontalOptions="StartAndExpand">
                                         </Label>
                                     </StackLayout>
+                                    </Grid>
+                                    
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>

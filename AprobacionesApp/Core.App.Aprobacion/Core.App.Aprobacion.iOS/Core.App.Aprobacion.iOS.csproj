@@ -296,4 +296,10 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_keyboard_arrow_right.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_add_circle_outline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_highlight_off.png" />
+  </ItemGroup>
 </Project>

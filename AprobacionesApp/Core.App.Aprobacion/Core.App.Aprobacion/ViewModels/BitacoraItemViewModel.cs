@@ -1,9 +1,6 @@
 ﻿using Core.App.Aprobacion.Models;
 using Core.App.Aprobacion.Views;
 using GalaSoft.MvvmLight.Command;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 
 namespace Core.App.Aprobacion.ViewModels

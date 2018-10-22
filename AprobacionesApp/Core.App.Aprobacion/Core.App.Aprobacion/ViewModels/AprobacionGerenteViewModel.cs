@@ -18,9 +18,21 @@
         private int _Height;
         private bool _EsChatarraVisible;
         private bool _NoEsChatarraVisible;
+        private string _color;
+        private bool _mostrarAnular;
         #endregion
 
         #region Propiedades
+        public string Color
+        {
+            get { return this._color; }
+            set { SetValue(ref this._color, value); }
+        }
+        public bool MostrarAnular
+        {
+            get { return this._mostrarAnular; }
+            set { SetValue(ref this._mostrarAnular, value); }
+        }
         public OrdenModel Orden
         {
             get { return this._orden; }
@@ -56,6 +68,7 @@
         #region Constructor
         public AprobacionGerenteViewModel(OrdenModel model)
         {
+            Color = "Black";
             this.IsEnabled = true;
             this.IsRunning = false;
             apiService = new ApiService();
@@ -75,6 +88,7 @@
         }
         public AprobacionGerenteViewModel()
         {
+            Color = "Black";
             this.IsEnabled = true;
             this.IsRunning = false;
             apiService = new ApiService();            
@@ -88,7 +102,7 @@
             try
             {
                 Height = 0;
-
+                MostrarAnular = true;
                 if (string.IsNullOrEmpty(Settings.UrlConexionActual))
                 {
                     this.IsEnabled = true;
@@ -158,6 +172,24 @@
                         NoEsChatarraVisible = true;
                         EsChatarraVisible = false;
                     }
+                    MostrarAnular = true;
+                    if (Orden.Estado == "X")
+                    {
+                        Color = "Red";
+                        MostrarAnular = false;
+                        Orden.Estado = "Anulada";
+                    }else
+                        if (Orden.Estado == "A")
+                    {
+                        Color = "Black";
+                        Orden.Estado = "Pendiente";
+                    }else
+                    if (Orden.Estado == "P")
+                    {
+                        Color = "Green";
+                        Orden.Estado = "Aprobada";
+                    }
+
 
                     Orden.Titulo = TipoDocumento + " No. " + Orden.NumeroOrden;
                     Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
@@ -316,6 +348,66 @@
 
             this.IsEnabled = true;
             this.IsRunning = false;            
+        }
+        public ICommand PasarCommand
+        {
+            get
+            {
+                return new RelayCommand(Pasar);
+            }
+        }
+
+        private async void Pasar()
+        {
+            this.IsEnabled = false;
+            this.IsRunning = true;
+            if (string.IsNullOrEmpty(this.Orden.Observacion))
+            {
+                this.Orden.Observacion = string.Empty;
+            }
+
+            Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
+            if (!con.IsSuccess)
+            {
+                string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
+                con = await apiService.CheckConnection(UrlDistinto);
+                if (!con.IsSuccess)
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        con.Message,
+                        "Aceptar");
+                    return;
+                }
+                else
+                    Settings.UrlConexionActual = UrlDistinto;
+            }
+
+            this.Orden.Usuario = Settings.IdUsuario;
+            this.Orden.Estado = "PASAR";
+            var response_sinc = await apiService.Post<OrdenModel>(
+                Settings.UrlConexionActual,
+                Settings.RutaCarpeta,
+                "OrdenTrabajo",
+                this.Orden);
+            if (!response_sinc.IsSuccess)
+            {
+                this.IsEnabled = true;
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    response_sinc.Message,
+                    "Aceptar");
+                return;
+            }
+
+            CargarOrden();
+
+            this.IsEnabled = true;
+            this.IsRunning = false;
+
         }
         #endregion
     }

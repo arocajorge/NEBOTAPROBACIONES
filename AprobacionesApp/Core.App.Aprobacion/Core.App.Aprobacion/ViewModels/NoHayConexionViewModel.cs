@@ -34,6 +34,7 @@ namespace Core.App.Aprobacion.ViewModels
         public NoHayConexionViewModel()
         {
             apiService = new ApiService();
+            IsEnabled = true;
         }
         #endregion
 

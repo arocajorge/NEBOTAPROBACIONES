@@ -16,7 +16,7 @@ namespace Core.App.Aprobacion.ViewModels
     {
 
         #region Variables
-        private ObservableCollection<BitacoraItemViewModel> _lstBitacoras;
+        private ObservableCollection<BitacoraItemViewModel> _lstDet;
         private List<BitacoraModel> _lstBitacora;
         private string _filter;
         private ApiService apiService;
@@ -34,10 +34,10 @@ namespace Core.App.Aprobacion.ViewModels
         }
         public ObservableCollection<BitacoraItemViewModel> LstBitacoras
         {
-            get { return this._lstBitacoras; }
+            get { return this._lstDet; }
             set
             {
-                SetValue(ref this._lstBitacoras, value);
+                SetValue(ref this._lstDet, value);
             }
         }
         public string filter
@@ -67,20 +67,12 @@ namespace Core.App.Aprobacion.ViewModels
                 Id = l.Id,
                 Viaje = l.Viaje,
                 NomViaje = l.NomViaje,
-                Fecingreso = l.Fecingreso,
                 Barco = l.Barco,
                 NomBarco = l.NomBarco,
-                Login = l.Login,
-                Estado = l.Estado,
                 Linea = l.Linea,
                 Descripcion = l.Descripcion,
                 Contratista = l.Contratista,
-                LineaDetalle = l.LineaDetalle,
-                NumeroOrden = l.NumeroOrden,
-                Valor = l.Valor,
-                EstadoJefe = l.EstadoJefe,
-                EstadoSupervisor = l.EstadoSupervisor,
-                Storden = l.Storden
+                CantidadLineas = l.CantidadLineas
             });
             return temp;
         }
@@ -118,7 +110,7 @@ namespace Core.App.Aprobacion.ViewModels
                         Settings.UrlConexionActual = UrlDistinto;
                 }
                 string parameters = string.Empty;
-                parameters += "&BODEGA=" + Settings.Bodega;
+                parameters += "&BARCO=" + Settings.Sucursal;
                 parameters += "&VIAJE=" + Settings.Viaje;
 
                 var response_cs = await apiService.GetList<BitacoraModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "BitacorasJefeSup", parameters);
@@ -139,7 +131,7 @@ namespace Core.App.Aprobacion.ViewModels
                            "No existen resultados para los filtros seleccionados ", //+ parameters,
                            "Aceptar");
                 }
-
+                _lstBitacora = _lstBitacora.OrderBy(q => q.Linea).ToList();
                 this.LstBitacoras = new ObservableCollection<BitacoraItemViewModel>(ToBitacoraItemModel());
                 IsRefreshing = false;
             }
@@ -187,7 +179,6 @@ namespace Core.App.Aprobacion.ViewModels
                            "Aceptar");
                 return;
             }
-
         }
         #endregion
     }

@@ -92,8 +92,8 @@ namespace Core.App.Aprobacion.ViewModels
                           "Para ingresar a bitácoras debe escoger barco y viaje",
                           "Aceptar");
 
-                        Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
-                        if (!con.IsSuccess)
+                        Response conection = await apiService.CheckConnection(Settings.UrlConexionActual);
+                        if (!conection.IsSuccess)
                         {
                             string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
                             con = await apiService.CheckConnection(UrlDistinto);

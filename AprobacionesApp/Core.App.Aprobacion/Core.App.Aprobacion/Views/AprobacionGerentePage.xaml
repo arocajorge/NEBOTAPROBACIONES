@@ -22,6 +22,15 @@
                         HorizontalTextAlignment="Center"
                         TextColor="Black">
                     </Label>
+
+                    <Label
+                        FontSize="Large"
+                        FontAttributes="Bold"
+                        Text="{Binding Orden.Estado}"
+                        HorizontalTextAlignment="Center"
+                        TextColor="{Binding Color}">
+                    </Label>
+                    
                     <Label
                             FontSize="Medium"
                             FontAttributes="Bold"
@@ -209,9 +218,18 @@
                             Command="{Binding ReprobarCommand}"
                             IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                             Text="Anular"
+                            IsVisible="{Binding MostrarAnular}"
                             HorizontalOptions="FillAndExpand">
                         </Button>
                     </StackLayout>
+                    <Button
+                            BackgroundColor="Default"
+                            TextColor="Black"
+                            Command="{Binding PasarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Pasar"
+                            HorizontalOptions="FillAndExpand">
+                    </Button>
                 </StackLayout>
             </ScrollView>
         </StackLayout>
