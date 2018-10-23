@@ -33,9 +33,9 @@ namespace Core.App.Aprobacion.Models
         [JsonProperty("CANTIDADLINEAS")]
         public int CantidadLineas { get; set; }
         [JsonProperty("PENTIENTEJEFE")]
-        public bool PendienteJefe { get; set; }
+        public int PendienteJefe { get; set; }
         [JsonProperty("PENTIENTESUPERVISOR")]
-        public bool PendienteSupervisor { get; set; }
+        public int PendienteSupervisor { get; set; }
         public string Imagen { get; set; }
 
         public List<BitacoraDetModel> lst { get; set; }
