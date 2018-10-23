@@ -25,6 +25,7 @@ namespace Core.App.Aprobacion
         {
             InitializeComponent();
             apiService = new ApiService();
+            MainPage = new ContentPage();
             ValidarLogin();
         }
         #endregion
