@@ -93,7 +93,7 @@ namespace Core.App.Aprobacion
                     if (usuario.RolApro.Trim().ToUpper() == "G")
                     {
                         MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();
-                        new NavigationPage(new AprobacionGerentePage());
+                        MainPage = new NavigationPage(new AprobacionGerentePage());
                         return;
                     }
 
