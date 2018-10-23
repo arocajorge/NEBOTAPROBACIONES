@@ -56,9 +56,14 @@ namespace Core.WindowsService
                     int CINV_NUM = Orden.CINV_NUM;
                     string CINV_TDOC = Orden.CINV_TDOC;
                     
+                        
+                    if (Orden.ROL_APRO.Trim().ToUpper() == "J" || Orden.ROL_APRO.Trim().ToUpper() == "S")
+                    {
+                        enviar_correo(Orden.CINV_NUM, Orden.ROL_APRO.Trim().ToUpper() == "J" ?  ("Jefe de bahia") : "Supervisor", Orden.CINV_TDOC);
+                    }
+                    else
                         enviar_correo_proveedor(Orden.CINV_NUM, Orden.CINV_TDOC, Orden.CINV_ST);
-                    
-            //        enviar_correo(Orden.CINV_NUM, "Supervisor", Orden.CINV_TDOC);
+
                     Orden.FECHA_ENVIO = DateTime.Now;
                     Orden.COMENTARIO = "Enviado";
                     Odata.GUARDAR(Orden);
@@ -73,8 +78,7 @@ namespace Core.WindowsService
             catch (Exception)
             {
                 
-            }
-            
+            }            
         }
 
         private static void enviar_correo(int IDs, string nivel_aprobacion, string tipo_doc)

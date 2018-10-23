@@ -111,6 +111,8 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AprobacionJefeSupController.cs" />
+    <Compile Include="Controllers\BitacorasDetJefeSupController.cs" />
+    <Compile Include="Controllers\BitacorasJefeSupController.cs" />
     <Compile Include="Controllers\CatalogosController.cs" />
     <Compile Include="Controllers\OrdenTrabajoController.cs" />
     <Compile Include="Controllers\PoliticaDePrivacidadController.cs" />
@@ -151,6 +153,9 @@
     <Compile Include="Data\TBCINV_APPCORREOS.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\TBCINV_APP_ORDENES_SALTADAS.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\TBDINV.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
@@ -166,9 +171,14 @@
     <Compile Include="Data\VW_ORDENES_TRABAJO_TOTAL_APP.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\VW_ORDENES_TRABAJO_TOTAL_APS.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BitacoraDetModel.cs" />
+    <Compile Include="Models\BitacoraModel.cs" />
     <Compile Include="Models\CatalogoModel.cs" />
     <Compile Include="Models\OrdenDetalleModel.cs" />
     <Compile Include="Models\OrdenModel.cs" />

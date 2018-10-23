@@ -12,13 +12,11 @@ namespace AprobacionesApi.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class DET_BITACORA
+    public partial class TBCINV_APP_ORDENES_SALTADAS
     {
         public int ID { get; set; }
-        public short LINEA { get; set; }
-        public string DESCRIPCION { get; set; }
-        public string CONTRATISTA { get; set; }
-        public Nullable<short> EMPRESA { get; set; }
-        public Nullable<short> ST_EMPLEADO { get; set; }
+        public string USUARIO { get; set; }
+        public string CINV_TDOC { get; set; }
+        public int CINV_NUM { get; set; }
     }
 }

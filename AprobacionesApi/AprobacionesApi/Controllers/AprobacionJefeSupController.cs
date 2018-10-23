@@ -15,12 +15,13 @@ namespace AprobacionesApi.Controllers
     {
         EntitiesGeneral db = new EntitiesGeneral();
 
-        public List<OrdenModel> GET(DateTime? FECHAINI, DateTime? FECHAFIN, string USUARIO = "", string BODEGA = "", string VIAJE = "", string CINV_NUM = "", string ESTADOJEFE = "", string ESTADOSUPERVISOR = "")
+        public List<OrdenModel> GET(string USUARIO = "",string BARCO = "", string BODEGA = "", string VIAJE = "", string CINV_NUM = "", string ESTADOJEFE = "", string ESTADOSUPERVISOR = "", int DIAINI = 0, int MESINI = 0, int ANIOINI = 0, int DIAFIN =0, int MESFIN =0, int ANIOFIN = 0)
         {
             try
             {
-                FECHAINI = FECHAINI == null ? DateTime.Now.Date.AddMonths(-2) : FECHAINI;
-                FECHAFIN = FECHAFIN == null ? DateTime.Now.Date : FECHAFIN;
+                DateTime FECHAINI = new DateTime(ANIOINI, MESINI, DIAINI);
+                DateTime FECHAFIN = new DateTime(ANIOFIN, MESFIN, DIAFIN);
+
                 List<OrdenModel> Lista;
                 if (string.IsNullOrEmpty(USUARIO))
                     return new List<OrdenModel>();
@@ -29,7 +30,7 @@ namespace AprobacionesApi.Controllers
                 if (UsuarioInfo == null)
                     return new List<OrdenModel>();
 
-                Lista = get_list(BODEGA, VIAJE, CINV_NUM, ESTADOJEFE, ESTADOSUPERVISOR, Convert.ToDateTime(FECHAINI), Convert.ToDateTime(FECHAFIN));
+                Lista = get_list(BARCO, BODEGA, VIAJE, CINV_NUM, ESTADOJEFE, ESTADOSUPERVISOR, Convert.ToDateTime(FECHAINI), Convert.ToDateTime(FECHAFIN));
 
                 return Lista;
             }
@@ -40,12 +41,14 @@ namespace AprobacionesApi.Controllers
         }
 
 
-        public List<OrdenModel> get_list(string Bodega, string Viaje, string num_ot, string estado_jefe_bodega, string estado_supervisor, DateTime fecha_ini, DateTime fecha_fin)
+        public List<OrdenModel> get_list(string Barco, string Bodega, string Viaje, string num_ot, string estado_jefe_bodega, string estado_supervisor, DateTime fecha_ini, DateTime fecha_fin)
         {
             List<OrdenModel> Lista;
             
                 string where_clause = "(CINV_ST = \"P\" OR CINV_ST = \"G\") AND CINV_TDOC = \"OT\" ";
-                if (!string.IsNullOrEmpty(Bodega))
+            if (!string.IsNullOrEmpty(Barco))
+                where_clause += "AND CODIGOTR = \"" + Barco + "\" ";
+            if (!string.IsNullOrEmpty(Bodega))
                     where_clause += "AND CINV_BOD = \"" + Bodega + "\" ";
                 if (!string.IsNullOrEmpty(Viaje))
                     where_clause += "AND CINV_FPAGO = \"" + Viaje + "\" ";
@@ -69,7 +72,10 @@ namespace AprobacionesApi.Controllers
                              CODIGOTR = q.CODIGOTR,
                              CINV_BOD = q.CINV_BOD,
                              CINV_ST = q.CINV_ST,
-                             CINV_STCUMPLI2 = q.CINV_STCUMPLI2,
+
+                             CINV_STCUMPLI1 = (q.CINV_STCUMPLI1 == null || q.CINV_STCUMPLI1 == "A") ? "Pendiente" : (q.CINV_STCUMPLI1 == "P" ? "Aprobado" : "Anulado"),
+                             CINV_STCUMPLI2 = (q.CINV_STCUMPLI2 == null || q.CINV_STCUMPLI2 == "A") ? "Pendiente" : (q.CINV_STCUMPLI2 == "P" ? "Aprobado" : "Anulado"),
+
                              CINV_NOMID = q.CINV_NOMID,
                              CINV_TDOC = q.CINV_TDOC,
                              CINV_COM3 = q.CINV_COM3,

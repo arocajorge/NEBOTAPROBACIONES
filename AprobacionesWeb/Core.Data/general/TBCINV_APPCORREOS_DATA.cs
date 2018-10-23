@@ -24,7 +24,8 @@ namespace Core.Data.general
                     CINV_NUM = Orden.CINV_NUM,
                     CINV_TDOC = Orden.CINV_TDOC,
                     CINV_ST = Orden.CINV_ST,
-                    FECHA_APRO = Orden.FECHA_APRO
+                    FECHA_APRO = Orden.FECHA_APRO,
+                    ROL_APRO = Orden.ROL_APRO
                 };
 
                 return INFO;
@@ -40,9 +41,9 @@ namespace Core.Data.general
         {
             try
             {
-                var orden = db.TBCINV_APPCORREOS.Where(q => q.CINV_NUM == INFO.CINV_NUM && q.CINV_TDOC == INFO.CINV_TDOC).FirstOrDefault();
+                var orden = db.TBCINV_APPCORREOS.Where(q => q.CINV_NUM == INFO.CINV_NUM && q.CINV_TDOC == INFO.CINV_TDOC && q.FECHA_ENVIO == null).FirstOrDefault();
                 if (orden == null)
-                    return false;
+                    return true;
 
                 orden.FECHA_ENVIO = DateTime.Now;
                 orden.COMENTARIO = "Enviado";

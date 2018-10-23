@@ -12,11 +12,9 @@ namespace AprobacionesApi.Controllers
     public class CatalogosController : ApiController
     {
         EntitiesGeneral db = new EntitiesGeneral();
-        public List<CatalogoModel> GET()
+        public IEnumerable<CatalogoModel> GET()
         {
-            List<CatalogoModel> Lista;
-
-            Lista = (from q in db.SUCURSAL
+            var Lista = (from q in db.SUCURSAL
                      where q.ESTADO == "Vigente"
                      select new CatalogoModel
                      {

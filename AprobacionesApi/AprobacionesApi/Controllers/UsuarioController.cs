@@ -13,8 +13,16 @@ namespace AprobacionesApi.Controllers
         EntitiesGeneral db = new EntitiesGeneral();
         public USUARIOS Get(string USUARIO = "", string CLAVE = "")
         {
-            USUARIOS RESULTADO = db.USUARIOS.Where(q => q.USUARIO.ToLower() == USUARIO.ToLower()
+            USUARIOS RESULTADO;
+
+            if (string.IsNullOrEmpty(CLAVE))
+            {
+                RESULTADO = db.USUARIOS.Where(q => q.USUARIO.ToLower() == USUARIO.ToLower()).FirstOrDefault();
+            }
+            else
+                RESULTADO = db.USUARIOS.Where(q => q.USUARIO.ToLower() == USUARIO.ToLower()
                                   && q.CLAVE.ToLower() == CLAVE.ToLower()).FirstOrDefault();
+
             return RESULTADO;
         }
     }

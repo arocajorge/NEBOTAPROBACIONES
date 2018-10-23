@@ -15,5 +15,6 @@ namespace Core.Info.general
         public Nullable<System.DateTime> FECHA_ENVIO { get; set; }
         public Nullable<System.DateTime> FECHA_APRO { get; set; }
         public string COMENTARIO { get; set; }
+        public string ROL_APRO { get; set; }
     }
 }

@@ -193,8 +193,7 @@ namespace Core.Data.general
                         {
                             Entity.CINV_STCUMPLI2 = estado;
                             Entity.CINV_COMENCUMPLI2 = comentario;
-                            Entity.CINV_FECAPRUEBA = DateTime.Now.Date;
-                            Entity.CINV_LOGIN = elaborado_por;
+                            Entity.CINV_FECCUMPLI2 = DateTime.Now.Date;
                         }
                         Context.SaveChanges();
                     }                    
@@ -219,9 +218,8 @@ namespace Core.Data.general
                         if (Entity != null)
                         {
                             Entity.CINV_STCUMPLI1 = estado;
-                            Entity.CINV_COMENCUMPLI1 = comentario;
-                            Entity.CINV_FECAPRUEBA = DateTime.Now.Date;
-                            Entity.CINV_LOGIN = elaborado_por;
+                            Entity.CINV_COMENCUMPLI1 = comentario;                            
+                            Entity.CINV_FECCUMPLI1 = DateTime.Now.Date;
                         }
                         Context.SaveChanges();
                     }
@@ -248,7 +246,7 @@ namespace Core.Data.general
                             Entity.CINV_ST = estado;
                             Entity.CINV_MOTIVOANULA = comentario;
                             Entity.CINV_FECAPRUEBA = DateTime.Now.Date;
-                            Entity.CINV_LOGIN = elaborado_por;
+                            
                         }
                         Context.SaveChanges();
                     }

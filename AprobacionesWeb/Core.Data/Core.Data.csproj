@@ -114,6 +114,9 @@
     <Compile Include="TBCINV_APPCORREOS.cs">
       <DependentUpon>Model_general.tt</DependentUpon>
     </Compile>
+    <Compile Include="TBCINV_APP_ORDENES_SALTADAS.cs">
+      <DependentUpon>Model_general.tt</DependentUpon>
+    </Compile>
     <Compile Include="TBDINV.cs">
       <DependentUpon>Model_general.tt</DependentUpon>
     </Compile>
