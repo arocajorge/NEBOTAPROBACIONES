@@ -79,14 +79,7 @@
                     </Grid>
 
 
-                    <Button
-                            BackgroundColor="CornflowerBlue"
-                            TextColor="White"
-                            Command="{Binding AprobarCommand}"
-                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
-                            Text="Aprobar"
-                            HorizontalOptions="FillAndExpand">
-                    </Button>
+               
 
                     <Label
                             FontSize="Medium"
@@ -140,7 +133,16 @@
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
-                    </ListView>                   
+                    </ListView>
+
+                    <Button
+                            BackgroundColor="CornflowerBlue"
+                            TextColor="White"
+                            Command="{Binding AprobarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Aprobar"
+                            HorizontalOptions="FillAndExpand">
+                    </Button>
                 </StackLayout>
             </ScrollView>
         </StackLayout>
