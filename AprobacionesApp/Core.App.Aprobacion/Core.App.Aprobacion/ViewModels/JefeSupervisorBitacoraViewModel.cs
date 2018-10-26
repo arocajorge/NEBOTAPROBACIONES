@@ -368,8 +368,8 @@ namespace Core.App.Aprobacion.ViewModels
             this.IsEnabled = true;
             this.IsRunning = false;
 
-             MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
-            Application.Current.MainPage = new JefeSupervisorMasterPage();
+            MainViewModel.GetInstance().JefeSupervisorBitacoras.LoadLista();
+            await App.Navigator.Navigation.PopAsync();
         }
         #endregion
     }
