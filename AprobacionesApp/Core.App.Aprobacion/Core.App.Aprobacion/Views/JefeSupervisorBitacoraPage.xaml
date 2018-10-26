@@ -92,7 +92,8 @@
                     <ListView
                             SeparatorVisibility="None"
                             ItemsSource="{Binding LstDet}"                        
-                            HasUnevenRows="True">
+                            HasUnevenRows="True"
+                        HeightRequest="{Binding Height}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
