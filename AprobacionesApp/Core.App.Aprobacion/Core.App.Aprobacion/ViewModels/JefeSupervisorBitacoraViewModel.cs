@@ -1,6 +1,7 @@
 ﻿using Core.App.Aprobacion.Helpers;
 using Core.App.Aprobacion.Models;
 using Core.App.Aprobacion.Services;
+using Core.App.Aprobacion.Views;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
@@ -367,8 +368,8 @@ namespace Core.App.Aprobacion.ViewModels
             this.IsEnabled = true;
             this.IsRunning = false;
 
-            MainViewModel.GetInstance().JefeSupervisorBitacoras.LoadLista();
-            await Application.Current.MainPage.Navigation.PopAsync();
+             MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
+            Application.Current.MainPage = new JefeSupervisorMasterPage();
         }
         #endregion
     }
