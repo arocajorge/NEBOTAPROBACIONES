@@ -54,6 +54,11 @@ namespace Core.App.Aprobacion.ViewModels
             get { return this._numeroOrden; }
             set { SetValue(ref this._numeroOrden, value); }
         }
+        public int Height
+        {
+            get { return this._Height; }
+            set { SetValue(ref this._Height, value); }
+        }
         #endregion
 
         #region Constructor
@@ -88,6 +93,7 @@ namespace Core.App.Aprobacion.ViewModels
             this.IsRunning = true;
             try
             {
+                Height = 0;
                 LstDet = new ObservableCollection<BitacoraDetItemViewModel>();
                 if (string.IsNullOrEmpty(Settings.UrlConexionActual))
                 {
@@ -132,6 +138,8 @@ namespace Core.App.Aprobacion.ViewModels
                 }
 
                 Bitacora.lst = (List<BitacoraDetModel>)response_cs.Result;
+                Height = Bitacora.lst.Count * 100;
+
 
                 LstDet = new ObservableCollection<BitacoraDetItemViewModel>(ToBitacoraItemModel());
                 
