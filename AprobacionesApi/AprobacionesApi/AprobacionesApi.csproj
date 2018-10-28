@@ -162,7 +162,7 @@
     <Compile Include="Data\USUARIOS.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\VW_BITACORAS.cs">
+    <Compile Include="Data\VW_BITACORAS_APP.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\VW_ORDENES_TRABAJO_APP.cs">

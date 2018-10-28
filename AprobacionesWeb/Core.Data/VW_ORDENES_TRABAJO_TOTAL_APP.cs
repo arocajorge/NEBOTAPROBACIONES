@@ -12,7 +12,7 @@ namespace Core.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class VW_ORDENES_TRABAJO_TOTAL
+    public partial class VW_ORDENES_TRABAJO_TOTAL_APP
     {
         public int CINV_SEC { get; set; }
         public string CINV_TDOC { get; set; }
@@ -66,5 +66,6 @@ namespace Core.Data
         public string CINV_COMENCUMPLI1 { get; set; }
         public string CINV_STCUMPLI2 { get; set; }
         public string CINV_COMENCUMPLI2 { get; set; }
+        public string NOM_VIAJE { get; set; }
     }
 }

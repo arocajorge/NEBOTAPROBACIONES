@@ -126,10 +126,13 @@
     <Compile Include="VW_BITACORAS.cs">
       <DependentUpon>Model_general.tt</DependentUpon>
     </Compile>
-    <Compile Include="VW_ORDENES_TRABAJO.cs">
+    <Compile Include="VW_BITACORAS_APP.cs">
       <DependentUpon>Model_general.tt</DependentUpon>
     </Compile>
-    <Compile Include="VW_ORDENES_TRABAJO_TOTAL.cs">
+    <Compile Include="VW_ORDENES_TRABAJO_APP.cs">
+      <DependentUpon>Model_general.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VW_ORDENES_TRABAJO_TOTAL_APP.cs">
       <DependentUpon>Model_general.tt</DependentUpon>
     </Compile>
   </ItemGroup>

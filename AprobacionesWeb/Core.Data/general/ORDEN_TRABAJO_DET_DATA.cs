@@ -16,7 +16,7 @@ namespace Core.Data.general
 
             using (Entities_general Context = new Entities_general())
             {
-                Lista = (from q in Context.VW_ORDENES_TRABAJO
+                Lista = (from q in Context.VW_ORDENES_TRABAJO_APP
                          where q.CINV_TDOC == TipoDoc
                          && q.CINV_NUM == cinv_num
                          select new ORDEN_TRABAJO_DET_INFO
@@ -101,8 +101,8 @@ namespace Core.Data.general
 
             using (Entities_general Context = new Entities_general())
             {
-                var Lista = (from q in Context.VW_ORDENES_TRABAJO_TOTAL
-                          where q.CINV_TDOC == TipoDoc
+                var Lista = (from q in Context.VW_ORDENES_TRABAJO_TOTAL_APP
+                             where q.CINV_TDOC == TipoDoc
                           && q.CINV_NUM == CINV_NUM
                           select q).ToList();
                 NumberFormatInfo provider = new NumberFormatInfo();

@@ -20,5 +20,11 @@ namespace Core.Data
         public string CONTRATISTA { get; set; }
         public Nullable<short> EMPRESA { get; set; }
         public Nullable<bool> ST_EMPLEADO { get; set; }
+        public string LINEA_STCUMPLI1 { get; set; }
+        public string LINEA_STCUMPLI2 { get; set; }
+        public string LINEA_LOGINCUMPLI1 { get; set; }
+        public string LINEA_LOGINCUMPLI2 { get; set; }
+        public Nullable<System.DateTime> LINEA_FECCUMPLI1 { get; set; }
+        public Nullable<System.DateTime> LINEA_FECCUMPLI2 { get; set; }
     }
 }

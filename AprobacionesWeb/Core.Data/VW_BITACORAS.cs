@@ -32,6 +32,11 @@ namespace Core.Data
         public Nullable<short> CUMPLIMIENTO { get; set; }
         public string STCUMPLI1 { get; set; }
         public string STCUMPLI2 { get; set; }
+        public string LINEA_LOGINCUMPLI1 { get; set; }
+        public Nullable<System.DateTime> LINEA_FECCUMPLI1 { get; set; }
+        public string LINEA_LOGINCUMPLI2 { get; set; }
+        public Nullable<System.DateTime> LINEA_FECCUMPLI2 { get; set; }
         public string STORDEN { get; set; }
+        public Nullable<decimal> ST_EMPLEADO { get; set; }
     }
 }

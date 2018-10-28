@@ -12,7 +12,7 @@ namespace Core.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class VW_ORDENES_TRABAJO
+    public partial class VW_ORDENES_TRABAJO_APP
     {
         public int CINV_SEC { get; set; }
         public string CINV_TDOC { get; set; }

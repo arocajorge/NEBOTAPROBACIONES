@@ -26,7 +26,6 @@ namespace Core.Data
         }
     
         public virtual DbSet<ARINDEX> ARINDEX { get; set; }
-        public virtual DbSet<ARPROVEEDOR> ARPROVEEDOR { get; set; }
         public virtual DbSet<CAB_BITACORA> CAB_BITACORA { get; set; }
         public virtual DbSet<DET_BITACORA> DET_BITACORA { get; set; }
         public virtual DbSet<DET_BITACORA2> DET_BITACORA2 { get; set; }
@@ -37,7 +36,9 @@ namespace Core.Data
         public virtual DbSet<USUARIOS> USUARIOS { get; set; }
         public virtual DbSet<SUCURSAL> SUCURSAL { get; set; }
         public virtual DbSet<VW_BITACORAS> VW_BITACORAS { get; set; }
-        public virtual DbSet<VW_ORDENES_TRABAJO> VW_ORDENES_TRABAJO { get; set; }
-        public virtual DbSet<VW_ORDENES_TRABAJO_TOTAL> VW_ORDENES_TRABAJO_TOTAL { get; set; }
+        public virtual DbSet<VW_BITACORAS_APP> VW_BITACORAS_APP { get; set; }
+        public virtual DbSet<VW_ORDENES_TRABAJO_APP> VW_ORDENES_TRABAJO_APP { get; set; }
+        public virtual DbSet<VW_ORDENES_TRABAJO_TOTAL_APP> VW_ORDENES_TRABAJO_TOTAL_APP { get; set; }
+        public virtual DbSet<ARPROVEEDOR> ARPROVEEDOR { get; set; }
     }
 }

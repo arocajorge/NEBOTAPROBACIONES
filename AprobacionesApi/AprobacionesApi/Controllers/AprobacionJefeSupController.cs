@@ -91,6 +91,7 @@ namespace AprobacionesApi.Controllers
             Lista.ForEach(q => { q.VALOR_OT = q.CINV_TDOC == "OT" ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : 0; });
 
             return Lista.OrderBy(q => q.CINV_NUM).ToList();
-        }
+        }        
     }
+
 }

@@ -12,7 +12,7 @@ namespace AprobacionesApi.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class VW_BITACORAS
+    public partial class VW_BITACORAS_APP
     {
         public Nullable<short> EMPRESA { get; set; }
         public int ID { get; set; }
@@ -33,5 +33,9 @@ namespace AprobacionesApi.Data
         public string STCUMPLI1 { get; set; }
         public string STCUMPLI2 { get; set; }
         public string STORDEN { get; set; }
+        public string LINEA_STCUMPLI1 { get; set; }
+        public string LINEA_STCUMPLI2 { get; set; }
+        public Nullable<System.DateTime> LINEA_FECCUMPLI1 { get; set; }
+        public Nullable<System.DateTime> LINEA_FECCUMPLI2 { get; set; }
     }
 }

@@ -59,13 +59,13 @@ namespace Core.WindowsService
                         
                     if (Orden.ROL_APRO.Trim().ToUpper() == "J" || Orden.ROL_APRO.Trim().ToUpper() == "S")
                     {
-                        enviar_correo(Orden.CINV_NUM, Orden.ROL_APRO.Trim().ToUpper() == "J" ?  ("Jefe de bahia") : "Supervisor", Orden.CINV_TDOC);
+                        Orden.COMENTARIO = enviar_correo(Orden.CINV_NUM, Orden.ROL_APRO.Trim().ToUpper() == "J" ?  ("Jefe de bahia") : "Supervisor", Orden.CINV_TDOC);
                     }
                     else
-                        enviar_correo_proveedor(Orden.CINV_NUM, Orden.CINV_TDOC, Orden.CINV_ST);
+                        Orden.COMENTARIO = enviar_correo_proveedor(Orden.CINV_NUM, Orden.CINV_TDOC, Orden.CINV_ST);
 
                     Orden.FECHA_ENVIO = DateTime.Now;
-                    Orden.COMENTARIO = "Enviado";
+                    
                     Odata.GUARDAR(Orden);
                 }
                 catch (Exception ex)
@@ -81,7 +81,7 @@ namespace Core.WindowsService
             }            
         }
 
-        private static void enviar_correo(int IDs, string nivel_aprobacion, string tipo_doc)
+        private static string enviar_correo(int IDs, string nivel_aprobacion, string tipo_doc)
         {
             #region Armar cuerpo del correo correo
             MailMessage mail = new MailMessage();
@@ -120,14 +120,16 @@ namespace Core.WindowsService
                 smtp.Credentials = new NetworkCredential(correo_desde, contrasenia);
                 smtp.Send(mail);
                 #endregion
+                return "Enviado";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                return "No enviado";
 
             }
         }
 
-        private static void enviar_correo_proveedor(int ID, string tipo_doc, string Estado)
+        private static string enviar_correo_proveedor(int ID, string tipo_doc, string Estado)
         {
             #region Armar cuerpo del correo correo
             MailMessage mail = new MailMessage();
@@ -139,7 +141,7 @@ namespace Core.WindowsService
             if (Estado.Trim() == "P")
             {
                 if (string.IsNullOrEmpty(info.E_MAIL))
-                    return;
+                    return "No enviado";
                 mail.To.Add(info.E_MAIL);
             }
             if (!string.IsNullOrEmpty(info.CORREO_SOLICITADO))
@@ -191,10 +193,11 @@ namespace Core.WindowsService
                 smtp.Credentials = new NetworkCredential(correo_desde, contrasenia);
                 smtp.Send(mail);
                 #endregion
+                return "Enviado";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
+                return "No enviado";
             }
             mem.Close();
             mem.Flush();

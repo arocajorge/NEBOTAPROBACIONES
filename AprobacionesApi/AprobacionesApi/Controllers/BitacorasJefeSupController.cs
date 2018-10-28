@@ -15,7 +15,7 @@ namespace AprobacionesApi.Controllers
         public IEnumerable<BitacoraModel> GET(string BARCO = "", string VIAJE = "")
         {
             var lst =
-                 (from q in db.VW_BITACORAS
+                 (from q in db.VW_BITACORAS_APP
                           where q.VIAJE == VIAJE
                           && q.BARCO == BARCO
                           && q.ESTADO == "A"
@@ -31,6 +31,10 @@ namespace AprobacionesApi.Controllers
                               PENTIENTEJEFE = grouping.Where(q=>string.IsNullOrEmpty(q.STCUMPLI1)).Count(),
                               PENTIENTESUPERVISOR = grouping.Where(q => string.IsNullOrEmpty(q.STCUMPLI2)).Count(),                              
                               LINEA = grouping.Key,
+                              LINEA_FECCUMPLI1 = grouping.Max(q => q.LINEA_FECCUMPLI1),
+                              LINEA_FECCUMPLI2 = grouping.Max(q => q.LINEA_FECCUMPLI2),
+                              LINEA_STCUMPLI1 = grouping.Max(q => q.LINEA_STCUMPLI1),
+                              LINEA_STCUMPLI2 = grouping.Max(q => q.LINEA_STCUMPLI2),
                           }).ToList();
             lst.ForEach(q =>
             {
@@ -38,6 +42,49 @@ namespace AprobacionesApi.Controllers
                 q.CUMPLISUP = (q.CANTIDADLINEAS - q.PENTIENTESUPERVISOR) == 0 ? true : false;
             });
             return lst;
-        }        
+        }
+
+        public void Post([FromBody]BitacoraModel value)
+        {
+            try
+            {
+                bool ActualizarBitacora = false;
+
+                var linea = db.DET_BITACORA.Where(q => q.ID == value.ID && q.LINEA == value.LINEA).FirstOrDefault();
+                if (linea == null)
+                    return;
+
+                var usuario = db.USUARIOS.Where(q => q.USUARIO.ToLower() == value.LOGIN.ToLower()).FirstOrDefault();
+                if (usuario == null)
+                    return;                
+
+                if (usuario.ROL_APRO == "J")
+                {
+
+                    var ordenes = db.VW_BITACORAS_APP.Where(q => q.ID == value.ID && q.LINEA == value.LINEA).ToList();
+                    foreach (var item in ordenes)
+                    {
+                        //var bitacoras =         
+                    }
+
+                    linea.LINEA_FECCUMPLI1 = DateTime.Now;
+                    linea.LINEA_STCUMPLI1 = value.ESTADOAPRO;
+                    linea.LINEA_LOGINCUMPLI1 = usuario.USUARIO;                    
+                }
+                else
+                {
+                    linea.LINEA_FECCUMPLI2 = DateTime.Now;
+                    linea.LINEA_STCUMPLI2 = value.ESTADOAPRO;
+                    linea.LINEA_LOGINCUMPLI2 = usuario.USUARIO;
+                }
+
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        
     }
 }

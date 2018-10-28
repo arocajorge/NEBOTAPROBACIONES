@@ -39,7 +39,7 @@ namespace Core.Data.general
                 where_clause += "AND DATETIME(" + fecha_ini.Date.Year + "," + fecha_ini.Date.Month + "," + fecha_ini.Date.Day + ") <= CINV_FECING ";
                 where_clause += "AND CINV_FECING <= DATETIME(" + fecha_fin.Date.Year + "," + fecha_fin.Date.Month + "," + fecha_fin.Date.Day + ")";
 
-                Lista = (from q in Context.VW_ORDENES_TRABAJO_TOTAL.Where(where_clause,null)
+                Lista = (from q in Context.VW_ORDENES_TRABAJO_TOTAL_APP.Where(where_clause,null)
                          select new ORDEN_TRABAJO_INFO
                          {
                              CINV_NUM = q.CINV_NUM,
@@ -94,7 +94,7 @@ namespace Core.Data.general
                 where_clause += "AND DATETIME(" + fecha_ini.Date.Year + "," + fecha_ini.Date.Month + "," + fecha_ini.Date.Day + ") <= CINV_FECING ";
                 where_clause += "AND CINV_FECING <= DATETIME(" + fecha_fin.Date.Year + "," + fecha_fin.Date.Month + "," + fecha_fin.Date.Day + ")";
 
-                Lista = (from q in Context.VW_ORDENES_TRABAJO_TOTAL.Where(where_clause, null)
+                Lista = (from q in Context.VW_ORDENES_TRABAJO_TOTAL_APP.Where(where_clause, null)
                          select new ORDEN_TRABAJO_INFO
                          {
                              CINV_NUM = q.CINV_NUM,
@@ -135,7 +135,7 @@ namespace Core.Data.general
                     foreach (var item in array)
                     {
                         int ID = Convert.ToInt32(item);
-                        VW_ORDENES_TRABAJO_TOTAL Entity = Context.VW_ORDENES_TRABAJO_TOTAL.FirstOrDefault(q => q.CINV_NUM == ID && q.CINV_TDOC == tipo_doc);
+                        VW_ORDENES_TRABAJO_TOTAL_APP Entity = Context.VW_ORDENES_TRABAJO_TOTAL_APP.FirstOrDefault(q => q.CINV_NUM == ID && q.CINV_TDOC == tipo_doc);
                         if (Entity != null)
                         {
                             ORDEN_TRABAJO_INFO info = new ORDEN_TRABAJO_INFO
@@ -158,7 +158,7 @@ namespace Core.Data.general
 
             using (Entities_general Context = new Entities_general())
             {
-                VW_ORDENES_TRABAJO_TOTAL Entity = Context.VW_ORDENES_TRABAJO_TOTAL.FirstOrDefault(q => q.CINV_NUM == ID && q.CINV_TDOC == tipo_doc);
+                VW_ORDENES_TRABAJO_TOTAL_APP Entity = Context.VW_ORDENES_TRABAJO_TOTAL_APP.FirstOrDefault(q => q.CINV_NUM == ID && q.CINV_TDOC == tipo_doc);
                 if (Entity != null)
                 {
                     info = new ORDEN_TRABAJO_INFO
