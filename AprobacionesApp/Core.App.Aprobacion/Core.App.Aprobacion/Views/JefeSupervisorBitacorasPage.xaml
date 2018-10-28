@@ -40,7 +40,14 @@
                                             <Label
                                                 FontAttributes="Bold"
                                                 Text="{Binding Linea, StringFormat='No.{0}'}"
+                                                HorizontalOptions="Start"
                                                 TextColor="Black">
+                                            </Label>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="{Binding Estado}"
+                                                TextColor="{Binding Color}"
+                                                HorizontalOptions="End">
                                             </Label>
                                         </StackLayout>
                                         <Label

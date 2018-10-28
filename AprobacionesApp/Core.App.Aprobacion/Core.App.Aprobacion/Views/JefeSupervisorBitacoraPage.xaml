@@ -17,6 +17,14 @@
                         HorizontalTextAlignment="Center"
                         TextColor="Black">
                     </Label>
+                    
+                    <Label
+                        FontSize="Large"
+                        FontAttributes="Bold"
+                        Text="{Binding Bitacora.Estado}"
+                        HorizontalTextAlignment="Center"
+                        TextColor="{Binding Bitacora.Color}">
+                    </Label>
 
                     <Label
                             FontSize="Medium"
@@ -68,10 +76,12 @@
                             HorizontalOptions="End"
                             Image="ic_highlight_off">
                         </Button>
-                    </Grid>                        
-                    
-                    
-                        <Label
+                    </Grid>
+
+
+               
+
+                    <Label
                             FontSize="Medium"
                             FontAttributes="Bold"
                             Text="Detalle: "
@@ -82,7 +92,8 @@
                     <ListView
                             SeparatorVisibility="None"
                             ItemsSource="{Binding LstDet}"                        
-                            HasUnevenRows="True">
+                            HasUnevenRows="True"
+                        HeightRequest="{Binding Height}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -123,7 +134,16 @@
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
-                    </ListView>                   
+                    </ListView>
+
+                    <Button
+                            BackgroundColor="CornflowerBlue"
+                            TextColor="White"
+                            Command="{Binding AprobarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Aprobar"
+                            HorizontalOptions="FillAndExpand">
+                    </Button>
                 </StackLayout>
             </ScrollView>
         </StackLayout>

@@ -1,6 +1,7 @@
 ﻿using Core.App.Aprobacion.Helpers;
 using Core.App.Aprobacion.Models;
 using Core.App.Aprobacion.Services;
+using Core.App.Aprobacion.Views;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
@@ -54,6 +55,11 @@ namespace Core.App.Aprobacion.ViewModels
             get { return this._numeroOrden; }
             set { SetValue(ref this._numeroOrden, value); }
         }
+        public int Height
+        {
+            get { return this._Height; }
+            set { SetValue(ref this._Height, value); }
+        }
         #endregion
 
         #region Constructor
@@ -88,6 +94,7 @@ namespace Core.App.Aprobacion.ViewModels
             this.IsRunning = true;
             try
             {
+                Height = 0;
                 LstDet = new ObservableCollection<BitacoraDetItemViewModel>();
                 if (string.IsNullOrEmpty(Settings.UrlConexionActual))
                 {
@@ -132,6 +139,8 @@ namespace Core.App.Aprobacion.ViewModels
                 }
 
                 Bitacora.lst = (List<BitacoraDetModel>)response_cs.Result;
+                Height = Bitacora.lst.Count * 100;
+
 
                 LstDet = new ObservableCollection<BitacoraDetItemViewModel>(ToBitacoraItemModel());
                 
@@ -298,6 +307,69 @@ namespace Core.App.Aprobacion.ViewModels
                 return;
             }
 
+        }
+        public ICommand AprobarCommand
+        {
+            get
+            {
+                return new RelayCommand(Aprobar);
+            }
+        }
+
+        private async void Aprobar()
+        {
+            this.IsEnabled = false;
+            this.IsRunning = true;
+
+            Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
+            if (!con.IsSuccess)
+            {
+                string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
+                con = await apiService.CheckConnection(UrlDistinto);
+                if (!con.IsSuccess)
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        con.Message,
+                        "Aceptar");
+                    return;
+                }
+                else
+                    Settings.UrlConexionActual = UrlDistinto;
+            }
+
+            this.Bitacora.Usuario = Settings.IdUsuario;
+            this.Bitacora.Estado = "P";
+
+            var response_sinc = await apiService.Post<BitacoraModel>(
+                Settings.UrlConexionActual,
+                Settings.RutaCarpeta,
+                "BitacorasJefeSup",
+                this.Bitacora);
+
+            if (!response_sinc.IsSuccess)
+            {
+                this.IsEnabled = true;
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    response_sinc.Message,
+                    "Aceptar");
+                return;
+            }
+
+            await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    "Actualización de estado exitosa",
+                    "Aceptar");
+
+            this.IsEnabled = true;
+            this.IsRunning = false;
+
+            MainViewModel.GetInstance().JefeSupervisorBitacoras.LoadLista();
+            await App.Navigator.Navigation.PopAsync();
         }
         #endregion
     }

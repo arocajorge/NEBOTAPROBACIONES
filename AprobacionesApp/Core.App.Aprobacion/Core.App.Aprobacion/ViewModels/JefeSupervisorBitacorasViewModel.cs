@@ -73,7 +73,9 @@ namespace Core.App.Aprobacion.ViewModels
                 Descripcion = l.Descripcion,
                 Contratista = l.Contratista,
                 CantidadLineas = l.CantidadLineas,
-                Imagen = l.Imagen
+                Imagen = l.Imagen,
+                Color = l.Color,
+                Estado = l.Estado
             });
             return temp;
         }
@@ -134,9 +136,15 @@ namespace Core.App.Aprobacion.ViewModels
                 }
                 if (Settings.RolApro == "J")
                 {
-                    _lstBitacora.ForEach(q => q.Imagen = q.CantidadLineas == 0 ? ("ic_keyboard_arrow_right") : (q.PendienteJefe == 0  ? "ic_assignment_turned_in" : "ic_access_time"));
+                    _lstBitacora.ForEach(q => { q.Imagen = q.CantidadLineas == 0 ? ("ic_keyboard_arrow_right") : (q.PendienteJefe == 0 ? "ic_assignment_turned_in" : "ic_access_time");
+                        q.Color = q.EstadoJefe == "P" ? "Green" : "Black";
+                        q.Estado = q.EstadoJefe == "P" ? "Aprobado" : "Pendiente";
+                    });
                 }else
-                    _lstBitacora.ForEach(q => q.Imagen = q.CantidadLineas == 0 ? ("ic_keyboard_arrow_right") : (q.PendienteSupervisor == 0 ? "ic_assignment_turned_in" : "ic_access_time"));
+                    _lstBitacora.ForEach(q => { q.Imagen = q.CantidadLineas == 0 ? ("ic_keyboard_arrow_right") : (q.PendienteSupervisor == 0 ? "ic_assignment_turned_in" : "ic_access_time");
+                        q.Color = q.EstadoSupervisor == "P" ? "Green" : "Black";
+                        q.Estado = q.EstadoSupervisor == "P" ? "Aprobado" : "Pendiente";
+                    });
 
                 _lstBitacora = _lstBitacora.OrderBy(q => q.Linea).ToList();
                 this.LstBitacoras = new ObservableCollection<BitacoraItemViewModel>(ToBitacoraItemModel());

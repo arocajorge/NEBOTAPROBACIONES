@@ -36,7 +36,20 @@ namespace Core.App.Aprobacion.Models
         public int PendienteJefe { get; set; }
         [JsonProperty("PENTIENTESUPERVISOR")]
         public int PendienteSupervisor { get; set; }
+
+        [JsonProperty("LOGIN")]
+        public string Usuario { get; set; }
+        [JsonProperty("ESTADOAPRO")]
+        public string Estado { get; set; }
+
+        [JsonProperty("LINEA_STCUMPLI1")]
+        public string EstadoJefe { get; set; }
+        [JsonProperty("LINEA_STCUMPLI2")]
+        public string EstadoSupervisor { get; set; }
+
+
         public string Imagen { get; set; }
+        public string Color { get; set; }
 
         public List<BitacoraDetModel> lst { get; set; }
     }
