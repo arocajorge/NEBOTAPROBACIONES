@@ -163,6 +163,8 @@
                         return;
                     }
 
+                    await MainViewModel.GetInstance().LoadCombos();
+
                     if (usuario.RolApro.Trim().ToUpper() == "G")
                     {
                         this.IsEnabled = true;

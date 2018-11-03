@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight.Command;
 using Rg.Plugins.Popup.Services;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -37,6 +38,7 @@ namespace Core.App.Aprobacion.ViewModels
         public MainViewModel()
         {
             apiService = new ApiService();
+            ListaCatalogos = new List<CatalogoModel>();
             instance = this;
             this.Login = new LoginViewModel();
             loadMenu();
@@ -87,7 +89,7 @@ namespace Core.App.Aprobacion.ViewModels
             });
         }
 
-        public async void LoadCombos()
+        public async Task LoadCombos()
         {
             try
             {
