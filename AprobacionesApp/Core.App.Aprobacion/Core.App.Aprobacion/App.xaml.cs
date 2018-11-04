@@ -90,6 +90,8 @@ namespace Core.App.Aprobacion
                         return;
                     }
 
+                    await MainViewModel.GetInstance().LoadCombos();
+
                     if (usuario.RolApro.Trim().ToUpper() == "G")
                     {
                         MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();

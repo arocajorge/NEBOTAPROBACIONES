@@ -237,118 +237,13 @@ namespace Core.App.Aprobacion.ViewModels
         #endregion
 
         #region Metodos
-        public async void CargarCombos()
+        private void CargarCombos()
         {
-            try
-            {
-                IsRunning = true;
-                IsEnabled = false;
-                if (string.IsNullOrEmpty(Settings.UrlConexionActual))
-                {
-                    this.IsEnabled = true;
-                    this.IsRunning = false;
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Alerta",
-                        "Dispositivo no configurado",
-                        "Aceptar");
-                    return;
-                }
-
-                Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
-                if (!con.IsSuccess)
-                {
-                    string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
-                    con = await apiService.CheckConnection(UrlDistinto);
-                    if (!con.IsSuccess)
-                    {
-                        this.IsEnabled = true;
-                        this.IsRunning = false;
-                        await Application.Current.MainPage.DisplayAlert(
-                            "Alerta",
-                            con.Message,
-                            "Aceptar");
-                        return;
-                    }
-                    else
-                        Settings.UrlConexionActual = UrlDistinto;
-                }
-
-                var response_cs = await apiService.GetList<CatalogoModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Catalogos", "");
-                if (!response_cs.IsSuccess)
-                {
-                    this.IsEnabled = true;
-                    this.IsRunning = false;
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Alerta",
-                        response_cs.Message,
-                        "Aceptar");
-                    return;
-                }
-
-                var ListaCatalogos = (List<CatalogoModel>)response_cs.Result;
-                ListaCatalogos.Add(new CatalogoModel { Codigo = "", Descripcion = "Todo", Tipo = "Sucursal" });
-                ListaCatalogos.Add(new CatalogoModel { Codigo = "", Descripcion = "Todo", Tipo = "Bodega" });
-                ListaCatalogos.Add(new CatalogoModel { Codigo = "", Descripcion = "Todo", Tipo = "Viaje" });
-                List<CatalogoModel> _lstJefe = new List<CatalogoModel>();
-                _lstJefe.Add(new CatalogoModel
-                {
-                    Codigo = "A",
-                    Descripcion = "Pendiente",
-                });
-                _lstJefe.Add(new CatalogoModel
-                {
-                    Codigo = "X",
-                    Descripcion = "Anulado",
-                });
-                _lstJefe.Add(new CatalogoModel
-                {
-                    Codigo = "P",
-                    Descripcion = "Aprobado",
-                });
-                _lstJefe.Add(new CatalogoModel
-                {
-                    Codigo = "",
-                    Descripcion = "Todo"
-                });
-
-                ListaSucursal = new ObservableCollection<CatalogoModel>(ListaCatalogos.Where(q => q.Tipo == "Sucursal").Select(q=>new CatalogoModel { Codigo = q.Codigo, Descripcion = q.Descripcion}).OrderBy(q => q.Descripcion).ToList());                
-
-                ListaBodega = new ObservableCollection<CatalogoModel>(ListaCatalogos.Where(q => q.Tipo == "Bodega").Select(q => new CatalogoModel { Codigo = q.Codigo, Descripcion = q.Descripcion }).OrderBy(q => q.Descripcion).ToList());                
-
-                ListaViaje = new ObservableCollection<CatalogoModel>(ListaCatalogos.Where(q => q.Tipo == "Viaje").Select(q => new CatalogoModel { Codigo = q.Codigo, Descripcion = q.Descripcion }).OrderBy(q => q.Descripcion).ToList());                
-
-                ListaEstadoJefe = new ObservableCollection<CatalogoModel>(_lstJefe);                
-                
-                ListaEstadoSupervisor = new ObservableCollection<CatalogoModel>(_lstJefe);
-
-                if (string.IsNullOrEmpty(Settings.FechaInicio))
-                {
-                    if (Settings.RolApro == "J")
-                    {
-                        EstadoJefeSelectedIndex = 0;
-                        EstadoSupervisorSelectedIndex = 3;
-                    }
-                    else
-                    {
-                        EstadoJefeSelectedIndex = 3;
-                        EstadoSupervisorSelectedIndex = 0;
-                    }
-                }
-
-                this.IsEnabled = true;
-                this.IsRunning = false;
-            }
-            catch (System.Exception ex)
-            {
-                this.IsEnabled = true;
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    "Alerta",
-                    ex.Message,
-                    "Aceptar");
-
-                return;
-            }
+            ListaSucursal = new ObservableCollection<CatalogoModel>(MainViewModel.GetInstance().ListaCatalogos.Where(q => q.Tipo == "Sucursal").OrderBy(q=>q.Descripcion).ToList());
+            ListaViaje = new ObservableCollection<CatalogoModel>(MainViewModel.GetInstance().ListaCatalogos.Where(q => q.Tipo == "Viaje").OrderBy(q => q.Descripcion).ToList());
+            ListaBodega = new ObservableCollection<CatalogoModel>(MainViewModel.GetInstance().ListaCatalogos.Where(q => q.Tipo == "Bodega").OrderBy(q => q.Descripcion).ToList());
+            ListaEstadoJefe = new ObservableCollection<CatalogoModel>(MainViewModel.GetInstance().ListaCatalogos.Where(q => q.Tipo == "Estado").OrderBy(q => q.Descripcion).ToList());
+            ListaEstadoSupervisor = new ObservableCollection<CatalogoModel>(MainViewModel.GetInstance().ListaCatalogos.Where(q => q.Tipo == "Estado").OrderBy(q => q.Descripcion).ToList());
         }
         #endregion
 
