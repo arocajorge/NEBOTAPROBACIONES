@@ -28,6 +28,6 @@ namespace AprobacionesApi.Models
         public string CINV_MOTIVOANULA { get; set; }
         public string CINV_LOGIN { get; set; }
         public string NOM_CENTROCOSTO { get; set; }
-        public string NOM_VIAJE { get; set; }
+        public string NOM_VIAJE { get; set; }        
     }
 }

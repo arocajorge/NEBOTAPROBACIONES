@@ -114,10 +114,14 @@
     <Compile Include="Controllers\BitacorasDetJefeSupController.cs" />
     <Compile Include="Controllers\BitacorasJefeSupController.cs" />
     <Compile Include="Controllers\CatalogosController.cs" />
+    <Compile Include="Controllers\OrdenNominaController.cs" />
     <Compile Include="Controllers\OrdenTrabajoController.cs" />
     <Compile Include="Controllers\PoliticaDePrivacidadController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Data\ARINDEX.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ARPROVEEDOR.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\CAB_BITACORA.cs">
@@ -159,10 +163,22 @@
     <Compile Include="Data\TBDINV.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\TBNOM_ORDEN_NOMINA_CAB.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\TBNOM_ORDEN_NOMINA_DET.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\USUARIOS.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\USUARIOS_MENU_APP.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\VW_BITACORAS_APP.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_ORDENES_NOMINA_APP.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\VW_ORDENES_TRABAJO_APP.cs">
@@ -182,6 +198,10 @@
     <Compile Include="Models\CatalogoModel.cs" />
     <Compile Include="Models\OrdenDetalleModel.cs" />
     <Compile Include="Models\OrdenModel.cs" />
+    <Compile Include="Models\OrdenNominaDetalleModel.cs" />
+    <Compile Include="Models\OrdenNominaModel.cs" />
+    <Compile Include="Models\UsuarioMenuModel.cs" />
+    <Compile Include="Models\UsuarioModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

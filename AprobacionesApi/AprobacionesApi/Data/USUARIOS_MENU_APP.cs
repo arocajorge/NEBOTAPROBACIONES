@@ -12,11 +12,11 @@ namespace AprobacionesApi.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class TBCINV_APP_ORDENES_SALTADAS
+    public partial class USUARIOS_MENU_APP
     {
-        public decimal ID { get; set; }
         public string USUARIO { get; set; }
-        public string CINV_TDOC { get; set; }
-        public decimal CINV_NUM { get; set; }
+        public string MENU { get; set; }
+        public string MENUFILTRO { get; set; }
+        public string MENUICONO { get; set; }
     }
 }

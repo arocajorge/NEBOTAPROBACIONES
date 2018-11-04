@@ -29,13 +29,12 @@ namespace AprobacionesApi.Data
         public Nullable<short> LINEA_DETALLE { get; set; }
         public string NUMERO_ORDEN { get; set; }
         public Nullable<decimal> VALOR { get; set; }
-        public Nullable<short> CUMPLIMIENTO { get; set; }
         public string STCUMPLI1 { get; set; }
         public string STCUMPLI2 { get; set; }
         public string STORDEN { get; set; }
         public string LINEA_STCUMPLI1 { get; set; }
-        public string LINEA_STCUMPLI2 { get; set; }
         public Nullable<System.DateTime> LINEA_FECCUMPLI1 { get; set; }
+        public string LINEA_STCUMPLI2 { get; set; }
         public Nullable<System.DateTime> LINEA_FECCUMPLI2 { get; set; }
     }
 }
