@@ -5,6 +5,7 @@
     using Core.App.Aprobacion.Services;
     using Core.App.Aprobacion.Views;
     using GalaSoft.MvvmLight.Command;
+    using System.Collections.ObjectModel;
     using System.Windows.Input;
     using Xamarin.Forms;
 
@@ -21,9 +22,15 @@
         private string _color;
         private bool _mostrarAnular;
         private string _estado;
+        private ObservableCollection<OrdenDetalleModel> _ListaDetalle;
         #endregion
 
         #region Propiedades
+        public ObservableCollection<OrdenDetalleModel> ListaDetalle
+        {
+            get { return this._ListaDetalle; }
+            set { SetValue(ref this._ListaDetalle, value); }
+        }
         public string Color
         {
             get { return this._color; }
@@ -108,7 +115,7 @@
                 Color = "Green";
                 Estado = "Aprobada";
             }
-
+            ListaDetalle = new ObservableCollection<OrdenDetalleModel>(Orden.lst);
             Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
         }
         public AprobacionGerenteViewModel()
@@ -218,6 +225,8 @@
                     Orden.Titulo = TipoDocumento + " No. " + Orden.NumeroOrden;
                     Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
 
+                    ListaDetalle = new ObservableCollection<OrdenDetalleModel>(Orden.lst);
+
                     IsEnabled = true;
                     IsRunning = false;
                 }
@@ -280,6 +289,7 @@
 
             this.Orden.Usuario = Settings.IdUsuario;
             this.Orden.Estado = "P";
+            this.Orden.lst = new System.Collections.Generic.List<OrdenDetalleModel>(ListaDetalle);
             var response_sinc = await apiService.Post<OrdenModel>(
                 Settings.UrlConexionActual,
                 Settings.RutaCarpeta,
@@ -347,6 +357,7 @@
 
             this.Orden.Usuario = Settings.IdUsuario;
             this.Orden.Estado = "X";
+            this.Orden.lst = new System.Collections.Generic.List<OrdenDetalleModel>(ListaDetalle);
             var response_sinc = await apiService.Post<OrdenModel>(
                 Settings.UrlConexionActual,
                 Settings.RutaCarpeta,

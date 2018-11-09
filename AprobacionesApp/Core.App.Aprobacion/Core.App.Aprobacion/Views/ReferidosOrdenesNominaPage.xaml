@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.ReferidosOrdenesNominaPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Nómina">
+    <ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding ReferidosOrdenesNomina}"
+            Padding="5">
+            <SearchBar
+                SearchCommand="{Binding BuscarCommand}"
+                Text="{Binding filter, Mode=TwoWay}"
+                Placeholder="Buscar..."
+                HeightRequest="50">
+            </SearchBar>
+            <ListView          
+                BackgroundColor="Silver"
+                HasUnevenRows="True"
+                RefreshCommand="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsRefreshing,Mode=TwoWay}"
+                ItemsSource="{Binding LstOrdenes}"
+                SeparatorVisibility="Default">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame                                
+                                HasShadow="True"
+                                CornerRadius="20"
+                                Margin="5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout
+                                    Grid.Column="0"
+                                    VerticalOptions="Center">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="{Binding NumeroOrden, StringFormat='No.{0}'}"
+                                                TextColor="Black">
+                                            </Label>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="{Binding Estado}"
+                                                TextColor="{Binding Color}">
+                                            </Label>
+                                            <Label
+                                                HorizontalOptions="EndAndExpand"
+                                                Text="{Binding Fecha, StringFormat='{0:dd/MM/yyyy}'}"
+                                                FontAttributes="None"
+                                                TextColor="Black">
+                                            </Label>
+                                        </StackLayout>
+                                        <Label
+                                            FontAttributes="None"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="{Binding CedulaSolicitado}"
+                                            TextColor="Black">
+                                        </Label>
+                                        <Label
+                                            FontAttributes="None"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="{Binding NombreSolicitado}"
+                                            TextColor="Black">
+                                        </Label>
+                                        
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label
+                                            Grid.Column="0"
+                                            Grid.Row="0"
+                                            TextColor="Black"
+                                            FontSize="Small"
+                                            Text="Polígrafo">
+                                        </Label>
+                                        <Image
+                                            Grid.Column="1"
+                                            Grid.Row="0"
+                                            Source="{Binding ImagenPoligrafo}"
+                                            HeightRequest="20">
+                                        </Image>
+                                        <Label
+                                            Grid.Column="2"
+                                            Grid.Row="0"
+                                            TextColor="Black"
+                                            FontSize="Small"
+                                            Text="Psicólogo">
+                                        </Label>
+                                        <Image
+                                            Grid.Column="3"
+                                            Grid.Row="0"
+                                            Source="{Binding ImagenPsicologo}"
+                                            HeightRequest="20">
+                                        </Image>
+
+                                        <Label
+                                            Grid.Column="0"
+                                            Grid.Row="1"
+                                            TextColor="Black"
+                                            FontSize="Small"
+                                            Text="Antecedentes">
+                                        </Label>
+                                        <Image
+                                            Grid.Column="1"
+                                            Grid.Row="1"
+                                            Source="{Binding ImagenAntecedentes}"
+                                            HeightRequest="20">
+                                        </Image>
+                                        <Label
+                                            Grid.Column="2"
+                                            Grid.Row="1"
+                                            TextColor="Black"
+                                            FontSize="Small"
+                                            Text="Perfil">
+                                        </Label>
+                                        <Image
+                                            Grid.Column="3"
+                                            Grid.Row="1"
+                                            Source="{Binding ImagenPerfil}"
+                                            HeightRequest="20">
+                                        </Image>
+                                    </Grid>
+
+                                </StackLayout>
+                                    <Image
+                                        Grid.Column="1"
+                                        HorizontalOptions="End"
+                                        Source="{Binding Imagen}">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SelectOrdenCommand}"></TapGestureRecognizer>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

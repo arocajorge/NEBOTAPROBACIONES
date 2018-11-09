@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace Core.App.Aprobacion.Views
+{
+	[XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class ReferidosMasterPage : MasterDetailPage
+    {
+		public ReferidosMasterPage ()
+		{
+			InitializeComponent ();
+            App.Navigator = Navigator;
+            App.MasterReferidos = this;
+        }
+	}
+}

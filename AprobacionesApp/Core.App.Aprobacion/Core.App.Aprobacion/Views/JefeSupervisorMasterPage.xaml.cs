@@ -11,7 +11,7 @@ namespace Core.App.Aprobacion.Views
 		{
 			InitializeComponent ();
             App.Navigator = Navigator;
-            App.Master = this;
+            App.MasterJefeSupervisor = this;
         }
 	}
 }

@@ -24,13 +24,16 @@ namespace Core.App.Aprobacion.ViewModels
         public AprobacionGerenteViewModel AprobacionGerente { get; set; }
         public NoHayOrdenesPendientesViewModel NoHayOrdenesPendientes { get; set; }
         public PopUpBuscarOrdenViewModel PopUpBuscarOrden { get; set; }
-        public FiltroJefeSupervisorViewModel FiltroJefeSupervisor { get; set; }
+        public JefeSupervisorFiltroViewModel FiltroJefeSupervisor { get; set; }
         public NoHayConexionViewModel NoHayConexion { get; set; }
         public JefeSupervisorOrdenesViewModel JefeSupervisorOrdenes { get; set; }
         public ObservableCollection<JefeSupervisorMenuItemViewModel> Menus { get; set; }
         public JefeSupervisorBitacorasViewModel JefeSupervisorBitacoras { get; set; }
         public JefeSupervisorOrdenViewModel JefeSupervisorOrden { get; set; }
         public JefeSupervisorBitacoraViewModel JefeSupervisorBitacora { get; set; }
+        public ReferidosFiltroViewModel ReferidosFiltro { get; set; }
+        public ReferidosOrdenNominaViewModel ReferidosOrdenNomina { get; set; }
+        public ReferidosOrdenesNominaViewModel ReferidosOrdenesNomina { get; set; }
         public List<CatalogoModel> ListaCatalogos { get; set; }
         #endregion
 
@@ -41,7 +44,6 @@ namespace Core.App.Aprobacion.ViewModels
             ListaCatalogos = new List<CatalogoModel>();
             instance = this;
             this.Login = new LoginViewModel();
-            loadMenu();
         }
         #endregion
 
@@ -59,28 +61,29 @@ namespace Core.App.Aprobacion.ViewModels
         #endregion
 
         #region Metodos
-        private void loadMenu()
+        public async Task loadMenu(List<UsuarioMenuModel> Lista)
         {
             this.Menus = new ObservableCollection<JefeSupervisorMenuItemViewModel>();
-            
-            this.Menus.Add(new JefeSupervisorMenuItemViewModel
+
+            foreach (var item in Lista)
             {
-                Icon = "ic_filter_1",
-                PageName = "JefeSupervisorOrdenesPage",
-                Title = "Ordenes"
-            });
-            this.Menus.Add(new JefeSupervisorMenuItemViewModel
-            {
-                Icon = "ic_filter_2",
-                PageName = "JefeSupervisorBitacorasPage",
-                Title = "Bitácoras"
-            });
-            this.Menus.Add(new JefeSupervisorMenuItemViewModel
-            {
-                Icon = "ic_location_on",
-                PageName = "JefeSupervisorFiltrosPage",
-                Title = "Filtros"
-            });
+                this.Menus.Add(new JefeSupervisorMenuItemViewModel
+                {
+                    Icon = item.Menu == "JefeSupervisorOrdenesPage" ? "ic_filter_1" 
+                        : (item.Menu == "JefeSupervisorBitacorasPage" ? "ic_filter_2"
+                        : (item.Menu == "JefeSupervisorFiltrosPage" ? "ic_location_on"
+                        : (item.Menu == "ReferidosOrdenesNominaPage" ? "ic_filter_1"
+                        : (item.Menu == "ReferidosFiltroPage" ? "ic_location_on"
+                        : "")))),
+                    PageName = item.Menu,
+                    Title = item.Menu == "JefeSupervisorOrdenesPage" ? "Ordenes"
+                        : (item.Menu == "JefeSupervisorBitacorasPage" ? "Bitácoras"
+                        : (item.Menu == "JefeSupervisorFiltrosPage" ? "Filtros"
+                        : (item.Menu == "ReferidosOrdenesNominaPage" ? "Referidos"
+                        : (item.Menu == "ReferidosFiltroPage" ? "Filtros"
+                        : ""))))
+                });
+            }
             this.Menus.Add(new JefeSupervisorMenuItemViewModel
             {
                 Icon = "ic_exit_to_app",
@@ -136,7 +139,13 @@ namespace Core.App.Aprobacion.ViewModels
                 ListaCatalogos.Add(new CatalogoModel { Codigo = "", Descripcion = "Todo", Tipo = "Estado" });
                 ListaCatalogos.Add(new CatalogoModel { Codigo = "A", Descripcion = "Pendiente", Tipo = "Estado" });
                 ListaCatalogos.Add(new CatalogoModel { Codigo = "X", Descripcion = "Anulado", Tipo = "Estado" });
-                ListaCatalogos.Add(new CatalogoModel { Codigo = "p", Descripcion = "Aprobado", Tipo = "Estado" });                
+                ListaCatalogos.Add(new CatalogoModel { Codigo = "P", Descripcion = "Aprobado", Tipo = "Estado" });
+
+                ListaCatalogos.Add(new CatalogoModel { Codigo = "P", Descripcion = "Aprobado", Tipo = "EstadoNomina" });
+                ListaCatalogos.Add(new CatalogoModel { Codigo = "T", Descripcion = "Aprobado para un viaje", Tipo = "EstadoNomina" });
+                ListaCatalogos.Add(new CatalogoModel { Codigo = "A", Descripcion = "Pendiente", Tipo = "EstadoNomina" });
+                ListaCatalogos.Add(new CatalogoModel { Codigo = "X", Descripcion = "Anulado", Tipo = "EstadoNomina" });
+                ListaCatalogos.Add(new CatalogoModel { Codigo = "", Descripcion = "Todo", Tipo = "EstadoNomina" });
             }
             catch (System.Exception ex)
             {

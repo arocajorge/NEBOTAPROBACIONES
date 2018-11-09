@@ -11,9 +11,9 @@
     <MasterDetailPage.Detail>
         <NavigationPage x:Name="Navigator">
             <x:Arguments>
-                <pages:JefeSupervisorOrdenesPage>
+                <pages:JefeSupervisorBitacorasPage>
 
-                </pages:JefeSupervisorOrdenesPage>
+                </pages:JefeSupervisorBitacorasPage>
             </x:Arguments>
         </NavigationPage>
     </MasterDetailPage.Detail>

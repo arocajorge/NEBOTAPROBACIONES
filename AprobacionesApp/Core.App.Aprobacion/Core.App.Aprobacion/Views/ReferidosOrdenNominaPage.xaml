@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.ReferidosOrdenNominaPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Referencia">
+    <ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding ReferidosOrdenNomina}">
+            <ScrollView>
+                <StackLayout
+                    Padding="20">
+                    <Label
+                        FontSize="Large"
+                        FontAttributes="Bold"
+                        Text="{Binding Orden.Titulo}"
+                        HorizontalTextAlignment="Center"
+                        TextColor="Black">
+                    </Label>
+
+                    <Label
+                        FontSize="Large"
+                        FontAttributes="Bold"
+                        Text="{Binding EstadoReferido}"
+                        HorizontalTextAlignment="Center"
+                        TextColor="{Binding Color}">
+                    </Label>
+
+                    <Label
+                        FontSize="Large"
+                        FontAttributes="Bold"
+                        Text="{Binding Estado}"
+                        HorizontalTextAlignment="Center"
+                        TextColor="Black">
+                    </Label>
+
+
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Fecha: "
+                            TextColor="Black"></Label>
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.Fecha, StringFormat='{0:dd/MM/yyyy}'}"
+                            TextColor="Black">
+                    </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Barco: "
+                            TextColor="Black">
+                    </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.NombreCentroCosto}"
+                            TextColor="Black">
+                    </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Identificación: "
+                            TextColor="Black">
+                    </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.CedulaSolicitado}"
+                            TextColor="Black">
+                    </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Solicitado: "
+                            TextColor="Black">
+                    </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.NombreSolicitado}"
+                            TextColor="Black">
+                    </Label>
+
+                    <ListView
+                            SeparatorVisibility="Default"
+                            ItemsSource="{Binding ListaDetalle}"                        
+                            HasUnevenRows="True"
+                            HeightRequest="{Binding Height}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout
+                                        Orientation="Horizontal">
+                                        <Label
+                                            Text="{Binding Detalle}"
+                                            TextColor="Black"
+                                            HorizontalOptions="StartAndExpand">
+                                        </Label>
+                                        <Switch
+                                            IsToggled="{Binding Estado, Mode=TwoWay}"
+                                            HorizontalOptions="End">
+                                        </Switch>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <ActivityIndicator
+                            IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                            VerticalOptions="CenterAndExpand">
+                    </ActivityIndicator>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Comentario: "
+                            TextColor="Black"></Label>
+                    <Editor
+                            HeightRequest="150"
+                            FontSize="Medium"
+                            Text="{Binding Orden.ComentarioReferido, Mode=TwoWay}"
+                            TextColor="Black">
+                    </Editor>
+                    <StackLayout
+                        
+                        Orientation="Horizontal">
+                        <Button
+                            BackgroundColor="CornflowerBlue"
+                            TextColor="White"
+                            Command="{Binding AprobarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Aprobar"
+                            HorizontalOptions="FillAndExpand"
+                            IsVisible="{Binding VisibleBotones}">
+                        </Button>
+                        <Button
+                            BackgroundColor="Red"
+                            TextColor="White"
+                            Command="{Binding ReprobarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Anular"
+                            HorizontalOptions="FillAndExpand"
+                            IsVisible="{Binding VisibleBotones}">
+                        </Button>
+                    </StackLayout>
+                    <Button
+                            BackgroundColor="Gray"
+                            TextColor="White"
+                            Command="{Binding PasarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="En espera"
+                            HorizontalOptions="FillAndExpand"
+                            IsVisible="{Binding VisibleBotones}">
+                    </Button>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

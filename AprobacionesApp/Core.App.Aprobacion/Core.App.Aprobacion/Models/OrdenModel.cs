@@ -37,6 +37,7 @@
 
         public string Imagen { get; set; }
         public string Titulo { get; set; }
+        [JsonProperty("lst")]
         public List<OrdenDetalleModel> lst { get; set; }
     }
 }

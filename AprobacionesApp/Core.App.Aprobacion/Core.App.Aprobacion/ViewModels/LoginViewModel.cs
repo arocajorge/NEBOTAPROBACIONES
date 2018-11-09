@@ -62,6 +62,10 @@
         }
         private async void Login()
         {
+            try
+            {
+
+           
             this.IsEnabled = false;
             this.IsRunning = true;
             if (string.IsNullOrEmpty(this.usuario))
@@ -164,33 +168,52 @@
                     }
 
                     await MainViewModel.GetInstance().LoadCombos();
+                    await MainViewModel.GetInstance().loadMenu(usuario.LstMenu);
+                    
+                    Settings.IdUsuario = this.usuario;
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
 
-                    if (usuario.RolApro.Trim().ToUpper() == "G")
+                    if (usuario.MenuFiltro == "AprobacionGerentePage")
                     {
-                        this.IsEnabled = true;
-                        this.IsRunning = false;
-                        Settings.IdUsuario = this.usuario;
                         MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();
                         await Application.Current.MainPage.Navigation.PushAsync(new AprobacionGerentePage());
                         return;
-
                     }
-
-                    if (usuario.RolApro.Trim().ToUpper() == "J" || usuario.RolApro.Trim().ToUpper() == "S")
+                    if (usuario.MenuFiltro == "JefeSupervisorFiltroPage")
                     {
-                        this.IsEnabled = true;
-                        this.IsRunning = false;
-                        Settings.IdUsuario = this.usuario;
-                        if (string.IsNullOrEmpty(Settings.FechaInicio) || Convert.ToDateTime(Settings.FechaFin) != DateTime.Now.Date)
+                        MainViewModel.GetInstance().FiltroJefeSupervisor = new JefeSupervisorFiltroViewModel(usuario.RolApro.Trim().ToUpper());
+                        Application.Current.MainPage = new NavigationPage(new JefeSupervisorFiltroPage());
+                        return;
+                    }
+                    if (usuario.MenuFiltro == "JefeSupervisorBitacorasPage")
+                    {
+                        if (string.IsNullOrEmpty(Settings.FechaInicio))
                         {
-                            MainViewModel.GetInstance().FiltroJefeSupervisor = new FiltroJefeSupervisorViewModel(usuario.RolApro.Trim().ToUpper());
-                            Application.Current.MainPage = new NavigationPage(new FiltroJefeSupervisorPage());
+                            MainViewModel.GetInstance().FiltroJefeSupervisor = new JefeSupervisorFiltroViewModel(usuario.RolApro.Trim().ToUpper());
+                            Application.Current.MainPage = new NavigationPage(new JefeSupervisorFiltroPage());
                             return;
                         }
                         else
                         {
-                            MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
+                            MainViewModel.GetInstance().JefeSupervisorBitacoras = new JefeSupervisorBitacorasViewModel();
                             Application.Current.MainPage = new JefeSupervisorMasterPage();
+                            return;
+                        }
+                    }
+
+                    if (usuario.MenuFiltro == "ReferidosOrdenesNominaPage")
+                    {
+                        if (string.IsNullOrEmpty(Settings.FechaInicio))
+                        {
+                            MainViewModel.GetInstance().ReferidosFiltro = new ReferidosFiltroViewModel();
+                            Application.Current.MainPage = new NavigationPage(new ReferidosFiltroPage());
+                            return;
+                        }
+                        else
+                        {
+                            MainViewModel.GetInstance().ReferidosOrdenesNomina = new ReferidosOrdenesNominaViewModel();
+                            Application.Current.MainPage = new ReferidosMasterPage();
                             return;
                         }
                     }
@@ -207,6 +230,18 @@
                 }
                 this.IsEnabled = true;
                 this.IsRunning = false;
+            }
+            }
+            catch (System.Exception ex)
+            {
+                this.IsEnabled = true;
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    ex.Message,
+                    "Aceptar");
+
+                return;
             }
         }
         #endregion

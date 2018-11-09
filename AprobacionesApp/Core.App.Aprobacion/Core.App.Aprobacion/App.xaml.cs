@@ -17,7 +17,8 @@ namespace Core.App.Aprobacion
         #endregion
         #region Propiedades
         public static NavigationPage Navigator { get; internal set; }
-        public static JefeSupervisorMasterPage Master { get; internal set; }
+        public static JefeSupervisorMasterPage MasterJefeSupervisor { get; set; }
+        public static ReferidosMasterPage MasterReferidos { get; set; }
         #endregion
 
         #region Constructor
@@ -25,6 +26,7 @@ namespace Core.App.Aprobacion
         {
             InitializeComponent();
             apiService = new ApiService();
+            MainViewModel.GetInstance().Login = new LoginViewModel();
             MainPage = new NavigationPage(new LoginPage());
             ValidarLogin();
         }
@@ -50,74 +52,107 @@ namespace Core.App.Aprobacion
         #region Metodos
         private async void ValidarLogin()
         {
-            if (string.IsNullOrEmpty(Settings.IdUsuario))
+            try
             {
-                MainViewModel.GetInstance().Login = new LoginViewModel();
-                MainPage = new NavigationPage(new LoginPage());
-                return;
-            }
-            else
-            {
-                Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
-                if (!con.IsSuccess)
+
+
+                if (string.IsNullOrEmpty(Settings.IdUsuario))
                 {
-                    string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
-                    con = await apiService.CheckConnection(UrlDistinto);
+                    MainViewModel.GetInstance().Login = new LoginViewModel();
+                    MainPage = new NavigationPage(new LoginPage());
+                    return;
+                }
+                else
+                {
+                    Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
                     if (!con.IsSuccess)
+                    {
+                        string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
+                        con = await apiService.CheckConnection(UrlDistinto);
+                        if (!con.IsSuccess)
+                        {
+                            MainViewModel.GetInstance().NoHayConexion = new NoHayConexionViewModel();
+                            MainPage = new NavigationPage(new NoHayConexionPage());
+                            return;
+                        }
+                        else
+                            Settings.UrlConexionActual = UrlDistinto;
+                    }
+
+                    var response_cs = await apiService.GetObject<UsuarioModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Usuario", "USUARIO=" + Settings.IdUsuario);
+                    if (!response_cs.IsSuccess)
                     {
                         MainViewModel.GetInstance().NoHayConexion = new NoHayConexionViewModel();
                         MainPage = new NavigationPage(new NoHayConexionPage());
                         return;
                     }
-                    else
-                        Settings.UrlConexionActual = UrlDistinto;
-                }
-
-                var response_cs = await apiService.GetObject<UsuarioModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Usuario", "USUARIO=" + Settings.IdUsuario);
-                if (!response_cs.IsSuccess)
-                {
-                    MainViewModel.GetInstance().NoHayConexion = new NoHayConexionViewModel();
-                    MainPage = new NavigationPage(new NoHayConexionPage());
-                    return;
-                }
-                var usuario = (UsuarioModel)response_cs.Result;
-                if (usuario != null)
-                {
-                    if (string.IsNullOrEmpty(usuario.RolApro))
+                    var usuario = (UsuarioModel)response_cs.Result;
+                    if (usuario != null)
                     {
-                        MainViewModel.GetInstance().Login = new LoginViewModel();
-                        MainPage = new NavigationPage(new LoginPage());
-                        return;
-                    }
-
-                    await MainViewModel.GetInstance().LoadCombos();
-
-                    if (usuario.RolApro.Trim().ToUpper() == "G")
-                    {
-                        MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();
-                        MainPage = new NavigationPage(new AprobacionGerentePage());
-                        return;
-                    }
-
-                    if (usuario.RolApro.Trim().ToUpper() == "J" || usuario.RolApro.Trim().ToUpper() == "S")
-                    {
-                        if (string.IsNullOrEmpty(Settings.FechaInicio) || Convert.ToDateTime(Settings.FechaFin) != DateTime.Now.Date)
+                        if (string.IsNullOrEmpty(usuario.RolApro))
                         {
-                            MainViewModel.GetInstance().FiltroJefeSupervisor = new FiltroJefeSupervisorViewModel(usuario.RolApro.Trim().ToUpper());
-                            MainPage = new NavigationPage(new FiltroJefeSupervisorPage());
+                            MainViewModel.GetInstance().Login = new LoginViewModel();
+                            MainPage = new NavigationPage(new LoginPage());
                             return;
                         }
-                        else
+
+                        await MainViewModel.GetInstance().LoadCombos();
+                        await MainViewModel.GetInstance().loadMenu(usuario.LstMenu);
+
+                        if (usuario.MenuFiltro == "AprobacionGerentePage")
                         {
-                            MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
-                            MainPage = new JefeSupervisorMasterPage();
+                            MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();
+                            MainPage = new NavigationPage(new AprobacionGerentePage());
                             return;
+                        }
+                        if (usuario.MenuFiltro == "JefeSupervisorFiltroPage")
+                        {
+                            MainViewModel.GetInstance().FiltroJefeSupervisor = new JefeSupervisorFiltroViewModel(usuario.RolApro.Trim().ToUpper());
+                            MainPage = new NavigationPage(new JefeSupervisorFiltroPage());
+                            return;
+                        }
+                        if (usuario.MenuFiltro == "JefeSupervisorBitacorasPage")
+                        {
+                            if (string.IsNullOrEmpty(Settings.FechaInicio))
+                            {
+                                MainViewModel.GetInstance().FiltroJefeSupervisor = new JefeSupervisorFiltroViewModel(usuario.RolApro.Trim().ToUpper());
+                                MainPage = new NavigationPage(new JefeSupervisorFiltroPage());
+                                return;
+                            }
+                            else
+                            {
+                                MainViewModel.GetInstance().JefeSupervisorBitacoras = new JefeSupervisorBitacorasViewModel();
+                                MainPage = new JefeSupervisorMasterPage();
+                                return;
+                            }
+                        }
+                        if (usuario.MenuFiltro == "ReferidosOrdenesNominaPage")
+                        {
+                            if (string.IsNullOrEmpty(Settings.FechaInicio))
+                            {
+                                MainViewModel.GetInstance().ReferidosFiltro = new ReferidosFiltroViewModel();
+                                MainPage = new NavigationPage(new ReferidosFiltroPage());
+                                return;
+                            }
+                            else
+                            {
+                                MainViewModel.GetInstance().ReferidosOrdenesNomina = new ReferidosOrdenesNominaViewModel();
+                                MainPage = new ReferidosMasterPage();
+                                return;
+                            }
                         }
                     }
                 }
             }
+            catch (System.Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    ex.Message,
+                    "Aceptar");
 
-            
+                return;
+            }
         }
         #endregion
     }

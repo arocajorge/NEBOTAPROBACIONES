@@ -99,30 +99,51 @@ namespace Core.App.Aprobacion.ViewModels
                         MainViewModel.GetInstance().Login = new LoginViewModel();
                         Application.Current.MainPage = new NavigationPage(new LoginPage());
                     }
+                    await MainViewModel.GetInstance().LoadCombos();
+                    await MainViewModel.GetInstance().loadMenu(usuario.LstMenu);
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
 
-                    if (usuario.RolApro.Trim().ToUpper() == "G")
+                    if (usuario.MenuFiltro == "AprobacionGerentePage")
                     {
-                        this.IsEnabled = true;
-                        this.IsRunning = false;
                         MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();
                         await Application.Current.MainPage.Navigation.PushAsync(new AprobacionGerentePage());
+                        return;
                     }
-
-                    if (usuario.RolApro.Trim().ToUpper() == "J" || usuario.RolApro.Trim().ToUpper() == "S")
+                    if (usuario.MenuFiltro == "JefeSupervisorFiltroPage")
                     {
-                        if (string.IsNullOrEmpty(Settings.FechaInicio) || Convert.ToDateTime(Settings.FechaFin) != DateTime.Now.Date)
+                        MainViewModel.GetInstance().FiltroJefeSupervisor = new JefeSupervisorFiltroViewModel(usuario.RolApro.Trim().ToUpper());
+                        Application.Current.MainPage = new NavigationPage(new JefeSupervisorFiltroPage());
+                        return;
+                    }
+                    if (usuario.MenuFiltro == "JefeSupervisorBitacorasPage")
+                    {
+                        if (string.IsNullOrEmpty(Settings.FechaInicio))
                         {
-                            this.IsEnabled = true;
-                            this.IsRunning = false;
-                            MainViewModel.GetInstance().FiltroJefeSupervisor = new FiltroJefeSupervisorViewModel(usuario.RolApro.Trim().ToUpper());
-                            Application.Current.MainPage = new NavigationPage(new FiltroJefeSupervisorPage());
+                            MainViewModel.GetInstance().FiltroJefeSupervisor = new JefeSupervisorFiltroViewModel(usuario.RolApro.Trim().ToUpper());
+                            Application.Current.MainPage = new NavigationPage(new JefeSupervisorFiltroPage());
+                            return;
                         }
                         else
                         {
-                            this.IsEnabled = true;
-                            this.IsRunning = false;
-                            MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
+                            MainViewModel.GetInstance().JefeSupervisorBitacoras = new JefeSupervisorBitacorasViewModel();
                             Application.Current.MainPage = new JefeSupervisorMasterPage();
+                            return;
+                        }
+                    }
+                    if (usuario.MenuFiltro == "ReferidosOrdenesNominaPage")
+                    {
+                        if (string.IsNullOrEmpty(Settings.FechaInicio))
+                        {
+                            MainViewModel.GetInstance().ReferidosFiltro = new ReferidosFiltroViewModel();
+                            Application.Current.MainPage = new NavigationPage(new ReferidosFiltroPage());
+                            return;
+                        }
+                        else
+                        {
+                            MainViewModel.GetInstance().ReferidosOrdenesNomina = new ReferidosOrdenesNominaViewModel();
+                            Application.Current.MainPage = new ReferidosMasterPage();
+                            return;
                         }
                     }
                 }

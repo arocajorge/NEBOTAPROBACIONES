@@ -40,60 +40,20 @@ namespace Core.App.Aprobacion.ViewModels
 
         private async void Navigate()
         {
-            App.Master.IsPresented = false;
-            switch (this.PageName)
+            try
             {
-                case "JefeSupervisorFiltrosPage":
 
-                    Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
-                    if (!con.IsSuccess)
-                    {
-                        string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
-                        con = await apiService.CheckConnection(UrlDistinto);
+                if(App.MasterJefeSupervisor != null)
+                    App.MasterJefeSupervisor.IsPresented = false;
+                if(App.MasterReferidos != null)
+                    App.MasterReferidos.IsPresented = false;
+
+                switch (this.PageName)
+                {
+                    case "JefeSupervisorFiltrosPage":
+
+                        Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
                         if (!con.IsSuccess)
-                        {
-                            MainViewModel.GetInstance().NoHayConexion = new NoHayConexionViewModel();
-                            Application.Current.MainPage = new NavigationPage(new NoHayConexionPage());
-                            return;
-                        }
-                        else
-                            Settings.UrlConexionActual = UrlDistinto;
-                    }
-
-                    var response_cs = await apiService.GetObject<UsuarioModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Usuario", "USUARIO=" + Settings.IdUsuario);
-                    if (!response_cs.IsSuccess)
-                    {
-                        MainViewModel.GetInstance().NoHayConexion = new NoHayConexionViewModel();
-                        Application.Current.MainPage = new NavigationPage(new NoHayConexionPage());
-                        return;
-                    }
-                    var usuario = (UsuarioModel)response_cs.Result;
-                    if (usuario != null)
-                    {
-                        MainViewModel.GetInstance().FiltroJefeSupervisor = new FiltroJefeSupervisorViewModel(usuario.RolApro.ToUpper());
-                        Application.Current.MainPage = new NavigationPage(new FiltroJefeSupervisorPage());
-                    }
-                    break;
-                case "LoginPage":
-                    #region Limpio los settings
-                    #endregion
-                    MainViewModel.GetInstance().Login = new LoginViewModel();
-                    Application.Current.MainPage = new NavigationPage(new LoginPage());
-                    break;                
-                case "JefeSupervisorOrdenesPage":
-                    MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
-                    await App.Navigator.PushAsync(new JefeSupervisorOrdenesPage());
-                    break;
-                case "JefeSupervisorBitacorasPage":
-                    if (string.IsNullOrEmpty(Settings.Sucursal) || string.IsNullOrEmpty(Settings.Viaje))
-                    {
-                        await Application.Current.MainPage.DisplayAlert(
-                          "Alerta",
-                          "Para ingresar a bitácoras debe escoger barco y viaje",
-                          "Aceptar");
-
-                        Response conection = await apiService.CheckConnection(Settings.UrlConexionActual);
-                        if (!conection.IsSuccess)
                         {
                             string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
                             con = await apiService.CheckConnection(UrlDistinto);
@@ -107,26 +67,92 @@ namespace Core.App.Aprobacion.ViewModels
                                 Settings.UrlConexionActual = UrlDistinto;
                         }
 
-                        var response_cs2 = await apiService.GetObject<UsuarioModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Usuario", "USUARIO=" + Settings.IdUsuario);
-                        if (!response_cs2.IsSuccess)
+                        var response_cs = await apiService.GetObject<UsuarioModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Usuario", "USUARIO=" + Settings.IdUsuario);
+                        if (!response_cs.IsSuccess)
                         {
                             MainViewModel.GetInstance().NoHayConexion = new NoHayConexionViewModel();
                             Application.Current.MainPage = new NavigationPage(new NoHayConexionPage());
                             return;
                         }
-                        var usuario1 = (UsuarioModel)response_cs2.Result;
-                        if (usuario1 != null)
+                        var usuario = (UsuarioModel)response_cs.Result;
+                        if (usuario != null)
                         {
-                            MainViewModel.GetInstance().FiltroJefeSupervisor = new FiltroJefeSupervisorViewModel(usuario1.RolApro.ToUpper());
-                            Application.Current.MainPage = new NavigationPage(new FiltroJefeSupervisorPage());
+                            MainViewModel.GetInstance().FiltroJefeSupervisor = new JefeSupervisorFiltroViewModel(usuario.RolApro.ToUpper());
+                            Application.Current.MainPage = new NavigationPage(new JefeSupervisorFiltroPage());
                         }
-                    }
-                    else
-                    {
-                        MainViewModel.GetInstance().JefeSupervisorBitacoras = new JefeSupervisorBitacorasViewModel();
-                        await App.Navigator.PushAsync(new JefeSupervisorBitacorasPage());
-                    }
-                    break;
+                        break;
+                    case "LoginPage":
+                        #region Limpio los settings
+                        #endregion
+                        MainViewModel.GetInstance().Login = new LoginViewModel();
+                        Application.Current.MainPage = new NavigationPage(new LoginPage());
+                        break;
+                    case "JefeSupervisorOrdenesPage":
+                        MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
+                        await App.Navigator.PushAsync(new JefeSupervisorOrdenesPage());
+                        break;
+                    case "JefeSupervisorBitacorasPage":
+                        if (string.IsNullOrEmpty(Settings.Sucursal) || string.IsNullOrEmpty(Settings.Viaje))
+                        {
+                            await Application.Current.MainPage.DisplayAlert(
+                              "Alerta",
+                              "Para ingresar a bitácoras debe escoger barco y viaje",
+                              "Aceptar");
+
+                            Response conection = await apiService.CheckConnection(Settings.UrlConexionActual);
+                            if (!conection.IsSuccess)
+                            {
+                                string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
+                                con = await apiService.CheckConnection(UrlDistinto);
+                                if (!con.IsSuccess)
+                                {
+                                    MainViewModel.GetInstance().NoHayConexion = new NoHayConexionViewModel();
+                                    Application.Current.MainPage = new NavigationPage(new NoHayConexionPage());
+                                    return;
+                                }
+                                else
+                                    Settings.UrlConexionActual = UrlDistinto;
+                            }
+
+                            var response_cs2 = await apiService.GetObject<UsuarioModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Usuario", "USUARIO=" + Settings.IdUsuario);
+                            if (!response_cs2.IsSuccess)
+                            {
+                                MainViewModel.GetInstance().NoHayConexion = new NoHayConexionViewModel();
+                                Application.Current.MainPage = new NavigationPage(new NoHayConexionPage());
+                                return;
+                            }
+                            var usuario1 = (UsuarioModel)response_cs2.Result;
+                            if (usuario1 != null)
+                            {
+                                MainViewModel.GetInstance().FiltroJefeSupervisor = new JefeSupervisorFiltroViewModel(usuario1.RolApro.ToUpper());
+                                Application.Current.MainPage = new NavigationPage(new JefeSupervisorFiltroPage());
+                            }
+                        }
+                        else
+                        {
+                            MainViewModel.GetInstance().JefeSupervisorBitacoras = new JefeSupervisorBitacorasViewModel();
+                            Application.Current.MainPage = new NavigationPage(new JefeSupervisorBitacorasPage());
+                        }
+                        break;
+
+                    case "ReferidosFiltroPage":
+                        MainViewModel.GetInstance().ReferidosFiltro = new ReferidosFiltroViewModel();                        
+                        Application.Current.MainPage = new NavigationPage(new ReferidosFiltroPage());
+                        break;
+                    case "ReferidosOrdenesNominaPage":
+                        MainViewModel.GetInstance().ReferidosOrdenesNomina = new ReferidosOrdenesNominaViewModel();
+                        Application.Current.MainPage = new ReferidosMasterPage();
+                        break;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    ex.Message,
+                    "Aceptar");
+
+                return;
             }
         }
         #endregion

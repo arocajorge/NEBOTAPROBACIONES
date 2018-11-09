@@ -36,7 +36,5 @@
 	<string>1</string>
 	<key>XSLaunchImageAssets</key>
 	<string>Resources/Assets.xcassets/LaunchImages.launchimage</string>
-	<key>MinimumOSVersion</key>
-	<string>10.0</string>
 </dict>
 </plist>

@@ -121,7 +121,7 @@
                     
                         <ListView
                             SeparatorVisibility="None"
-                            ItemsSource="{Binding Orden.lst}"                        
+                            ItemsSource="{Binding ListaDetalle}"                        
                             HasUnevenRows="True"
                             HeightRequest="{Binding Height}"
                             IsVisible="{Binding EsChatarraVisible, Mode=TwoWay}">

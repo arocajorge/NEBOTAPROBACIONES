@@ -15,7 +15,7 @@ namespace Core.App.Aprobacion.ViewModels
 
         private void SelectOrden()
         {
-            App.Master.IsPresented = false;
+            App.MasterJefeSupervisor.IsPresented = false;
             MainViewModel.GetInstance().JefeSupervisorOrden = new JefeSupervisorOrdenViewModel(this);
             App.Navigator.Navigation.PushAsync(new JefeSupervisorOrdenPage());
         }

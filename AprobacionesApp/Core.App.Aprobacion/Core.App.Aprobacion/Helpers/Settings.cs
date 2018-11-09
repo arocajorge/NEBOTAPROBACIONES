@@ -21,10 +21,10 @@
         const string bodega = "bodega";
         const string viaje = "viaje";
         const string fechaInicio = "fechaInicio";
-        const string fechaFin = "fechaFin";
         const string numeroOrden = "numeroOrden";
         const string estadoSupervisor = "estadoSupervisor";
         const string estadoJefe = "estadoJefe";
+        const string estadoGerente = "estadoGerente";
         const string rolApro = "rolApro";
 
         static readonly string stringDefault = string.Empty;        
@@ -152,6 +152,17 @@
                 AppSettings.AddOrUpdateValue(estadoSupervisor, value);
             }
         }
+        public static string EstadoGerente
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(estadoGerente, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(estadoGerente, value);
+            }
+        }
         public static string FechaInicio
         {
             get
@@ -161,17 +172,6 @@
             set
             {
                 AppSettings.AddOrUpdateValue(fechaInicio, value);
-            }
-        }
-        public static string FechaFin
-        {
-            get
-            {
-                return AppSettings.GetValueOrDefault(fechaFin, stringDefault);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue(fechaFin, value);
             }
         }
         public static string NumeroOrden

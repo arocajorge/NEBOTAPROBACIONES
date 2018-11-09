@@ -302,4 +302,13 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_highlight_off.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_check_box.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_check_box_outline_blank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_indeterminate_check_box.png" />
+  </ItemGroup>
 </Project>

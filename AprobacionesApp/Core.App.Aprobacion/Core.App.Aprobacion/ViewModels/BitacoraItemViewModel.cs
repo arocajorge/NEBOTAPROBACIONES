@@ -15,7 +15,7 @@ namespace Core.App.Aprobacion.ViewModels
 
         private void SelectBitacora()
         {
-            App.Master.IsPresented = false;
+            App.MasterJefeSupervisor.IsPresented = false;
             MainViewModel.GetInstance().JefeSupervisorBitacora = new JefeSupervisorBitacoraViewModel(this);
             App.Navigator.Navigation.PushAsync(new JefeSupervisorBitacoraPage());
         }

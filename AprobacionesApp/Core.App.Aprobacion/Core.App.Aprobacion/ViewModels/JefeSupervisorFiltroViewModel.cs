@@ -13,15 +13,13 @@ using Xamarin.Forms;
 
 namespace Core.App.Aprobacion.ViewModels
 {
-    public class FiltroJefeSupervisorViewModel : BaseViewModel
+    public class JefeSupervisorFiltroViewModel : BaseViewModel
     {
         #region Variables
         private bool _IsEnabled;
         private bool _IsRunning;
         private ApiService apiService;
         private DateTime _FechaInicio;
-        private DateTime _FechaFin;
-        private string _NumeroOrden;
         private bool SetSettings;
 
         private ObservableCollection<CatalogoModel> _ListaSucursal;
@@ -61,17 +59,6 @@ namespace Core.App.Aprobacion.ViewModels
             get { return this._FechaInicio; }
             set { SetValue(ref this._FechaInicio, value); }
         }
-        public DateTime FechaFin
-        {
-            get { return this._FechaFin; }
-            set { SetValue(ref this._FechaFin, value); }
-        }
-        public string NumeroOrden
-        {
-            get { return this._NumeroOrden; }
-            set { SetValue(ref this._NumeroOrden, value); }
-        }
-
         public ObservableCollection<CatalogoModel> ListaSucursal
         {
             get { return this._ListaSucursal; }
@@ -216,7 +203,7 @@ namespace Core.App.Aprobacion.ViewModels
         #endregion
 
         #region Constructor
-        public FiltroJefeSupervisorViewModel(string ROL_APRO)
+        public JefeSupervisorFiltroViewModel(string ROL_APRO)
         {
             apiService = new ApiService();
             IsEnabled = true;
@@ -226,7 +213,6 @@ namespace Core.App.Aprobacion.ViewModels
             SelectedEstadoJefe = new CatalogoModel();
             SelectedEstadoSupervisor = new CatalogoModel();
             FechaInicio = string.IsNullOrEmpty(Settings.FechaInicio) ? DateTime.Now.Date.AddMonths(-2) : Convert.ToDateTime(Settings.FechaInicio);
-            FechaFin = DateTime.Now.Date;
             Settings.RolApro = ROL_APRO;
 
           if(!string.IsNullOrEmpty(Settings.FechaInicio))
@@ -264,32 +250,16 @@ namespace Core.App.Aprobacion.ViewModels
                 IsEnabled = false;
 
                 Settings.FechaInicio = FechaInicio.ToShortDateString();
-                Settings.FechaFin = FechaFin.ToShortDateString();
                 Settings.Sucursal = SelectedSucursal == null ? "" : SelectedSucursal.Codigo;
                 Settings.Bodega = SelectedBodega == null ? "" : SelectedBodega.Codigo;
                 Settings.Viaje = SelectedViaje == null ? "" : SelectedViaje.Codigo;
                 Settings.EstadoJefe = SelectedEstadoJefe == null ? "" : SelectedEstadoJefe.Codigo;
                 Settings.EstadoSupervisor = SelectedEstadoSupervisor == null ? "" : SelectedEstadoSupervisor.Codigo;
-                Settings.NumeroOrden = NumeroOrden;
-                /*
-                string mensaje = "FechaInicio="+Settings.FechaInicio;
-                mensaje += "&FechaFin=" + Settings.FechaFin;
-                mensaje += "&Sucursal=" + Settings.Sucursal;
-                mensaje += "&Bodega=" + Settings.Bodega;
-                mensaje += "&Viaje=" + Settings.Viaje;
-                mensaje += "&EstadoJefe=" + Settings.EstadoJefe;
-                mensaje += "&EstadoSupervisor=" + Settings.EstadoSupervisor;
-                mensaje += "&NumeroOrden=" + Settings.NumeroOrden;
-                
-                await Application.Current.MainPage.DisplayAlert(
-                    "Alerta",
-                    mensaje,
-                    "Aceptar");
-                    */
+
                 IsRunning = false;
                 IsEnabled = true;
 
-                MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
+                MainViewModel.GetInstance().JefeSupervisorBitacoras = new JefeSupervisorBitacorasViewModel();
                 Application.Current.MainPage = new JefeSupervisorMasterPage();
             }
             catch (System.Exception ex)

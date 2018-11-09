@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Core.App.Aprobacion.Views"
+                BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             x:Class="Core.App.Aprobacion.Views.ReferidosMasterPage">
+    <MasterDetailPage.Master>
+        <pages:JefeSupervisorMenuPage></pages:JefeSupervisorMenuPage>
+    </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <NavigationPage x:Name="Navigator">
+            <x:Arguments>
+                <pages:ReferidosOrdenesNominaPage>
+
+                </pages:ReferidosOrdenesNominaPage>
+            </x:Arguments>
+        </NavigationPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

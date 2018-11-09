@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace Core.App.Aprobacion.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class FiltroJefeSupervisorPage : ContentPage
+	public partial class ReferidosFiltroPage : ContentPage
 	{
-		public FiltroJefeSupervisorPage ()
+		public ReferidosFiltroPage ()
 		{
 			InitializeComponent ();
 		}

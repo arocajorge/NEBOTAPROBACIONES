@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.ReferidosFiltroPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Filtros">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout
+                Padding="20"
+                BindingContext="{Binding ReferidosFiltro}">
+                <Label      
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    Text="Desde">
+                </Label>
+                <DatePicker                            
+                    Date="{Binding FechaInicio, Mode=TwoWay}">
+                    <DatePicker.Format>dd/MM/yyyy</DatePicker.Format>
+                </DatePicker>
+                <Label      
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    Text="Barco">
+                </Label>
+                <Picker
+                    ItemsSource="{Binding ListaSucursal}"
+                    ItemDisplayBinding="{Binding Descripcion}"
+                    SelectedIndex="{Binding SucursalSelectedIndex, Mode=TwoWay}"
+                    Title="Seleccione la sucursal">
+                </Picker>
+                <Label      
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    Text="Estado gerente">
+                </Label>
+                <Picker
+                    ItemsSource="{Binding ListaEstadoGerente}"
+                    ItemDisplayBinding="{Binding Descripcion}"
+                    SelectedIndex="{Binding EstadoGerenteSelectedIndex, Mode=TwoWay}"
+                    Title="Seleccione el estado">
+                </Picker>
+
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                    VerticalOptions="CenterAndExpand">
+                </ActivityIndicator>
+                <Button
+                        BackgroundColor="CornflowerBlue"
+                        TextColor="White"
+                        Command="{Binding FiltrarCommand}"
+                        IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                        VerticalOptions="End"
+                        Text="Guardar">
+                </Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
