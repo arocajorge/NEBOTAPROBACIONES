@@ -21,5 +21,7 @@ namespace AprobacionesApi.Models
         public string CINV_TDOC { get; set; }
         public string NOM_VIAJE { get; set; }
         public bool ESCHATARRA { get; set; }
+        public decimal? DINV_ICE { get; set; }
+        public decimal DINV_DSC { get; set; }
     }
 }

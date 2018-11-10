@@ -114,10 +114,16 @@
     <Compile Include="Controllers\BitacorasDetJefeSupController.cs" />
     <Compile Include="Controllers\BitacorasJefeSupController.cs" />
     <Compile Include="Controllers\CatalogosController.cs" />
+    <Compile Include="Controllers\CreacionOrdenTrabajoController.cs" />
     <Compile Include="Controllers\OrdenNominaController.cs" />
+    <Compile Include="Controllers\OrdenNominaDetController.cs" />
     <Compile Include="Controllers\OrdenTrabajoController.cs" />
     <Compile Include="Controllers\PoliticaDePrivacidadController.cs" />
+    <Compile Include="Controllers\ProveedorController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Data\APP_LOGERROR.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\ARINDEX.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
@@ -149,6 +155,9 @@
       <DependentUpon>ModelGeneral.edmx</DependentUpon>
     </Compile>
     <Compile Include="Data\SUCURSAL.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\TBBI_SECDOC.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\TBCINV.cs">

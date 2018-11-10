@@ -14,9 +14,9 @@ namespace AprobacionesApi.Data
     
     public partial class TBCINV_APP_ORDENES_SALTADAS
     {
-        public decimal ID { get; set; }
+        public int ID { get; set; }
         public string USUARIO { get; set; }
         public string CINV_TDOC { get; set; }
-        public decimal CINV_NUM { get; set; }
+        public int CINV_NUM { get; set; }
     }
 }

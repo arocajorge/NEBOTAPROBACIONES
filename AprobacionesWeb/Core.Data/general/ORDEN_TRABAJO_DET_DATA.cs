@@ -81,7 +81,8 @@ namespace Core.Data.general
                              DINV_DSC = q.DINV_DSC,
                              DINV_PRCT_DSC = q.DINV_PRCT_DSC,
                              DINV_VTA = q.DINV_VTA,
-                             TELEFONOS = q.TELEFONOS
+                             TELEFONOS = q.TELEFONOS,
+                             DINV_ICE = q.DINV_ICE
                              
                          }).ToList();
 
@@ -89,7 +90,7 @@ namespace Core.Data.general
                 provider.NumberDecimalSeparator = ".";
                 provider.NumberGroupSeparator = ",";
                 provider.NumberGroupSizes = new int[] { 3 };
-                Lista.ForEach(q => { q.TOTAL = ( (q.CINV_TDOC == "OT" || q.CINV_TDOC == "OK") ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : q.DINV_COS) + q.DINV_IVA; });
+                Lista.ForEach(q => { q.TOTAL = ( (q.CINV_TDOC == "OT" || q.CINV_TDOC == "OK") ? (Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider)) : (q.DINV_VTA - q.DINV_DSC +  (q.DINV_ICE == null ? 0 : Convert.ToDecimal(q.DINV_ICE,provider)))) + q.DINV_IVA; });
             }
 
             return Lista.OrderBy(q=>q.DINV_LINEA).ToList();

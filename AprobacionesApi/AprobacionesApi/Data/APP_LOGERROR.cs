@@ -12,10 +12,12 @@ namespace AprobacionesApi.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class USUARIOS_MENU_APP
+    public partial class APP_LOGERROR
     {
-        public string USUARIO { get; set; }
-        public string MENU { get; set; }
-        public string MENUFILTRO { get; set; }
+        public long SECUENCIA { get; set; }
+        public string PROCESO { get; set; }
+        public string ERROR { get; set; }
+        public System.DateTime FECHA { get; set; }
+        public string INNER { get; set; }
     }
 }

@@ -70,5 +70,6 @@ namespace Core.Info.general
         public decimal DINV_PRCT_DSC { get; set; }
         public decimal DINV_VTA { get; set; }
         public string TELEFONOS { get; set; }
+        public Nullable<decimal> DINV_ICE { get; set; }
     }
 }

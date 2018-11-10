@@ -1,9 +1,6 @@
 ﻿using Core.Info.general;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Data.general
 {
@@ -14,7 +11,7 @@ namespace Core.Data.general
         {
             try
             {
-                var Orden = db.TBCINV_APPCORREOS.Where(q => q.FECHA_ENVIO == null).FirstOrDefault();
+                var Orden = db.TBCINV_APPCORREOS.Where(q => q.FECHA_ENVIO == null).OrderBy(q=>q.FECHA_APRO).FirstOrDefault();
                 if (Orden == null)
                     return null;
 

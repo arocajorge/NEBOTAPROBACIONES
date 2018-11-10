@@ -34,7 +34,7 @@ namespace Core.WindowsService
         {
             Timer aTimer = new System.Timers.Timer();
             aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            aTimer.Interval = TimeSpan.FromSeconds(60).TotalMilliseconds;
+            aTimer.Interval = TimeSpan.FromSeconds(20).TotalMilliseconds;
             aTimer.Enabled = true;
         }
 
@@ -151,7 +151,7 @@ namespace Core.WindowsService
             if (!string.IsNullOrEmpty(info.CORREO_CENTROCOSTO2))
                 mail.To.Add(info.CORREO_CENTROCOSTO2);
 
-            mail.Subject = "Ordenes de " + (tipo_doc == "OT" ? "trabajo" : "compra") + (Estado == "P"  ?" Aprobada " : " Anulada ")+ "No." + (tipo_doc == "OT" ? (info.CODIGOTR + "-") : "") + ID.ToString();
+            mail.Subject = "Orden de " + (tipo_doc == "OT" ? "trabajo" : "compra") + (Estado == "P"  ?" Aprobada " : " Anulada ")+ "No." + (tipo_doc == "OT" ? (info.CODIGOTR + "-") : "") + ID.ToString();
             string Body = "";
             Body += "<p>Saludos, se detalla orden de " + (tipo_doc == "OT" ? "trabajo" : "compra") + " para: " + info.CINV_COM1 + "</p>";
             Body += "<p>Estimado Proveedor</p>";

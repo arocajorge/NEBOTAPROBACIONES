@@ -76,5 +76,6 @@ namespace Core.Data
         public decimal DINV_VTA { get; set; }
         public string TELEFONOS { get; set; }
         public string DETALLE_ORDEN { get; set; }
+        public Nullable<decimal> DINV_ICE { get; set; }
     }
 }

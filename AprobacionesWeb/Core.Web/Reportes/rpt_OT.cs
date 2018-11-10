@@ -1,10 +1,6 @@
-﻿using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using DevExpress.XtraReports.UI;
+﻿using Core.Data.general;
 using Core.Info.general;
-using Core.Data.general;
+using System;
 using System.Collections.Generic;
 
 namespace Core.Web.Reportes
@@ -22,7 +18,7 @@ namespace Core.Web.Reportes
             int cinv_num = Convert.ToInt32(p_num.Value);
             ORDEN_TRABAJO_DET_DATA odata = new ORDEN_TRABAJO_DET_DATA();
             List<ORDEN_TRABAJO_DET_INFO> lst_rpt = odata.get_list(TipoDoc,cinv_num);
-            
+
             lblEstado.Text = lst_rpt.Count > 0 ? (lst_rpt[0].CINV_ST == "X" ? "ANULADA" : "APROBADA") : "";
             this.DataSource = lst_rpt;
         }

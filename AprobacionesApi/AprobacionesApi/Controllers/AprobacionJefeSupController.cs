@@ -30,25 +30,37 @@ namespace AprobacionesApi.Controllers
                 if (UsuarioInfo == null)
                     return new List<OrdenModel>();
 
-                Lista = get_list(BARCO, BODEGA, VIAJE, CINV_NUM, ESTADOJEFE, ESTADOSUPERVISOR, Convert.ToDateTime(FECHAINI), Convert.ToDateTime(FECHAFIN));
+                Lista = GetList(BARCO, BODEGA, VIAJE, CINV_NUM, ESTADOJEFE, ESTADOSUPERVISOR, Convert.ToDateTime(FECHAINI), Convert.ToDateTime(FECHAFIN));
 
                 return Lista;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                long ID = db.APP_LOGERROR.Count() > 0 ? (db.APP_LOGERROR.Select(q => q.SECUENCIA).Max() + 1) : 1;
+                db.APP_LOGERROR.Add(new APP_LOGERROR
+                {
+                    ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
+                    INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
+                    FECHA = DateTime.Now,
+                    PROCESO = "AprobacionJefeSup/GET",
+                    SECUENCIA = ID
+                });
+                db.SaveChanges();
                 return new List<OrdenModel>();
             }
         }
 
 
-        public List<OrdenModel> get_list(string Barco, string Bodega, string Viaje, string num_ot, string estado_jefe_bodega, string estado_supervisor, DateTime fecha_ini, DateTime fecha_fin)
+        public List<OrdenModel> GetList(string Barco, string Bodega, string Viaje, string num_ot, string estado_jefe_bodega, string estado_supervisor, DateTime fecha_ini, DateTime fecha_fin)
         {
-            List<OrdenModel> Lista;
-            
+            try
+            {
+                List<OrdenModel> Lista;
+
                 string where_clause = "(CINV_ST = \"P\" OR CINV_ST = \"G\") AND CINV_TDOC = \"OT\" ";
-            if (!string.IsNullOrEmpty(Barco))
-                where_clause += "AND CODIGOTR = \"" + Barco + "\" ";
-            if (!string.IsNullOrEmpty(Bodega))
+                if (!string.IsNullOrEmpty(Barco))
+                    where_clause += "AND CODIGOTR = \"" + Barco + "\" ";
+                if (!string.IsNullOrEmpty(Bodega))
                     where_clause += "AND CINV_BOD = \"" + Bodega + "\" ";
                 if (!string.IsNullOrEmpty(Viaje))
                     where_clause += "AND CINV_FPAGO = \"" + Viaje + "\" ";
@@ -83,14 +95,29 @@ namespace AprobacionesApi.Controllers
                              VALOR_OC = q.VALOR_OC,
                              NOM_CENTROCOSTO = q.NOM_CENTROCOSTO,
                          }).ToList();
-            
-            NumberFormatInfo provider = new NumberFormatInfo();
-            provider.NumberDecimalSeparator = ".";
-            provider.NumberGroupSeparator = ",";
-            provider.NumberGroupSizes = new int[] { 3 };
-            Lista.ForEach(q => { q.VALOR_OT = q.CINV_TDOC == "OT" ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : 0; });
 
-            return Lista.OrderBy(q => q.CINV_NUM).ToList();
+                NumberFormatInfo provider = new NumberFormatInfo();
+                provider.NumberDecimalSeparator = ".";
+                provider.NumberGroupSeparator = ",";
+                provider.NumberGroupSizes = new int[] { 3 };
+                Lista.ForEach(q => { q.VALOR_OT = q.CINV_TDOC == "OT" ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : 0; });
+
+                return Lista.OrderBy(q => q.CINV_NUM).ToList();
+            }
+            catch (Exception ex)
+            {
+                long ID = db.APP_LOGERROR.Count() > 0 ? (db.APP_LOGERROR.Select(q => q.SECUENCIA).Max() + 1) : 1;
+                db.APP_LOGERROR.Add(new APP_LOGERROR
+                {
+                    ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
+                    INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
+                    FECHA = DateTime.Now,
+                    PROCESO = "AprobacionJefeSup/GET/GetList",
+                    SECUENCIA = ID
+                });
+                db.SaveChanges();
+                return new List<OrdenModel>();
+            }      
         }        
     }
 

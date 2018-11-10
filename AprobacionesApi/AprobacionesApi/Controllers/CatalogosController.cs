@@ -14,36 +14,53 @@ namespace AprobacionesApi.Controllers
         EntitiesGeneral db = new EntitiesGeneral();
         public IEnumerable<CatalogoModel> GET()
         {
-            var Lista = (from q in db.SUCURSAL
-                     where q.ESTADO == "Vigente"
-                     select new CatalogoModel
-                     {
-                         Tipo = "Sucursal",
-                         Codigo = q.CODIGO,
-                         Descripcion = q.NOMBRE
-                     }).ToList();
+            try
+            {
+                var Lista = (from q in db.SUCURSAL
+                             where q.ESTADO == "Vigente"
+                             select new CatalogoModel
+                             {
+                                 Tipo = "Sucursal",
+                                 Codigo = q.CODIGO,
+                                 Descripcion = q.NOMBRE
+                             }).ToList();
 
-            Lista.AddRange((from q in db.ARINDEX
-                            where q.DATA == "2"
-                            && q.ESTADO == "Vigente"
-                            select new CatalogoModel
-                            {
-                                Tipo = "Viaje",
-                                Codigo = q.CODIGO,
-                                Descripcion = q.NOMBRE
-                            }).ToList());
+                Lista.AddRange((from q in db.ARINDEX
+                                where q.DATA == "2"
+                                && q.ESTADO == "Vigente"
+                                select new CatalogoModel
+                                {
+                                    Tipo = "Viaje",
+                                    Codigo = q.CODIGO,
+                                    Descripcion = q.NOMBRE
+                                }).ToList());
 
-            Lista.AddRange((from q in db.ARINDEX
-                            where q.DATA == "O"
-                            && q.ESTADO == "Vigente"
-                            select new CatalogoModel
-                            {
-                                Tipo = "Bodega",
-                                Codigo = q.CODIGO,
-                                Descripcion = q.NOMBRE
-                            }).ToList());
+                Lista.AddRange((from q in db.ARINDEX
+                                where q.DATA == "O"
+                                && q.ESTADO == "Vigente"
+                                select new CatalogoModel
+                                {
+                                    Tipo = "Bodega",
+                                    Codigo = q.CODIGO,
+                                    Descripcion = q.NOMBRE
+                                }).ToList());
 
-            return Lista;
+                return Lista;
+            }
+            catch (Exception ex)
+            {
+                long SECUENCIAID = db.APP_LOGERROR.Count() > 0 ? (db.APP_LOGERROR.Select(q => q.SECUENCIA).Max() + 1) : 1;
+                db.APP_LOGERROR.Add(new APP_LOGERROR
+                {
+                    ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
+                    INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
+                    FECHA = DateTime.Now,
+                    PROCESO = "Catalogos/GET",
+                    SECUENCIA = SECUENCIAID
+                });
+                db.SaveChanges();
+                return new List<CatalogoModel>();
+            }
         }
     }
 }

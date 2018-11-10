@@ -14,34 +14,51 @@ namespace AprobacionesApi.Controllers
         EntitiesGeneral db = new EntitiesGeneral();
         public IEnumerable<BitacoraModel> GET(string BARCO = "", string VIAJE = "")
         {
-            var lst =
-                 (from q in db.VW_BITACORAS_APP
-                          where q.VIAJE == VIAJE
-                          && q.BARCO == BARCO
-                          && q.ESTADO == "A"
-                          group q by q.LINEA into grouping
-                          select new BitacoraModel
-                          {
-                              ID = grouping.Max(c => c.ID),
-                              DESCRIPCION = grouping.Max(c => c.DESCRIPCION),
-                              CONTRATISTA = grouping.Max(c => c.CONTRATISTA),
-                              NOM_BARCO = grouping.Max(c => c.NOM_BARCO),
-                              NOM_VIAJE = grouping.Max(c => c.NOM_VIAJE),
-                              CANTIDADLINEAS = grouping.Where(c => c.LINEA_DETALLE != null).Count(),
-                              PENTIENTEJEFE = grouping.Where(q=>string.IsNullOrEmpty(q.STCUMPLI1)).Count(),
-                              PENTIENTESUPERVISOR = grouping.Where(q => string.IsNullOrEmpty(q.STCUMPLI2)).Count(),                              
-                              LINEA = grouping.Key,
-                              LINEA_FECCUMPLI1 = grouping.Max(q => q.LINEA_FECCUMPLI1),
-                              LINEA_FECCUMPLI2 = grouping.Max(q => q.LINEA_FECCUMPLI2),
-                              LINEA_STCUMPLI1 = grouping.Max(q => q.LINEA_STCUMPLI1),
-                              LINEA_STCUMPLI2 = grouping.Max(q => q.LINEA_STCUMPLI2),
-                          }).ToList();
-            lst.ForEach(q =>
+            try
             {
-                q.CUMPLIJEFE = (q.CANTIDADLINEAS - q.PENTIENTEJEFE) == 0 ? true : false;
-                q.CUMPLISUP = (q.CANTIDADLINEAS - q.PENTIENTESUPERVISOR) == 0 ? true : false;
-            });
-            return lst;
+                var lst =
+                 (from q in db.VW_BITACORAS_APP
+                  where q.VIAJE == VIAJE
+                  && q.BARCO == BARCO
+                  && q.ESTADO == "A"
+                  group q by q.LINEA into grouping
+                  select new BitacoraModel
+                  {
+                      ID = grouping.Max(c => c.ID),
+                      DESCRIPCION = grouping.Max(c => c.DESCRIPCION),
+                      CONTRATISTA = grouping.Max(c => c.CONTRATISTA),
+                      NOM_BARCO = grouping.Max(c => c.NOM_BARCO),
+                      NOM_VIAJE = grouping.Max(c => c.NOM_VIAJE),
+                      CANTIDADLINEAS = grouping.Where(c => c.LINEA_DETALLE != null).Count(),
+                      PENTIENTEJEFE = grouping.Where(q => string.IsNullOrEmpty(q.STCUMPLI1)).Count(),
+                      PENTIENTESUPERVISOR = grouping.Where(q => string.IsNullOrEmpty(q.STCUMPLI2)).Count(),
+                      LINEA = grouping.Key,
+                      LINEA_FECCUMPLI1 = grouping.Max(q => q.LINEA_FECCUMPLI1),
+                      LINEA_FECCUMPLI2 = grouping.Max(q => q.LINEA_FECCUMPLI2),
+                      LINEA_STCUMPLI1 = grouping.Max(q => q.LINEA_STCUMPLI1),
+                      LINEA_STCUMPLI2 = grouping.Max(q => q.LINEA_STCUMPLI2),
+                  }).ToList();
+                lst.ForEach(q =>
+                {
+                    q.CUMPLIJEFE = (q.CANTIDADLINEAS - q.PENTIENTEJEFE) == 0 ? true : false;
+                    q.CUMPLISUP = (q.CANTIDADLINEAS - q.PENTIENTESUPERVISOR) == 0 ? true : false;
+                });
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                long SECUENCIAID = db.APP_LOGERROR.Count() > 0 ? (db.APP_LOGERROR.Select(q => q.SECUENCIA).Max() + 1) : 1;
+                db.APP_LOGERROR.Add(new APP_LOGERROR
+                {
+                    ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
+                    INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
+                    FECHA = DateTime.Now,
+                    PROCESO = "BitacorasJefeSup/GET",
+                    SECUENCIA = SECUENCIAID
+                });
+                db.SaveChanges();
+                return new List<BitacoraModel>();
+            }            
         }
 
         public void Post([FromBody]BitacoraModel value)
@@ -73,9 +90,18 @@ namespace AprobacionesApi.Controllers
 
                 ActualizarOrdenes(value.ID,value.LINEA,usuario.ROL_APRO, usuario.USUARIO);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                long SECUENCIAID = db.APP_LOGERROR.Count() > 0 ? (db.APP_LOGERROR.Select(q => q.SECUENCIA).Max() + 1) : 1;
+                db.APP_LOGERROR.Add(new APP_LOGERROR
+                {
+                    ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
+                    INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
+                    FECHA = DateTime.Now,
+                    PROCESO = "BitacorasJefeSup/POST",
+                    SECUENCIA = SECUENCIAID
+                });
+                db.SaveChanges();
             }
         }
 
@@ -141,10 +167,20 @@ namespace AprobacionesApi.Controllers
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                long SECUENCIAID = db.APP_LOGERROR.Count() > 0 ? (db.APP_LOGERROR.Select(q => q.SECUENCIA).Max() + 1) : 1;
+                db.APP_LOGERROR.Add(new APP_LOGERROR
+                {
+                    ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
+                    INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
+                    FECHA = DateTime.Now,
+                    PROCESO = "BitacorasJefeSup/POST/ActualizarOrdenes",
+                    SECUENCIA = SECUENCIAID
+                });
+                db.SaveChanges();
                 return false;
-            }            
+            }
         }
         
     }

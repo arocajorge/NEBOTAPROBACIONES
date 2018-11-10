@@ -28,6 +28,6 @@ namespace AprobacionesApi.Models
         public string NOM_SOLICITADO { get; set; }
         public string CINV_LOGIN { get; set; }
         public List<OrdenNominaDetalleModel> ListaDetalle { get; set; }
-        public int CINV_SEC { get; internal set; }
+        public string NOM_CARGO { get; set; }
     }
 }

@@ -37,8 +37,8 @@ namespace Core.Data
         public virtual DbSet<SUCURSAL> SUCURSAL { get; set; }
         public virtual DbSet<VW_BITACORAS> VW_BITACORAS { get; set; }
         public virtual DbSet<VW_BITACORAS_APP> VW_BITACORAS_APP { get; set; }
+        public virtual DbSet<ARPROVEEDOR> ARPROVEEDOR { get; set; }
         public virtual DbSet<VW_ORDENES_TRABAJO_APP> VW_ORDENES_TRABAJO_APP { get; set; }
         public virtual DbSet<VW_ORDENES_TRABAJO_TOTAL_APP> VW_ORDENES_TRABAJO_TOTAL_APP { get; set; }
-        public virtual DbSet<ARPROVEEDOR> ARPROVEEDOR { get; set; }
     }
 }

@@ -386,6 +386,7 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_APP' no tiene defi
           <Property Name="DINV_VTA" Type="number" Precision="19" Scale="4" Nullable="false" />
           <Property Name="TELEFONOS" Type="varchar2" MaxLength="40" />
           <Property Name="DETALLE_ORDEN" Type="varchar2" MaxLength="255" />
+          <Property Name="DINV_ICE" Type="number" Precision="19" Scale="4" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL_APP' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -590,7 +591,8 @@ FROM "INDIGO"."VW_BITACORAS_APP" "VW_BITACORAS_APP"</DefiningQuery>
 "VW_ORDENES_TRABAJO_APP"."DINV_PRCT_DSC" AS "DINV_PRCT_DSC", 
 "VW_ORDENES_TRABAJO_APP"."DINV_VTA" AS "DINV_VTA", 
 "VW_ORDENES_TRABAJO_APP"."TELEFONOS" AS "TELEFONOS", 
-"VW_ORDENES_TRABAJO_APP"."DETALLE_ORDEN" AS "DETALLE_ORDEN"
+"VW_ORDENES_TRABAJO_APP"."DETALLE_ORDEN" AS "DETALLE_ORDEN", 
+"VW_ORDENES_TRABAJO_APP"."DINV_ICE" AS "DINV_ICE"
 FROM "INDIGO"."VW_ORDENES_TRABAJO_APP" "VW_ORDENES_TRABAJO_APP"</DefiningQuery>
           </EntitySet>
           <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL_APP" EntityType="Self.VW_ORDENES_TRABAJO_TOTAL_APP" store:Type="Views" store:Schema="INDIGO">
@@ -668,9 +670,9 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <EntitySet Name="SUCURSAL" EntityType="Model_general.SUCURSAL" />
           <EntitySet Name="VW_BITACORAS" EntityType="Model_general.VW_BITACORAS" />
           <EntitySet Name="VW_BITACORAS_APP" EntityType="Model_general.VW_BITACORAS_APP" />
+          <EntitySet Name="ARPROVEEDOR" EntityType="Model_general.ARPROVEEDOR" />
           <EntitySet Name="VW_ORDENES_TRABAJO_APP" EntityType="Model_general.VW_ORDENES_TRABAJO_APP" />
           <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL_APP" EntityType="Model_general.VW_ORDENES_TRABAJO_TOTAL_APP" />
-          <EntitySet Name="ARPROVEEDOR" EntityType="Model_general.ARPROVEEDOR" />
         </EntityContainer>
         <EntityType Name="ARINDEX">
           <Key>
@@ -933,6 +935,41 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <Property Name="LINEA_FECCUMPLI1" Type="DateTime" />
           <Property Name="LINEA_FECCUMPLI2" Type="DateTime" />
         </EntityType>
+        <EntityType Name="ARPROVEEDOR">
+          <Key>
+            <PropertyRef Name="CODIGO" />
+          </Key>
+          <Property Name="CODIGO" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CEDULA" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="RUC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="DOMICILIO" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="TELEFONOS" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="DATA" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CIUDAD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_ULTMOD" Type="DateTime" />
+          <Property Name="FEC_APERTURA" Type="DateTime" />
+          <Property Name="ESTADO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_STATUS" Type="DateTime" />
+          <Property Name="FEC_ULTCOMP" Type="DateTime" />
+          <Property Name="EXENTO_IVA" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="APELLIDO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="COMENTARIO" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="SALDO_COMPRAS" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="CUPO_COMPRAS" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="CUPOMES_COMPRAS" Type="Decimal" Precision="15" Scale="4" />
+          <Property Name="DESCUENTO" Type="Decimal" Precision="15" Scale="4" />
+          <Property Name="CODIGO_NUM" Type="Int64" />
+          <Property Name="CODIGO1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SALDOD_COMPRAS" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="STATUS" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PAIS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CTACONTABLE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DATAZO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CODIGOZO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="E_MAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CONTACTO" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="VW_ORDENES_TRABAJO_APP">
           <Key>
             <PropertyRef Name="CINV_SEC" />
@@ -1010,6 +1047,7 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <Property Name="DINV_VTA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="TELEFONOS" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
           <Property Name="DETALLE_ORDEN" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_ICE" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="VW_ORDENES_TRABAJO_TOTAL_APP">
           <Key>
@@ -1072,41 +1110,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="CINV_COMENCUMPLI2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="ARPROVEEDOR">
-          <Key>
-            <PropertyRef Name="CODIGO" />
-          </Key>
-          <Property Name="CODIGO" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="NOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CEDULA" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="RUC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
-          <Property Name="DOMICILIO" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
-          <Property Name="TELEFONOS" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="DATA" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CIUDAD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="FECHA_ULTMOD" Type="DateTime" />
-          <Property Name="FEC_APERTURA" Type="DateTime" />
-          <Property Name="ESTADO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="FECHA_STATUS" Type="DateTime" />
-          <Property Name="FEC_ULTCOMP" Type="DateTime" />
-          <Property Name="EXENTO_IVA" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="APELLIDO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="COMENTARIO" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
-          <Property Name="SALDO_COMPRAS" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="CUPO_COMPRAS" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="CUPOMES_COMPRAS" Type="Decimal" Precision="15" Scale="4" />
-          <Property Name="DESCUENTO" Type="Decimal" Precision="15" Scale="4" />
-          <Property Name="CODIGO_NUM" Type="Int64" />
-          <Property Name="CODIGO1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="SALDOD_COMPRAS" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="STATUS" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="PAIS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CTACONTABLE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="DATAZO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CODIGOZO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="E_MAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CONTACTO" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1380,9 +1383,46 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ARPROVEEDOR">
+            <EntityTypeMapping TypeName="Model_general.ARPROVEEDOR">
+              <MappingFragment StoreEntitySet="ARPROVEEDOR">
+                <ScalarProperty Name="CONTACTO" ColumnName="CONTACTO" />
+                <ScalarProperty Name="E_MAIL" ColumnName="E_MAIL" />
+                <ScalarProperty Name="CODIGOZO" ColumnName="CODIGOZO" />
+                <ScalarProperty Name="DATAZO" ColumnName="DATAZO" />
+                <ScalarProperty Name="CTACONTABLE" ColumnName="CTACONTABLE" />
+                <ScalarProperty Name="PAIS" ColumnName="PAIS" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="SALDOD_COMPRAS" ColumnName="SALDOD_COMPRAS" />
+                <ScalarProperty Name="CODIGO1" ColumnName="CODIGO1" />
+                <ScalarProperty Name="CODIGO_NUM" ColumnName="CODIGO_NUM" />
+                <ScalarProperty Name="DESCUENTO" ColumnName="DESCUENTO" />
+                <ScalarProperty Name="CUPOMES_COMPRAS" ColumnName="CUPOMES_COMPRAS" />
+                <ScalarProperty Name="CUPO_COMPRAS" ColumnName="CUPO_COMPRAS" />
+                <ScalarProperty Name="SALDO_COMPRAS" ColumnName="SALDO_COMPRAS" />
+                <ScalarProperty Name="COMENTARIO" ColumnName="COMENTARIO" />
+                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
+                <ScalarProperty Name="EXENTO_IVA" ColumnName="EXENTO_IVA" />
+                <ScalarProperty Name="FEC_ULTCOMP" ColumnName="FEC_ULTCOMP" />
+                <ScalarProperty Name="FECHA_STATUS" ColumnName="FECHA_STATUS" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="FEC_APERTURA" ColumnName="FEC_APERTURA" />
+                <ScalarProperty Name="FECHA_ULTMOD" ColumnName="FECHA_ULTMOD" />
+                <ScalarProperty Name="CIUDAD" ColumnName="CIUDAD" />
+                <ScalarProperty Name="DATA" ColumnName="DATA" />
+                <ScalarProperty Name="TELEFONOS" ColumnName="TELEFONOS" />
+                <ScalarProperty Name="DOMICILIO" ColumnName="DOMICILIO" />
+                <ScalarProperty Name="RUC" ColumnName="RUC" />
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="VW_ORDENES_TRABAJO_APP">
             <EntityTypeMapping TypeName="Model_general.VW_ORDENES_TRABAJO_APP">
               <MappingFragment StoreEntitySet="VW_ORDENES_TRABAJO_APP">
+                <ScalarProperty Name="DINV_ICE" ColumnName="DINV_ICE" />
                 <ScalarProperty Name="DETALLE_ORDEN" ColumnName="DETALLE_ORDEN" />
                 <ScalarProperty Name="TELEFONOS" ColumnName="TELEFONOS" />
                 <ScalarProperty Name="DINV_VTA" ColumnName="DINV_VTA" />
@@ -1504,42 +1544,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
                 <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
                 <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
                 <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ARPROVEEDOR">
-            <EntityTypeMapping TypeName="Model_general.ARPROVEEDOR">
-              <MappingFragment StoreEntitySet="ARPROVEEDOR">
-                <ScalarProperty Name="CONTACTO" ColumnName="CONTACTO" />
-                <ScalarProperty Name="E_MAIL" ColumnName="E_MAIL" />
-                <ScalarProperty Name="CODIGOZO" ColumnName="CODIGOZO" />
-                <ScalarProperty Name="DATAZO" ColumnName="DATAZO" />
-                <ScalarProperty Name="CTACONTABLE" ColumnName="CTACONTABLE" />
-                <ScalarProperty Name="PAIS" ColumnName="PAIS" />
-                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
-                <ScalarProperty Name="SALDOD_COMPRAS" ColumnName="SALDOD_COMPRAS" />
-                <ScalarProperty Name="CODIGO1" ColumnName="CODIGO1" />
-                <ScalarProperty Name="CODIGO_NUM" ColumnName="CODIGO_NUM" />
-                <ScalarProperty Name="DESCUENTO" ColumnName="DESCUENTO" />
-                <ScalarProperty Name="CUPOMES_COMPRAS" ColumnName="CUPOMES_COMPRAS" />
-                <ScalarProperty Name="CUPO_COMPRAS" ColumnName="CUPO_COMPRAS" />
-                <ScalarProperty Name="SALDO_COMPRAS" ColumnName="SALDO_COMPRAS" />
-                <ScalarProperty Name="COMENTARIO" ColumnName="COMENTARIO" />
-                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
-                <ScalarProperty Name="EXENTO_IVA" ColumnName="EXENTO_IVA" />
-                <ScalarProperty Name="FEC_ULTCOMP" ColumnName="FEC_ULTCOMP" />
-                <ScalarProperty Name="FECHA_STATUS" ColumnName="FECHA_STATUS" />
-                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
-                <ScalarProperty Name="FEC_APERTURA" ColumnName="FEC_APERTURA" />
-                <ScalarProperty Name="FECHA_ULTMOD" ColumnName="FECHA_ULTMOD" />
-                <ScalarProperty Name="CIUDAD" ColumnName="CIUDAD" />
-                <ScalarProperty Name="DATA" ColumnName="DATA" />
-                <ScalarProperty Name="TELEFONOS" ColumnName="TELEFONOS" />
-                <ScalarProperty Name="DOMICILIO" ColumnName="DOMICILIO" />
-                <ScalarProperty Name="RUC" ColumnName="RUC" />
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

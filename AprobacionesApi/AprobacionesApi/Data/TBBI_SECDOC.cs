@@ -12,10 +12,12 @@ namespace AprobacionesApi.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class USUARIOS_MENU_APP
+    public partial class TBBI_SECDOC
     {
-        public string USUARIO { get; set; }
-        public string MENU { get; set; }
-        public string MENUFILTRO { get; set; }
+        public short DOC_CIA { get; set; }
+        public string DOC_BOD { get; set; }
+        public string DOC_SGL { get; set; }
+        public int DOC_NUM { get; set; }
+        public string DOC_TIPO { get; set; }
     }
 }

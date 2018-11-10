@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace AprobacionesApi.Controllers
@@ -133,9 +131,11 @@ namespace AprobacionesApi.Controllers
                              CINV_COM4 = q.CINV_COM4,
                              DINV_IVA = q.DINV_IVA,
                              NOM_VIAJE = q.NOM_VIAJE,
+                             DINV_DSC = q.DINV_DSC,
+                             DINV_ICE = q.DINV_ICE
                          }).ToList();
             if (orden.lst != null)
-                orden.lst.ForEach(q => { q.TOTAL = ((orden.CINV_TDOC == "OT" || orden.CINV_TDOC == "OK") ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : q.DINV_COS) + q.DINV_IVA; orden.NOM_VIAJE = q.NOM_VIAJE; });
+                orden.lst.ForEach(q => { q.TOTAL = ((orden.CINV_TDOC == "OT" || orden.CINV_TDOC == "OK") ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : (q.DINV_COS +  (q.DINV_ICE == null ? 0 : Convert.ToDecimal(q.DINV_ICE,provider)))) + q.DINV_IVA; orden.NOM_VIAJE = q.NOM_VIAJE; });
 
             return orden;
         }
@@ -187,7 +187,7 @@ namespace AprobacionesApi.Controllers
                                 break;
                         }
 
-                        foreach (var item in value.lst.Where(q => q.ESCHATARRA == true).ToList())
+                        foreach (var item in value.lst)
                         {
                             var detalle = db.TBDINV.Where(q => q.DINV_CTINV == Entity.CINV_SEC && q.DINV_LINEA == item.DINV_LINEA).FirstOrDefault();
                             if (detalle != null)
@@ -202,11 +202,11 @@ namespace AprobacionesApi.Controllers
                             CINV_NUM = value.CINV_NUM,
                             CINV_LOGIN = usuario.USUARIO,
                             CINV_ST = value.CINV_ST,
-                            FECHA_APRO = Entity.CINV_FECAPRUEBA,
+                            FECHA_APRO = DateTime.Now,
                             ROL_APRO = usuario.ROL_APRO
                         });
-                        if (value.CINV_LOGIN.ToLower() != "indigo")
-                            db.SaveChanges();
+                        
+                        db.SaveChanges();
                     }
 
                 }
