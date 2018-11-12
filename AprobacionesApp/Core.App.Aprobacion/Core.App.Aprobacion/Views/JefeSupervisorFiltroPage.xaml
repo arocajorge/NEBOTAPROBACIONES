@@ -21,15 +21,6 @@
                 <Label      
                     TextColor="Black"
                     FontAttributes="Bold"
-                    Text="Hasta">
-                </Label>
-                <DatePicker                            
-                    Date="{Binding FechaFin, Mode=TwoWay}">
-                    <DatePicker.Format>dd/MM/yyyy</DatePicker.Format>
-                </DatePicker>
-                <Label      
-                    TextColor="Black"
-                    FontAttributes="Bold"
                     Text="Barco">
                 </Label>
                 <Picker

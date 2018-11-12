@@ -50,7 +50,7 @@ namespace Core.App.Aprobacion.ViewModels
 
                 switch (this.PageName)
                 {
-                    case "JefeSupervisorFiltrosPage":
+                    case "JefeSupervisorFiltroPage":
 
                         Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
                         if (!con.IsSuccess)

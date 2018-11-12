@@ -81,7 +81,7 @@ namespace Core.App.Aprobacion.ViewModels
                 {
                     Icon = item.Menu == "JefeSupervisorOrdenesPage" ? "ic_filter_1" 
                         : (item.Menu == "JefeSupervisorBitacorasPage" ? "ic_filter_2"
-                        : (item.Menu == "JefeSupervisorFiltrosPage" ? "ic_location_on"
+                        : (item.Menu == "JefeSupervisorFiltroPage" ? "ic_location_on"
                         : (item.Menu == "ReferidosOrdenesNominaPage" ? "ic_filter_1"
                         : (item.Menu == "ReferidosFiltroPage" ? "ic_location_on"
                         : (item.Menu == "MisOrdenesTrabajoPage" ? "ic_filter_3"
@@ -89,7 +89,7 @@ namespace Core.App.Aprobacion.ViewModels
                     PageName = item.Menu,
                     Title = item.Menu == "JefeSupervisorOrdenesPage" ? "Ordenes"
                         : (item.Menu == "JefeSupervisorBitacorasPage" ? "Bitácoras"
-                        : (item.Menu == "JefeSupervisorFiltrosPage" ? "Filtros"
+                        : (item.Menu == "JefeSupervisorFiltroPage" ? "Filtros"
                         : (item.Menu == "ReferidosOrdenesNominaPage" ? "Referidos"
                         : (item.Menu == "ReferidosFiltroPage" ? "Filtros"
                         : (item.Menu == "MisOrdenesTrabajoPage" ? "Mis Ordenes de trabajo"

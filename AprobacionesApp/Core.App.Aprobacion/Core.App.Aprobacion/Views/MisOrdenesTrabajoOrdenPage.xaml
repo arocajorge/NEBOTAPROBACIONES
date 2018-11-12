@@ -164,7 +164,7 @@
                             Grid.Column="0"
                             Grid.Row="1"
                             Text="{Binding Orden.Valor}"
-                            Keyboard="numeric"
+                            Keyboard="Numeric"
                             Placeholder="Valor">                            
                         </Entry>
                         <Switch
