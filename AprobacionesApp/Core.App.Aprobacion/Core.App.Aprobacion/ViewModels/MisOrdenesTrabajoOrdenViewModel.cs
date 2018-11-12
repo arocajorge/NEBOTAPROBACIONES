@@ -31,6 +31,7 @@ namespace Core.App.Aprobacion.ViewModels
         private bool _TieneIva;
         private NumberFormatInfo provider;
         private string _Comentario;
+        private string _Titulo;
         #endregion
 
         #region Propiedades
@@ -107,6 +108,11 @@ namespace Core.App.Aprobacion.ViewModels
             get { return this._Comentario; }
             set { SetValue(ref this._Comentario, value); }
         }
+        public string Titulo
+        {
+            get { return this._Titulo; }
+            set { SetValue(ref this._Titulo, value); }
+        }
         #endregion
 
         #region Constructor
@@ -117,6 +123,7 @@ namespace Core.App.Aprobacion.ViewModels
             provider.NumberGroupSeparator = ",";
             provider.NumberGroupSizes = new int[] { 3 };
 
+            Titulo = Model.Titulo;
             Fecha = Model.Fecha;
             Valor =  string.IsNullOrEmpty(Model.Valor) ? 0 : Convert.ToDecimal(Model.Valor,provider);
             ValorIva = string.IsNullOrEmpty(Model.ValorIva) ? 0 : Convert.ToDecimal(Model.ValorIva, provider);

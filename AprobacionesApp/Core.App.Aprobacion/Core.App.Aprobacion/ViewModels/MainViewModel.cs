@@ -223,7 +223,7 @@ namespace Core.App.Aprobacion.ViewModels
         {
             try
             {
-                OrdenModel Orden = new OrdenModel { Fecha = DateTime.Now.Date };
+                OrdenModel Orden = new OrdenModel { Fecha = DateTime.Now.Date, Titulo = "Nueva Orden" };
                 GetInstance().MisOrdenesTrabajoOrden = new MisOrdenesTrabajoOrdenViewModel(Orden);
                 await App.Navigator.PushAsync(new MisOrdenesTrabajoOrdenPage());
             }

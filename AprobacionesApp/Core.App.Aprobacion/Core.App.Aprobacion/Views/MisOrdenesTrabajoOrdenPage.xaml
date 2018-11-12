@@ -11,8 +11,8 @@
                     <Label
                         FontAttributes="Bold"
                         FontSize="Large"
-                        TextColor="Black"
-                        Text="{Binding Orden.Titulo}"
+                        TextColor="Blue"
+                        Text="{Binding Titulo, Mode=TwoWay}"
                         HorizontalTextAlignment="Center">
                     </Label>
                     <Grid>
