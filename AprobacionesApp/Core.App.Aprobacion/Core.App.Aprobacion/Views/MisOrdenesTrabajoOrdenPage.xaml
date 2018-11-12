@@ -4,7 +4,7 @@
              x:Class="Core.App.Aprobacion.Views.MisOrdenesTrabajoOrdenPage">
     <ContentPage.Content>
         <StackLayout
-            BindingContext="{Binding AprobacionGerente}">
+            BindingContext="{Binding MisOrdenesTrabajoOrden}">
             <ScrollView>
                 <StackLayout
                     Padding="20">
