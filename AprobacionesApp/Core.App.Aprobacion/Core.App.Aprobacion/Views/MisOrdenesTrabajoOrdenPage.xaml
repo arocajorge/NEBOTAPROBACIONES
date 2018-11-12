@@ -54,7 +54,7 @@
                             Grid.Row="3"
                             FontAttributes="None"
                             TextColor="Black"
-                            Text="{Binding Orden.NombreBodega}">
+                            Text="{Binding Orden.NombreBodega, Mode=TwoWay}">
                         </Label>
 
                         <Label
@@ -75,7 +75,7 @@
                             Grid.Row="5"
                             FontAttributes="None"
                             TextColor="Black"
-                            Text="{Binding Orden.NombreProveedor}">
+                            Text="{Binding Orden.NombreProveedor, Mode=TwoWay}">
                         </Label>
 
                         <Label
@@ -96,7 +96,7 @@
                             Grid.Row="7"
                             FontAttributes="None"
                             TextColor="Black"
-                            Text="{Binding Orden.NombreSucursal}">
+                            Text="{Binding Orden.NombreSucursal, Mode=TwoWay}">
                         </Label>
 
                         <Label
@@ -117,7 +117,7 @@
                             Grid.Row="9"
                             FontAttributes="None"
                             TextColor="Black"
-                            Text="{Binding Orden.NomViaje}">
+                            Text="{Binding Orden.NomViaje, Mode=TwoWay}">
                         </Label>
 
                         <Label
@@ -138,7 +138,7 @@
                             Grid.Row="11"
                             FontAttributes="None"
                             TextColor="Black"
-                            Text="{Binding Orden.NombreSolicitante}">
+                            Text="{Binding Orden.NombreSolicitante, Mode=TwoWay}">
                         </Label>
                     </Grid>
 
