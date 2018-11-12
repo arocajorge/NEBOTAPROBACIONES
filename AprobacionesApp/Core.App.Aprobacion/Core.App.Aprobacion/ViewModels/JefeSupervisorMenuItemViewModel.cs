@@ -131,7 +131,7 @@ namespace Core.App.Aprobacion.ViewModels
                         else
                         {
                             MainViewModel.GetInstance().JefeSupervisorBitacoras = new JefeSupervisorBitacorasViewModel();
-                            Application.Current.MainPage = new NavigationPage(new JefeSupervisorBitacorasPage());
+                            await App.Navigator.PushAsync(new JefeSupervisorBitacorasPage());
                         }
                         break;
 
@@ -141,7 +141,11 @@ namespace Core.App.Aprobacion.ViewModels
                         break;
                     case "ReferidosOrdenesNominaPage":
                         MainViewModel.GetInstance().ReferidosOrdenesNomina = new ReferidosOrdenesNominaViewModel();
-                        Application.Current.MainPage = new ReferidosMasterPage();
+                        await App.Navigator.PushAsync(new ReferidosOrdenesNominaPage());
+                        break;
+                    case "MisOrdenesTrabajoPage":
+                        MainViewModel.GetInstance().MisOrdenesTrabajo = new MisOrdenesTrabajoViewModel();
+                        await App.Navigator.PushAsync(new MisOrdenesTrabajoPage());
                         break;
                 }
             }
