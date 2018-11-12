@@ -11,6 +11,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout
+            BackgroundColor="White"
             BindingContext="{Binding MisOrdenesTrabajo}"
             Padding="5">
             <SearchBar
@@ -19,7 +20,7 @@
                 Placeholder="Buscar..."
                 HeightRequest="50">
             </SearchBar>
-            <ListView          
+            <ListView
                 BackgroundColor="Silver"
                 HasUnevenRows="True"
                 RefreshCommand="{Binding RefreshCommand}"

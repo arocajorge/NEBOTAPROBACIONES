@@ -30,21 +30,13 @@
                                     </Grid.ColumnDefinitions>
                                     <StackLayout
                                     Grid.Column="0"
-                                    VerticalOptions="Center">                                    
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label
-                                            FontAttributes="Bold"
-                                            Text="{Binding Codigo, StringFormat='[{0}] - '}"
-                                            HorizontalOptions="Start"
-                                            TextColor="Black">
-                                        </Label>
+                                    VerticalOptions="Center">             
                                         <Label
                                             FontAttributes="None"
                                             HorizontalOptions="StartAndExpand"
                                             Text="{Binding Identificación}"
                                             TextColor="Black">
-                                        </Label>                                        
-                                        </StackLayout>
+                                        </Label>      
                                     <Label
                                         FontAttributes="None"
                                         Text="{Binding Nombre}"
