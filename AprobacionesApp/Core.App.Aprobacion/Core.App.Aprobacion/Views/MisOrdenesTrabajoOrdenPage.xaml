@@ -32,7 +32,7 @@
                             Grid.Column="0"
                             Grid.Row="1"
                             TextColor="Black"
-                            Date="{Binding Orden.Fecha, Mode=TwoWay}">
+                            Date="{Binding Fecha, Mode=TwoWay}">
                             <DatePicker.Format>dd/MM/yyyy</DatePicker.Format>
                         </DatePicker>
 
@@ -54,7 +54,7 @@
                             Grid.Row="3"
                             FontAttributes="None"
                             TextColor="Black"
-                            Text="{Binding Orden.NombreBodega, Mode=TwoWay}">
+                            Text="{Binding NombreBodega, Mode=TwoWay}">
                         </Label>
 
                         <Label
@@ -96,7 +96,7 @@
                             Grid.Row="7"
                             FontAttributes="None"
                             TextColor="Black"
-                            Text="{Binding Orden.NombreSucursal, Mode=TwoWay}">
+                            Text="{Binding NombreSucursal, Mode=TwoWay}">
                         </Label>
 
                         <Label
@@ -117,7 +117,7 @@
                             Grid.Row="9"
                             FontAttributes="None"
                             TextColor="Black"
-                            Text="{Binding Orden.NomViaje, Mode=TwoWay}">
+                            Text="{Binding NomViaje, Mode=TwoWay}">
                         </Label>
 
                         <Label
@@ -138,7 +138,7 @@
                             Grid.Row="11"
                             FontAttributes="None"
                             TextColor="Black"
-                            Text="{Binding Orden.NombreSolicitante, Mode=TwoWay}">
+                            Text="{Binding NombreSolicitante, Mode=TwoWay}">
                         </Label>
                     </Grid>
 

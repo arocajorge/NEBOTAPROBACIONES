@@ -18,6 +18,11 @@ namespace Core.App.Aprobacion.ViewModels
         private OrdenModel _Orden;
         private ApiService apiService;
         private string _NombreProveedor;
+        private DateTime _Fecha;
+        private string _NombreBodega;
+        private string _NombreSucursal;
+        private string _NomViaje;
+        private string _NombreSolicitante;
         #endregion
 
         #region Propiedades
@@ -39,6 +44,31 @@ namespace Core.App.Aprobacion.ViewModels
         {
             get { return this._NombreProveedor; }
             set { SetValue(ref this._NombreProveedor, value); }
+        }
+        public DateTime Fecha
+        {
+            get { return this._Fecha; }
+            set { SetValue(ref this._Fecha, value); }
+        }
+        public string NombreBodega
+        {
+            get { return this._NombreBodega; }
+            set { SetValue(ref this._NombreBodega, value); }
+        }
+        public string NombreSucursal
+        {
+            get { return this._NombreSucursal; }
+            set { SetValue(ref this._NombreSucursal, value); }
+        }
+        public string NomViaje
+        {
+            get { return this._NomViaje; }
+            set { SetValue(ref this._NomViaje, value); }
+        }
+        public string NombreSolicitante
+        {
+            get { return this._NombreSolicitante; }
+            set { SetValue(ref this._NombreSolicitante, value); }
         }
         #endregion
 
@@ -64,18 +94,22 @@ namespace Core.App.Aprobacion.ViewModels
                 case Enumeradores.eCombo.BARCO:
                     Orden.IdSucursal = Codigo;
                     Orden.NomCentroCosto = Nombre;
+                    NombreSucursal = Nombre;
                     break;
                 case Enumeradores.eCombo.VIAJE:
                     Orden.IdViaje = Codigo;
                     Orden.NomViaje = Nombre;
+                    NomViaje = Nombre;
                     break;
                 case Enumeradores.eCombo.SOLICITANTE:
                     Orden.IdSolicitante = Codigo;
                     Orden.NombreSolicitante = Nombre;
+                    NombreSolicitante = Nombre;
                     break;
                 case Enumeradores.eCombo.BODEGA:
                     Orden.IdBodega = Codigo;
                     Orden.NombreBodega = Nombre;
+                    NombreBodega = Nombre;
                     break;
                 default:
                     break;
@@ -110,9 +144,10 @@ namespace Core.App.Aprobacion.ViewModels
             get { return new RelayCommand(BuscarBarco); }
         }
 
-        private void BuscarBarco()
+        private async void BuscarBarco()
         {
-
+            MainViewModel.GetInstance().ComboCatalogos = new ComboCatalogosViewModel(Enumeradores.eCombo.BARCO);
+            await App.Navigator.PushAsync(new ComboCatalogosPage());
         }
 
         public ICommand BuscarViajeCommand
@@ -120,18 +155,20 @@ namespace Core.App.Aprobacion.ViewModels
             get { return new RelayCommand(BuscarViaje); }
         }
 
-        private void BuscarViaje()
+        private async void BuscarViaje()
         {
-
+            MainViewModel.GetInstance().ComboCatalogos = new ComboCatalogosViewModel(Enumeradores.eCombo.VIAJE);
+            await App.Navigator.PushAsync(new ComboCatalogosPage());
         }
         public ICommand BuscarBodegaCommand
         {
             get { return new RelayCommand(BuscarBodega); }
         }
 
-        private void BuscarBodega()
+        private async void BuscarBodega()
         {
-
+            MainViewModel.GetInstance().ComboCatalogos = new ComboCatalogosViewModel(Enumeradores.eCombo.BODEGA);
+            await App.Navigator.PushAsync(new ComboCatalogosPage());
         }
 
         public ICommand GuardarCommand
