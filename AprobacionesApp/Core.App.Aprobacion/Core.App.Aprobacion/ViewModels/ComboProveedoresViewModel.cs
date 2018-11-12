@@ -102,7 +102,7 @@ namespace Core.App.Aprobacion.ViewModels
                         Settings.UrlConexionActual = UrlDistinto;
                 }
 
-                var response_cs = await apiService.GetList<ProveedorModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Proveedores", "");
+                var response_cs = await apiService.GetList<ProveedorModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Proveedor", "");
                 if (!response_cs.IsSuccess)
                 {
                     this.IsRefreshing = false;
