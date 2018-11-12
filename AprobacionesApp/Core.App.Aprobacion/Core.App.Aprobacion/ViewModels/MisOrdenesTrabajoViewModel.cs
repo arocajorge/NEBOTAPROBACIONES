@@ -63,6 +63,7 @@ namespace Core.App.Aprobacion.ViewModels
         {
             var temp = _lstOrden.Select(l => new OrdenItemViewModel
             {
+                Secuencia = l.Secuencia,
                 TipoDocumento = l.TipoDocumento,
                 NumeroOrden = l.NumeroOrden,
                 NombreProveedor = l.NombreProveedor,
@@ -120,16 +121,7 @@ namespace Core.App.Aprobacion.ViewModels
                     else
                         Settings.UrlConexionActual = UrlDistinto;
                 }
-                string parameters = "USUARIO=" + Settings.IdUsuario;
-                if (!string.IsNullOrEmpty(Settings.Sucursal)) parameters += "&BARCO=" + Settings.Sucursal;
-                if (!string.IsNullOrEmpty(Settings.Bodega)) parameters += "&BODEGA=" + Settings.Bodega;
-                if (!string.IsNullOrEmpty(Settings.Viaje)) parameters += "&VIAJE=" + Settings.Viaje;
-                DateTime FechaIni = Convert.ToDateTime(Settings.FechaInicio);
-                DateTime FechaFin = DateTime.Now.Date;
-
-                parameters += "&DIAINI=" + FechaIni.Day + "&MESINI=" + FechaIni.Month + "&ANIOINI=" + FechaIni.Year;
-                parameters += "&DIAFIN=" + FechaFin.Day + "&MESFIN=" + FechaFin.Month + "&ANIOFIN=" + FechaFin.Year;
-
+                string parameters = "CINV_LOGIN=" + Settings.IdUsuario;
                 var response_cs = await apiService.GetList<OrdenModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "CreacionOrdenTrabajo", parameters);
                 if (!response_cs.IsSuccess)
                 {

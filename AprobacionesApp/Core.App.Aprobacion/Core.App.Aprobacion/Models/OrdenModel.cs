@@ -6,6 +6,8 @@
 
     public class OrdenModel
     {
+        [JsonProperty("CINV_SEC")]
+        public long Secuencia { get; set; }
         [JsonProperty("CINV_TDOC")]
         public string TipoDocumento { get; set; }
         [JsonProperty("CINV_NUM")]

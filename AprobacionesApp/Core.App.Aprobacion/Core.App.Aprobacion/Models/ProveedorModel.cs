@@ -4,7 +4,7 @@
     public class ProveedorModel
     {
         [JsonProperty("CODIGO")]        
-        public long Codigo { get; set; }
+        public string Codigo { get; set; }
 
         [JsonProperty("NOMBRE")]
         public string Nombre { get; set; }

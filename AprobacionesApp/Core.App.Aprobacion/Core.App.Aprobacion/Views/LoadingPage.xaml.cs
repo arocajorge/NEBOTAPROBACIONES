@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace Core.App.Aprobacion.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ComboSolicitantesPage : ContentPage
+	public partial class LoadingPage : ContentPage
 	{
-		public ComboSolicitantesPage ()
+		public LoadingPage ()
 		{
 			InitializeComponent ();
 		}

@@ -26,8 +26,7 @@ namespace Core.App.Aprobacion
         {
             InitializeComponent();
             apiService = new ApiService();
-            MainViewModel.GetInstance().Login = new LoginViewModel();
-            MainPage = new NavigationPage(new LoginPage());
+            MainPage = new NavigationPage(new LoadingPage());
             ValidarLogin();
         }
         #endregion
@@ -54,8 +53,6 @@ namespace Core.App.Aprobacion
         {
             try
             {
-
-
                 if (string.IsNullOrEmpty(Settings.IdUsuario))
                 {
                     MainViewModel.GetInstance().Login = new LoginViewModel();

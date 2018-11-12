@@ -123,14 +123,14 @@ namespace Core.App.Aprobacion.ViewModels
             provider.NumberGroupSeparator = ",";
             provider.NumberGroupSizes = new int[] { 3 };
 
-            Titulo = Model.Titulo;
-            Fecha = Model.Fecha;
-            Valor =  string.IsNullOrEmpty(Model.Valor) ? 0 : Convert.ToDecimal(Model.Valor,provider);
-            ValorIva = string.IsNullOrEmpty(Model.ValorIva) ? 0 : Convert.ToDecimal(Model.ValorIva, provider);
-            ValorOrden = Model.ValorOrden;
-            IsEnabled = true;
-            apiService = new ApiService();
             Orden = Model;
+            Titulo = Orden.Titulo;
+            Fecha = Orden.Fecha;
+            Valor =  string.IsNullOrEmpty(Orden.Valor) ? 0 : Convert.ToDecimal(Orden.Valor,provider);
+            ValorIva = string.IsNullOrEmpty(Orden.ValorIva) ? 0 : Convert.ToDecimal(Orden.ValorIva, provider);
+            ValorOrden = Orden.ValorOrden;
+            IsEnabled = true;
+            apiService = new ApiService();            
         }
         #endregion
 
@@ -209,9 +209,10 @@ namespace Core.App.Aprobacion.ViewModels
             get { return new RelayCommand(BuscarSolicitante); }
         }
 
-        private void BuscarSolicitante()
+        private async void BuscarSolicitante()
         {
-
+            MainViewModel.GetInstance().ComboCatalogos = new ComboCatalogosViewModel(Enumeradores.eCombo.SOLICITANTE);
+            await App.Navigator.PushAsync(new ComboCatalogosPage());
         }
 
         public ICommand BuscarSucursalCommand
@@ -251,9 +252,141 @@ namespace Core.App.Aprobacion.ViewModels
             get { return new RelayCommand(Guardar); }
         }
 
-        private void Guardar()
+        private async void Guardar()
         {
+            try
+            {
+                this.IsEnabled = false;
+                this.IsRunning = true;
+                if (string.IsNullOrEmpty(this.NombreBodega))
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        "Seleccione la bodega",
+                        "Aceptar");
+                    return;
+                }
+                if (string.IsNullOrEmpty(this.NombreProveedor))
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        "Seleccione el proveedor",
+                        "Aceptar");
+                    return;
+                }
+                if (string.IsNullOrEmpty(this.NombreSucursal))
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        "Seleccione el barco",
+                        "Aceptar");
+                    return;
+                }
+                if (string.IsNullOrEmpty(this.NomViaje))
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        "Seleccione el viaje",
+                        "Aceptar");
+                    return;
+                }
+                if (string.IsNullOrEmpty(this.NombreSolicitante))
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        "Seleccione el solicitante",
+                        "Aceptar");
+                    return;
+                }
+                if (string.IsNullOrEmpty(this.Comentario))
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        "Ingrese el comentario",
+                        "Aceptar");
+                    return;
+                }
+                if (string.IsNullOrEmpty(this.ValorOrden.ToString()))
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        "Ingrese el valor de la orden",
+                        "Aceptar");
+                    return;
+                }
 
+                Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
+                if (!con.IsSuccess)
+                {
+                    string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
+                    con = await apiService.CheckConnection(UrlDistinto);
+                    if (!con.IsSuccess)
+                    {
+                        this.IsEnabled = true;
+                        this.IsRunning = false;
+                        await Application.Current.MainPage.DisplayAlert(
+                            "Alerta",
+                            con.Message,
+                            "Aceptar");
+                        return;
+                    }
+                    else
+                        Settings.UrlConexionActual = UrlDistinto;
+                }
+
+                this.Orden.Usuario = Settings.IdUsuario;
+                this.Orden.Comentario = Comentario;
+                this.Orden.Fecha = Fecha;
+                this.Orden.Valor = Valor.ToString();
+                this.Orden.ValorIva = ValorIva.ToString();
+                this.Orden.TipoDocumento = "OT";
+
+                var response_sinc = await apiService.Post<OrdenModel>(
+                    Settings.UrlConexionActual,
+                    Settings.RutaCarpeta,
+                    "CreacionOrdenTrabajo",
+                    this.Orden);
+                if (!response_sinc.IsSuccess)
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        response_sinc.Message,
+                        "Aceptar");
+                    return;
+                }
+                await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        "Orden de trabajo creada exitósamente",
+                        "Aceptar");
+
+                MainViewModel.GetInstance().MisOrdenesTrabajo.LoadLista();
+                await App.Navigator.Navigation.PopAsync();
+            }
+            catch (System.Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    ex.Message,
+                    "Aceptar");
+
+                return;
+            }
         }
         #endregion
     }

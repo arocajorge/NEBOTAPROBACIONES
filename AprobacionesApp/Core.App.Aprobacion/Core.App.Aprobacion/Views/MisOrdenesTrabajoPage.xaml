@@ -24,7 +24,7 @@
                 RefreshCommand="{Binding RefreshCommand}"
                 IsRefreshing="{Binding IsRefreshing,Mode=TwoWay}"
                 ItemsSource="{Binding LstOrdenes}"
-                SeparatorVisibility="Default">
+                SeparatorVisibility="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

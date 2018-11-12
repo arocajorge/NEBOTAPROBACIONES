@@ -34,7 +34,8 @@
                         </Label>
                         <Button
                             Grid.Column="1"
-                            Grid.Row="0"                            
+                            Grid.Row="0"       
+                            Grid.RowSpan="2"
                             Command="{Binding BuscarBodegaCommand}"
                             HorizontalOptions="End"
                             Image="ic_search">
@@ -55,9 +56,10 @@
                         </Label>
                         <Button
                             Grid.Column="1"
-                            Grid.Row="2"                            
+                            Grid.Row="2"           
+                            Grid.RowSpan="2"
                             Command="{Binding BuscarProveedorCommand}"
-                            HorizontalOptions="End"
+                            HorizontalOptions="End"                            
                             Image="ic_search">
                         </Button>
                         <Label
@@ -76,7 +78,8 @@
                         </Label>
                         <Button
                             Grid.Column="1"
-                            Grid.Row="4"                            
+                            Grid.Row="4"      
+                            Grid.RowSpan="2"
                             Command="{Binding BuscarSucursalCommand}"
                             HorizontalOptions="End"
                             Image="ic_search">
@@ -97,7 +100,8 @@
                         </Label>
                         <Button
                             Grid.Column="1"
-                            Grid.Row="6"                            
+                            Grid.Row="6"      
+                            Grid.RowSpan="2"
                             Command="{Binding BuscarViajeCommand}"
                             HorizontalOptions="End"
                             Image="ic_search">
@@ -118,7 +122,8 @@
                         </Label>
                         <Button
                             Grid.Column="1"
-                            Grid.Row="8"                            
+                            Grid.Row="8"      
+                            Grid.RowSpan="2"
                             Command="{Binding BuscarSolicitanteCommand}"
                             HorizontalOptions="End"
                             Image="ic_search">
