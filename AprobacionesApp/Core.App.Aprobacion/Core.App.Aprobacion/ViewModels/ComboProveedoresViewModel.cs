@@ -64,7 +64,10 @@ namespace Core.App.Aprobacion.ViewModels
         {
             var temp = _lstProveedores.Select(l => new ProveedorItemViewModel
             {
-
+                Codigo = l.Codigo,
+                Nombre = l.Nombre,
+                Identificacion = l.Ruc.Length > 0 ? l.Ruc : l.Cedula,
+                EMail = l.EMail
             });
             return temp;
         }
