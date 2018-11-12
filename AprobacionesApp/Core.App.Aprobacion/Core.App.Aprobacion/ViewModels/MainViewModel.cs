@@ -170,7 +170,7 @@ namespace Core.App.Aprobacion.ViewModels
                         "Aceptar");
                     return;
                 }
-                ListaProveedores = (List<ProveedorModel>)response_cs.Result;                
+                ListaProveedores = (List<ProveedorModel>)response_pro.Result;                
             }
             catch (System.Exception ex)
             {
