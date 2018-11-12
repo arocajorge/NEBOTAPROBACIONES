@@ -167,7 +167,7 @@ namespace Core.App.Aprobacion.ViewModels
             try
             {
                 if (TieneIva)
-                    ValorIva = Valor * (12/100);
+                    ValorIva = Convert.ToDecimal(Math.Round(Convert.ToDouble(Valor) * (0.12),2,MidpointRounding.AwayFromZero));
                 else
                     ValorIva = 0;
 

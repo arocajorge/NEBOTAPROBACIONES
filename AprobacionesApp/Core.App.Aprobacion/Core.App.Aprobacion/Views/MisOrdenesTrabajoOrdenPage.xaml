@@ -165,7 +165,7 @@
                         <Entry
                             Grid.Column="0"
                             Grid.Row="1"
-                            Text="{Binding Valor}"
+                            Text="{Binding Valor, Mode=TwoWay}"
                             Keyboard="Numeric">                            
                         </Entry>
                         <Switch
