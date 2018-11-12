@@ -159,7 +159,7 @@ namespace Core.App.Aprobacion.ViewModels
                     this.LstProveedores = new ObservableCollection<ProveedorItemViewModel>(ToProveedorItemModel());
                 else
                     this.LstProveedores = new ObservableCollection<ProveedorItemViewModel>(
-                        ToProveedorItemModel().Where(q => q.Codigo.ToString().Contains(filter.ToLower()) || q.Nombre.ToString().Contains(filter.ToLower()) || q.Identificacion.ToLower().Contains(filter.ToLower()) || q.EMail.ToString().Contains(filter.ToLower())
+                        ToProveedorItemModel().Where(q => q.Nombre.ToString().Contains(filter.ToLower())
                         ).OrderBy(q => q.Nombre));
                 IsRefreshing = false;
             }
