@@ -122,20 +122,20 @@
 
                         <Label
                             Grid.Column="0"
-                            Grid.Row="8"
+                            Grid.Row="10"
                             FontAttributes="Bold"
                             Text="Solicitante:">
                         </Label>
                         <Button
                             Grid.Column="1"
-                            Grid.Row="8"                            
+                            Grid.Row="10"                            
                             Command="{Binding BuscarSolicitanteCommand}"
                             HorizontalOptions="End"
                             Image="ic_search">
                         </Button>
                         <Label
                             Grid.Column="0"
-                            Grid.Row="9"
+                            Grid.Row="11"
                             FontAttributes="None"
                             TextColor="Black"
                             Text="{Binding Orden.NombreSolicitante}">
@@ -164,8 +164,7 @@
                             Grid.Column="0"
                             Grid.Row="1"
                             Text="{Binding Orden.Valor}"
-                            Keyboard="Numeric"
-                            Placeholder="Valor">                            
+                            Keyboard="Numeric">                            
                         </Entry>
                         <Switch
                             Grid.Column="1"
