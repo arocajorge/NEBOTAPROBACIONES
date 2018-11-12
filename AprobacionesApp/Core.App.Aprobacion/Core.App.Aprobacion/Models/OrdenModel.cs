@@ -10,10 +10,11 @@
         public string TipoDocumento { get; set; }
         [JsonProperty("CINV_NUM")]
         public int NumeroOrden { get; set; }
+        [JsonProperty("CINV_ID")]
+        public string IdProveedor { get; set; }
         [JsonProperty("CINV_NOMID")]
         public string NombreProveedor { get; set; }
-        [JsonProperty("NOM_SOLICITADO")]
-        public string NombreSolicitante { get; set; }
+
         [JsonProperty("VALOR_OT")]
         public decimal ValorOrden { get; set; }
         [JsonProperty("CINV_FECING")]
@@ -24,16 +25,40 @@
         public string Observacion { get; set; }
         [JsonProperty("CINV_LOGIN")]
         public string Usuario { get; set; }
+
+        [JsonProperty("CODIGOTR")]
+        public string IdSucursal { get; set; }
         [JsonProperty("NOM_CENTROCOSTO")]
         public string NomCentroCosto { get; set; }
+
+        [JsonProperty("CINV_FPAGO")]
+        public string IdViaje { get; set; }
         [JsonProperty("NOM_VIAJE")]
         public string NomViaje { get; set; }
+
+
         [JsonProperty("CINV_COM1")]
         public string Comentario { get; set; }
         [JsonProperty("CINV_STCUMPLI1")]
         public string EstadoJefe { get; set; }
         [JsonProperty("CINV_STCUMPLI2")]
         public string EstadoSupervisor { get; set; }
+
+        [JsonProperty("CINV_BOD")]
+        public string IdBodega { get; set; }
+        [JsonProperty("NOM_BODEGA")]
+        public string NombreBodega { get; set; }
+
+        [JsonProperty("CINV_COM2")]
+        public string IdSolicitante { get; set; }
+        [JsonProperty("NOM_SOLICITADO")]
+        public string NombreSolicitante { get; set; }
+
+        [JsonProperty("CINV_COM3")]
+        public string Valor { get; set; }
+        [JsonProperty("CINV_COM4")]
+        public string ValorIva { get; set; }
+
 
         public string Imagen { get; set; }
         public string Titulo { get; set; }

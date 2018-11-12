@@ -34,7 +34,17 @@ namespace Core.App.Aprobacion.ViewModels
         public ReferidosFiltroViewModel ReferidosFiltro { get; set; }
         public ReferidosOrdenNominaViewModel ReferidosOrdenNomina { get; set; }
         public ReferidosOrdenesNominaViewModel ReferidosOrdenesNomina { get; set; }
+        public MisOrdenesTrabajoViewModel MisOrdenesTrabajo { get; set; }
+        public MisOrdenesTrabajoOrdenViewModel MisOrdenesTrabajoOrden { get; set; }
         public List<CatalogoModel> ListaCatalogos { get; set; }
+        #endregion
+
+        #region Combos
+        public ComboBodegasPage ComboBodegas { get; set; }
+        public ComboProveedoresPage ComboProveedores { get; set; }
+        public ComboSolicitantesPage ComboSolicitantes { get; set; }
+        public ComboSucursalesPage ComboSucursales { get; set; }
+        public ComboViajesViewModel ComboViajes { get; set; }
         #endregion
 
         #region Constructor
@@ -185,8 +195,35 @@ namespace Core.App.Aprobacion.ViewModels
             }
             
         }
+
+        public ICommand NuevaOrdenCommand
+        {
+            get
+            {
+                return new RelayCommand(NuevaOrden);
+            }
+        }
+
+        private async void NuevaOrden()
+        {
+            try
+            {
+                OrdenModel Orden = new OrdenModel();
+                GetInstance().MisOrdenesTrabajoOrden = new MisOrdenesTrabajoOrdenViewModel(Orden);
+                await App.Navigator.PushAsync(new MisOrdenesTrabajoOrdenPage());
+            }
+            catch (System.Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                       "Alerta",
+                       ex.Message,
+                       "Aceptar");
+                return;
+            }
+
+        }
         #endregion
 
-      
+
     }
 }

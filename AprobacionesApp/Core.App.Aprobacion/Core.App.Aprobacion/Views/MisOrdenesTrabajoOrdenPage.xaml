@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.MisOrdenesTrabajoOrdenPage">
+    <ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding AprobacionGerente}">
+            <ScrollView>
+                <StackLayout
+                    Padding="20">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        TextColor="Black"
+                        Text="{Binding Orden.Titulo}"
+                        HorizontalTextAlignment="Center">
+                    </Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Fecha: "
+                            TextColor="Black">
+                        </Label>
+                        <DatePicker
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            TextColor="Black"
+                            Date="{Binding Orden.Fecha, Mode=TwoWay}">
+                            <DatePicker.Format>dd/MM/yyyy</DatePicker.Format>
+                        </DatePicker>
+
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="2"
+                            FontAttributes="Bold"
+                            Text="Bodega:">
+                        </Label>
+                        <Button
+                            Grid.Column="1"
+                            Grid.Row="2"                            
+                            Command="{Binding BuscarBodegaCommand}"
+                            HorizontalOptions="End"
+                            Image="ic_search">
+                        </Button>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="3"
+                            FontAttributes="None"
+                            TextColor="Black"
+                            Text="{Binding Orden.NombreBodega}">
+                        </Label>
+
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="4"
+                            FontAttributes="Bold"
+                            Text="Proveedor:">
+                        </Label>
+                        <Button
+                            Grid.Column="1"
+                            Grid.Row="4"                            
+                            Command="{Binding BuscarProveedorCommand}"
+                            HorizontalOptions="End"
+                            Image="ic_search">
+                        </Button>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="5"
+                            FontAttributes="None"
+                            TextColor="Black"
+                            Text="{Binding Orden.NombreProveedor}">
+                        </Label>
+
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="6"
+                            FontAttributes="Bold"
+                            Text="Barco:">
+                        </Label>
+                        <Button
+                            Grid.Column="1"
+                            Grid.Row="6"                            
+                            Command="{Binding BuscarSucursalCommand}"
+                            HorizontalOptions="End"
+                            Image="ic_search">
+                        </Button>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="7"
+                            FontAttributes="None"
+                            TextColor="Black"
+                            Text="{Binding Orden.NombreSucursal}">
+                        </Label>
+
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="8"
+                            FontAttributes="Bold"
+                            Text="Viaje:">
+                        </Label>
+                        <Button
+                            Grid.Column="1"
+                            Grid.Row="8"                            
+                            Command="{Binding BuscarViajeCommand}"
+                            HorizontalOptions="End"
+                            Image="ic_search">
+                        </Button>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="9"
+                            FontAttributes="None"
+                            TextColor="Black"
+                            Text="{Binding Orden.NomViaje}">
+                        </Label>
+
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="8"
+                            FontAttributes="Bold"
+                            Text="Solicitante:">
+                        </Label>
+                        <Button
+                            Grid.Column="1"
+                            Grid.Row="8"                            
+                            Command="{Binding BuscarSolicitanteCommand}"
+                            HorizontalOptions="End"
+                            Image="ic_search">
+                        </Button>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="9"
+                            FontAttributes="None"
+                            TextColor="Black"
+                            Text="{Binding Orden.NombreSolicitante}">
+                        </Label>
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            FontAttributes="Bold"
+                            Text="Valor:">
+                        </Label>
+                        <Label
+                            Grid.Column="2"
+                            Grid.Row="0"
+                            FontAttributes="Bold"
+                            Text="I.V.A.:">
+                        </Label>
+                        <Entry
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            Text="{Binding Orden.Valor}"
+                            Keyboard="numeric"
+                            Placeholder="Valor">                            
+                        </Entry>
+                        <Switch
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            IsToggled="{Binding Orden.TieneIva, Mode=TwoWay}">
+                        </Switch>
+                        <Label
+                            Grid.Column="2"
+                            Grid.Row="1"
+                            Text="{Binding Orden.ValorIva}">
+                        </Label>
+                    </Grid>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Comentario: "
+                            TextColor="Black"></Label>
+                    <Editor
+                            HeightRequest="150"
+                            FontSize="Medium"
+                            Text="{Binding Orden.Comentario, Mode=TwoWay}"
+                            TextColor="Black">
+                    </Editor>
+                    <ActivityIndicator
+                            IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                            VerticalOptions="CenterAndExpand">
+                    </ActivityIndicator>
+                    
+                    <StackLayout
+                        Orientation="Horizontal">
+                        <Button
+                            BackgroundColor="CornflowerBlue"
+                            TextColor="White"
+                            Command="{Binding GuardarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Guardar"
+                            HorizontalOptions="FillAndExpand">
+                        </Button>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -311,4 +311,13 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_indeterminate_check_box.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_filter_3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_filter_4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_add.png" />
+  </ItemGroup>
 </Project>

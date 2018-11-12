@@ -54,6 +54,40 @@
                                                 TextColor="Black">
                                             </Label>
                                         </StackLayout>
+
+                                        <StackLayout Orientation="Horizontal">
+
+                                            <Label
+                                                FontAttributes="Bold"
+                                                HorizontalOptions="Start"
+                                                Text="Barco:"
+                                                TextColor="Black">
+                                            </Label>
+                                            <Label
+                                                FontAttributes="None"
+                                                HorizontalOptions="StartAndExpand"
+                                                Text="{Binding NombreCentroCosto}"
+                                                TextColor="Black">
+                                            </Label>
+                                        </StackLayout>
+
+                                        <StackLayout Orientation="Horizontal">
+
+                                            <Label
+                                                FontAttributes="Bold"
+                                                HorizontalOptions="Start"
+                                                Text="Cargo:"
+                                                TextColor="Black">
+                                            </Label>
+                                            <Label
+                                                FontAttributes="None"
+                                                HorizontalOptions="StartAndExpand"
+                                                Text="{Binding NombreCargo}"
+                                                TextColor="Black">
+                                            </Label>
+                                        </StackLayout>
+                                        
+                                        
                                         <Label
                                             FontAttributes="None"
                                             HorizontalOptions="StartAndExpand"

@@ -12,15 +12,14 @@ using Xamarin.Forms;
 
 namespace Core.App.Aprobacion.ViewModels
 {
-    public class ReferidosOrdenesNominaViewModel : BaseViewModel
+    public class MisOrdenesTrabajoViewModel : BaseViewModel
     {
         #region Variables
-        private ObservableCollection<OrdenNominaItemViewModel> _lstOrdenes;
-        private List<OrdenNominaModel> _lstOrden;
+        private ObservableCollection<OrdenItemViewModel> _lstOrdenes;
+        private List<OrdenModel> _lstOrden;
         private string _filter;
         private ApiService apiService;
         private bool _IsRefreshing;
-        
         #endregion
 
         #region Propiedades
@@ -32,8 +31,7 @@ namespace Core.App.Aprobacion.ViewModels
                 SetValue(ref this._IsRefreshing, value);
             }
         }
-        
-        public ObservableCollection<OrdenNominaItemViewModel> LstOrdenes
+        public ObservableCollection<OrdenItemViewModel> LstOrdenes
         {
             get { return this._lstOrdenes; }
             set
@@ -53,7 +51,7 @@ namespace Core.App.Aprobacion.ViewModels
         #endregion
 
         #region Constructor
-        public ReferidosOrdenesNominaViewModel()
+        public MisOrdenesTrabajoViewModel()
         {
             apiService = new ApiService();
             LoadLista();
@@ -61,40 +59,30 @@ namespace Core.App.Aprobacion.ViewModels
         #endregion
 
         #region Metodos
-        private IEnumerable<OrdenNominaItemViewModel> ToOrdenItemModel()
+        private IEnumerable<OrdenItemViewModel> ToOrdenItemModel()
         {
-            var temp = _lstOrden.Select(l => new OrdenNominaItemViewModel
+            var temp = _lstOrden.Select(l => new OrdenItemViewModel
             {
                 TipoDocumento = l.TipoDocumento,
                 NumeroOrden = l.NumeroOrden,
+                NombreProveedor = l.NombreProveedor,
+                NombreSolicitante = l.NombreSolicitante,
+                ValorOrden = l.ValorOrden,
                 Fecha = l.Fecha,
                 Estado = l.Estado,
+                NomCentroCosto = l.NomCentroCosto,
+                NomViaje = l.NomViaje,
+                Comentario = l.Comentario,
+                EstadoJefe = l.EstadoJefe,
+                EstadoSupervisor = l.EstadoSupervisor,
                 Imagen = l.Imagen,
-
-                EstadoReferido = l.EstadoReferido,
-                EstadoAntecedentes = l.EstadoAntecedentes,
-                EstadoPerfil = l.EstadoPerfil,
-                EstadoPoligrafo = l.EstadoPoligrafo,
-                EstadoPsicologo = l.EstadoPsicologo,
-
-                ComentarioAntecedentes = l.ComentarioAntecedentes,
-                ComentarioAntecedentes2 = l.ComentarioAntecedentes2,
-                ComentarioPerfil = l.ComentarioPerfil,
-                ComentarioPoligrafo = l.ComentarioPoligrafo,
-                ComentarioPsicologo = l.ComentarioPsicologo,
-                ComentarioReferido = l.ComentarioReferido,
-                NombreSolicitado = l.NombreSolicitado,
-                NombreCentroCosto = l.NombreCentroCosto,
-                CedulaSolicitado = l.CedulaSolicitado,
-                MotivoAnulacion = l.MotivoAnulacion,
-                
-                ImagenPsicologo = l.ImagenPsicologo,
-                ImagenPoligrafo = l.ImagenPoligrafo,
-                ImagenPerfil = l.ImagenPerfil,
-                ImagenAntecedentes = l.ImagenAntecedentes,
-                Color = l.Color,
-                Titulo = l.Titulo,
-                NombreCargo = l.NombreCargo
+                NombreBodega = l.NombreBodega,
+                IdBodega = l.IdBodega,
+                IdProveedor = l.IdProveedor,
+                IdSolicitante = l.IdSolicitante,
+                IdSucursal = l.IdSucursal,
+                IdViaje = l.IdViaje,
+                Usuario = l.Usuario                
             });
             return temp;
         }
@@ -104,7 +92,7 @@ namespace Core.App.Aprobacion.ViewModels
             IsRefreshing = true;
             try
             {
-                this.LstOrdenes = new ObservableCollection<OrdenNominaItemViewModel>();
+                this.LstOrdenes = new ObservableCollection<OrdenItemViewModel>();
                 if (string.IsNullOrEmpty(Settings.UrlConexionActual))
                 {
                     this.IsRefreshing = false;
@@ -132,15 +120,17 @@ namespace Core.App.Aprobacion.ViewModels
                     else
                         Settings.UrlConexionActual = UrlDistinto;
                 }
-                string parameters = "ESTADOGERENTE=" + Settings.EstadoGerente;
+                string parameters = "USUARIO=" + Settings.IdUsuario;
                 if (!string.IsNullOrEmpty(Settings.Sucursal)) parameters += "&BARCO=" + Settings.Sucursal;
+                if (!string.IsNullOrEmpty(Settings.Bodega)) parameters += "&BODEGA=" + Settings.Bodega;
+                if (!string.IsNullOrEmpty(Settings.Viaje)) parameters += "&VIAJE=" + Settings.Viaje;
                 DateTime FechaIni = Convert.ToDateTime(Settings.FechaInicio);
                 DateTime FechaFin = DateTime.Now.Date;
 
                 parameters += "&DIAINI=" + FechaIni.Day + "&MESINI=" + FechaIni.Month + "&ANIOINI=" + FechaIni.Year;
                 parameters += "&DIAFIN=" + FechaFin.Day + "&MESFIN=" + FechaFin.Month + "&ANIOFIN=" + FechaFin.Year;
 
-                var response_cs = await apiService.GetList<OrdenNominaModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "OrdenNomina", parameters);
+                var response_cs = await apiService.GetList<OrdenModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "CreacionOrdenTrabajo", parameters);
                 if (!response_cs.IsSuccess)
                 {
                     this.IsRefreshing = false;
@@ -150,7 +140,7 @@ namespace Core.App.Aprobacion.ViewModels
                         "Aceptar");
                     return;
                 }
-                _lstOrden = (List<OrdenNominaModel>)response_cs.Result;
+                _lstOrden = (List<OrdenModel>)response_cs.Result;
                 if (_lstOrden.Count == 0)
                 {
                     await Application.Current.MainPage.DisplayAlert(
@@ -158,35 +148,7 @@ namespace Core.App.Aprobacion.ViewModels
                            "No existen resultados para los filtros seleccionados ",//+parameters,
                            "Aceptar");
                 }
-                _lstOrden.ForEach(l =>
-                {
-                    l.Imagen = (
-                        (l.EstadoReferido == null || l.EstadoReferido.Trim().ToUpper() == "A") ? "ic_access_time.png"
-                        : (l.EstadoReferido.Trim().ToUpper() == "P" ? "ic_assignment_turned_in.png"
-                        : "ic_assignment_late.png"));
-                    l.ImagenAntecedentes = (l.EstadoAntecedentes == null || l.EstadoAntecedentes.ToUpper() == "A" ? "ic_check_box_outline_blank"
-                        : (l.EstadoAntecedentes.ToUpper() == "P" ? "ic_check_box"
-                        : (l.EstadoAntecedentes.ToUpper() == "X" ? "ic_indeterminate_check_box" : "")));
-                    l.ImagenPerfil = (l.EstadoPerfil == null || l.EstadoPerfil.ToUpper() == "A" ? "ic_check_box_outline_blank"
-                        : (l.EstadoPerfil.ToUpper() == "P" ? "ic_check_box"
-                        : (l.EstadoPerfil.ToUpper() == "X" ? "ic_indeterminate_check_box" : "")));
-                    l.ImagenPoligrafo = (l.EstadoPoligrafo == null || l.EstadoPoligrafo.ToUpper() == "A" ? "ic_check_box_outline_blank"
-                        : (l.EstadoPoligrafo.ToUpper() == "P" ? "ic_check_box"
-                        : (l.EstadoPoligrafo.ToUpper() == "X" ? "ic_indeterminate_check_box" : "")));
-                    l.ImagenPsicologo = (l.EstadoPsicologo == null || l.EstadoPsicologo.ToUpper() == "A" ? "ic_check_box_outline_blank"
-                        : (l.EstadoPsicologo.ToUpper() == "P" ? "ic_check_box"
-                        : (l.EstadoPsicologo.ToUpper() == "X" ? "ic_indeterminate_check_box" : "")));
-                    l.Estado = l.Estado == "X" ? "Anulado"
-                        : (l.Estado == "P" ? "Aprobado"
-                        : (l.Estado == "T" ? "Aprobado un viaje"
-                        : "Pendiente"));
-                    l.Color = l.Estado == "X" ? "Red"
-                        : (l.Estado == "P" ? "Green"
-                        : (l.Estado == "T" ? "Blue"
-                        : "Black"));
-                });
-
-                this.LstOrdenes = new ObservableCollection<OrdenNominaItemViewModel>(ToOrdenItemModel());
+                this.LstOrdenes = new ObservableCollection<OrdenItemViewModel>(ToOrdenItemModel());
                 IsRefreshing = false;
             }
             catch (Exception ex)
@@ -217,14 +179,14 @@ namespace Core.App.Aprobacion.ViewModels
             try
             {
                 if (string.IsNullOrEmpty(filter))
-                    this.LstOrdenes = new ObservableCollection<OrdenNominaItemViewModel>(ToOrdenItemModel());
+                    this.LstOrdenes = new ObservableCollection<OrdenItemViewModel>(ToOrdenItemModel());
                 else
-                    this.LstOrdenes = new ObservableCollection<OrdenNominaItemViewModel>(
+                    this.LstOrdenes = new ObservableCollection<OrdenItemViewModel>(
                         ToOrdenItemModel().Where(q => q.NumeroOrden.ToString().Contains(filter.ToLower())
-                        || q.NombreCentroCosto.ToLower().Contains(filter.ToLower())
-                        || q.NombreSolicitado.ToLower().Contains(filter.ToLower())
+                        || q.NombreProveedor.ToLower().Contains(filter.ToLower())
+                        || q.NombreSolicitante.ToLower().Contains(filter.ToLower())
                         || q.Fecha.ToShortDateString().Contains(filter.ToLower())
-                        || q.CedulaSolicitado.ToLower().Contains(filter.ToLower())
+                        || q.Comentario.ToLower().Contains(filter.ToLower())
                         ).OrderBy(q => q.Fecha));
                 IsRefreshing = false;
             }
