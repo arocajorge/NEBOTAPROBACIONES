@@ -12,13 +12,14 @@ using Xamarin.Forms;
 
 namespace Core.App.Aprobacion.ViewModels
 {
-    public class ComboProveedoresViewModel : BaseViewModel
+    public class ComboCatalogosViewModel : BaseViewModel
     {
         #region Variables
-        private ObservableCollection<ProveedorItemViewModel> _lstDet;
+        private ObservableCollection<CatalogoItemViewModel> _lstDet;        
         private string _filter;
         private ApiService apiService;
         private bool _IsRefreshing;
+        private Enumeradores.eCombo Combo;
         #endregion
 
         #region Propiedades
@@ -30,7 +31,7 @@ namespace Core.App.Aprobacion.ViewModels
                 SetValue(ref this._IsRefreshing, value);
             }
         }
-        public ObservableCollection<ProveedorItemViewModel> LstProveedores
+        public ObservableCollection<CatalogoItemViewModel> LstCatalogo
         {
             get { return this._lstDet; }
             set
@@ -38,7 +39,7 @@ namespace Core.App.Aprobacion.ViewModels
                 SetValue(ref this._lstDet, value);
             }
         }
-       
+
         public string filter
         {
             get { return this._filter; }
@@ -51,22 +52,22 @@ namespace Core.App.Aprobacion.ViewModels
         #endregion
 
         #region Constructor
-        public ComboProveedoresViewModel()
+        public ComboCatalogosViewModel(Enumeradores.eCombo _Combo)
         {
             apiService = new ApiService();
+            Combo = _Combo;
             LoadLista();
         }
         #endregion
 
         #region Metodos
-        private IEnumerable<ProveedorItemViewModel> ToProveedorItemModel()
+        private IEnumerable<CatalogoItemViewModel> ToCatalogoItemModel()
         {
-            var temp = MainViewModel.GetInstance().ListaProveedores.Select(l => new ProveedorItemViewModel
+            var temp = MainViewModel.GetInstance().ListaCatalogos.Where(q=>q.Combo == Combo).Select(l => new CatalogoItemViewModel
             {
                 Codigo = l.Codigo,
-                Nombre = l.Nombre,
-                Identificacion = l.Identificacion,
-                EMail = l.EMail
+                Descripcion = l.Descripcion,
+                Combo = l.Combo
             });
             return temp;
         }
@@ -74,8 +75,8 @@ namespace Core.App.Aprobacion.ViewModels
         {
             IsRefreshing = true;
             try
-            {   
-                this.LstProveedores = new ObservableCollection<ProveedorItemViewModel>(ToProveedorItemModel());
+            {
+                this.LstCatalogo = new ObservableCollection<CatalogoItemViewModel>(ToCatalogoItemModel());
                 IsRefreshing = false;
             }
             catch (Exception ex)
@@ -106,11 +107,11 @@ namespace Core.App.Aprobacion.ViewModels
             try
             {
                 if (string.IsNullOrEmpty(filter))
-                    this.LstProveedores = new ObservableCollection<ProveedorItemViewModel>(ToProveedorItemModel());
+                    this.LstCatalogo = new ObservableCollection<CatalogoItemViewModel>(ToCatalogoItemModel());
                 else
-                    this.LstProveedores = new ObservableCollection<ProveedorItemViewModel>(
-                        ToProveedorItemModel().Where(q => q.Nombre.ToLower().Contains(filter.ToLower())
-                        ).OrderBy(q => q.Nombre));
+                    this.LstCatalogo = new ObservableCollection<CatalogoItemViewModel>(
+                        ToCatalogoItemModel().Where(q => q.Descripcion.ToLower().Contains(filter.ToLower())
+                        ).OrderBy(q => q.Descripcion));
                 IsRefreshing = false;
             }
             catch (Exception ex)

@@ -45,6 +45,7 @@ namespace Core.App.Aprobacion.ViewModels
         #region Constructor
         public MisOrdenesTrabajoOrdenViewModel(OrdenModel Model)
         {
+            IsEnabled = true;
             apiService = new ApiService();
             Orden = Model;
         }

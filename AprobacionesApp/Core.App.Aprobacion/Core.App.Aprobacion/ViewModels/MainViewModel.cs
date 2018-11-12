@@ -42,11 +42,9 @@ namespace Core.App.Aprobacion.ViewModels
         #endregion
 
         #region Combos
-        public ComboBodegasViewModel ComboBodegas { get; set; }
+        public ComboCatalogosViewModel ComboCatalogos { get; set; }
         public ComboProveedoresViewModel ComboProveedores { get; set; }
         public ComboSolicitantesViewModel ComboSolicitantes { get; set; }
-        public ComboSucursalesViewModel ComboSucursales { get; set; }
-        public ComboViajesViewModel ComboViajes { get; set; }
         #endregion
 
         #region Constructor
@@ -160,6 +158,8 @@ namespace Core.App.Aprobacion.ViewModels
                 ListaCatalogos.Add(new CatalogoModel { Codigo = "A", Descripcion = "Pendiente", Tipo = "EstadoNomina" });
                 ListaCatalogos.Add(new CatalogoModel { Codigo = "X", Descripcion = "Anulado", Tipo = "EstadoNomina" });
                 ListaCatalogos.Add(new CatalogoModel { Codigo = "", Descripcion = "Todo", Tipo = "EstadoNomina" });
+
+                ListaCatalogos.ForEach(q => q.Combo = q.Tipo == "Sucursal" ? Enumeradores.eCombo.BARCO : (q.Tipo == "Bodega" ? Enumeradores.eCombo.BODEGA : (q.Tipo == "Viaje" ? Enumeradores.eCombo.VIAJE : Enumeradores.eCombo.PROVEEDOR)));
 
                 var response_pro = await apiService.GetList<ProveedorModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Proveedor", "");
                 if (!response_pro.IsSuccess)

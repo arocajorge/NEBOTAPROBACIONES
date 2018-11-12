@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace Core.App.Aprobacion.Views
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ComboBodegasPage : ContentPage
+	public partial class ComboCatalogosPage : ContentPage
 	{
-		public ComboBodegasPage ()
+		public ComboCatalogosPage ()
 		{
 			InitializeComponent ();
 		}
