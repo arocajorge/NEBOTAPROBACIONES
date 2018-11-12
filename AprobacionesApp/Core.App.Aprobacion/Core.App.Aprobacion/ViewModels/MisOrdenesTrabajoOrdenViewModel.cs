@@ -1,6 +1,7 @@
 ﻿using Core.App.Aprobacion.Helpers;
 using Core.App.Aprobacion.Models;
 using Core.App.Aprobacion.Services;
+using Core.App.Aprobacion.Views;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
@@ -82,9 +83,10 @@ namespace Core.App.Aprobacion.ViewModels
             get { return new RelayCommand(BuscarProveedor); }
         }
 
-        private void BuscarProveedor()
+        private async void BuscarProveedor()
         {
-            
+            MainViewModel.GetInstance().ComboProveedores = new ComboProveedoresPage();
+            await App.Navigator.PushAsync(new ComboProveedoresPage());
         }
 
         public ICommand BuscarSolicitanteCommand
