@@ -176,24 +176,28 @@
                         <Label
                             Grid.Column="2"
                             Grid.Row="1"
+                            VerticalOptions="CenterAndExpand"
+                            HorizontalOptions="EndAndExpand"
                             Text="{Binding ValorIva, StringFormat='{0:N2}'}}">
                         </Label>
                     </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Label
                             Grid.Column="0"
                             Grid.Row="0"
                             FontAttributes="Bold"
+                            VerticalOptions="CenterAndExpand"
                             Text="Total:">
                         </Label>
                         <Label
                             Grid.Column="0"
                             Grid.Row="1"
                             FontAttributes="Bold"
+                            VerticalOptions="CenterAndExpand"
                             HorizontalOptions="EndAndExpand"
                             Text="{Binding ValorOrden, StringFormat='{0:N2}'}">
                         </Label>
