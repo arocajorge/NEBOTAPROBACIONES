@@ -40,8 +40,6 @@ namespace Core.App.Aprobacion.ViewModels
         public MisOrdenesTrabajoOrdenViewModel(OrdenModel Model)
         {
             apiService = new ApiService();
-            if (Model.NumeroOrden == 0)
-                Model.Fecha = DateTime.Now.Date;
             Orden = Model;
         }
         #endregion

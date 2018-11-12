@@ -4,6 +4,7 @@ using Core.App.Aprobacion.Services;
 using Core.App.Aprobacion.Views;
 using GalaSoft.MvvmLight.Command;
 using Rg.Plugins.Popup.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -210,7 +211,7 @@ namespace Core.App.Aprobacion.ViewModels
         {
             try
             {
-                OrdenModel Orden = new OrdenModel();
+                OrdenModel Orden = new OrdenModel { Fecha = DateTime.Now.Date };
                 GetInstance().MisOrdenesTrabajoOrden = new MisOrdenesTrabajoOrdenViewModel(Orden);
                 await App.Navigator.PushAsync(new MisOrdenesTrabajoOrdenPage());
             }
