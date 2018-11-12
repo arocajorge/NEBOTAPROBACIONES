@@ -71,7 +71,8 @@ namespace Core.App.Aprobacion.ViewModels
                     break;
                 default:
                     break;
-            }            
+            }
+            Orden = Orden;
         }
         #endregion
 

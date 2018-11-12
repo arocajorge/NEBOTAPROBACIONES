@@ -65,9 +65,9 @@ namespace Core.App.Aprobacion.ViewModels
             var temp = _lstProveedores.Select(l => new ProveedorItemViewModel
             {
                 Codigo = l.Codigo,
-                Nombre = l.Nombre,
-                Identificacion = l.Ruc.Length > 0 ? l.Ruc : l.Cedula,
-                EMail = l.EMail
+                Nombre = l.Nombre.Trim(),
+                Identificacion = l.Ruc.Length > 2 ? l.Ruc : l.Cedula,
+                EMail = l.EMail.Trim()
             });
             return temp;
         }
@@ -120,7 +120,7 @@ namespace Core.App.Aprobacion.ViewModels
                 {
                     await Application.Current.MainPage.DisplayAlert(
                            "Alerta",
-                           "No existen resultados para los filtros seleccionados ", //+ parameters,
+                           "No existen proveedors", //+ parameters,
                            "Aceptar");
                 }
 
