@@ -5,8 +5,10 @@ using Core.App.Aprobacion.Views;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Core.App.Aprobacion.ViewModels
 {
@@ -23,6 +25,12 @@ namespace Core.App.Aprobacion.ViewModels
         private string _NombreSucursal;
         private string _NomViaje;
         private string _NombreSolicitante;
+        private decimal _Valor;
+        private decimal _ValorIva;
+        private decimal _ValorOrden;
+        private bool _TieneIva;
+        private NumberFormatInfo provider;
+        private string _Comentario;
         #endregion
 
         #region Propiedades
@@ -70,12 +78,49 @@ namespace Core.App.Aprobacion.ViewModels
             get { return this._NombreSolicitante; }
             set { SetValue(ref this._NombreSolicitante, value); }
         }
+        public decimal Valor
+        {
+            get { return this._Valor; }
+            set { SetValue(ref this._Valor, value);
+                Calcular();
+            }
+        }
+        public decimal ValorIva
+        {
+            get { return this._ValorIva; }
+            set { SetValue(ref this._ValorIva, value); }
+        }
+        public decimal ValorOrden
+        {
+            get { return this._ValorOrden; }
+            set { SetValue(ref this._ValorOrden, value); }
+        }
+        public bool TieneIva
+        {
+            get { return this._TieneIva; }
+            set { SetValue(ref this._TieneIva, value);
+                Calcular();
+            }
+        }
+        public string Comentario
+        {
+            get { return this._Comentario; }
+            set { SetValue(ref this._Comentario, value); }
+        }
         #endregion
 
         #region Constructor
         public MisOrdenesTrabajoOrdenViewModel(OrdenModel Model)
         {
+            provider = new NumberFormatInfo();
+            provider.NumberDecimalSeparator = ".";
+            provider.NumberGroupSeparator = ",";
+            provider.NumberGroupSizes = new int[] { 3 };
+
             Fecha = Model.Fecha;
+            Valor =  string.IsNullOrEmpty(Model.Valor) ? 0 : Convert.ToDecimal(Model.Valor,provider);
+            ValorIva = string.IsNullOrEmpty(Model.ValorIva) ? 0 : Convert.ToDecimal(Model.ValorIva, provider);
+            ValorOrden = Model.ValorOrden;
             IsEnabled = true;
             apiService = new ApiService();
             Orden = Model;
@@ -114,6 +159,28 @@ namespace Core.App.Aprobacion.ViewModels
                     break;
                 default:
                     break;
+            }
+        }
+
+        private async void Calcular()
+        {
+            try
+            {
+                if (TieneIva)
+                    ValorIva = Valor * (12/100);
+                else
+                    ValorIva = 0;
+
+                ValorOrden = Valor + ValorIva;
+            }
+            catch (System.Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    ex.Message,
+                    "Aceptar");
+
+                return;
             }
         }
         #endregion

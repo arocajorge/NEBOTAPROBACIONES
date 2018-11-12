@@ -31,6 +31,7 @@
                         <DatePicker
                             Grid.Column="0"
                             Grid.Row="1"
+                            Grid.ColumnSpan="2"
                             TextColor="Black"
                             Date="{Binding Fecha, Mode=TwoWay}">
                             <DatePicker.Format>dd/MM/yyyy</DatePicker.Format>
@@ -158,23 +159,43 @@
                             Grid.Column="2"
                             Grid.Row="0"
                             FontAttributes="Bold"
+                            HorizontalOptions="EndAndExpand"
                             Text="I.V.A.:">
                         </Label>
                         <Entry
                             Grid.Column="0"
                             Grid.Row="1"
-                            Text="{Binding Orden.Valor}"
+                            Text="{Binding Valor}"
                             Keyboard="Numeric">                            
                         </Entry>
                         <Switch
                             Grid.Column="1"
                             Grid.Row="1"
-                            IsToggled="{Binding Orden.TieneIva, Mode=TwoWay}">
+                            IsToggled="{Binding TieneIva, Mode=TwoWay}">
                         </Switch>
                         <Label
                             Grid.Column="2"
                             Grid.Row="1"
-                            Text="{Binding Orden.ValorIva}">
+                            Text="{Binding ValorIva, StringFormat='{0:N2}'}}">
+                        </Label>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            FontAttributes="Bold"
+                            Text="Total:">
+                        </Label>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            FontAttributes="Bold"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding ValorOrden, StringFormat='{0:N2}'}">
                         </Label>
                     </Grid>
                     <Label
@@ -185,7 +206,7 @@
                     <Editor
                             HeightRequest="150"
                             FontSize="Medium"
-                            Text="{Binding Orden.Comentario, Mode=TwoWay}"
+                            Text="{Binding Comentario, Mode=TwoWay}"
                             TextColor="Black">
                     </Editor>
                     <ActivityIndicator
