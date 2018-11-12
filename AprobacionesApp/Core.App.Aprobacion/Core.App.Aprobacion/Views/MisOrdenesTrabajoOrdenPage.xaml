@@ -20,39 +20,42 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Label
-                            Grid.Column="0"
-                            Grid.Row="0"
-                            FontSize="Medium"
-                            FontAttributes="Bold"
-                            Text="Fecha: "
-                            TextColor="Black">
-                        </Label>
-                        <DatePicker
-                            Grid.Column="0"
-                            Grid.Row="1"
-                            Grid.ColumnSpan="2"
-                            TextColor="Black"
-                            Date="{Binding Fecha, Mode=TwoWay}">
+                        <StackLayout
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Orientation="Horizontal">
+                            <Label
+                                FontSize="Medium"
+                                FontAttributes="Bold"
+                                Text="Fecha: "
+                                TextColor="Black">
+                            </Label>
+                            <DatePicker
+                                HorizontalOptions="EndAndExpand"
+                                TextColor="Black"
+                                Date="{Binding Fecha, Mode=TwoWay}">
                             <DatePicker.Format>dd/MM/yyyy</DatePicker.Format>
-                        </DatePicker>
+                            </DatePicker>
+                        </StackLayout>
+                        
 
                         <Label
                             Grid.Column="0"
-                            Grid.Row="2"
+                            Grid.Row="1"
                             FontAttributes="Bold"
                             Text="Bodega:">
                         </Label>
                         <Button
                             Grid.Column="1"
-                            Grid.Row="2"                            
+                            Grid.Row="1"                            
                             Command="{Binding BuscarBodegaCommand}"
                             HorizontalOptions="End"
                             Image="ic_search">
                         </Button>
                         <Label
                             Grid.Column="0"
-                            Grid.Row="3"
+                            Grid.Row="2"
                             FontAttributes="None"
                             TextColor="Black"
                             Text="{Binding NombreBodega, Mode=TwoWay}">
@@ -60,20 +63,20 @@
 
                         <Label
                             Grid.Column="0"
-                            Grid.Row="4"
+                            Grid.Row="3"
                             FontAttributes="Bold"
                             Text="Proveedor:">
                         </Label>
                         <Button
                             Grid.Column="1"
-                            Grid.Row="4"                            
+                            Grid.Row="3"                            
                             Command="{Binding BuscarProveedorCommand}"
                             HorizontalOptions="End"
                             Image="ic_search">
                         </Button>
                         <Label
                             Grid.Column="0"
-                            Grid.Row="5"
+                            Grid.Row="4"
                             FontAttributes="None"
                             TextColor="Black"
                             Text="{Binding NombreProveedor, Mode=TwoWay}">
@@ -81,20 +84,20 @@
 
                         <Label
                             Grid.Column="0"
-                            Grid.Row="6"
+                            Grid.Row="5"
                             FontAttributes="Bold"
                             Text="Barco:">
                         </Label>
                         <Button
                             Grid.Column="1"
-                            Grid.Row="6"                            
+                            Grid.Row="5"                            
                             Command="{Binding BuscarSucursalCommand}"
                             HorizontalOptions="End"
                             Image="ic_search">
                         </Button>
                         <Label
                             Grid.Column="0"
-                            Grid.Row="7"
+                            Grid.Row="6"
                             FontAttributes="None"
                             TextColor="Black"
                             Text="{Binding NombreSucursal, Mode=TwoWay}">
@@ -102,20 +105,20 @@
 
                         <Label
                             Grid.Column="0"
-                            Grid.Row="8"
+                            Grid.Row="7"
                             FontAttributes="Bold"
                             Text="Viaje:">
                         </Label>
                         <Button
                             Grid.Column="1"
-                            Grid.Row="8"                            
+                            Grid.Row="7"                            
                             Command="{Binding BuscarViajeCommand}"
                             HorizontalOptions="End"
                             Image="ic_search">
                         </Button>
                         <Label
                             Grid.Column="0"
-                            Grid.Row="9"
+                            Grid.Row="8"
                             FontAttributes="None"
                             TextColor="Black"
                             Text="{Binding NomViaje, Mode=TwoWay}">
@@ -123,20 +126,20 @@
 
                         <Label
                             Grid.Column="0"
-                            Grid.Row="10"
+                            Grid.Row="9"
                             FontAttributes="Bold"
                             Text="Solicitante:">
                         </Label>
                         <Button
                             Grid.Column="1"
-                            Grid.Row="10"                            
+                            Grid.Row="9"                            
                             Command="{Binding BuscarSolicitanteCommand}"
                             HorizontalOptions="End"
                             Image="ic_search">
                         </Button>
                         <Label
                             Grid.Column="0"
-                            Grid.Row="11"
+                            Grid.Row="10"
                             FontAttributes="None"
                             TextColor="Black"
                             Text="{Binding NombreSolicitante, Mode=TwoWay}">
@@ -191,6 +194,7 @@
                             Grid.Row="0"
                             FontAttributes="Bold"
                             VerticalOptions="CenterAndExpand"
+                            FontSize="Large"
                             Text="Total:">
                         </Label>
                         <Label
