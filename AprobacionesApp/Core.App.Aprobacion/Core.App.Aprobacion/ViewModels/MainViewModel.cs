@@ -38,6 +38,7 @@ namespace Core.App.Aprobacion.ViewModels
         public MisOrdenesTrabajoViewModel MisOrdenesTrabajo { get; set; }
         public MisOrdenesTrabajoOrdenViewModel MisOrdenesTrabajoOrden { get; set; }
         public List<CatalogoModel> ListaCatalogos { get; set; }
+        public List<ProveedorModel> ListaProveedores { get; set; }
         #endregion
 
         #region Combos
@@ -159,6 +160,17 @@ namespace Core.App.Aprobacion.ViewModels
                 ListaCatalogos.Add(new CatalogoModel { Codigo = "A", Descripcion = "Pendiente", Tipo = "EstadoNomina" });
                 ListaCatalogos.Add(new CatalogoModel { Codigo = "X", Descripcion = "Anulado", Tipo = "EstadoNomina" });
                 ListaCatalogos.Add(new CatalogoModel { Codigo = "", Descripcion = "Todo", Tipo = "EstadoNomina" });
+
+                var response_pro = await apiService.GetList<ProveedorModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Proveedor", "");
+                if (!response_pro.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        response_pro.Message,
+                        "Aceptar");
+                    return;
+                }
+                ListaProveedores = (List<ProveedorModel>)response_cs.Result;                
             }
             catch (System.Exception ex)
             {

@@ -62,7 +62,7 @@ namespace Core.App.Aprobacion.ViewModels
         #region Metodos
         private IEnumerable<ProveedorItemViewModel> ToProveedorItemModel()
         {
-            var temp = _lstProveedores.Select(l => new ProveedorItemViewModel
+            var temp = MainViewModel.GetInstance().ListaProveedores.Select(l => new ProveedorItemViewModel
             {
                 Codigo = l.Codigo,
                 Nombre = l.Nombre,
@@ -75,56 +75,7 @@ namespace Core.App.Aprobacion.ViewModels
         {
             IsRefreshing = true;
             try
-            {
-                this.LstProveedores = new ObservableCollection<ProveedorItemViewModel>();
-                if (string.IsNullOrEmpty(Settings.UrlConexionActual))
-                {
-                    this.IsRefreshing = false;
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Alerta",
-                        "Dispositivo no configurado",
-                        "Aceptar");
-                    return;
-                }
-
-                Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
-                if (!con.IsSuccess)
-                {
-                    string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
-                    con = await apiService.CheckConnection(UrlDistinto);
-                    if (!con.IsSuccess)
-                    {
-                        this.IsRefreshing = false;
-                        await Application.Current.MainPage.DisplayAlert(
-                            "Alerta",
-                            con.Message,
-                            "Aceptar");
-                        return;
-                    }
-                    else
-                        Settings.UrlConexionActual = UrlDistinto;
-                }
-
-                var response_cs = await apiService.GetList<ProveedorModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Proveedor", "");
-                if (!response_cs.IsSuccess)
-                {
-                    this.IsRefreshing = false;
-                    await Application.Current.MainPage.DisplayAlert(
-                        "Alerta",
-                        response_cs.Message,
-                        "Aceptar");
-                    return;
-                }
-                _lstProveedores = (List<ProveedorModel>)response_cs.Result;
-                if (_lstProveedores.Count == 0)
-                {
-                    await Application.Current.MainPage.DisplayAlert(
-                           "Alerta",
-                           "No existen proveedors", //+ parameters,
-                           "Aceptar");
-                }
-
-                _lstProveedores = _lstProveedores.OrderBy(q => q.Nombre).ToList();
+            {   
                 this.LstProveedores = new ObservableCollection<ProveedorItemViewModel>(ToProveedorItemModel());
                 IsRefreshing = false;
             }
@@ -159,7 +110,7 @@ namespace Core.App.Aprobacion.ViewModels
                     this.LstProveedores = new ObservableCollection<ProveedorItemViewModel>(ToProveedorItemModel());
                 else
                     this.LstProveedores = new ObservableCollection<ProveedorItemViewModel>(
-                        ToProveedorItemModel().Where(q => q.Nombre.ToString().Contains(filter.ToLower())
+                        ToProveedorItemModel().Where(q => q.Nombre.ToLower().Contains(filter.ToLower())
                         ).OrderBy(q => q.Nombre));
                 IsRefreshing = false;
             }
