@@ -75,6 +75,7 @@ namespace Core.App.Aprobacion.ViewModels
         #region Constructor
         public MisOrdenesTrabajoOrdenViewModel(OrdenModel Model)
         {
+            Fecha = Model.Fecha;
             IsEnabled = true;
             apiService = new ApiService();
             Orden = Model;
@@ -139,12 +140,12 @@ namespace Core.App.Aprobacion.ViewModels
 
         }
 
-        public ICommand BuscarBarcoCommand
+        public ICommand BuscarSucursalCommand
         {
-            get { return new RelayCommand(BuscarBarco); }
+            get { return new RelayCommand(BuscarSucursal); }
         }
 
-        private async void BuscarBarco()
+        private async void BuscarSucursal()
         {
             MainViewModel.GetInstance().ComboCatalogos = new ComboCatalogosViewModel(Enumeradores.eCombo.BARCO);
             await App.Navigator.PushAsync(new ComboCatalogosPage());
