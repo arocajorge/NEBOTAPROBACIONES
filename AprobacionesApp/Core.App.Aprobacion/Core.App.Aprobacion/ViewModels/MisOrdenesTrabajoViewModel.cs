@@ -141,13 +141,6 @@ namespace Core.App.Aprobacion.ViewModels
                     return;
                 }
                 _lstOrden = (List<OrdenModel>)response_cs.Result;
-                if (_lstOrden.Count == 0)
-                {
-                    await Application.Current.MainPage.DisplayAlert(
-                           "Alerta",
-                           "No existen resultados para los filtros seleccionados ",//+parameters,
-                           "Aceptar");
-                }
                 this.LstOrdenes = new ObservableCollection<OrdenItemViewModel>(ToOrdenItemModel());
                 IsRefreshing = false;
             }
