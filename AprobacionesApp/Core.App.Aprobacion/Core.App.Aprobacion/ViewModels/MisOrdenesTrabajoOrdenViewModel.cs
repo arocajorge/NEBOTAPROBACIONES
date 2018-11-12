@@ -85,7 +85,7 @@ namespace Core.App.Aprobacion.ViewModels
 
         private async void BuscarProveedor()
         {
-            MainViewModel.GetInstance().ComboProveedores = new ComboProveedoresPage();
+            MainViewModel.GetInstance().ComboProveedores = new  ComboProveedoresViewModel();
             await App.Navigator.PushAsync(new ComboProveedoresPage());
         }
 

@@ -40,10 +40,10 @@ namespace Core.App.Aprobacion.ViewModels
         #endregion
 
         #region Combos
-        public ComboBodegasPage ComboBodegas { get; set; }
-        public ComboProveedoresPage ComboProveedores { get; set; }
-        public ComboSolicitantesPage ComboSolicitantes { get; set; }
-        public ComboSucursalesPage ComboSucursales { get; set; }
+        public ComboBodegasViewModel ComboBodegas { get; set; }
+        public ComboProveedoresViewModel ComboProveedores { get; set; }
+        public ComboSolicitantesViewModel ComboSolicitantes { get; set; }
+        public ComboSucursalesViewModel ComboSucursales { get; set; }
         public ComboViajesViewModel ComboViajes { get; set; }
         #endregion
 
