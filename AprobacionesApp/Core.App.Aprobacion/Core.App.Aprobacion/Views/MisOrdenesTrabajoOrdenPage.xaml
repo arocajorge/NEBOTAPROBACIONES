@@ -75,7 +75,7 @@
                             Grid.Row="5"
                             FontAttributes="None"
                             TextColor="Black"
-                            Text="{Binding Orden.NombreProveedor, Mode=TwoWay}">
+                            Text="{Binding NombreProveedor, Mode=TwoWay}">
                         </Label>
 
                         <Label

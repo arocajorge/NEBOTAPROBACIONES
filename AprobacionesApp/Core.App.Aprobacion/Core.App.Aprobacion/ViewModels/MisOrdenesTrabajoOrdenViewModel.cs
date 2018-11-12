@@ -17,6 +17,7 @@ namespace Core.App.Aprobacion.ViewModels
         private bool _IsEnabled;
         private OrdenModel _Orden;
         private ApiService apiService;
+        private string _NombreProveedor;
         #endregion
 
         #region Propiedades
@@ -33,6 +34,11 @@ namespace Core.App.Aprobacion.ViewModels
         {
             get { return this._IsRunning; }
             set { SetValue(ref this._IsRunning, value); }
+        }
+        public string NombreProveedor
+        {
+            get { return this._NombreProveedor; }
+            set { SetValue(ref this._NombreProveedor, value); }
         }
         #endregion
 
@@ -52,6 +58,7 @@ namespace Core.App.Aprobacion.ViewModels
                 case Enumeradores.eCombo.PROVEEDOR:
                     Orden.IdProveedor = Codigo;
                     Orden.NombreProveedor = Nombre;
+                    NombreProveedor = Nombre;
                     break;
                 case Enumeradores.eCombo.BARCO:
                     Orden.IdSucursal = Codigo;
@@ -72,7 +79,6 @@ namespace Core.App.Aprobacion.ViewModels
                 default:
                     break;
             }
-            Orden = Orden;
         }
         #endregion
 
