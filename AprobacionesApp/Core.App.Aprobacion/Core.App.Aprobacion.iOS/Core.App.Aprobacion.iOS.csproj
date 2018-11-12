@@ -320,4 +320,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_add.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_keyboard_arrow_left.png" />
+  </ItemGroup>
 </Project>

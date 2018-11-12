@@ -25,39 +25,28 @@
                         <ViewCell>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <StackLayout
-                                    Grid.Column="0"
-                                    VerticalOptions="Center">             
-                                        <Label
-                                            FontAttributes="None"
-                                            HorizontalOptions="StartAndExpand"
-                                            Text="{Binding Identificación}"
-                                            TextColor="Black">
-                                        </Label>      
+                                <Image
+                                        Grid.Column="0"
+                                        HorizontalOptions="End"
+                                        Source="ic_keyboard_arrow_left">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SelectProveedorCommand}"></TapGestureRecognizer>
+                                    </Image.GestureRecognizers>
+                                </Image>
+                                <StackLayout
+                                    Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    Padding="5">   
                                     <Label
                                         FontAttributes="None"
                                         Text="{Binding Nombre}"
                                         TextColor="Black"
                                         HorizontalOptions="StartAndExpand">
                                     </Label>
-                                    <Label
-                                        FontAttributes="None"
-                                        HorizontalOptions="StartAndExpand"
-                                        Text="{Binding EMail}"
-                                        TextColor="Black">
-                                    </Label>
-                                    </StackLayout>
-                                    <Image
-                                        Grid.Column="1"
-                                        HorizontalOptions="End"
-                                        Source="ic_keyboard_arrow_right">
-                                        <Image.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding SelectProveedorCommand}"></TapGestureRecognizer>
-                                        </Image.GestureRecognizers>
-                                    </Image>
+                                 </StackLayout>                                    
                                 </Grid>
                         </ViewCell>
                     </DataTemplate>

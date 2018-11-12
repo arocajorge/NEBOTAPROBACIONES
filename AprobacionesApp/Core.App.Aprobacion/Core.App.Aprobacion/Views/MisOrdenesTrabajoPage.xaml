@@ -10,8 +10,7 @@
             Command="{Binding NuevaOrdenCommand}"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout
-            BackgroundColor="White"
+        <StackLayout            
             BindingContext="{Binding MisOrdenesTrabajo}"
             Padding="5">
             <SearchBar
@@ -20,8 +19,7 @@
                 Placeholder="Buscar..."
                 HeightRequest="50">
             </SearchBar>
-            <ListView
-                BackgroundColor="Silver"
+            <ListView                
                 HasUnevenRows="True"
                 RefreshCommand="{Binding RefreshCommand}"
                 IsRefreshing="{Binding IsRefreshing,Mode=TwoWay}"
