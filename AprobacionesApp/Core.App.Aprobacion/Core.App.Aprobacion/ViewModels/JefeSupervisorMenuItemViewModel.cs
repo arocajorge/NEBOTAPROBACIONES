@@ -89,7 +89,7 @@ namespace Core.App.Aprobacion.ViewModels
                         break;
                     case "JefeSupervisorOrdenesPage":
                         MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
-                        await App.Navigator.PushAsync(new JefeSupervisorOrdenesPage());
+                        Application.Current.MainPage = new JefeSupervisorMasterPage();
                         break;
                     case "JefeSupervisorBitacorasPage":
                         if (string.IsNullOrEmpty(Settings.Sucursal) || string.IsNullOrEmpty(Settings.Viaje))

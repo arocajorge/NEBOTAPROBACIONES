@@ -5,7 +5,9 @@ using Core.App.Aprobacion.Views;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -32,9 +34,24 @@ namespace Core.App.Aprobacion.ViewModels
         private NumberFormatInfo provider;
         private string _Comentario;
         private string _Titulo;
+        private ObservableCollection<string> _ListaTipoOrden;
+        private string _TipoSelectedIndex;
         #endregion
 
         #region Propiedades
+        public string TipoSelectedIndex
+        {
+            get { return this._TipoSelectedIndex; }
+            set { SetValue(ref this._TipoSelectedIndex, value); }
+        }
+        public ObservableCollection<string> ListaTipoOrden
+        {
+            get { return this._ListaTipoOrden; }
+            set
+            {
+                SetValue(ref this._ListaTipoOrden, value);                
+            }
+        }
         public OrdenModel Orden {
             get { return this._Orden; }
             set { SetValue(ref this._Orden, value); }
@@ -126,11 +143,34 @@ namespace Core.App.Aprobacion.ViewModels
             Orden = Model;
             Titulo = Orden.Titulo;
             Fecha = Orden.Fecha;
+            
             Valor =  string.IsNullOrEmpty(Orden.Valor) ? 0 : Convert.ToDecimal(Orden.Valor,provider);
             ValorIva = string.IsNullOrEmpty(Orden.ValorIva) ? 0 : Convert.ToDecimal(Orden.ValorIva, provider);
+            TieneIva = ValorIva > 0 ? true : false;
             ValorOrden = Orden.ValorOrden;
+
+            NombreBodega = Orden.NombreBodega;
+            NombreProveedor = Orden.NombreProveedor;
+            NombreSolicitante = Orden.NombreSolicitante;
+            NombreSucursal = Orden.NomCentroCosto;
+            NomViaje = Orden.NomViaje;
+            Comentario = Orden.Comentario;
+
             IsEnabled = true;
-            apiService = new ApiService();            
+            apiService = new ApiService();
+
+            CargarTipos();
+            
+        }
+        private void CargarTipos()
+        {
+            ListaTipoOrden = new ObservableCollection<string>();
+            ListaTipoOrden.Add("Orden de trabajo");
+            ListaTipoOrden.Add("Orden de caja chica");
+            if (Orden.NumeroOrden > 0)
+                TipoSelectedIndex = Orden.TipoDocumento == "OT" ? "Orden de trabajo" : "Orden de caja chica";
+            else
+                TipoSelectedIndex = "Orden de trabajo";
         }
         #endregion
 
@@ -353,7 +393,7 @@ namespace Core.App.Aprobacion.ViewModels
                 this.Orden.Fecha = Fecha;
                 this.Orden.Valor = Valor.ToString();
                 this.Orden.ValorIva = ValorIva.ToString();
-                this.Orden.TipoDocumento = "OT";
+                this.Orden.TipoDocumento = TipoSelectedIndex == "Orden de trabajo" ? "OT" : "OK";
 
                 var response_sinc = await apiService.Post<OrdenModel>(
                     Settings.UrlConexionActual,
@@ -372,7 +412,7 @@ namespace Core.App.Aprobacion.ViewModels
                 }
                 await Application.Current.MainPage.DisplayAlert(
                         "Alerta",
-                        "Orden de trabajo creada exitósamente",
+                        Orden.NumeroOrden > 0 ? "Se ha modificado la orden exitósamente" : "Se ha creado la orden exitósamente" ,
                         "Aceptar");
 
                 MainViewModel.GetInstance().MisOrdenesTrabajo.LoadLista();

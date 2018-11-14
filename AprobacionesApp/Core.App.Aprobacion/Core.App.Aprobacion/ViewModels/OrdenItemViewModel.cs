@@ -70,6 +70,8 @@ namespace Core.App.Aprobacion.ViewModels
                     return;
                 }
                 var Orden = (OrdenModel)response_cs.Result;
+                Orden.Titulo = (Orden.TipoDocumento == "OT" ? "Orden de trabajo # " : "Orden de compra #")+Orden.NumeroOrden;
+                
                 MainViewModel.GetInstance().MisOrdenesTrabajoOrden = new MisOrdenesTrabajoOrdenViewModel(Orden);
                 await App.Navigator.Navigation.PushAsync(new MisOrdenesTrabajoOrdenPage());
 

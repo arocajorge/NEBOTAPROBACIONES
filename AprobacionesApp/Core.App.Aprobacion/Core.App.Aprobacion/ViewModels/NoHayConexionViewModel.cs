@@ -116,7 +116,7 @@ namespace Core.App.Aprobacion.ViewModels
                         Application.Current.MainPage = new NavigationPage(new JefeSupervisorFiltroPage());
                         return;
                     }
-                    if (usuario.MenuFiltro == "JefeSupervisorBitacorasPage")
+                    if (usuario.MenuFiltro == "JefeSupervisorOrdenesPage")
                     {
                         if (string.IsNullOrEmpty(Settings.FechaInicio))
                         {
@@ -126,7 +126,7 @@ namespace Core.App.Aprobacion.ViewModels
                         }
                         else
                         {
-                            MainViewModel.GetInstance().JefeSupervisorBitacoras = new JefeSupervisorBitacorasViewModel();
+                            MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
                             Application.Current.MainPage = new JefeSupervisorMasterPage();
                             return;
                         }

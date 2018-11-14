@@ -15,7 +15,13 @@
                         Text="{Binding Titulo, Mode=TwoWay}"
                         HorizontalTextAlignment="Center">
                     </Label>
-                        <DatePicker
+                    <Picker
+                        FontSize="Medium"
+                        ItemsSource="{Binding ListaTipoOrden}"
+                        SelectedItem="{Binding TipoSelectedIndex, Mode=TwoWay}"                        
+                        Title="Seleccione el Tipo">
+                    </Picker>
+                    <DatePicker
                             HorizontalOptions="CenterAndExpand"
                             TextColor="Black"
                             Date="{Binding Fecha, Mode=TwoWay}">

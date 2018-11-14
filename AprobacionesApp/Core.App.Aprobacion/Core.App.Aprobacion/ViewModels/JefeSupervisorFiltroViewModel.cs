@@ -273,7 +273,7 @@ namespace Core.App.Aprobacion.ViewModels
                 IsRunning = false;
                 IsEnabled = true;
 
-                MainViewModel.GetInstance().JefeSupervisorBitacoras = new JefeSupervisorBitacorasViewModel();
+                MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
                 Application.Current.MainPage = new JefeSupervisorMasterPage();
             }
             catch (System.Exception ex)

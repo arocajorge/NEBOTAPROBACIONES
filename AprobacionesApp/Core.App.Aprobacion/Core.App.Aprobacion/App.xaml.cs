@@ -108,7 +108,7 @@ namespace Core.App.Aprobacion
                             MainPage = new NavigationPage(new JefeSupervisorFiltroPage());
                             return;
                         }
-                        if (usuario.MenuFiltro == "JefeSupervisorBitacorasPage")
+                        if (usuario.MenuFiltro == "JefeSupervisorOrdenesPage")
                         {
                             if (string.IsNullOrEmpty(Settings.FechaInicio))
                             {
@@ -118,7 +118,7 @@ namespace Core.App.Aprobacion
                             }
                             else
                             {
-                                MainViewModel.GetInstance().JefeSupervisorBitacoras = new JefeSupervisorBitacorasViewModel();
+                                MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
                                 MainPage = new JefeSupervisorMasterPage();
                                 return;
                             }
