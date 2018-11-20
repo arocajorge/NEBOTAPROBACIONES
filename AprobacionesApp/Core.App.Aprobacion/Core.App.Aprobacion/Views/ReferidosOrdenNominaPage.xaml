@@ -58,6 +58,20 @@
                             Text="{Binding Orden.NombreCentroCosto}"
                             TextColor="Black">
                     </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Cargo: "
+                            TextColor="Black">
+                    </Label>
+
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.NombreCargo}"
+                            TextColor="Black">
+                    </Label>
+
                     <Label
                             FontSize="Medium"
                             FontAttributes="Bold"

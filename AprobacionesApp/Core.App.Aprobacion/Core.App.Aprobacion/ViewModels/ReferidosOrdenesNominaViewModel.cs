@@ -93,7 +93,8 @@ namespace Core.App.Aprobacion.ViewModels
                 ImagenPerfil = l.ImagenPerfil,
                 ImagenAntecedentes = l.ImagenAntecedentes,
                 Color = l.Color,
-                Titulo = l.Titulo
+                Titulo = l.Titulo,
+                NombreCargo = l.NombreCargo
             });
             return temp;
         }
@@ -172,9 +173,9 @@ namespace Core.App.Aprobacion.ViewModels
                     l.ImagenPoligrafo = (l.EstadoPoligrafo == null || l.EstadoPoligrafo.ToUpper() == "A" ? "ic_check_box_outline_blank"
                         : (l.EstadoPoligrafo.ToUpper() == "P" ? "ic_check_box"
                         : (l.EstadoPoligrafo.ToUpper() == "X" ? "ic_indeterminate_check_box" : "")));
-                    l.ImagenPsicologo = (l.ImagenPsicologo == null || l.EstadoPoligrafo.ToUpper() == "A" ? "ic_check_box_outline_blank"
-                        : (l.ImagenPsicologo.ToUpper() == "P" ? "ic_check_box"
-                        : (l.ImagenPsicologo.ToUpper() == "X" ? "ic_indeterminate_check_box" : "")));
+                    l.ImagenPsicologo = (l.EstadoPsicologo == null || l.EstadoPsicologo.ToUpper() == "A" ? "ic_check_box_outline_blank"
+                        : (l.EstadoPsicologo.ToUpper() == "P" ? "ic_check_box"
+                        : (l.EstadoPsicologo.ToUpper() == "X" ? "ic_indeterminate_check_box" : "")));
                     l.Estado = l.Estado == "X" ? "Anulado"
                         : (l.Estado == "P" ? "Aprobado"
                         : (l.Estado == "T" ? "Aprobado un viaje"

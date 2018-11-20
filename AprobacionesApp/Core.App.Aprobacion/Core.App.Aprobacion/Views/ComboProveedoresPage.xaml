@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.ComboProveedoresPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Proveedores">
+    <ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding ComboProveedores}"
+            Padding="5">
+            <SearchBar
+                SearchCommand="{Binding BuscarCommand}"
+                Text="{Binding filter, Mode=TwoWay}"
+                Placeholder="Buscar..."
+                HeightRequest="50">
+            </SearchBar>
+            <ListView
+                HasUnevenRows="True"
+                RefreshCommand="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsRefreshing,Mode=TwoWay}"
+                ItemsSource="{Binding LstProveedores}"
+                SeparatorVisibility="Default">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                <Image
+                                        Grid.Column="0"
+                                        HorizontalOptions="End"
+                                        Source="ic_keyboard_arrow_left">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SelectProveedorCommand}"></TapGestureRecognizer>
+                                    </Image.GestureRecognizers>
+                                </Image>
+                                <StackLayout
+                                    Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    Padding="5">   
+                                    <Label
+                                        FontAttributes="None"
+                                        Text="{Binding Nombre}"
+                                        TextColor="Black"
+                                        HorizontalOptions="StartAndExpand">
+                                    </Label>
+                                 </StackLayout>                                    
+                                </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

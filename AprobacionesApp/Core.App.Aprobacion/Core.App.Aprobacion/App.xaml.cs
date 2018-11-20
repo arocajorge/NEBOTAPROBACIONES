@@ -26,8 +26,7 @@ namespace Core.App.Aprobacion
         {
             InitializeComponent();
             apiService = new ApiService();
-            MainViewModel.GetInstance().Login = new LoginViewModel();
-            MainPage = new NavigationPage(new LoginPage());
+            MainPage = new NavigationPage(new LoadingPage());
             ValidarLogin();
         }
         #endregion
@@ -54,8 +53,6 @@ namespace Core.App.Aprobacion
         {
             try
             {
-
-
                 if (string.IsNullOrEmpty(Settings.IdUsuario))
                 {
                     MainViewModel.GetInstance().Login = new LoginViewModel();
@@ -111,7 +108,7 @@ namespace Core.App.Aprobacion
                             MainPage = new NavigationPage(new JefeSupervisorFiltroPage());
                             return;
                         }
-                        if (usuario.MenuFiltro == "JefeSupervisorBitacorasPage")
+                        if (usuario.MenuFiltro == "JefeSupervisorOrdenesPage")
                         {
                             if (string.IsNullOrEmpty(Settings.FechaInicio))
                             {
@@ -121,7 +118,7 @@ namespace Core.App.Aprobacion
                             }
                             else
                             {
-                                MainViewModel.GetInstance().JefeSupervisorBitacoras = new JefeSupervisorBitacorasViewModel();
+                                MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
                                 MainPage = new JefeSupervisorMasterPage();
                                 return;
                             }

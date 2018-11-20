@@ -55,6 +55,8 @@
 
         [JsonProperty("NOM_CENTROCOSTO")]
         public string NombreCentroCosto { get; set; }
+        [JsonProperty("NOM_CARGO")]
+        public string NombreCargo { get; set; }
 
         [JsonProperty("ListaDetalle")]
         public List<OrdenNominaDetalleModel> LstDet { get; set; }

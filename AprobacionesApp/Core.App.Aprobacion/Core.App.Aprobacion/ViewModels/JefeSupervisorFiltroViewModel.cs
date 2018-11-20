@@ -215,8 +215,22 @@ namespace Core.App.Aprobacion.ViewModels
             FechaInicio = string.IsNullOrEmpty(Settings.FechaInicio) ? DateTime.Now.Date.AddMonths(-2) : Convert.ToDateTime(Settings.FechaInicio);
             Settings.RolApro = ROL_APRO;
 
-          if(!string.IsNullOrEmpty(Settings.FechaInicio))
-                SetSettings = true;
+            if (!string.IsNullOrEmpty(Settings.FechaInicio))
+            {
+                Settings.Sucursal = "";
+                Settings.Bodega = "";
+                Settings.Viaje = "";
+                if(ROL_APRO == "J")
+                {
+                    Settings.EstadoJefe = "A";
+                    Settings.EstadoSupervisor = "";
+                }else
+                {
+                    Settings.EstadoJefe = "";
+                    Settings.EstadoSupervisor = "A";
+                }
+            }
+            SetSettings = true;
             CargarCombos();
             SetSettings = false;
         }
@@ -259,7 +273,7 @@ namespace Core.App.Aprobacion.ViewModels
                 IsRunning = false;
                 IsEnabled = true;
 
-                MainViewModel.GetInstance().JefeSupervisorBitacoras = new JefeSupervisorBitacorasViewModel();
+                MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
                 Application.Current.MainPage = new JefeSupervisorMasterPage();
             }
             catch (System.Exception ex)

@@ -4,6 +4,7 @@ using Core.App.Aprobacion.Services;
 using Core.App.Aprobacion.Views;
 using GalaSoft.MvvmLight.Command;
 using Rg.Plugins.Popup.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -34,7 +35,15 @@ namespace Core.App.Aprobacion.ViewModels
         public ReferidosFiltroViewModel ReferidosFiltro { get; set; }
         public ReferidosOrdenNominaViewModel ReferidosOrdenNomina { get; set; }
         public ReferidosOrdenesNominaViewModel ReferidosOrdenesNomina { get; set; }
+        public MisOrdenesTrabajoViewModel MisOrdenesTrabajo { get; set; }
+        public MisOrdenesTrabajoOrdenViewModel MisOrdenesTrabajoOrden { get; set; }
         public List<CatalogoModel> ListaCatalogos { get; set; }
+        public List<ProveedorModel> ListaProveedores { get; set; }
+        #endregion
+
+        #region Combos
+        public ComboCatalogosViewModel ComboCatalogos { get; set; }
+        public ComboProveedoresViewModel ComboProveedores { get; set; }
         #endregion
 
         #region Constructor
@@ -71,17 +80,19 @@ namespace Core.App.Aprobacion.ViewModels
                 {
                     Icon = item.Menu == "JefeSupervisorOrdenesPage" ? "ic_filter_1" 
                         : (item.Menu == "JefeSupervisorBitacorasPage" ? "ic_filter_2"
-                        : (item.Menu == "JefeSupervisorFiltrosPage" ? "ic_location_on"
+                        : (item.Menu == "JefeSupervisorFiltroPage" ? "ic_location_on"
                         : (item.Menu == "ReferidosOrdenesNominaPage" ? "ic_filter_1"
                         : (item.Menu == "ReferidosFiltroPage" ? "ic_location_on"
-                        : "")))),
+                        : (item.Menu == "MisOrdenesTrabajoPage" ? "ic_filter_3"
+                        : ""))))),
                     PageName = item.Menu,
                     Title = item.Menu == "JefeSupervisorOrdenesPage" ? "Ordenes"
                         : (item.Menu == "JefeSupervisorBitacorasPage" ? "Bitácoras"
-                        : (item.Menu == "JefeSupervisorFiltrosPage" ? "Filtros"
+                        : (item.Menu == "JefeSupervisorFiltroPage" ? "Filtros"
                         : (item.Menu == "ReferidosOrdenesNominaPage" ? "Referidos"
                         : (item.Menu == "ReferidosFiltroPage" ? "Filtros"
-                        : ""))))
+                        : (item.Menu == "MisOrdenesTrabajoPage" ? "Mis Ordenes de trabajo"
+                        : "")))))
                 });
             }
             this.Menus.Add(new JefeSupervisorMenuItemViewModel
@@ -146,6 +157,19 @@ namespace Core.App.Aprobacion.ViewModels
                 ListaCatalogos.Add(new CatalogoModel { Codigo = "A", Descripcion = "Pendiente", Tipo = "EstadoNomina" });
                 ListaCatalogos.Add(new CatalogoModel { Codigo = "X", Descripcion = "Anulado", Tipo = "EstadoNomina" });
                 ListaCatalogos.Add(new CatalogoModel { Codigo = "", Descripcion = "Todo", Tipo = "EstadoNomina" });
+
+                ListaCatalogos.ForEach(q => q.Combo = q.Tipo == "Sucursal" ? Enumeradores.eCombo.BARCO : (q.Tipo == "Bodega" ? Enumeradores.eCombo.BODEGA : (q.Tipo == "Viaje" ? Enumeradores.eCombo.VIAJE : (q.Tipo == "Empleado" ? Enumeradores.eCombo.SOLICITANTE: Enumeradores.eCombo.PROVEEDOR))));
+
+                var response_pro = await apiService.GetList<ProveedorModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Proveedor", "");
+                if (!response_pro.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        response_pro.Message,
+                        "Aceptar");
+                    return;
+                }
+                ListaProveedores = (List<ProveedorModel>)response_pro.Result;                
             }
             catch (System.Exception ex)
             {
@@ -157,6 +181,7 @@ namespace Core.App.Aprobacion.ViewModels
                 return;
             }
         }
+
         #endregion
 
         #region Comandos
@@ -185,8 +210,35 @@ namespace Core.App.Aprobacion.ViewModels
             }
             
         }
+
+        public ICommand NuevaOrdenCommand
+        {
+            get
+            {
+                return new RelayCommand(NuevaOrden);
+            }
+        }
+
+        private async void NuevaOrden()
+        {
+            try
+            {
+                OrdenModel Orden = new OrdenModel { Fecha = DateTime.Now.Date, Titulo = "Nueva Orden" };
+                GetInstance().MisOrdenesTrabajoOrden = new MisOrdenesTrabajoOrdenViewModel(Orden);
+                await App.Navigator.PushAsync(new MisOrdenesTrabajoOrdenPage());
+            }
+            catch (System.Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                       "Alerta",
+                       ex.Message,
+                       "Aceptar");
+                return;
+            }
+
+        }
         #endregion
 
-      
+
     }
 }

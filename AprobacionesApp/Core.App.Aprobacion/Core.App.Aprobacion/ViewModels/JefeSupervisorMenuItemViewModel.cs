@@ -50,7 +50,7 @@ namespace Core.App.Aprobacion.ViewModels
 
                 switch (this.PageName)
                 {
-                    case "JefeSupervisorFiltrosPage":
+                    case "JefeSupervisorFiltroPage":
 
                         Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
                         if (!con.IsSuccess)
@@ -89,7 +89,7 @@ namespace Core.App.Aprobacion.ViewModels
                         break;
                     case "JefeSupervisorOrdenesPage":
                         MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
-                        await App.Navigator.PushAsync(new JefeSupervisorOrdenesPage());
+                        Application.Current.MainPage = new JefeSupervisorMasterPage();
                         break;
                     case "JefeSupervisorBitacorasPage":
                         if (string.IsNullOrEmpty(Settings.Sucursal) || string.IsNullOrEmpty(Settings.Viaje))
@@ -131,7 +131,7 @@ namespace Core.App.Aprobacion.ViewModels
                         else
                         {
                             MainViewModel.GetInstance().JefeSupervisorBitacoras = new JefeSupervisorBitacorasViewModel();
-                            Application.Current.MainPage = new NavigationPage(new JefeSupervisorBitacorasPage());
+                            await App.Navigator.PushAsync(new JefeSupervisorBitacorasPage());
                         }
                         break;
 
@@ -141,7 +141,11 @@ namespace Core.App.Aprobacion.ViewModels
                         break;
                     case "ReferidosOrdenesNominaPage":
                         MainViewModel.GetInstance().ReferidosOrdenesNomina = new ReferidosOrdenesNominaViewModel();
-                        Application.Current.MainPage = new ReferidosMasterPage();
+                        await App.Navigator.PushAsync(new ReferidosOrdenesNominaPage());
+                        break;
+                    case "MisOrdenesTrabajoPage":
+                        MainViewModel.GetInstance().MisOrdenesTrabajo = new MisOrdenesTrabajoViewModel();
+                        await App.Navigator.PushAsync(new MisOrdenesTrabajoPage());
                         break;
                 }
             }

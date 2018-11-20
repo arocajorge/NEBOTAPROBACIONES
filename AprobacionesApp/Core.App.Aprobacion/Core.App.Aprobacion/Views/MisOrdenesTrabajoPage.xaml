@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.MisOrdenesTrabajoPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Mis órdenes de trabajo">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Icon="ic_add"
+            Command="{Binding NuevaOrdenCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout            
+            BindingContext="{Binding MisOrdenesTrabajo}"
+            Padding="5">
+            <SearchBar
+                SearchCommand="{Binding BuscarCommand}"
+                Text="{Binding filter, Mode=TwoWay}"
+                Placeholder="Buscar..."
+                HeightRequest="50">
+            </SearchBar>
+            <ListView                
+                HasUnevenRows="True"
+                RefreshCommand="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsRefreshing,Mode=TwoWay}"
+                ItemsSource="{Binding LstOrdenes}"
+                SeparatorVisibility="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame                                
+                                HasShadow="True"
+                                CornerRadius="20"
+                                Margin="5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout
+                                    Grid.Column="0"
+                                    VerticalOptions="Center">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="{Binding NumeroOrden, StringFormat='No.{0}'}"
+                                                TextColor="Black">
+                                            </Label>
+                                            <Label
+                                                HorizontalOptions="EndAndExpand"
+                                                Text="{Binding Fecha, StringFormat='{0:dd/MM/yyyy}'}"
+                                                FontAttributes="None"
+                                                TextColor="Black">
+                                            </Label>
+                                        </StackLayout>
+                                        <Label
+                                            FontAttributes="None"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="{Binding NombreProveedor}"
+                                            TextColor="Black">
+                                        </Label>
+                                        <Label
+                                            FontAttributes="None"
+                                            Text="{Binding Comentario}"
+                                            TextColor="Black">
+                                        </Label>
+                                    </StackLayout>
+                                    <Image
+                                        Grid.Column="1"
+                                        HorizontalOptions="End"
+                                        Source="ic_keyboard_arrow_right">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding UpdateOrdenCommand}"></TapGestureRecognizer>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
