@@ -38,5 +38,6 @@ namespace AprobacionesApi.Models
         public DateTime? CINV_FECLLEGADA { get; set; }
         public short? CINV_TIPRECIO { get; set; }
         public int CINV_SEC { get; set; }
+        public string NOM_BODEGA { get; set; }
     }
 }

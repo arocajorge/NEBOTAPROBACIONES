@@ -132,16 +132,15 @@ advertencia 6002: La tabla o vista 'INDIGO.SUCURSAL' no tiene definida ninguna c
           <Property Name="ESTADO" Type="varchar2" MaxLength="10" />
           <Property Name="EMPRESA" Type="number" Precision="5" Scale="0" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'INDIGO.TBBI_SECDOC' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="TBBI_SECDOC">
           <Key>
             <PropertyRef Name="DOC_CIA" />
-            <PropertyRef Name="DOC_NUM" />
+            <PropertyRef Name="DOC_BOD" />
+            <PropertyRef Name="DOC_SGL" />
           </Key>
           <Property Name="DOC_CIA" Type="number" Precision="5" Scale="0" Nullable="false" />
-          <Property Name="DOC_BOD" Type="varchar2" MaxLength="5" />
-          <Property Name="DOC_SGL" Type="varchar2" MaxLength="12" />
+          <Property Name="DOC_BOD" Type="varchar2" MaxLength="5" Nullable="false" />
+          <Property Name="DOC_SGL" Type="varchar2" MaxLength="12" Nullable="false" />
           <Property Name="DOC_NUM" Type="number" Precision="10" Scale="0" Nullable="false" />
           <Property Name="DOC_TIPO" Type="char" MaxLength="1" />
         </EntityType>
@@ -251,6 +250,81 @@ advertencia 6002: La tabla o vista 'INDIGO.TBBI_SECDOC' no tiene definida ningun
           <Property Name="BODEGA3" Type="number" Precision="10" Scale="0" />
           <Property Name="DINV_ST" Type="varchar2" MaxLength="1" />
           <Property Name="DINV_OC" Type="varchar2" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="TBNOM_EMPLEADO">
+          <Key>
+            <PropertyRef Name="EMPL_CO" />
+          </Key>
+          <Property Name="EMPL_EMPR" Type="number" Precision="3" Scale="0" Nullable="false" />
+          <Property Name="EMPL_CO" Type="varchar2" MaxLength="10" Nullable="false" />
+          <Property Name="EMPL_AP" Type="varchar2" MaxLength="50" />
+          <Property Name="EMPL_NO" Type="varchar2" MaxLength="50" />
+          <Property Name="TIPO_TRAB_CO" Type="number" Precision="11" Scale="0" Nullable="false" />
+          <Property Name="EMPL_FEINGR" Type="date" Nullable="false" />
+          <Property Name="EMPL_SLBASICO" Type="float" Precision="126" Scale="0" Nullable="false" />
+          <Property Name="EMPL_VAHORA" Type="float" Precision="126" Scale="0" Nullable="false" />
+          <Property Name="EMPL_HRPROD" Type="float" Precision="126" Scale="0" />
+          <Property Name="CARGO_CO" Type="varchar2" MaxLength="10" />
+          <Property Name="DEPAR_CO" Type="varchar2" MaxLength="10" />
+          <Property Name="DEPAR_CO_RESIDE" Type="varchar2" MaxLength="10" />
+          <Property Name="EMPL_FENACE" Type="date" />
+          <Property Name="EMPL_NUCEDU" Type="varchar2" MaxLength="50" />
+          <Property Name="EMPL_LIC" Type="varchar2" MaxLength="20" />
+          <Property Name="EMPL_NUPASAPORTE" Type="varchar2" MaxLength="20" />
+          <Property Name="EMPL_LIB_MILITAR" Type="varchar2" MaxLength="20" />
+          <Property Name="EMPL_NU_AFILIA" Type="varchar2" MaxLength="20" />
+          <Property Name="EMPL_SEXO" Type="varchar2" MaxLength="1" />
+          <Property Name="TIPO_SANG_TI" Type="number" Precision="11" Scale="0" Nullable="false" />
+          <Property Name="TIPO_SANG_CO" Type="varchar2" MaxLength="3" />
+          <Property Name="EMPL_ESTATURA" Type="float" Precision="126" Scale="0" />
+          <Property Name="EMPL_PESO" Type="float" Precision="126" Scale="0" />
+          <Property Name="EMPL_DR" Type="varchar2" MaxLength="70" />
+          <Property Name="EMPL_FO" Type="varchar2" MaxLength="70" />
+          <Property Name="ESTA_CIVIL_TI" Type="number" Precision="11" Scale="0" Nullable="false" />
+          <Property Name="ESTA_CIVIL_CO" Type="varchar2" MaxLength="3" />
+          <Property Name="EMPL_CONYUGE" Type="varchar2" MaxLength="70" />
+          <Property Name="EMPL_NUCTA" Type="varchar2" MaxLength="50" />
+          <Property Name="EMPL_NUCTACTE" Type="varchar2" MaxLength="50" />
+          <Property Name="EMPL_FEFINCON" Type="date" />
+          <Property Name="EMPL_ULTRAB" Type="varchar2" MaxLength="50" />
+          <Property Name="EMPL_FEINIVAC" Type="date" />
+          <Property Name="EMPL_FEFINVAC" Type="date" />
+          <Property Name="EMPL_FEULTRAB" Type="date" />
+          <Property Name="EMPL_MOULTRAB" Type="varchar2" MaxLength="50" />
+          <Property Name="EMPL_FESALE" Type="date" />
+          <Property Name="EMPL_FEVACA_AUM" Type="date" />
+          <Property Name="EMPL_STVACA" Type="varchar2" MaxLength="1" />
+          <Property Name="EMPL_DIAS_REAL" Type="number" Precision="11" Scale="2" />
+          <Property Name="EMPL_DEC_SEXTO" Type="float" Precision="126" Scale="0" />
+          <Property Name="EMPL_STFIJO" Type="varchar2" MaxLength="1" />
+          <Property Name="EMPL_TIEMPO_SEG_MED" Type="number" Precision="11" Scale="0" />
+          <Property Name="EMPL_SEG_MED" Type="float" Precision="126" Scale="0" />
+          <Property Name="EMPL_PORC_SEG_MED" Type="float" Precision="126" Scale="0" />
+          <Property Name="EMPL_ANTI_PARCIAL" Type="float" Precision="126" Scale="0" />
+          <Property Name="EMPL_BECA" Type="float" Precision="126" Scale="0" />
+          <Property Name="EMPL_BONO" Type="float" Precision="126" Scale="0" />
+          <Property Name="EMPL_COMEDOR" Type="float" Precision="126" Scale="0" />
+          <Property Name="EMPL_PORC_COMEDOR" Type="float" Precision="126" Scale="0" />
+          <Property Name="EMPL_TRANS" Type="float" Precision="126" Scale="0" />
+          <Property Name="EMPL_ST" Type="varchar2" MaxLength="1" />
+          <Property Name="EMPL_TI_CAMBIO" Type="float" Precision="126" Scale="0" />
+          <Property Name="EMPL_MONEDA" Type="varchar2" MaxLength="1" />
+          <Property Name="EMPL_BONI_VOLUN" Type="float" Precision="126" Scale="0" />
+          <Property Name="EMPL_COMOTI_MASTERLE" Type="varchar2" MaxLength="3" />
+          <Property Name="EMPL_TIMOTI_MASTERLE" Type="number" Precision="11" Scale="0" />
+          <Property Name="EMPL_OCUPACION" Type="varchar2" MaxLength="14" />
+          <Property Name="EMPL_COMOTI_SALE" Type="varchar2" MaxLength="3" />
+          <Property Name="EMPL_TIMOTI_SALE" Type="number" Precision="11" Scale="0" />
+          <Property Name="EMPL_HORAENTTI" Type="number" Precision="11" Scale="0" />
+          <Property Name="EMPL_HORAENTCO" Type="varchar2" MaxLength="3" />
+          <Property Name="EMPL_VA_UTILIDAD" Type="float" Precision="126" Scale="0" />
+          <Property Name="EMPL_VA_MOI" Type="varchar2" MaxLength="3" />
+          <Property Name="EMPL_BANCO" Type="varchar2" MaxLength="1" />
+          <Property Name="EMPL_COMENTARIO" Type="varchar2" MaxLength="250" />
+          <Property Name="EMPL_SUCURSAL_CO" Type="varchar2" MaxLength="5" />
+          <Property Name="EMPL_STFONDORES" Type="varchar2" MaxLength="1" />
+          <Property Name="EMPL_PREST_QUIR" Type="number" Precision="19" Scale="4" />
+          <Property Name="EMPL_CELULAR" Type="number" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="TBNOM_ORDEN_NOMINA_CAB">
           <Key>
@@ -662,10 +736,12 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL_APS' no tien
           <EntitySet Name="CAB_BITACORA" EntityType="Self.CAB_BITACORA" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="DET_BITACORA" EntityType="Self.DET_BITACORA" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="DET_BITACORA2" EntityType="Self.DET_BITACORA2" Schema="INDIGO" store:Type="Tables" />
+          <EntitySet Name="TBBI_SECDOC" EntityType="Self.TBBI_SECDOC" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="TBCINV" EntityType="Self.TBCINV" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="TBCINV_APP_ORDENES_SALTADAS" EntityType="Self.TBCINV_APP_ORDENES_SALTADAS" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="TBCINV_APPCORREOS" EntityType="Self.TBCINV_APPCORREOS" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="TBDINV" EntityType="Self.TBDINV" Schema="INDIGO" store:Type="Tables" />
+          <EntitySet Name="TBNOM_EMPLEADO" EntityType="Self.TBNOM_EMPLEADO" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="TBNOM_ORDEN_NOMINA_CAB" EntityType="Self.TBNOM_ORDEN_NOMINA_CAB" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="TBNOM_ORDEN_NOMINA_DET" EntityType="Self.TBNOM_ORDEN_NOMINA_DET" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" Schema="INDIGO" store:Type="Tables" />
@@ -679,15 +755,6 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL_APS' no tien
 "SUCURSAL"."ESTADO" AS "ESTADO", 
 "SUCURSAL"."EMPRESA" AS "EMPRESA"
 FROM "INDIGO"."SUCURSAL" "SUCURSAL"</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="TBBI_SECDOC" EntityType="Self.TBBI_SECDOC" store:Type="Tables" store:Schema="INDIGO">
-            <DefiningQuery>SELECT 
-"TBBI_SECDOC"."DOC_CIA" AS "DOC_CIA", 
-"TBBI_SECDOC"."DOC_BOD" AS "DOC_BOD", 
-"TBBI_SECDOC"."DOC_SGL" AS "DOC_SGL", 
-"TBBI_SECDOC"."DOC_NUM" AS "DOC_NUM", 
-"TBBI_SECDOC"."DOC_TIPO" AS "DOC_TIPO"
-FROM "INDIGO"."TBBI_SECDOC" "TBBI_SECDOC"</DefiningQuery>
           </EntitySet>
           <EntitySet Name="VW_BITACORAS_APP" EntityType="Self.VW_BITACORAS_APP" store:Type="Views" store:Schema="INDIGO">
             <DefiningQuery>SELECT 
@@ -952,6 +1019,7 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
     <edmx:ConceptualModels>
       <Schema Namespace="ModelGeneral" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="EntitiesGeneral" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="APP_LOGERROR" EntityType="ModelGeneral.APP_LOGERROR" />
           <EntitySet Name="ARINDEX" EntityType="ModelGeneral.ARINDEX" />
           <EntitySet Name="ARPROVEEDOR" EntityType="ModelGeneral.ARPROVEEDOR" />
           <EntitySet Name="CAB_BITACORA" EntityType="ModelGeneral.CAB_BITACORA" />
@@ -961,19 +1029,29 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <EntitySet Name="TBCINV_APP_ORDENES_SALTADAS" EntityType="ModelGeneral.TBCINV_APP_ORDENES_SALTADAS" />
           <EntitySet Name="TBCINV_APPCORREOS" EntityType="ModelGeneral.TBCINV_APPCORREOS" />
           <EntitySet Name="TBDINV" EntityType="ModelGeneral.TBDINV" />
-          <EntitySet Name="TBNOM_ORDEN_NOMINA_CAB" EntityType="ModelGeneral.TBNOM_ORDEN_NOMINA_CAB" />
-          <EntitySet Name="TBNOM_ORDEN_NOMINA_DET" EntityType="ModelGeneral.TBNOM_ORDEN_NOMINA_DET" />
           <EntitySet Name="USUARIOS" EntityType="ModelGeneral.USUARIOS" />
           <EntitySet Name="USUARIOS_MENU_APP" EntityType="ModelGeneral.USUARIOS_MENU_APP" />
           <EntitySet Name="SUCURSAL" EntityType="ModelGeneral.SUCURSAL" />
           <EntitySet Name="VW_BITACORAS_APP" EntityType="ModelGeneral.VW_BITACORAS_APP" />
-          <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL_APS" EntityType="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APS" />
-          <EntitySet Name="APP_LOGERROR" EntityType="ModelGeneral.APP_LOGERROR" />
-          <EntitySet Name="TBBI_SECDOC" EntityType="ModelGeneral.TBBI_SECDOC" />
           <EntitySet Name="VW_ORDENES_NOMINA_APP" EntityType="ModelGeneral.VW_ORDENES_NOMINA_APP" />
           <EntitySet Name="VW_ORDENES_TRABAJO_APP" EntityType="ModelGeneral.VW_ORDENES_TRABAJO_APP" />
           <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL_APP" EntityType="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APP" />
+          <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL_APS" EntityType="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APS" />
+          <EntitySet Name="TBBI_SECDOC" EntityType="ModelGeneral.TBBI_SECDOC" />
+          <EntitySet Name="TBNOM_ORDEN_NOMINA_CAB" EntityType="ModelGeneral.TBNOM_ORDEN_NOMINA_CAB" />
+          <EntitySet Name="TBNOM_ORDEN_NOMINA_DET" EntityType="ModelGeneral.TBNOM_ORDEN_NOMINA_DET" />
+          <EntitySet Name="TBNOM_EMPLEADO" EntityType="ModelGeneral.TBNOM_EMPLEADO" />
         </EntityContainer>
+        <EntityType Name="APP_LOGERROR">
+          <Key>
+            <PropertyRef Name="SECUENCIA" />
+          </Key>
+          <Property Name="SECUENCIA" Type="Int64" Nullable="false" />
+          <Property Name="PROCESO" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ERROR" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA" Type="DateTime" Nullable="false" />
+          <Property Name="INNER" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="ARINDEX">
           <Key>
             <PropertyRef Name="DATA" />
@@ -1185,89 +1263,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="DINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="DINV_OC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="TBNOM_ORDEN_NOMINA_CAB">
-          <Key>
-            <PropertyRef Name="CINV_SEC" />
-          </Key>
-          <Property Name="CINV_SEC" Type="Int32" Nullable="false" />
-          <Property Name="CINV_TDOC" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NUM" Type="Int32" Nullable="false" />
-          <Property Name="CINV_BOD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TBOD" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_REF" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_FECING" Type="DateTime" Nullable="false" />
-          <Property Name="CINV_ID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NOMID" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_DSC" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="CINV_COM1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TASA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="CINV_LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TDIV" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="EMPRESA" Type="Int16" Nullable="false" />
-          <Property Name="DATATR" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CODIGOTR" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NOTA" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_FPAGO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_HORA" Type="DateTime" />
-          <Property Name="CINV_TIPRECIO" Type="Int16" />
-          <Property Name="CINV_FECAPRUEBA" Type="DateTime" />
-          <Property Name="CINV_FECLLEGADA" Type="DateTime" />
-          <Property Name="CINV_FECEMBARQUE" Type="DateTime" />
-          <Property Name="CINV_FECDESADUA" Type="DateTime" />
-          <Property Name="CINV_MOTIVOANULA" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_STPOLI" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COMPOLI" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_STPSICO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COMPSICO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_STANTE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COMANTE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_STPERFIL" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COMPERFIL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COMANTE2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_STREFER" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COMREFER" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COMREFER2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="TBNOM_ORDEN_NOMINA_DET">
-          <Key>
-            <PropertyRef Name="DINV_SEC" />
-          </Key>
-          <Property Name="DINV_SEC" Type="Int32" Nullable="false" />
-          <Property Name="DINV_CTINV" Type="Int32" Nullable="false" />
-          <Property Name="DINV_ITEM" Type="Int32" Nullable="false" />
-          <Property Name="DINV_LINEA" Type="Int16" Nullable="false" />
-          <Property Name="DINV_CANT" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="DINV_DSC" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="DINV_VTA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="DINV_COS" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="DINV_IVA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="DINV_ICE" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="DINV_PRCT_DSC" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="DINV_DSC_EX" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="DINV_BOD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DINV_TBOD" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="DINV_FECHA" Type="DateTime" />
-          <Property Name="DINV_FECANUL" Type="DateTime" />
-          <Property Name="DINV_CANT2" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="DINV_PRECIO_REAL" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="EMPRESA" Type="Int16" />
-          <Property Name="PROMOCION" Type="Int32" />
-          <Property Name="DINV_DCTOPRO" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="DINV_VALPRO" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="DINV_DETALLEDSCTO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="DINV_DETALLEADVAL1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="DINV_DETALLEADVAL2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="DINV_DETALLEADVAL3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="DINV_DETALLEADVAL4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="BODEGA1" Type="Int32" />
-          <Property Name="BODEGA3" Type="Int32" />
-          <Property Name="DINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="DINV_OC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="USUARIOS">
           <Key>
             <PropertyRef Name="CODIGO" />
@@ -1331,89 +1326,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="LINEA_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="LINEA_FECCUMPLI1" Type="DateTime" />
           <Property Name="LINEA_FECCUMPLI2" Type="DateTime" />
-        </EntityType>
-        <EntityType Name="VW_ORDENES_TRABAJO_TOTAL_APS">
-          <Key>
-            <PropertyRef Name="CINV_SEC" />
-            <PropertyRef Name="CINV_NUM" />
-            <PropertyRef Name="CINV_FECING" />
-            <PropertyRef Name="CINV_TASA" />
-            <PropertyRef Name="EMPRESA" />
-          </Key>
-          <Property Name="CINV_SEC" Type="Int32" Nullable="false" />
-          <Property Name="CINV_TDOC" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NUM" Type="Int32" Nullable="false" />
-          <Property Name="CINV_BOD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TBOD" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_REF" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_FECING" Type="DateTime" Nullable="false" />
-          <Property Name="CINV_ID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NOMID" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_DSC" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="CINV_COM1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TASA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="CINV_LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TDIV" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="EMPRESA" Type="Int16" Nullable="false" />
-          <Property Name="DATATR" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CODIGOTR" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NOTA" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_FPAGO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_HORA" Type="DateTime" />
-          <Property Name="CINV_TIPRECIO" Type="Int16" />
-          <Property Name="CINV_FECAPRUEBA" Type="DateTime" />
-          <Property Name="CINV_FECLLEGADA" Type="DateTime" />
-          <Property Name="CINV_FECEMBARQUE" Type="DateTime" />
-          <Property Name="CINV_FECDESADUA" Type="DateTime" />
-          <Property Name="CINV_MOTIVOANULA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_PROVISION" Type="Int32" />
-          <Property Name="CODIGO1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="NOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="APELLIDO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="RUC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
-          <Property Name="CEDULA" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="DOMICILIO" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
-          <Property Name="E_MAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_BODEGA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_CENTROCOSTO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CORREO_CENTROCOSTO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CORREO_CENTROCOSTO2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_SOLICITADO" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
-          <Property Name="CORREO_SOLICITADO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="VALOR_OC" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="CINV_COM5" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM6" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM7" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COMENCUMPLI1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COMENCUMPLI2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="APP_LOGERROR">
-          <Key>
-            <PropertyRef Name="SECUENCIA" />
-          </Key>
-          <Property Name="SECUENCIA" Type="Int64" Nullable="false" />
-          <Property Name="PROCESO" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="ERROR" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="FECHA" Type="DateTime" Nullable="false" />
-          <Property Name="INNER" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="TBBI_SECDOC">
-          <Key>
-            <PropertyRef Name="DOC_CIA" />
-            <PropertyRef Name="DOC_NUM" />
-          </Key>
-          <Property Name="DOC_CIA" Type="Int16" Nullable="false" />
-          <Property Name="DOC_BOD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DOC_SGL" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="DOC_NUM" Type="Int32" Nullable="false" />
-          <Property Name="DOC_TIPO" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
         <EntityType Name="VW_ORDENES_NOMINA_APP">
           <Key>
@@ -1610,12 +1522,255 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="CINV_COMENCUMPLI2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="VW_ORDENES_TRABAJO_TOTAL_APS">
+          <Key>
+            <PropertyRef Name="CINV_SEC" />
+            <PropertyRef Name="CINV_NUM" />
+            <PropertyRef Name="CINV_FECING" />
+            <PropertyRef Name="CINV_TASA" />
+            <PropertyRef Name="EMPRESA" />
+          </Key>
+          <Property Name="CINV_SEC" Type="Int32" Nullable="false" />
+          <Property Name="CINV_TDOC" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NUM" Type="Int32" Nullable="false" />
+          <Property Name="CINV_BOD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TBOD" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_REF" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_FECING" Type="DateTime" Nullable="false" />
+          <Property Name="CINV_ID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NOMID" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_DSC" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CINV_COM1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TASA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="CINV_LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TDIV" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPRESA" Type="Int16" Nullable="false" />
+          <Property Name="DATATR" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CODIGOTR" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NOTA" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_FPAGO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_HORA" Type="DateTime" />
+          <Property Name="CINV_TIPRECIO" Type="Int16" />
+          <Property Name="CINV_FECAPRUEBA" Type="DateTime" />
+          <Property Name="CINV_FECLLEGADA" Type="DateTime" />
+          <Property Name="CINV_FECEMBARQUE" Type="DateTime" />
+          <Property Name="CINV_FECDESADUA" Type="DateTime" />
+          <Property Name="CINV_MOTIVOANULA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_PROVISION" Type="Int32" />
+          <Property Name="CODIGO1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="APELLIDO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="RUC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="CEDULA" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="DOMICILIO" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="E_MAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_BODEGA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_CENTROCOSTO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CORREO_CENTROCOSTO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CORREO_CENTROCOSTO2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_SOLICITADO" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
+          <Property Name="CORREO_SOLICITADO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="VALOR_OC" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="CINV_COM5" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM6" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM7" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COMENCUMPLI1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COMENCUMPLI2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBBI_SECDOC">
+          <Key>
+            <PropertyRef Name="DOC_CIA" />
+            <PropertyRef Name="DOC_BOD" />
+            <PropertyRef Name="DOC_SGL" />
+          </Key>
+          <Property Name="DOC_CIA" Type="Int16" Nullable="false" />
+          <Property Name="DOC_BOD" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DOC_SGL" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="DOC_NUM" Type="Int32" Nullable="false" />
+          <Property Name="DOC_TIPO" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBNOM_ORDEN_NOMINA_CAB">
+          <Key>
+            <PropertyRef Name="CINV_SEC" />
+          </Key>
+          <Property Name="CINV_SEC" Type="Int32" Nullable="false" />
+          <Property Name="CINV_TDOC" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NUM" Type="Int32" Nullable="false" />
+          <Property Name="CINV_BOD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TBOD" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_REF" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_FECING" Type="DateTime" Nullable="false" />
+          <Property Name="CINV_ID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NOMID" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_DSC" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CINV_COM1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TASA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="CINV_LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TDIV" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPRESA" Type="Int16" Nullable="false" />
+          <Property Name="DATATR" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CODIGOTR" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NOTA" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_FPAGO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_HORA" Type="DateTime" />
+          <Property Name="CINV_TIPRECIO" Type="Int16" />
+          <Property Name="CINV_FECAPRUEBA" Type="DateTime" />
+          <Property Name="CINV_FECLLEGADA" Type="DateTime" />
+          <Property Name="CINV_FECEMBARQUE" Type="DateTime" />
+          <Property Name="CINV_FECDESADUA" Type="DateTime" />
+          <Property Name="CINV_MOTIVOANULA" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STPOLI" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COMPOLI" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STPSICO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COMPSICO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STANTE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COMANTE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STPERFIL" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COMPERFIL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COMANTE2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STREFER" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COMREFER" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COMREFER2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBNOM_ORDEN_NOMINA_DET">
+          <Key>
+            <PropertyRef Name="DINV_SEC" />
+          </Key>
+          <Property Name="DINV_SEC" Type="Int32" Nullable="false" />
+          <Property Name="DINV_CTINV" Type="Int32" Nullable="false" />
+          <Property Name="DINV_ITEM" Type="Int32" Nullable="false" />
+          <Property Name="DINV_LINEA" Type="Int16" Nullable="false" />
+          <Property Name="DINV_CANT" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="DINV_DSC" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="DINV_VTA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="DINV_COS" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="DINV_IVA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="DINV_ICE" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DINV_PRCT_DSC" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="DINV_DSC_EX" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DINV_BOD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_TBOD" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_FECHA" Type="DateTime" />
+          <Property Name="DINV_FECANUL" Type="DateTime" />
+          <Property Name="DINV_CANT2" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DINV_PRECIO_REAL" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="EMPRESA" Type="Int16" />
+          <Property Name="PROMOCION" Type="Int32" />
+          <Property Name="DINV_DCTOPRO" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DINV_VALPRO" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DINV_DETALLEDSCTO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_DETALLEADVAL1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_DETALLEADVAL2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_DETALLEADVAL3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_DETALLEADVAL4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BODEGA1" Type="Int32" />
+          <Property Name="BODEGA3" Type="Int32" />
+          <Property Name="DINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_OC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBNOM_EMPLEADO">
+          <Key>
+            <PropertyRef Name="EMPL_CO" />
+          </Key>
+          <Property Name="EMPL_EMPR" Type="Int16" Nullable="false" />
+          <Property Name="EMPL_CO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_AP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_NO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TIPO_TRAB_CO" Type="Int64" Nullable="false" />
+          <Property Name="EMPL_FEINGR" Type="DateTime" Nullable="false" />
+          <Property Name="EMPL_SLBASICO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="EMPL_VAHORA" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="EMPL_HRPROD" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="CARGO_CO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DEPAR_CO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DEPAR_CO_RESIDE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_FENACE" Type="DateTime" />
+          <Property Name="EMPL_NUCEDU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_LIC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_NUPASAPORTE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_LIB_MILITAR" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_NU_AFILIA" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_SEXO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="TIPO_SANG_TI" Type="Int64" Nullable="false" />
+          <Property Name="TIPO_SANG_CO" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_ESTATURA" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_PESO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_DR" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_FO" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="ESTA_CIVIL_TI" Type="Int64" Nullable="false" />
+          <Property Name="ESTA_CIVIL_CO" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_CONYUGE" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_NUCTA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_NUCTACTE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_FEFINCON" Type="DateTime" />
+          <Property Name="EMPL_ULTRAB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_FEINIVAC" Type="DateTime" />
+          <Property Name="EMPL_FEFINVAC" Type="DateTime" />
+          <Property Name="EMPL_FEULTRAB" Type="DateTime" />
+          <Property Name="EMPL_MOULTRAB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_FESALE" Type="DateTime" />
+          <Property Name="EMPL_FEVACA_AUM" Type="DateTime" />
+          <Property Name="EMPL_STVACA" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_DIAS_REAL" Type="Decimal" Precision="11" Scale="2" />
+          <Property Name="EMPL_DEC_SEXTO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_STFIJO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_TIEMPO_SEG_MED" Type="Int64" />
+          <Property Name="EMPL_SEG_MED" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_PORC_SEG_MED" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_ANTI_PARCIAL" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_BECA" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_BONO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_COMEDOR" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_PORC_COMEDOR" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_TRANS" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_TI_CAMBIO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_MONEDA" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_BONI_VOLUN" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_COMOTI_MASTERLE" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_TIMOTI_MASTERLE" Type="Int64" />
+          <Property Name="EMPL_OCUPACION" Type="String" MaxLength="14" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_COMOTI_SALE" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_TIMOTI_SALE" Type="Int64" />
+          <Property Name="EMPL_HORAENTTI" Type="Int64" />
+          <Property Name="EMPL_HORAENTCO" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_VA_UTILIDAD" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_VA_MOI" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_BANCO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_COMENTARIO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_SUCURSAL_CO" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_STFONDORES" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_PREST_QUIR" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="EMPL_CELULAR" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ModelGeneralStoreContainer" CdmEntityContainer="EntitiesGeneral">
+          <EntitySetMapping Name="APP_LOGERROR">
+            <EntityTypeMapping TypeName="ModelGeneral.APP_LOGERROR">
+              <MappingFragment StoreEntitySet="APP_LOGERROR">
+                <ScalarProperty Name="INNER" ColumnName="INNER" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="ERROR" ColumnName="ERROR" />
+                <ScalarProperty Name="PROCESO" ColumnName="PROCESO" />
+                <ScalarProperty Name="SECUENCIA" ColumnName="SECUENCIA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ARINDEX">
             <EntityTypeMapping TypeName="ModelGeneral.ARINDEX">
               <MappingFragment StoreEntitySet="ARINDEX">
@@ -1831,91 +1986,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TBNOM_ORDEN_NOMINA_CAB">
-            <EntityTypeMapping TypeName="ModelGeneral.TBNOM_ORDEN_NOMINA_CAB">
-              <MappingFragment StoreEntitySet="TBNOM_ORDEN_NOMINA_CAB">
-                <ScalarProperty Name="CINV_COMREFER2" ColumnName="CINV_COMREFER2" />
-                <ScalarProperty Name="CINV_COMREFER" ColumnName="CINV_COMREFER" />
-                <ScalarProperty Name="CINV_STREFER" ColumnName="CINV_STREFER" />
-                <ScalarProperty Name="CINV_COMANTE2" ColumnName="CINV_COMANTE2" />
-                <ScalarProperty Name="CINV_COMPERFIL" ColumnName="CINV_COMPERFIL" />
-                <ScalarProperty Name="CINV_STPERFIL" ColumnName="CINV_STPERFIL" />
-                <ScalarProperty Name="CINV_COMANTE" ColumnName="CINV_COMANTE" />
-                <ScalarProperty Name="CINV_STANTE" ColumnName="CINV_STANTE" />
-                <ScalarProperty Name="CINV_COMPSICO" ColumnName="CINV_COMPSICO" />
-                <ScalarProperty Name="CINV_STPSICO" ColumnName="CINV_STPSICO" />
-                <ScalarProperty Name="CINV_COMPOLI" ColumnName="CINV_COMPOLI" />
-                <ScalarProperty Name="CINV_STPOLI" ColumnName="CINV_STPOLI" />
-                <ScalarProperty Name="CINV_MOTIVOANULA" ColumnName="CINV_MOTIVOANULA" />
-                <ScalarProperty Name="CINV_FECDESADUA" ColumnName="CINV_FECDESADUA" />
-                <ScalarProperty Name="CINV_FECEMBARQUE" ColumnName="CINV_FECEMBARQUE" />
-                <ScalarProperty Name="CINV_FECLLEGADA" ColumnName="CINV_FECLLEGADA" />
-                <ScalarProperty Name="CINV_FECAPRUEBA" ColumnName="CINV_FECAPRUEBA" />
-                <ScalarProperty Name="CINV_TIPRECIO" ColumnName="CINV_TIPRECIO" />
-                <ScalarProperty Name="CINV_HORA" ColumnName="CINV_HORA" />
-                <ScalarProperty Name="CINV_FPAGO" ColumnName="CINV_FPAGO" />
-                <ScalarProperty Name="CINV_NOTA" ColumnName="CINV_NOTA" />
-                <ScalarProperty Name="CODIGOTR" ColumnName="CODIGOTR" />
-                <ScalarProperty Name="DATATR" ColumnName="DATATR" />
-                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
-                <ScalarProperty Name="CINV_ST" ColumnName="CINV_ST" />
-                <ScalarProperty Name="CINV_TDIV" ColumnName="CINV_TDIV" />
-                <ScalarProperty Name="CINV_LOGIN" ColumnName="CINV_LOGIN" />
-                <ScalarProperty Name="CINV_TASA" ColumnName="CINV_TASA" />
-                <ScalarProperty Name="CINV_COM4" ColumnName="CINV_COM4" />
-                <ScalarProperty Name="CINV_COM3" ColumnName="CINV_COM3" />
-                <ScalarProperty Name="CINV_COM2" ColumnName="CINV_COM2" />
-                <ScalarProperty Name="CINV_COM1" ColumnName="CINV_COM1" />
-                <ScalarProperty Name="CINV_DSC" ColumnName="CINV_DSC" />
-                <ScalarProperty Name="CINV_NOMID" ColumnName="CINV_NOMID" />
-                <ScalarProperty Name="CINV_ID" ColumnName="CINV_ID" />
-                <ScalarProperty Name="CINV_FECING" ColumnName="CINV_FECING" />
-                <ScalarProperty Name="CINV_REF" ColumnName="CINV_REF" />
-                <ScalarProperty Name="CINV_TBOD" ColumnName="CINV_TBOD" />
-                <ScalarProperty Name="CINV_BOD" ColumnName="CINV_BOD" />
-                <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
-                <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
-                <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBNOM_ORDEN_NOMINA_DET">
-            <EntityTypeMapping TypeName="ModelGeneral.TBNOM_ORDEN_NOMINA_DET">
-              <MappingFragment StoreEntitySet="TBNOM_ORDEN_NOMINA_DET">
-                <ScalarProperty Name="DINV_OC" ColumnName="DINV_OC" />
-                <ScalarProperty Name="DINV_ST" ColumnName="DINV_ST" />
-                <ScalarProperty Name="BODEGA3" ColumnName="BODEGA3" />
-                <ScalarProperty Name="BODEGA1" ColumnName="BODEGA1" />
-                <ScalarProperty Name="DINV_DETALLEADVAL4" ColumnName="DINV_DETALLEADVAL4" />
-                <ScalarProperty Name="DINV_DETALLEADVAL3" ColumnName="DINV_DETALLEADVAL3" />
-                <ScalarProperty Name="DINV_DETALLEADVAL2" ColumnName="DINV_DETALLEADVAL2" />
-                <ScalarProperty Name="DINV_DETALLEADVAL1" ColumnName="DINV_DETALLEADVAL1" />
-                <ScalarProperty Name="DINV_DETALLEDSCTO" ColumnName="DINV_DETALLEDSCTO" />
-                <ScalarProperty Name="DINV_VALPRO" ColumnName="DINV_VALPRO" />
-                <ScalarProperty Name="DINV_DCTOPRO" ColumnName="DINV_DCTOPRO" />
-                <ScalarProperty Name="PROMOCION" ColumnName="PROMOCION" />
-                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
-                <ScalarProperty Name="DINV_PRECIO_REAL" ColumnName="DINV_PRECIO_REAL" />
-                <ScalarProperty Name="DINV_CANT2" ColumnName="DINV_CANT2" />
-                <ScalarProperty Name="DINV_FECANUL" ColumnName="DINV_FECANUL" />
-                <ScalarProperty Name="DINV_FECHA" ColumnName="DINV_FECHA" />
-                <ScalarProperty Name="DINV_TBOD" ColumnName="DINV_TBOD" />
-                <ScalarProperty Name="DINV_BOD" ColumnName="DINV_BOD" />
-                <ScalarProperty Name="DINV_DSC_EX" ColumnName="DINV_DSC_EX" />
-                <ScalarProperty Name="DINV_PRCT_DSC" ColumnName="DINV_PRCT_DSC" />
-                <ScalarProperty Name="DINV_ICE" ColumnName="DINV_ICE" />
-                <ScalarProperty Name="DINV_IVA" ColumnName="DINV_IVA" />
-                <ScalarProperty Name="DINV_COS" ColumnName="DINV_COS" />
-                <ScalarProperty Name="DINV_VTA" ColumnName="DINV_VTA" />
-                <ScalarProperty Name="DINV_DSC" ColumnName="DINV_DSC" />
-                <ScalarProperty Name="DINV_CANT" ColumnName="DINV_CANT" />
-                <ScalarProperty Name="DINV_LINEA" ColumnName="DINV_LINEA" />
-                <ScalarProperty Name="DINV_ITEM" ColumnName="DINV_ITEM" />
-                <ScalarProperty Name="DINV_CTINV" ColumnName="DINV_CTINV" />
-                <ScalarProperty Name="DINV_SEC" ColumnName="DINV_SEC" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="USUARIOS">
             <EntityTypeMapping TypeName="ModelGeneral.USUARIOS">
               <MappingFragment StoreEntitySet="USUARIOS">
@@ -1979,87 +2049,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
                 <ScalarProperty Name="VIAJE" ColumnName="VIAJE" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VW_ORDENES_TRABAJO_TOTAL_APS">
-            <EntityTypeMapping TypeName="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APS">
-              <MappingFragment StoreEntitySet="VW_ORDENES_TRABAJO_TOTAL_APS">
-                <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
-                <ScalarProperty Name="CINV_COMENCUMPLI2" ColumnName="CINV_COMENCUMPLI2" />
-                <ScalarProperty Name="CINV_STCUMPLI2" ColumnName="CINV_STCUMPLI2" />
-                <ScalarProperty Name="CINV_COMENCUMPLI1" ColumnName="CINV_COMENCUMPLI1" />
-                <ScalarProperty Name="CINV_STCUMPLI1" ColumnName="CINV_STCUMPLI1" />
-                <ScalarProperty Name="CINV_COM7" ColumnName="CINV_COM7" />
-                <ScalarProperty Name="CINV_COM6" ColumnName="CINV_COM6" />
-                <ScalarProperty Name="CINV_COM5" ColumnName="CINV_COM5" />
-                <ScalarProperty Name="VALOR_OC" ColumnName="VALOR_OC" />
-                <ScalarProperty Name="CORREO_SOLICITADO" ColumnName="CORREO_SOLICITADO" />
-                <ScalarProperty Name="NOM_SOLICITADO" ColumnName="NOM_SOLICITADO" />
-                <ScalarProperty Name="CORREO_CENTROCOSTO2" ColumnName="CORREO_CENTROCOSTO2" />
-                <ScalarProperty Name="CORREO_CENTROCOSTO" ColumnName="CORREO_CENTROCOSTO" />
-                <ScalarProperty Name="NOM_CENTROCOSTO" ColumnName="NOM_CENTROCOSTO" />
-                <ScalarProperty Name="NOM_BODEGA" ColumnName="NOM_BODEGA" />
-                <ScalarProperty Name="E_MAIL" ColumnName="E_MAIL" />
-                <ScalarProperty Name="DOMICILIO" ColumnName="DOMICILIO" />
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="RUC" ColumnName="RUC" />
-                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-                <ScalarProperty Name="CODIGO1" ColumnName="CODIGO1" />
-                <ScalarProperty Name="CINV_PROVISION" ColumnName="CINV_PROVISION" />
-                <ScalarProperty Name="CINV_MOTIVOANULA" ColumnName="CINV_MOTIVOANULA" />
-                <ScalarProperty Name="CINV_FECDESADUA" ColumnName="CINV_FECDESADUA" />
-                <ScalarProperty Name="CINV_FECEMBARQUE" ColumnName="CINV_FECEMBARQUE" />
-                <ScalarProperty Name="CINV_FECLLEGADA" ColumnName="CINV_FECLLEGADA" />
-                <ScalarProperty Name="CINV_FECAPRUEBA" ColumnName="CINV_FECAPRUEBA" />
-                <ScalarProperty Name="CINV_TIPRECIO" ColumnName="CINV_TIPRECIO" />
-                <ScalarProperty Name="CINV_HORA" ColumnName="CINV_HORA" />
-                <ScalarProperty Name="CINV_FPAGO" ColumnName="CINV_FPAGO" />
-                <ScalarProperty Name="CINV_NOTA" ColumnName="CINV_NOTA" />
-                <ScalarProperty Name="CODIGOTR" ColumnName="CODIGOTR" />
-                <ScalarProperty Name="DATATR" ColumnName="DATATR" />
-                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
-                <ScalarProperty Name="CINV_ST" ColumnName="CINV_ST" />
-                <ScalarProperty Name="CINV_TDIV" ColumnName="CINV_TDIV" />
-                <ScalarProperty Name="CINV_LOGIN" ColumnName="CINV_LOGIN" />
-                <ScalarProperty Name="CINV_TASA" ColumnName="CINV_TASA" />
-                <ScalarProperty Name="CINV_COM4" ColumnName="CINV_COM4" />
-                <ScalarProperty Name="CINV_COM3" ColumnName="CINV_COM3" />
-                <ScalarProperty Name="CINV_COM2" ColumnName="CINV_COM2" />
-                <ScalarProperty Name="CINV_COM1" ColumnName="CINV_COM1" />
-                <ScalarProperty Name="CINV_DSC" ColumnName="CINV_DSC" />
-                <ScalarProperty Name="CINV_NOMID" ColumnName="CINV_NOMID" />
-                <ScalarProperty Name="CINV_ID" ColumnName="CINV_ID" />
-                <ScalarProperty Name="CINV_FECING" ColumnName="CINV_FECING" />
-                <ScalarProperty Name="CINV_REF" ColumnName="CINV_REF" />
-                <ScalarProperty Name="CINV_TBOD" ColumnName="CINV_TBOD" />
-                <ScalarProperty Name="CINV_BOD" ColumnName="CINV_BOD" />
-                <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
-                <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
-                <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="APP_LOGERROR">
-            <EntityTypeMapping TypeName="ModelGeneral.APP_LOGERROR">
-              <MappingFragment StoreEntitySet="APP_LOGERROR">
-                <ScalarProperty Name="INNER" ColumnName="INNER" />
-                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
-                <ScalarProperty Name="ERROR" ColumnName="ERROR" />
-                <ScalarProperty Name="PROCESO" ColumnName="PROCESO" />
-                <ScalarProperty Name="SECUENCIA" ColumnName="SECUENCIA" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBBI_SECDOC">
-            <EntityTypeMapping TypeName="ModelGeneral.TBBI_SECDOC">
-              <MappingFragment StoreEntitySet="TBBI_SECDOC">
-                <ScalarProperty Name="DOC_TIPO" ColumnName="DOC_TIPO" />
-                <ScalarProperty Name="DOC_NUM" ColumnName="DOC_NUM" />
-                <ScalarProperty Name="DOC_SGL" ColumnName="DOC_SGL" />
-                <ScalarProperty Name="DOC_BOD" ColumnName="DOC_BOD" />
-                <ScalarProperty Name="DOC_CIA" ColumnName="DOC_CIA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2239,6 +2228,237 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
                 <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
                 <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
                 <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_ORDENES_TRABAJO_TOTAL_APS">
+            <EntityTypeMapping TypeName="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APS">
+              <MappingFragment StoreEntitySet="VW_ORDENES_TRABAJO_TOTAL_APS">
+                <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
+                <ScalarProperty Name="CINV_COMENCUMPLI2" ColumnName="CINV_COMENCUMPLI2" />
+                <ScalarProperty Name="CINV_STCUMPLI2" ColumnName="CINV_STCUMPLI2" />
+                <ScalarProperty Name="CINV_COMENCUMPLI1" ColumnName="CINV_COMENCUMPLI1" />
+                <ScalarProperty Name="CINV_STCUMPLI1" ColumnName="CINV_STCUMPLI1" />
+                <ScalarProperty Name="CINV_COM7" ColumnName="CINV_COM7" />
+                <ScalarProperty Name="CINV_COM6" ColumnName="CINV_COM6" />
+                <ScalarProperty Name="CINV_COM5" ColumnName="CINV_COM5" />
+                <ScalarProperty Name="VALOR_OC" ColumnName="VALOR_OC" />
+                <ScalarProperty Name="CORREO_SOLICITADO" ColumnName="CORREO_SOLICITADO" />
+                <ScalarProperty Name="NOM_SOLICITADO" ColumnName="NOM_SOLICITADO" />
+                <ScalarProperty Name="CORREO_CENTROCOSTO2" ColumnName="CORREO_CENTROCOSTO2" />
+                <ScalarProperty Name="CORREO_CENTROCOSTO" ColumnName="CORREO_CENTROCOSTO" />
+                <ScalarProperty Name="NOM_CENTROCOSTO" ColumnName="NOM_CENTROCOSTO" />
+                <ScalarProperty Name="NOM_BODEGA" ColumnName="NOM_BODEGA" />
+                <ScalarProperty Name="E_MAIL" ColumnName="E_MAIL" />
+                <ScalarProperty Name="DOMICILIO" ColumnName="DOMICILIO" />
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="RUC" ColumnName="RUC" />
+                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="CODIGO1" ColumnName="CODIGO1" />
+                <ScalarProperty Name="CINV_PROVISION" ColumnName="CINV_PROVISION" />
+                <ScalarProperty Name="CINV_MOTIVOANULA" ColumnName="CINV_MOTIVOANULA" />
+                <ScalarProperty Name="CINV_FECDESADUA" ColumnName="CINV_FECDESADUA" />
+                <ScalarProperty Name="CINV_FECEMBARQUE" ColumnName="CINV_FECEMBARQUE" />
+                <ScalarProperty Name="CINV_FECLLEGADA" ColumnName="CINV_FECLLEGADA" />
+                <ScalarProperty Name="CINV_FECAPRUEBA" ColumnName="CINV_FECAPRUEBA" />
+                <ScalarProperty Name="CINV_TIPRECIO" ColumnName="CINV_TIPRECIO" />
+                <ScalarProperty Name="CINV_HORA" ColumnName="CINV_HORA" />
+                <ScalarProperty Name="CINV_FPAGO" ColumnName="CINV_FPAGO" />
+                <ScalarProperty Name="CINV_NOTA" ColumnName="CINV_NOTA" />
+                <ScalarProperty Name="CODIGOTR" ColumnName="CODIGOTR" />
+                <ScalarProperty Name="DATATR" ColumnName="DATATR" />
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+                <ScalarProperty Name="CINV_ST" ColumnName="CINV_ST" />
+                <ScalarProperty Name="CINV_TDIV" ColumnName="CINV_TDIV" />
+                <ScalarProperty Name="CINV_LOGIN" ColumnName="CINV_LOGIN" />
+                <ScalarProperty Name="CINV_TASA" ColumnName="CINV_TASA" />
+                <ScalarProperty Name="CINV_COM4" ColumnName="CINV_COM4" />
+                <ScalarProperty Name="CINV_COM3" ColumnName="CINV_COM3" />
+                <ScalarProperty Name="CINV_COM2" ColumnName="CINV_COM2" />
+                <ScalarProperty Name="CINV_COM1" ColumnName="CINV_COM1" />
+                <ScalarProperty Name="CINV_DSC" ColumnName="CINV_DSC" />
+                <ScalarProperty Name="CINV_NOMID" ColumnName="CINV_NOMID" />
+                <ScalarProperty Name="CINV_ID" ColumnName="CINV_ID" />
+                <ScalarProperty Name="CINV_FECING" ColumnName="CINV_FECING" />
+                <ScalarProperty Name="CINV_REF" ColumnName="CINV_REF" />
+                <ScalarProperty Name="CINV_TBOD" ColumnName="CINV_TBOD" />
+                <ScalarProperty Name="CINV_BOD" ColumnName="CINV_BOD" />
+                <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
+                <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
+                <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBBI_SECDOC">
+            <EntityTypeMapping TypeName="ModelGeneral.TBBI_SECDOC">
+              <MappingFragment StoreEntitySet="TBBI_SECDOC">
+                <ScalarProperty Name="DOC_TIPO" ColumnName="DOC_TIPO" />
+                <ScalarProperty Name="DOC_NUM" ColumnName="DOC_NUM" />
+                <ScalarProperty Name="DOC_SGL" ColumnName="DOC_SGL" />
+                <ScalarProperty Name="DOC_BOD" ColumnName="DOC_BOD" />
+                <ScalarProperty Name="DOC_CIA" ColumnName="DOC_CIA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBNOM_ORDEN_NOMINA_CAB">
+            <EntityTypeMapping TypeName="ModelGeneral.TBNOM_ORDEN_NOMINA_CAB">
+              <MappingFragment StoreEntitySet="TBNOM_ORDEN_NOMINA_CAB">
+                <ScalarProperty Name="CINV_COMREFER2" ColumnName="CINV_COMREFER2" />
+                <ScalarProperty Name="CINV_COMREFER" ColumnName="CINV_COMREFER" />
+                <ScalarProperty Name="CINV_STREFER" ColumnName="CINV_STREFER" />
+                <ScalarProperty Name="CINV_COMANTE2" ColumnName="CINV_COMANTE2" />
+                <ScalarProperty Name="CINV_COMPERFIL" ColumnName="CINV_COMPERFIL" />
+                <ScalarProperty Name="CINV_STPERFIL" ColumnName="CINV_STPERFIL" />
+                <ScalarProperty Name="CINV_COMANTE" ColumnName="CINV_COMANTE" />
+                <ScalarProperty Name="CINV_STANTE" ColumnName="CINV_STANTE" />
+                <ScalarProperty Name="CINV_COMPSICO" ColumnName="CINV_COMPSICO" />
+                <ScalarProperty Name="CINV_STPSICO" ColumnName="CINV_STPSICO" />
+                <ScalarProperty Name="CINV_COMPOLI" ColumnName="CINV_COMPOLI" />
+                <ScalarProperty Name="CINV_STPOLI" ColumnName="CINV_STPOLI" />
+                <ScalarProperty Name="CINV_MOTIVOANULA" ColumnName="CINV_MOTIVOANULA" />
+                <ScalarProperty Name="CINV_FECDESADUA" ColumnName="CINV_FECDESADUA" />
+                <ScalarProperty Name="CINV_FECEMBARQUE" ColumnName="CINV_FECEMBARQUE" />
+                <ScalarProperty Name="CINV_FECLLEGADA" ColumnName="CINV_FECLLEGADA" />
+                <ScalarProperty Name="CINV_FECAPRUEBA" ColumnName="CINV_FECAPRUEBA" />
+                <ScalarProperty Name="CINV_TIPRECIO" ColumnName="CINV_TIPRECIO" />
+                <ScalarProperty Name="CINV_HORA" ColumnName="CINV_HORA" />
+                <ScalarProperty Name="CINV_FPAGO" ColumnName="CINV_FPAGO" />
+                <ScalarProperty Name="CINV_NOTA" ColumnName="CINV_NOTA" />
+                <ScalarProperty Name="CODIGOTR" ColumnName="CODIGOTR" />
+                <ScalarProperty Name="DATATR" ColumnName="DATATR" />
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+                <ScalarProperty Name="CINV_ST" ColumnName="CINV_ST" />
+                <ScalarProperty Name="CINV_TDIV" ColumnName="CINV_TDIV" />
+                <ScalarProperty Name="CINV_LOGIN" ColumnName="CINV_LOGIN" />
+                <ScalarProperty Name="CINV_TASA" ColumnName="CINV_TASA" />
+                <ScalarProperty Name="CINV_COM4" ColumnName="CINV_COM4" />
+                <ScalarProperty Name="CINV_COM3" ColumnName="CINV_COM3" />
+                <ScalarProperty Name="CINV_COM2" ColumnName="CINV_COM2" />
+                <ScalarProperty Name="CINV_COM1" ColumnName="CINV_COM1" />
+                <ScalarProperty Name="CINV_DSC" ColumnName="CINV_DSC" />
+                <ScalarProperty Name="CINV_NOMID" ColumnName="CINV_NOMID" />
+                <ScalarProperty Name="CINV_ID" ColumnName="CINV_ID" />
+                <ScalarProperty Name="CINV_FECING" ColumnName="CINV_FECING" />
+                <ScalarProperty Name="CINV_REF" ColumnName="CINV_REF" />
+                <ScalarProperty Name="CINV_TBOD" ColumnName="CINV_TBOD" />
+                <ScalarProperty Name="CINV_BOD" ColumnName="CINV_BOD" />
+                <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
+                <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
+                <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBNOM_ORDEN_NOMINA_DET">
+            <EntityTypeMapping TypeName="ModelGeneral.TBNOM_ORDEN_NOMINA_DET">
+              <MappingFragment StoreEntitySet="TBNOM_ORDEN_NOMINA_DET">
+                <ScalarProperty Name="DINV_OC" ColumnName="DINV_OC" />
+                <ScalarProperty Name="DINV_ST" ColumnName="DINV_ST" />
+                <ScalarProperty Name="BODEGA3" ColumnName="BODEGA3" />
+                <ScalarProperty Name="BODEGA1" ColumnName="BODEGA1" />
+                <ScalarProperty Name="DINV_DETALLEADVAL4" ColumnName="DINV_DETALLEADVAL4" />
+                <ScalarProperty Name="DINV_DETALLEADVAL3" ColumnName="DINV_DETALLEADVAL3" />
+                <ScalarProperty Name="DINV_DETALLEADVAL2" ColumnName="DINV_DETALLEADVAL2" />
+                <ScalarProperty Name="DINV_DETALLEADVAL1" ColumnName="DINV_DETALLEADVAL1" />
+                <ScalarProperty Name="DINV_DETALLEDSCTO" ColumnName="DINV_DETALLEDSCTO" />
+                <ScalarProperty Name="DINV_VALPRO" ColumnName="DINV_VALPRO" />
+                <ScalarProperty Name="DINV_DCTOPRO" ColumnName="DINV_DCTOPRO" />
+                <ScalarProperty Name="PROMOCION" ColumnName="PROMOCION" />
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+                <ScalarProperty Name="DINV_PRECIO_REAL" ColumnName="DINV_PRECIO_REAL" />
+                <ScalarProperty Name="DINV_CANT2" ColumnName="DINV_CANT2" />
+                <ScalarProperty Name="DINV_FECANUL" ColumnName="DINV_FECANUL" />
+                <ScalarProperty Name="DINV_FECHA" ColumnName="DINV_FECHA" />
+                <ScalarProperty Name="DINV_TBOD" ColumnName="DINV_TBOD" />
+                <ScalarProperty Name="DINV_BOD" ColumnName="DINV_BOD" />
+                <ScalarProperty Name="DINV_DSC_EX" ColumnName="DINV_DSC_EX" />
+                <ScalarProperty Name="DINV_PRCT_DSC" ColumnName="DINV_PRCT_DSC" />
+                <ScalarProperty Name="DINV_ICE" ColumnName="DINV_ICE" />
+                <ScalarProperty Name="DINV_IVA" ColumnName="DINV_IVA" />
+                <ScalarProperty Name="DINV_COS" ColumnName="DINV_COS" />
+                <ScalarProperty Name="DINV_VTA" ColumnName="DINV_VTA" />
+                <ScalarProperty Name="DINV_DSC" ColumnName="DINV_DSC" />
+                <ScalarProperty Name="DINV_CANT" ColumnName="DINV_CANT" />
+                <ScalarProperty Name="DINV_LINEA" ColumnName="DINV_LINEA" />
+                <ScalarProperty Name="DINV_ITEM" ColumnName="DINV_ITEM" />
+                <ScalarProperty Name="DINV_CTINV" ColumnName="DINV_CTINV" />
+                <ScalarProperty Name="DINV_SEC" ColumnName="DINV_SEC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBNOM_EMPLEADO">
+            <EntityTypeMapping TypeName="ModelGeneral.TBNOM_EMPLEADO">
+              <MappingFragment StoreEntitySet="TBNOM_EMPLEADO">
+                <ScalarProperty Name="EMPL_CELULAR" ColumnName="EMPL_CELULAR" />
+                <ScalarProperty Name="EMPL_PREST_QUIR" ColumnName="EMPL_PREST_QUIR" />
+                <ScalarProperty Name="EMPL_STFONDORES" ColumnName="EMPL_STFONDORES" />
+                <ScalarProperty Name="EMPL_SUCURSAL_CO" ColumnName="EMPL_SUCURSAL_CO" />
+                <ScalarProperty Name="EMPL_COMENTARIO" ColumnName="EMPL_COMENTARIO" />
+                <ScalarProperty Name="EMPL_BANCO" ColumnName="EMPL_BANCO" />
+                <ScalarProperty Name="EMPL_VA_MOI" ColumnName="EMPL_VA_MOI" />
+                <ScalarProperty Name="EMPL_VA_UTILIDAD" ColumnName="EMPL_VA_UTILIDAD" />
+                <ScalarProperty Name="EMPL_HORAENTCO" ColumnName="EMPL_HORAENTCO" />
+                <ScalarProperty Name="EMPL_HORAENTTI" ColumnName="EMPL_HORAENTTI" />
+                <ScalarProperty Name="EMPL_TIMOTI_SALE" ColumnName="EMPL_TIMOTI_SALE" />
+                <ScalarProperty Name="EMPL_COMOTI_SALE" ColumnName="EMPL_COMOTI_SALE" />
+                <ScalarProperty Name="EMPL_OCUPACION" ColumnName="EMPL_OCUPACION" />
+                <ScalarProperty Name="EMPL_TIMOTI_MASTERLE" ColumnName="EMPL_TIMOTI_MASTERLE" />
+                <ScalarProperty Name="EMPL_COMOTI_MASTERLE" ColumnName="EMPL_COMOTI_MASTERLE" />
+                <ScalarProperty Name="EMPL_BONI_VOLUN" ColumnName="EMPL_BONI_VOLUN" />
+                <ScalarProperty Name="EMPL_MONEDA" ColumnName="EMPL_MONEDA" />
+                <ScalarProperty Name="EMPL_TI_CAMBIO" ColumnName="EMPL_TI_CAMBIO" />
+                <ScalarProperty Name="EMPL_ST" ColumnName="EMPL_ST" />
+                <ScalarProperty Name="EMPL_TRANS" ColumnName="EMPL_TRANS" />
+                <ScalarProperty Name="EMPL_PORC_COMEDOR" ColumnName="EMPL_PORC_COMEDOR" />
+                <ScalarProperty Name="EMPL_COMEDOR" ColumnName="EMPL_COMEDOR" />
+                <ScalarProperty Name="EMPL_BONO" ColumnName="EMPL_BONO" />
+                <ScalarProperty Name="EMPL_BECA" ColumnName="EMPL_BECA" />
+                <ScalarProperty Name="EMPL_ANTI_PARCIAL" ColumnName="EMPL_ANTI_PARCIAL" />
+                <ScalarProperty Name="EMPL_PORC_SEG_MED" ColumnName="EMPL_PORC_SEG_MED" />
+                <ScalarProperty Name="EMPL_SEG_MED" ColumnName="EMPL_SEG_MED" />
+                <ScalarProperty Name="EMPL_TIEMPO_SEG_MED" ColumnName="EMPL_TIEMPO_SEG_MED" />
+                <ScalarProperty Name="EMPL_STFIJO" ColumnName="EMPL_STFIJO" />
+                <ScalarProperty Name="EMPL_DEC_SEXTO" ColumnName="EMPL_DEC_SEXTO" />
+                <ScalarProperty Name="EMPL_DIAS_REAL" ColumnName="EMPL_DIAS_REAL" />
+                <ScalarProperty Name="EMPL_STVACA" ColumnName="EMPL_STVACA" />
+                <ScalarProperty Name="EMPL_FEVACA_AUM" ColumnName="EMPL_FEVACA_AUM" />
+                <ScalarProperty Name="EMPL_FESALE" ColumnName="EMPL_FESALE" />
+                <ScalarProperty Name="EMPL_MOULTRAB" ColumnName="EMPL_MOULTRAB" />
+                <ScalarProperty Name="EMPL_FEULTRAB" ColumnName="EMPL_FEULTRAB" />
+                <ScalarProperty Name="EMPL_FEFINVAC" ColumnName="EMPL_FEFINVAC" />
+                <ScalarProperty Name="EMPL_FEINIVAC" ColumnName="EMPL_FEINIVAC" />
+                <ScalarProperty Name="EMPL_ULTRAB" ColumnName="EMPL_ULTRAB" />
+                <ScalarProperty Name="EMPL_FEFINCON" ColumnName="EMPL_FEFINCON" />
+                <ScalarProperty Name="EMPL_NUCTACTE" ColumnName="EMPL_NUCTACTE" />
+                <ScalarProperty Name="EMPL_NUCTA" ColumnName="EMPL_NUCTA" />
+                <ScalarProperty Name="EMPL_CONYUGE" ColumnName="EMPL_CONYUGE" />
+                <ScalarProperty Name="ESTA_CIVIL_CO" ColumnName="ESTA_CIVIL_CO" />
+                <ScalarProperty Name="ESTA_CIVIL_TI" ColumnName="ESTA_CIVIL_TI" />
+                <ScalarProperty Name="EMPL_FO" ColumnName="EMPL_FO" />
+                <ScalarProperty Name="EMPL_DR" ColumnName="EMPL_DR" />
+                <ScalarProperty Name="EMPL_PESO" ColumnName="EMPL_PESO" />
+                <ScalarProperty Name="EMPL_ESTATURA" ColumnName="EMPL_ESTATURA" />
+                <ScalarProperty Name="TIPO_SANG_CO" ColumnName="TIPO_SANG_CO" />
+                <ScalarProperty Name="TIPO_SANG_TI" ColumnName="TIPO_SANG_TI" />
+                <ScalarProperty Name="EMPL_SEXO" ColumnName="EMPL_SEXO" />
+                <ScalarProperty Name="EMPL_NU_AFILIA" ColumnName="EMPL_NU_AFILIA" />
+                <ScalarProperty Name="EMPL_LIB_MILITAR" ColumnName="EMPL_LIB_MILITAR" />
+                <ScalarProperty Name="EMPL_NUPASAPORTE" ColumnName="EMPL_NUPASAPORTE" />
+                <ScalarProperty Name="EMPL_LIC" ColumnName="EMPL_LIC" />
+                <ScalarProperty Name="EMPL_NUCEDU" ColumnName="EMPL_NUCEDU" />
+                <ScalarProperty Name="EMPL_FENACE" ColumnName="EMPL_FENACE" />
+                <ScalarProperty Name="DEPAR_CO_RESIDE" ColumnName="DEPAR_CO_RESIDE" />
+                <ScalarProperty Name="DEPAR_CO" ColumnName="DEPAR_CO" />
+                <ScalarProperty Name="CARGO_CO" ColumnName="CARGO_CO" />
+                <ScalarProperty Name="EMPL_HRPROD" ColumnName="EMPL_HRPROD" />
+                <ScalarProperty Name="EMPL_VAHORA" ColumnName="EMPL_VAHORA" />
+                <ScalarProperty Name="EMPL_SLBASICO" ColumnName="EMPL_SLBASICO" />
+                <ScalarProperty Name="EMPL_FEINGR" ColumnName="EMPL_FEINGR" />
+                <ScalarProperty Name="TIPO_TRAB_CO" ColumnName="TIPO_TRAB_CO" />
+                <ScalarProperty Name="EMPL_NO" ColumnName="EMPL_NO" />
+                <ScalarProperty Name="EMPL_AP" ColumnName="EMPL_AP" />
+                <ScalarProperty Name="EMPL_CO" ColumnName="EMPL_CO" />
+                <ScalarProperty Name="EMPL_EMPR" ColumnName="EMPL_EMPR" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

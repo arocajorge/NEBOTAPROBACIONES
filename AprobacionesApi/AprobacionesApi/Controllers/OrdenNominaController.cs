@@ -115,9 +115,9 @@ namespace AprobacionesApi.Controllers
                 if (Orden == null)
                     return;
                 
-                Orden.CINV_STREFER = value.CINV_STREFER;                
-                Orden.CINV_COMREFER = value.CINV_COMREFER == null ? "" : (value.CINV_COMREFER.Length > 200 ? value.CINV_COMREFER.Substring(0,200) : value.CINV_COMREFER);
-                Orden.CINV_COMREFER2 = value.CINV_COMREFER == null ? "" : (value.CINV_COMREFER.Length > 200 ? value.CINV_COMREFER.Substring(199, 200) : string.Empty);
+                Orden.CINV_STREFER = value.CINV_STREFER;
+                Orden.CINV_COMREFER = string.IsNullOrEmpty(value.CINV_COMREFER) ? "" : (value.CINV_COMREFER.Length > 200 ? value.CINV_COMREFER.Substring(0,200) : value.CINV_COMREFER);
+                Orden.CINV_COMREFER2 = string.IsNullOrEmpty(value.CINV_COMREFER) ? "" : (value.CINV_COMREFER.Length > 200 ? value.CINV_COMREFER.Substring(199, (value.CINV_COMREFER.Length > 400 ? 200 : value.CINV_COMREFER.Length - 200)) : string.Empty);
 
                 if (value.ListaDetalle != null)
                     foreach (var item in value.ListaDetalle)

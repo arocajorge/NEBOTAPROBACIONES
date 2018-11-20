@@ -143,7 +143,9 @@ namespace AprobacionesApi.Controllers
                         int ContPendientes = ROL_APRO == "J" ? bitacoras.Where(q => q.LINEA_STCUMPLI1 == "A" || string.IsNullOrEmpty(q.LINEA_STCUMPLI1)).Count() : bitacoras.Where(q => q.LINEA_STCUMPLI2 == "A" || string.IsNullOrEmpty(q.LINEA_STCUMPLI2)).Count();
                         int ContTotal = bitacoras.Count();
 
-                        var OrdenEntity = db.TBCINV.Where(q => q.CINV_TDOC == "OT" && q.CINV_NUM.ToString() == orden.NUMERO_ORDEN).FirstOrDefault();
+                        int NUMERO_ORDEN = string.IsNullOrEmpty(orden.NUMERO_ORDEN) ? 0 : Convert.ToInt32(orden.NUMERO_ORDEN);
+
+                        var OrdenEntity = db.TBCINV.Where(q => q.CINV_TDOC == "OT" && q.CINV_NUM == NUMERO_ORDEN).FirstOrDefault();
                         if (OrdenEntity != null)
                         {
                             if (ROL_APRO == "J")
@@ -169,15 +171,20 @@ namespace AprobacionesApi.Controllers
             }
             catch (Exception ex)
             {
-                long SECUENCIAID = db.APP_LOGERROR.Count() > 0 ? (db.APP_LOGERROR.Select(q => q.SECUENCIA).Max() + 1) : 1;
-                db.APP_LOGERROR.Add(new APP_LOGERROR
+                using (EntitiesGeneral Error = new EntitiesGeneral())
                 {
-                    ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
-                    INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
-                    FECHA = DateTime.Now,
-                    PROCESO = "BitacorasJefeSup/POST/ActualizarOrdenes",
-                    SECUENCIA = SECUENCIAID
-                });
+                    long SECUENCIAID = Error.APP_LOGERROR.Count() > 0 ? (Error.APP_LOGERROR.Select(q => q.SECUENCIA).Max() + 1) : 1;
+                    Error.APP_LOGERROR.Add(new APP_LOGERROR
+                    {
+                        ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
+                        INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
+                        FECHA = DateTime.Now,
+                        PROCESO = "BitacorasJefeSup/POST/ActualizarOrdenes",
+                        SECUENCIA = SECUENCIAID
+                    });
+
+                    Error.SaveChanges();
+                }
                 db.SaveChanges();
                 return false;
             }

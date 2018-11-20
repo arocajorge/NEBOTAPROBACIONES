@@ -44,7 +44,17 @@ namespace AprobacionesApi.Controllers
                                     Codigo = q.CODIGO,
                                     Descripcion = q.NOMBRE
                                 }).ToList());
+                Lista.AddRange((from q in db.TBNOM_EMPLEADO
+                                where q.EMPL_ST == "A"
+                                select new CatalogoModel
+                                {
+                                    Tipo = "Empleado",
+                                    Codigo = q.EMPL_CO,
+                                    Descripcion = q.EMPL_AP,
+                                    Descripcion2 = q.EMPL_NO
+                                }).ToList());
 
+                Lista.Where(q => q.Tipo == "Empleado").ToList().ForEach(q => q.Descripcion = q.Descripcion2.Trim() + " " + q.Descripcion.Trim());
                 return Lista;
             }
             catch (Exception ex)
