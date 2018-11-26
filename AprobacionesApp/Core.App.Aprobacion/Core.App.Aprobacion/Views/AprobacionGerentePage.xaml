@@ -139,7 +139,7 @@
                                             Grid.Row="{Binding SecuenciaDetalle}"
                                             Text="{Binding Cantidad}"
                                             FontAttributes="Bold"
-                                            TextColor="Black">
+                                            TextColor="Blue">
                                         </Label>
                                         <Label
                                             Grid.Column="1"
