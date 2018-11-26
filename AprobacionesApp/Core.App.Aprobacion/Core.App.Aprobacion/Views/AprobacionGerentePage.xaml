@@ -136,19 +136,20 @@
                                         </Grid.ColumnDefinitions>
                                         <Label
                                             Grid.Column="0"
-                                            Grid.Row="{Binding Linea}"
+                                            Grid.Row="{Binding SecuenciaDetalle}"
                                             Text="{Binding Cantidad}"
+                                            FontAttributes="Bold"
                                             TextColor="Black">
                                         </Label>
                                         <Label
                                             Grid.Column="1"
-                                            Grid.Row="{Binding Linea}"
+                                            Grid.Row="{Binding SecuenciaDetalle}"
                                             Text="{Binding Detalle}"
                                             TextColor="Black">
                                         </Label>
                                         <Switch
                                             Grid.Column="2"
-                                            Grid.Row="{Binding Linea}"
+                                            Grid.Row="{Binding SecuenciaDetalle}"
                                             IsToggled="{Binding EsChatarra, Mode=TwoWay}">
                                         </Switch>
                                     </Grid>
