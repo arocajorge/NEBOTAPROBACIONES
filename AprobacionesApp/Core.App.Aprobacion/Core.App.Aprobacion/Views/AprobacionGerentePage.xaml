@@ -138,6 +138,7 @@
                                             Grid.Column="0"
                                             Grid.Row="{Binding SecuenciaDetalle}"
                                             Text="{Binding Cantidad}"
+                                            FontSize="Large"
                                             FontAttributes="Bold"
                                             TextColor="Blue">
                                         </Label>
