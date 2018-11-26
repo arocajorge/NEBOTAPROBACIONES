@@ -60,6 +60,8 @@
         public string Valor { get; set; }
         [JsonProperty("CINV_COM4")]
         public string ValorIva { get; set; }
+        [JsonProperty("NOM_OBRAS")]
+        public string NombreObras { get; set; }
 
 
         public string Imagen { get; set; }
