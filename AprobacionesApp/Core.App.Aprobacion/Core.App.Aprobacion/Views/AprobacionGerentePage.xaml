@@ -132,10 +132,10 @@
                                         Orientation="Horizontal">
                                         <Label
                                             Text="{Binding Cantidad}"
-                                            TextColor="Black"
+                                            TextColor="Blue"
                                             FontAttributes="Bold"
-                                            FontSize="Medium"
-                                            WidthRequest="45"
+                                            FontSize="Small"
+                                            WidthRequest="50"
                                             HorizontalOptions="Start">
                                         </Label>
                                         <Label
