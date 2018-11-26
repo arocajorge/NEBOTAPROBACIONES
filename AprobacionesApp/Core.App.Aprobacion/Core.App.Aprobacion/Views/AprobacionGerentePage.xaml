@@ -117,49 +117,43 @@
                             IsVisible="{Binding EsChatarraVisible, Mode=TwoWay}">
                         </Label>
                     </StackLayout>
-
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                    
+                    
                         <ListView
                             SeparatorVisibility="None"
                             ItemsSource="{Binding ListaDetalle}"                        
                             HasUnevenRows="True"
                             HeightRequest="{Binding Height}"
                             IsVisible="{Binding EsChatarraVisible, Mode=TwoWay}">
-                        
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <ViewCell>                                    
+                                    <ViewCell>
+                                    <StackLayout
+                                        Orientation="Horizontal">
                                         <Label
-                                            Grid.Column="0"
-                                            Grid.Row="{Binding SecuenciaDetalle}"
                                             Text="{Binding Cantidad}"
-                                            FontSize="Large"
+                                            TextColor="Black"
                                             FontAttributes="Bold"
-                                            TextColor="Blue">
+                                            FontSize="Large"
+                                            WidthRequest="30"
+                                            HorizontalOptions="Start">
                                         </Label>
                                         <Label
-                                            Grid.Column="1"
-                                            Grid.Row="{Binding SecuenciaDetalle}"
                                             Text="{Binding Detalle}"
+                                            TextColor="Black"
                                             FontSize="Small"
-                                            TextColor="Black">
+                                            HorizontalOptions="CenterAndExpand">
                                         </Label>
                                         <Switch
-                                            Grid.Column="2"
-                                            Grid.Row="{Binding SecuenciaDetalle}"
-                                            IsToggled="{Binding EsChatarra, Mode=TwoWay}">
+                                            IsToggled="{Binding EsChatarra, Mode=TwoWay}"
+                                            HorizontalOptions="End">
                                         </Switch>
-                                    
+                                    </StackLayout>                                        
                                     </ViewCell>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                    </Grid>
+
                     <ListView
                             SeparatorVisibility="None"
                             ItemsSource="{Binding Orden.lst}"                        
