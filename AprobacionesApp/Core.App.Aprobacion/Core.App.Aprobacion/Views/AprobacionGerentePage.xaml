@@ -128,23 +128,30 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                    <StackLayout
-                                        Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
                                         <Label
+                                            Grid.Column="0"
+                                            Grid.Row="{Binding Linea}"
                                             Text="{Binding Cantidad}"
-                                            TextColor="Black"
-                                            HorizontalOptions="Start">
+                                            TextColor="Black">
                                         </Label>
                                         <Label
+                                            Grid.Column="1"
+                                            Grid.Row="{Binding Linea}"
                                             Text="{Binding Detalle}"
-                                            TextColor="Black"
-                                            HorizontalOptions="CenterAndExpand">
+                                            TextColor="Black">
                                         </Label>
                                         <Switch
-                                            IsToggled="{Binding EsChatarra, Mode=TwoWay}"
-                                            HorizontalOptions="End">
+                                            Grid.Column="2"
+                                            Grid.Row="{Binding Linea}"
+                                            IsToggled="{Binding EsChatarra, Mode=TwoWay}">
                                         </Switch>
-                                    </StackLayout>                                        
+                                    </Grid>
                                     </ViewCell>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
