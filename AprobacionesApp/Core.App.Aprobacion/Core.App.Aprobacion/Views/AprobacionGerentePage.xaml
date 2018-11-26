@@ -135,7 +135,7 @@
                                             TextColor="Black"
                                             FontAttributes="Bold"
                                             FontSize="Large"
-                                            WidthRequest="30"
+                                            WidthRequest="40"
                                             HorizontalOptions="Start">
                                         </Label>
                                         <Label
