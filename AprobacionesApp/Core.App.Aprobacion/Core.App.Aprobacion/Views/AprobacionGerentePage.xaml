@@ -135,7 +135,7 @@
                                             TextColor="Blue"
                                             FontAttributes="Bold"
                                             FontSize="Small"
-                                            WidthRequest="50"
+                                            WidthRequest="{Binding Longitud}"
                                             HorizontalOptions="Start">
                                         </Label>
                                         <Label
