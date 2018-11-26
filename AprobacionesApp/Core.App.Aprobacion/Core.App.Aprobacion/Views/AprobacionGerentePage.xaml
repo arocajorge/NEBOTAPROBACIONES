@@ -145,6 +145,7 @@
                                             Grid.Column="1"
                                             Grid.Row="{Binding SecuenciaDetalle}"
                                             Text="{Binding Detalle}"
+                                            FontSize="Small"
                                             TextColor="Black">
                                         </Label>
                                         <Switch
