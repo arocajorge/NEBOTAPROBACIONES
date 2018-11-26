@@ -134,8 +134,8 @@
                                             Text="{Binding Cantidad}"
                                             TextColor="Black"
                                             FontAttributes="Bold"
-                                            FontSize="Large"
-                                            WidthRequest="40"
+                                            FontSize="Medium"
+                                            WidthRequest="45"
                                             HorizontalOptions="Start">
                                         </Label>
                                         <Label
