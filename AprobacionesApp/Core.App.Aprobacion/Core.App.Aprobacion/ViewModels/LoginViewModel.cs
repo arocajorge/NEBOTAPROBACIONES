@@ -168,7 +168,7 @@
                     if (usuario.MenuFiltro == "AprobacionGerentePage")
                     {
                         MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();
-                        await Application.Current.MainPage.Navigation.PushAsync(new AprobacionGerentePage());
+                        Application.Current.MainPage = new GerenteMasterPage();
                         return;
                     }
                     if (usuario.MenuFiltro == "JefeSupervisorFiltroPage")

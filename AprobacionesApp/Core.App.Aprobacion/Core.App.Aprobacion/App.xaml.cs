@@ -19,6 +19,7 @@ namespace Core.App.Aprobacion
         public static NavigationPage Navigator { get; internal set; }
         public static JefeSupervisorMasterPage MasterJefeSupervisor { get; set; }
         public static ReferidosMasterPage MasterReferidos { get; set; }
+        public static GerenteMasterPage MasterGerente { get; set; }
         #endregion
 
         #region Constructor
@@ -99,7 +100,7 @@ namespace Core.App.Aprobacion
                         if (usuario.MenuFiltro == "AprobacionGerentePage")
                         {
                             MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();
-                            MainPage = new NavigationPage(new AprobacionGerentePage());
+                            MainPage = new GerenteMasterPage();
                             return;
                         }
                         if (usuario.MenuFiltro == "JefeSupervisorFiltroPage")

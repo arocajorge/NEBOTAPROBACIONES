@@ -47,6 +47,8 @@ namespace Core.App.Aprobacion.ViewModels
                     App.MasterJefeSupervisor.IsPresented = false;
                 if(App.MasterReferidos != null)
                     App.MasterReferidos.IsPresented = false;
+                if (App.MasterGerente != null)
+                    App.MasterGerente.IsPresented = false;
 
                 switch (this.PageName)
                 {

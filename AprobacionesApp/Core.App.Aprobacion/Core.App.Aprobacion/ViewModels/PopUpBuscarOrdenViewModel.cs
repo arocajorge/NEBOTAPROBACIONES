@@ -183,7 +183,7 @@ namespace Core.App.Aprobacion.ViewModels
                 Orden.Titulo = TipoDocumento + " No. " + Orden.NumeroOrden;
 
                 MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel(Orden);
-                Application.Current.MainPage = new NavigationPage(new AprobacionGerentePage());
+                Application.Current.MainPage = new NavigationPage(new GerenteMasterPage());
             }
             else
             {
