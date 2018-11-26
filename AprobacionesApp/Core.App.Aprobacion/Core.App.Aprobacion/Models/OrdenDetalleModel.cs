@@ -31,6 +31,9 @@
         [JsonProperty("DINV_CANT")]
         public double Cantidad { get; set; }
 
-        
+
+        public int SecuenciaDetalle { get; set; }
+
+
     }
 }

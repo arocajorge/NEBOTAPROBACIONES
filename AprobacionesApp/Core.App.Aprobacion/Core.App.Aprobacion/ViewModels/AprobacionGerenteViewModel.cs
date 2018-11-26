@@ -115,6 +115,7 @@
                 Color = "Green";
                 Estado = "Aprobada";
             }
+            Orden.lst.ForEach(q => q.SecuenciaDetalle = q.Linea - 1);
             ListaDetalle = new ObservableCollection<OrdenDetalleModel>(Orden.lst);
             Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
         }
@@ -225,8 +226,9 @@
                     Orden.Titulo = TipoDocumento + " No. " + Orden.NumeroOrden;
                     Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
 
+                    Orden.lst.ForEach(q => q.SecuenciaDetalle = q.Linea - 1);
                     ListaDetalle = new ObservableCollection<OrdenDetalleModel>(Orden.lst);
-
+                    
                     IsEnabled = true;
                     IsRunning = false;
                 }
