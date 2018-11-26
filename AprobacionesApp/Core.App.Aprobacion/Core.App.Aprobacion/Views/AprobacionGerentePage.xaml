@@ -117,23 +117,23 @@
                             IsVisible="{Binding EsChatarraVisible, Mode=TwoWay}">
                         </Label>
                     </StackLayout>
-                    
-                    
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
                         <ListView
                             SeparatorVisibility="None"
                             ItemsSource="{Binding ListaDetalle}"                        
                             HasUnevenRows="True"
                             HeightRequest="{Binding Height}"
                             IsVisible="{Binding EsChatarraVisible, Mode=TwoWay}">
+                        
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <ViewCell>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
+                                    <ViewCell>                                    
                                         <Label
                                             Grid.Column="0"
                                             Grid.Row="{Binding SecuenciaDetalle}"
@@ -154,12 +154,12 @@
                                             Grid.Row="{Binding SecuenciaDetalle}"
                                             IsToggled="{Binding EsChatarra, Mode=TwoWay}">
                                         </Switch>
-                                    </Grid>
+                                    
                                     </ViewCell>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-
+                    </Grid>
                     <ListView
                             SeparatorVisibility="None"
                             ItemsSource="{Binding Orden.lst}"                        
