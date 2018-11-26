@@ -6,6 +6,7 @@
     using Core.App.Aprobacion.Views;
     using GalaSoft.MvvmLight.Command;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Windows.Input;
     using Xamarin.Forms;
 
@@ -115,7 +116,13 @@
                 Color = "Green";
                 Estado = "Aprobada";
             }
-            Orden.lst.ForEach(q => q.SecuenciaDetalle = q.Linea - 1);
+
+            int Longitud = Orden.lst.Max(q => q.Cantidad.ToString().Length);
+
+            Orden.lst.ForEach(q => {
+                q.SecuenciaDetalle = q.Linea - 1;
+                q.Longitud = Longitud * 15;
+            });
             ListaDetalle = new ObservableCollection<OrdenDetalleModel>(Orden.lst);
             Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
         }
@@ -225,6 +232,12 @@
                     }
                     Orden.Titulo = TipoDocumento + " No. " + Orden.NumeroOrden;
                     Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
+
+                    int Longitud = Orden.lst.Max(q => q.Cantidad.ToString().Length);
+                    Orden.lst.ForEach(q => {
+                        q.SecuenciaDetalle = q.Linea - 1;
+                        q.Longitud = Longitud * 15;
+                    });
 
                     Orden.lst.ForEach(q => q.SecuenciaDetalle = q.Linea - 1);
                     ListaDetalle = new ObservableCollection<OrdenDetalleModel>(Orden.lst);

@@ -33,7 +33,6 @@
 
 
         public int SecuenciaDetalle { get; set; }
-
-
+        public int Longitud { get; set; }
     }
 }
