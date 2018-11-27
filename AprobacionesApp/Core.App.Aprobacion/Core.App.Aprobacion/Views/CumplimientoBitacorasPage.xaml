@@ -78,7 +78,7 @@
                                             Grid.Column="1"
                                             FontSize="Small"
                                             HorizontalOptions="StartAndExpand"
-                                            Text="{Binding CantidadTotal}"
+                                            Text="{Binding CantidadTotal, StringFormat='{0:N0}'}"
                                             TextColor="Black">
                                             </Label>
                                             <Label
@@ -95,7 +95,7 @@
                                             Grid.Column="3"
                                             FontSize="Small"
                                             HorizontalOptions="StartAndExpand"
-                                            Text="{Binding CantidadApro}"
+                                            Text="{Binding CantidadApro, StringFormat='{0:N0}'}"
                                             TextColor="Black">
                                             </Label>
 
@@ -113,7 +113,7 @@
                                             Grid.Column="1"
                                             FontSize="Small"
                                             HorizontalOptions="StartAndExpand"
-                                            Text="{Binding CantidadJefe}"
+                                            Text="{Binding CantidadJefe, StringFormat='{0:N0}'}"
                                             TextColor="Black">
                                             </Label>
                                             <Label
@@ -130,7 +130,7 @@
                                             Grid.Column="3"
                                             FontSize="Small"
                                             HorizontalOptions="StartAndExpand"
-                                            Text="{Binding CantidadSupervisor}"
+                                            Text="{Binding CantidadSupervisor, StringFormat='{0:N0}'}"
                                             TextColor="Black">
                                             </Label>
                                         </Grid>

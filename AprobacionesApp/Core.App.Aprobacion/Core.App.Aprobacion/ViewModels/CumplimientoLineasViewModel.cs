@@ -142,8 +142,8 @@ namespace Core.App.Aprobacion.ViewModels
                 }
                 _lstBitacora.ForEach(q =>
                 {
-                    q.ImagenJefe = q.EstadoJefe.ToUpper() == "P" ? "ic_check_box" : "ic_check_box_outline_blank";
-                    q.ImagenSupervisor = q.EstadoSupervisor.ToUpper() == "P" ? "ic_check_box" : "ic_check_box_outline_blank";
+                    q.ImagenJefe = q.EstadoJefe == "P" ? "ic_check_box" : "ic_check_box_outline_blank";
+                    q.ImagenSupervisor = q.EstadoSupervisor == "P" ? "ic_check_box" : "ic_check_box_outline_blank";
                 });
                 _lstBitacora = _lstBitacora.OrderBy(q => q.Linea).ToList();
                 
