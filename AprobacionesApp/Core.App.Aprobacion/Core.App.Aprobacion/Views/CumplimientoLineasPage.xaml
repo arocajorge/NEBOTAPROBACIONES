@@ -72,24 +72,30 @@
                                             Grid.Row="0"
                                             TextColor="Black"
                                             FontSize="Small"
+                                            VerticalOptions="CenterAndExpand"
+                                            FontAttributes="Bold"
                                             Text="Cumplimiento Jefe:">
                                         </Label>
                                         <Image
                                             Grid.Column="1"
                                             Grid.Row="0"
+                                            VerticalOptions="CenterAndExpand"
                                             Source="{Binding ImagenJefe}"
-                                            HeightRequest="20">
+                                            HeightRequest="30">
                                         </Image>
                                         <Label
                                             Grid.Column="2"
                                             Grid.Row="0"
                                             TextColor="Black"
                                             FontSize="Small"
+                                            VerticalOptions="CenterAndExpand"
+                                            FontAttributes="Bold"
                                             Text="Cumplimiento Sup:">
                                         </Label>
                                         <Image
                                             Grid.Column="3"
                                             Grid.Row="0"
+                                            VerticalOptions="CenterAndExpand"
                                             Source="{Binding ImagenSupervisor}"
                                             HeightRequest="30">
                                         </Image>
