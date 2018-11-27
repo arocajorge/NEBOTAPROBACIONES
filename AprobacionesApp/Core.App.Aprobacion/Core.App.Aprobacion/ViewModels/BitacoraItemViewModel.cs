@@ -19,6 +19,18 @@ namespace Core.App.Aprobacion.ViewModels
             MainViewModel.GetInstance().JefeSupervisorBitacora = new JefeSupervisorBitacoraViewModel(this);
             App.Navigator.Navigation.PushAsync(new JefeSupervisorBitacoraPage());
         }
+
+        public ICommand SelectCumplimientoCommand
+        {
+            get { return new RelayCommand(SelectCumplimiento); }
+        }
+
+        private void SelectCumplimiento()
+        {
+            App.MasterCumplimiento.IsPresented = false;
+            MainViewModel.GetInstance().CumplimientoLineas = new CumplimientoLineasViewModel(this);
+            App.Navigator.Navigation.PushAsync(new CumplimientoLineasPage());
+        }
         #endregion
     }
 }

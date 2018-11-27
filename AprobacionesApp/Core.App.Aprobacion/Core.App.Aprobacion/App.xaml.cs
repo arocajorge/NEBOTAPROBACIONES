@@ -3,14 +3,13 @@ using Core.App.Aprobacion.Models;
 using Core.App.Aprobacion.Services;
 using Core.App.Aprobacion.ViewModels;
 using Core.App.Aprobacion.Views;
-using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-[assembly: XamlCompilation (XamlCompilationOptions.Compile)]
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Core.App.Aprobacion
 {
-	public partial class App : Application
+    public partial class App : Application
 	{
         #region Variables
         private ApiService apiService;
@@ -20,6 +19,7 @@ namespace Core.App.Aprobacion
         public static JefeSupervisorMasterPage MasterJefeSupervisor { get; set; }
         public static ReferidosMasterPage MasterReferidos { get; set; }
         public static GerenteMasterPage MasterGerente { get; set; }
+        public static CumplimientoMasterPage MasterCumplimiento { get; set; }
         #endregion
 
         #region Constructor

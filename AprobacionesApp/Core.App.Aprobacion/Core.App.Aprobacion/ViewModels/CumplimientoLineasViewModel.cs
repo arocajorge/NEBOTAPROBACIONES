@@ -6,20 +6,21 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Core.App.Aprobacion.ViewModels
 {
-    public class JefeSupervisorBitacorasViewModel : BaseViewModel
+    public class CumplimientoLineasViewModel : BaseViewModel
     {
-
         #region Variables
         private ObservableCollection<BitacoraItemViewModel> _lstDet;
         private List<BitacoraModel> _lstBitacora;
         private string _filter;
         private ApiService apiService;
         private bool _IsRefreshing;
+        private BitacoraModel Bitacora;
         #endregion
 
         #region Propiedades
@@ -51,8 +52,9 @@ namespace Core.App.Aprobacion.ViewModels
         #endregion
 
         #region Constructor
-        public JefeSupervisorBitacorasViewModel()
+        public CumplimientoLineasViewModel(BitacoraModel model)
         {
+            Bitacora = model;
             apiService = new ApiService();
             LoadLista();
         }
@@ -112,8 +114,8 @@ namespace Core.App.Aprobacion.ViewModels
                         Settings.UrlConexionActual = UrlDistinto;
                 }
                 string parameters = string.Empty;
-                parameters += "&BARCO=" + Settings.Sucursal;
-                parameters += "&VIAJE=" + Settings.Viaje;
+                parameters += "BARCO=" + Bitacora.Barco;
+                parameters += "&VIAJE=" + Bitacora.Viaje;
 
                 var response_cs = await apiService.GetList<BitacoraModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "BitacorasJefeSup", parameters);
                 if (!response_cs.IsSuccess)
@@ -133,17 +135,6 @@ namespace Core.App.Aprobacion.ViewModels
                            "No existen resultados para los filtros seleccionados ", //+ parameters,
                            "Aceptar");
                 }
-                if (Settings.RolApro == "J")
-                {
-                    _lstBitacora.ForEach(q => { q.Imagen = q.CantidadLineas == 0 ? ("ic_keyboard_arrow_right") : (q.PendienteJefe == 0 ? "ic_assignment_turned_in" : "ic_access_time");
-                        q.Color = q.EstadoJefe == "P" ? "Green" : (q.EstadoJefe == "X" ? "Red" : "Black");
-                        q.Estado = q.EstadoJefe == "P" ? "Cumplida" : (q.EstadoJefe == "X" ? "Incumplida" : "Pendiente");
-                    });
-                }else
-                    _lstBitacora.ForEach(q => { q.Imagen = q.CantidadLineas == 0 ? ("ic_keyboard_arrow_right") : (q.PendienteSupervisor == 0 ? "ic_assignment_turned_in" : "ic_access_time");
-                        q.Color = q.EstadoSupervisor == "P" ? "Green" : (q.EstadoSupervisor == "X" ? "Red" : "Black");
-                        q.Estado = q.EstadoSupervisor == "P" ? "Cumplida" : (q.EstadoSupervisor == "X" ? "Incumplida" : "Pendiente");
-                    });
 
                 _lstBitacora = _lstBitacora.OrderBy(q => q.Linea).ToList();
                 this.LstBitacoras = new ObservableCollection<BitacoraItemViewModel>(ToBitacoraItemModel());

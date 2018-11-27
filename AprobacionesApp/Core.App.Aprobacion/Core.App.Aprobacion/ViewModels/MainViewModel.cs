@@ -39,6 +39,9 @@ namespace Core.App.Aprobacion.ViewModels
         public MisOrdenesTrabajoOrdenViewModel MisOrdenesTrabajoOrden { get; set; }
         public List<CatalogoModel> ListaCatalogos { get; set; }
         public List<ProveedorModel> ListaProveedores { get; set; }
+        public CumplimientoFiltroViewModel CumplimientoFiltro { get; set; }
+        public CumplimientoBitacorasViewModel CumplimientoBitacoras { get; set; }
+        public CumplimientoLineasViewModel CumplimientoLineas { get; set; }
         #endregion
 
         #region Combos
@@ -85,7 +88,8 @@ namespace Core.App.Aprobacion.ViewModels
                         : (item.Menu == "ReferidosFiltroPage" ? "ic_location_on"
                         : (item.Menu == "MisOrdenesTrabajoPage" ? "ic_filter_3" 
                         : (item.Menu == "AprobacionGerentePage" ? "ic_filter_1"
-                        : "")))))),
+                        : (item.Menu == "CumplimientoFiltroPage" ? "ic_filter_2"
+                        : ""))))))),
                     PageName = item.Menu,
                     Title = item.Menu == "JefeSupervisorOrdenesPage" ? "Ordenes"
                         : (item.Menu == "JefeSupervisorBitacorasPage" ? "Bitácoras"
@@ -93,8 +97,9 @@ namespace Core.App.Aprobacion.ViewModels
                         : (item.Menu == "ReferidosOrdenesNominaPage" ? "Referidos"
                         : (item.Menu == "ReferidosFiltroPage" ? "Filtros"
                         : (item.Menu == "MisOrdenesTrabajoPage" ? "Mis Ordenes de trabajo"
-                        : (item.Menu == "AprobacionGerentePage" ? "Aprobación de órdenes"
-                        : ""))))))
+                        : (item.Menu == "AprobacionGerentePage" ? "Aprobación órdenes"
+                        : (item.Menu == "CumplimientoFiltroPage" ? "Cumplimientos"
+                        : "")))))))
                 });
             }
             this.Menus.Add(new JefeSupervisorMenuItemViewModel
