@@ -157,7 +157,7 @@ namespace Core.App.Aprobacion.ViewModels
                         break;
                     case "AprobacionGerentePage":
                         MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();
-                        await App.Navigator.PushAsync(new AprobacionGerentePage());
+                        Application.Current.MainPage = new GerenteMasterPage();
                         break;
                 }
             }

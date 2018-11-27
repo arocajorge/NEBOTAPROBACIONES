@@ -47,6 +47,9 @@ namespace Core.App.Aprobacion.Models
         [JsonProperty("LINEA_STCUMPLI2")]
         public string EstadoSupervisor { get; set; }
 
+        public string ImagenJefe { get; set; }
+        public string ImagenSupervisor { get; set; }
+
 
         public string Imagen { get; set; }
         public string Color { get; set; }
@@ -59,6 +62,9 @@ namespace Core.App.Aprobacion.Models
         public Nullable<decimal> CantidadApro { get; set; }
         [JsonProperty("STCUMPLI_TOTAL")]
         public Nullable<decimal> CantidadTotal { get; set; }
+
+        [JsonProperty("NUMERO_ORDEN")]
+        public string NumeroOrden { get; set; }
 
         public List<BitacoraDetModel> lst { get; set; }
     }

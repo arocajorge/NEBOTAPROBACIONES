@@ -76,7 +76,12 @@ namespace Core.App.Aprobacion.ViewModels
                 CantidadLineas = l.CantidadLineas,
                 Imagen = l.Imagen,
                 Color = l.Color,
-                Estado = l.Estado
+                Estado = l.Estado,
+                EstadoJefe = l.EstadoJefe,
+                EstadoSupervisor = l.EstadoSupervisor,
+                ImagenJefe = l.ImagenJefe,
+                ImagenSupervisor = l.ImagenSupervisor,
+                NumeroOrden = l.NumeroOrden
             });
             return temp;
         }
@@ -135,8 +140,13 @@ namespace Core.App.Aprobacion.ViewModels
                            "No existen resultados para los filtros seleccionados ", //+ parameters,
                            "Aceptar");
                 }
-
+                _lstBitacora.ForEach(q =>
+                {
+                    q.ImagenJefe = q.EstadoJefe.ToUpper() == "P" ? "ic_check_box" : "ic_check_box_outline_blank";
+                    q.ImagenSupervisor = q.EstadoSupervisor.ToUpper() == "P" ? "ic_check_box" : "ic_check_box_outline_blank";
+                });
                 _lstBitacora = _lstBitacora.OrderBy(q => q.Linea).ToList();
+                
                 this.LstBitacoras = new ObservableCollection<BitacoraItemViewModel>(ToBitacoraItemModel());
                 IsRefreshing = false;
             }
