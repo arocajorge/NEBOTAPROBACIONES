@@ -121,7 +121,7 @@ namespace Core.App.Aprobacion.ViewModels
                 string parameters = string.Empty;
                 parameters += "BARCO=" + Bitacora.Barco;
                 parameters += "&VIAJE=" + Bitacora.Viaje;
-
+                parameters += "&MOSTRARTODO=S";
                 var response_cs = await apiService.GetList<BitacoraModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "BitacorasJefeSup", parameters);
                 if (!response_cs.IsSuccess)
                 {
