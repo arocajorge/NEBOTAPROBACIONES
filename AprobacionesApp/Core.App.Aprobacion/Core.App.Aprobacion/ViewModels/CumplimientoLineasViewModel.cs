@@ -145,7 +145,8 @@ namespace Core.App.Aprobacion.ViewModels
                 {
                     q.ImagenJefe = q.EstadoJefe == "P" ? "ic_check_box" : "ic_check_box_outline_blank";
                     q.ImagenSupervisor = q.EstadoSupervisor == "P" ? "ic_check_box" : "ic_check_box_outline_blank";
-                    q.Color = q.EstadoJefe == "P" && q.EstadoSupervisor == "P" ? "LightGreen" : (q.EstadoJefe != "P" || q.EstadoSupervisor != "P" ? "LightYellow" : "White");
+                    q.Color = q.EstadoJefe == "P" && q.EstadoSupervisor == "P" ? "LightGreen" : 
+                    ((q.EstadoJefe == "P" && q.EstadoSupervisor != "P") || (q.EstadoJefe != "P" && q.EstadoSupervisor == "P") ? "LightYellow" : "White");
                 });
                 _lstBitacora = _lstBitacora.OrderBy(q => q.Linea).ToList();
                 
