@@ -98,7 +98,7 @@ namespace Core.App.Aprobacion.ViewModels
                         : (item.Menu == "ReferidosFiltroPage" ? "Filtros"
                         : (item.Menu == "MisOrdenesTrabajoPage" ? "Mis Ordenes de trabajo"
                         : (item.Menu == "AprobacionGerentePage" ? "Aprobación órdenes"
-                        : (item.Menu == "CumplimientoFiltroPage" ? "Cumplimientos"
+                        : (item.Menu == "CumplimientoFiltroPage" ? "Bitácoras"
                         : "")))))))
                 });
             }
