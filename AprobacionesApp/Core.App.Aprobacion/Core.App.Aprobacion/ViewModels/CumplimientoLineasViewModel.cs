@@ -81,7 +81,8 @@ namespace Core.App.Aprobacion.ViewModels
                 EstadoSupervisor = l.EstadoSupervisor,
                 ImagenJefe = l.ImagenJefe,
                 ImagenSupervisor = l.ImagenSupervisor,
-                NumeroOrden = l.NumeroOrden
+                NumeroOrden = l.NumeroOrden,
+                
             });
             return temp;
         }
@@ -183,7 +184,7 @@ namespace Core.App.Aprobacion.ViewModels
                 else
                     this.LstBitacoras = new ObservableCollection<BitacoraItemViewModel>(
                         ToBitacoraItemModel().Where(q => q.Contratista.ToLower().Contains(filter.ToLower()) || q.Linea.ToString().Contains(filter.ToLower()) || q.Descripcion.ToLower().Contains(filter.ToLower())
-                        || q.NumeroOrden.ToLower().Contains(filter.ToLower())
+                        || q.NumeroOrden.Contains(filter.ToLower())
                         ).OrderBy(q => q.Linea));
                 IsRefreshing = false;
             }
