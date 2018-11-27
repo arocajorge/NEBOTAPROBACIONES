@@ -144,6 +144,7 @@ namespace Core.App.Aprobacion.ViewModels
                 {
                     q.ImagenJefe = q.EstadoJefe == "P" ? "ic_check_box" : "ic_check_box_outline_blank";
                     q.ImagenSupervisor = q.EstadoSupervisor == "P" ? "ic_check_box" : "ic_check_box_outline_blank";
+                    q.Color = q.EstadoJefe == "P" && q.EstadoSupervisor == "P" ? "LightGreen" : (q.EstadoJefe != "P" || q.EstadoSupervisor != "P" ? "LightYellow" : "White");
                 });
                 _lstBitacora = _lstBitacora.OrderBy(q => q.Linea).ToList();
                 
@@ -182,6 +183,7 @@ namespace Core.App.Aprobacion.ViewModels
                 else
                     this.LstBitacoras = new ObservableCollection<BitacoraItemViewModel>(
                         ToBitacoraItemModel().Where(q => q.Contratista.ToLower().Contains(filter.ToLower()) || q.Linea.ToString().Contains(filter.ToLower()) || q.Descripcion.ToLower().Contains(filter.ToLower())
+                        || q.NumeroOrden.ToLower().Contains(filter.ToLower())
                         ).OrderBy(q => q.Linea));
                 IsRefreshing = false;
             }

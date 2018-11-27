@@ -27,6 +27,7 @@
                             <Frame                                
                                 HasShadow="True"
                                 CornerRadius="20"
+                                BackgroundColor="{Binding Color}"
                                 Margin="5">
                                     <StackLayout
                                     VerticalOptions="Center">
@@ -40,7 +41,7 @@
 
                                         <Label
                                                 FontAttributes="Bold"
-                                                Text="{Binding NumeroOrden, StringFormat='OT.{0}'}"
+                                                Text="{Binding NumeroOrden}"
                                                 HorizontalOptions="End"
                                                 TextColor="Black">
                                         </Label>

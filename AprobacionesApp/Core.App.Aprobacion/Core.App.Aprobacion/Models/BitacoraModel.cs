@@ -65,6 +65,8 @@ namespace Core.App.Aprobacion.Models
 
         [JsonProperty("NUMERO_ORDEN")]
         public string NumeroOrden { get; set; }
+        [JsonProperty("ST_EMPLEADO")]
+        public Nullable<short> EsEmpleado { get; set; }
 
         public List<BitacoraDetModel> lst { get; set; }
     }
