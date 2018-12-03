@@ -45,7 +45,7 @@ namespace Core.App.Aprobacion
 
 		protected override void OnResume ()
 		{
-            ValidarLogin();
+           // ValidarLogin();
         }
         #endregion
 
