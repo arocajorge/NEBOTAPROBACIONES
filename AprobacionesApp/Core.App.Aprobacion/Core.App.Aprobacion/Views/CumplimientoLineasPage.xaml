@@ -7,6 +7,7 @@
     <ContentPage.Content>
         <StackLayout
             BindingContext="{Binding CumplimientoLineas}"
+            BackgroundColor="White"
             Padding="5">
             <SearchBar
                 SearchCommand="{Binding BuscarCommand}"
