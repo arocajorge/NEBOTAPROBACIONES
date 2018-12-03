@@ -34,7 +34,7 @@
                             <Frame                                
                                 HasShadow="True"
                                 CornerRadius="20"
-                                BackgroundColor="{Binding Color}"
+                                BackgroundColor="{Binding Color, Mode=TwoWay}"
                                 Margin="5">
                                     <StackLayout
                                     VerticalOptions="Center">
@@ -87,7 +87,7 @@
                                             Grid.Column="1"
                                             Grid.Row="0"
                                             VerticalOptions="CenterAndExpand"
-                                            Source="{Binding ImagenJefe}"
+                                            Source="{Binding ImagenJefe, Mode=TwoWay}"
                                             HeightRequest="30">
                                         </Image>
                                         <Label
@@ -103,7 +103,7 @@
                                             Grid.Column="3"
                                             Grid.Row="0"
                                             VerticalOptions="CenterAndExpand"
-                                            Source="{Binding ImagenSupervisor}"
+                                            Source="{Binding ImagenSupervisor, Mode=TwoWay}"
                                             HeightRequest="30">
                                         </Image>
                                     </Grid>

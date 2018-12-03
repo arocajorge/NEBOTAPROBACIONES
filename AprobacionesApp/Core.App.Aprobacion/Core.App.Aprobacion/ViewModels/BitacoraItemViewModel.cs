@@ -31,6 +31,18 @@ namespace Core.App.Aprobacion.ViewModels
             MainViewModel.GetInstance().CumplimientoLineas = new CumplimientoLineasViewModel(this);
             App.Navigator.Navigation.PushAsync(new CumplimientoLineasPage());
         }
+
+        public ICommand AprobarCommand
+        {
+            get { return new RelayCommand(Aprobar); }
+        }
+
+        private void Aprobar()
+        {
+            this.Color = "LightGreen";
+            this.EstadoSupervisor = "P";
+            this.ImagenSupervisor = "ic_check_box";
+        }
         #endregion
     }
 }
