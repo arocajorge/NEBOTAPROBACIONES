@@ -24,6 +24,12 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem
+                                    Command="{Binding AprobarCommand}"
+                                    Text="Aprobar">                                    
+                                </MenuItem>
+                            </ViewCell.ContextActions>
                             <Frame                                
                                 HasShadow="True"
                                 CornerRadius="20"
