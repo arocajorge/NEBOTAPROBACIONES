@@ -82,6 +82,8 @@ namespace Core.App.Aprobacion.ViewModels
                     "Alerta",
                     "Actualización de estado exitosa",
                     "Aceptar");
+
+                MainViewModel.GetInstance().CumplimientoLineas.LoadLista();
             }            
         }
         #endregion
