@@ -84,6 +84,7 @@ namespace Core.App.Aprobacion.ViewModels
                     "Aceptar");
 
                 MainViewModel.GetInstance().CumplimientoLineas.LoadLista();
+                MainViewModel.GetInstance().CumplimientoBitacoras.LoadLista();
             }            
         }
         #endregion
