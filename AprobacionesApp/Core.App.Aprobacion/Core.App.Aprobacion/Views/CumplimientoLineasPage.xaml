@@ -15,7 +15,7 @@
                 HeightRequest="50">
             </SearchBar>
             <ListView          
-                BackgroundColor="Silver"
+                BackgroundColor="White"
                 HasUnevenRows="True"
                 RefreshCommand="{Binding RefreshCommand}"
                 IsRefreshing="{Binding IsRefreshing,Mode=TwoWay}"
