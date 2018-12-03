@@ -51,6 +51,8 @@ namespace Core.App.Aprobacion.ViewModels
                     App.MasterGerente.IsPresented = false;
                 if (App.MasterCumplimiento != null)
                     App.MasterCumplimiento.IsPresented = false;
+                if (App.NoHayOrdenes != null)
+                    App.NoHayOrdenes.IsPresented = false;
 
                 switch (this.PageName)
                 {

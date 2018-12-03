@@ -20,6 +20,7 @@ namespace Core.App.Aprobacion
         public static ReferidosMasterPage MasterReferidos { get; set; }
         public static GerenteMasterPage MasterGerente { get; set; }
         public static CumplimientoMasterPage MasterCumplimiento { get; set; }
+        public static NoHayOrdenesMasterPage NoHayOrdenes { get; set; }
         #endregion
 
         #region Constructor

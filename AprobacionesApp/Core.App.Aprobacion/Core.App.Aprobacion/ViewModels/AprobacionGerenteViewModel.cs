@@ -248,7 +248,7 @@
                 else
                 {
                     MainViewModel.GetInstance().NoHayOrdenesPendientes = new NoHayOrdenesPendientesViewModel();
-                    Application.Current.MainPage = new NavigationPage(new NoHayOrdenesPendientesPage());
+                    Application.Current.MainPage = new NoHayOrdenesMasterPage();
                 }
             }
             catch (System.Exception ex)

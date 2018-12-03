@@ -7,7 +7,6 @@
     <ContentPage.Content>
         <StackLayout
             BindingContext="{Binding CumplimientoLineas}"
-            BackgroundColor="White"
             Padding="5">
             <SearchBar
                 SearchCommand="{Binding BuscarCommand}"
@@ -16,7 +15,7 @@
                 HeightRequest="50">
             </SearchBar>
             <ListView          
-                BackgroundColor="White"
+                BackgroundColor="Silver"
                 HasUnevenRows="True"
                 RefreshCommand="{Binding RefreshCommand}"
                 IsRefreshing="{Binding IsRefreshing,Mode=TwoWay}"
