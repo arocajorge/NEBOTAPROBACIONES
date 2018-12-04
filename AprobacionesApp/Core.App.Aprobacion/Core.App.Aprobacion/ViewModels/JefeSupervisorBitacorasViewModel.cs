@@ -141,8 +141,8 @@ namespace Core.App.Aprobacion.ViewModels
                     });
                 }else
                     _lstBitacora.ForEach(q => { q.Imagen = q.CantidadLineas == 0 ? ("ic_keyboard_arrow_right") : (q.PendienteSupervisor == 0 ? "ic_assignment_turned_in" : "ic_access_time");
-                        q.Color = q.EstadoSupervisor == "P" ? "Green" : (q.EstadoSupervisor == "X" ? "Red" : "Black");
-                        q.Estado = q.EstadoSupervisor == "P" ? "Cumplida" : (q.EstadoSupervisor == "X" ? "Incumplida" : "Pendiente");
+                        q.Color = q.EstadoSupervisor == "P" ? "Green" : (q.EstadoSupervisor == "X" ? "Red" : (q.EstadoSupervisor == "T" ? "CornflowerBlue" : "Black"));
+                        q.Estado = q.EstadoSupervisor == "P" ? "Cumplida" : (q.EstadoSupervisor == "X" ? "Incumplida" : (q.EstadoSupervisor == "T" ? "Cumplida parcialmente" : "Pendiente"));
                     });
 
                 _lstBitacora = _lstBitacora.OrderBy(q => q.Linea).ToList();

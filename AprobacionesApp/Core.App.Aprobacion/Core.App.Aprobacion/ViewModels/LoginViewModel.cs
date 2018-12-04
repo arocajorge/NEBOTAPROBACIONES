@@ -145,25 +145,26 @@
                     return;
                 }
                 var usuario = (UsuarioModel)response_cs.Result;
-                if (usuario != null)
-                {
-                    if (string.IsNullOrEmpty(usuario.RolApro))
+                    if (usuario != null)
                     {
+                        if (string.IsNullOrEmpty(usuario.RolApro))
+                        {
+                            this.IsEnabled = true;
+                            this.IsRunning = false;
+                            await Application.Current.MainPage.DisplayAlert(
+                           "Alerta",
+                           "El usuario no tiene permisos para el uso de esta aplicación",
+                           "Aceptar");
+                            return;
+                        }
+
+                        await MainViewModel.GetInstance().LoadCombos();
+                        await MainViewModel.GetInstance().loadMenu(usuario.LstMenu);
+
+                        Settings.IdUsuario = this.usuario;
                         this.IsEnabled = true;
                         this.IsRunning = false;
-                        await Application.Current.MainPage.DisplayAlert(
-                       "Alerta",
-                       "El usuario no tiene permisos para el uso de esta aplicación",
-                       "Aceptar");
-                        return;
-                    }
-
-                    await MainViewModel.GetInstance().LoadCombos();
-                    await MainViewModel.GetInstance().loadMenu(usuario.LstMenu);
-                    
-                    Settings.IdUsuario = this.usuario;
-                    this.IsEnabled = true;
-                    this.IsRunning = false;
+                        Settings.RolApro = usuario.RolApro;
 
                     if (usuario.MenuFiltro == "AprobacionGerentePage")
                     {

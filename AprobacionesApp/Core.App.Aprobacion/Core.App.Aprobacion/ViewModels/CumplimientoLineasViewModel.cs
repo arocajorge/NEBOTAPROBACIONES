@@ -144,9 +144,11 @@ namespace Core.App.Aprobacion.ViewModels
                 _lstBitacora.ForEach(q =>
                 {
                     q.ImagenJefe = q.EstadoJefe == "P" ? "ic_check_box" : "ic_check_box_outline_blank";
-                    q.ImagenSupervisor = q.EstadoSupervisor == "P" ? "ic_check_box" : "ic_check_box_outline_blank";
-                    q.Color = q.EstadoSupervisor == "P" ? "LightGreen" : 
-                    ((q.EstadoJefe == "P" && q.EstadoSupervisor != "P") ? "Yellow" : "White");
+                    q.ImagenSupervisor = (q.EstadoSupervisor == "P" || q.EstadoSupervisor == "T") ? "ic_check_box" : "ic_check_box_outline_blank";
+                    q.Color = 
+                    q.EstadoSupervisor == "P" ? "LightGreen" :
+                    (q.EstadoSupervisor == "T" ? "CornflowerBlue" :
+                    ((q.EstadoJefe == "P" && q.EstadoSupervisor != "P" && q.EstadoSupervisor != "T") ? "Yellow" : "White"));
                 });
                 _lstBitacora = _lstBitacora.OrderBy(q => q.Linea).ToList();
                 

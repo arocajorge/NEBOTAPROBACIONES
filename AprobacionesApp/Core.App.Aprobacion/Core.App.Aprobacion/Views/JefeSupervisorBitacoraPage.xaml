@@ -137,7 +137,7 @@
                     </ListView>
                     <StackLayout>
                         <Button
-                            BackgroundColor="CornflowerBlue"
+                            BackgroundColor="Green"
                             TextColor="White"
                             Command="{Binding AprobarCommand}"
                             IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
@@ -145,7 +145,7 @@
                             HorizontalOptions="FillAndExpand">
                         </Button>
                         <Button
-                            BackgroundColor="Yellow"
+                            BackgroundColor="CornflowerBlue"
                             TextColor="White"
                             Command="{Binding CumplirParcialmenteCommand}"
                             IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
