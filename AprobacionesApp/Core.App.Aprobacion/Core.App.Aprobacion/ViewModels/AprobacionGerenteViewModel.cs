@@ -200,7 +200,11 @@
                         case "OT":
                             TipoDocumento = "Orden de trabajo";
                             break;
+                        case "OR":
+                            TipoDocumento = "Orden recurrente";
+                            break;
                     }
+
 
                     if (Orden.TipoDocumento == "OC")
                     {

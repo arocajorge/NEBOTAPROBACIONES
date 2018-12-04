@@ -70,7 +70,10 @@ namespace Core.App.Aprobacion.ViewModels
                 CantidadApro = l.CantidadApro,
                 CantidadJefe = l.CantidadJefe,
                 CantidadTotal = l.CantidadTotal,
-                CantidadSupervisor = l.CantidadSupervisor
+                CantidadSupervisor = l.CantidadSupervisor,
+                FechaZarpe = l.FechaZarpe,
+                FechaArribo = l.FechaArribo,
+                FechaZarpeReal = l.FechaZarpeReal
             });
             return temp;
         }

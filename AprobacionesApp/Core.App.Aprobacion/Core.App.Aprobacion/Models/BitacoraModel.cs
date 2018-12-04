@@ -67,6 +67,12 @@ namespace Core.App.Aprobacion.Models
         public string NumeroOrden { get; set; }
         [JsonProperty("ST_EMPLEADO")]
         public Nullable<short> EsEmpleado { get; set; }
+        [JsonProperty("FECHA_ZARPE")]
+        public Nullable<DateTime> FechaZarpe { get; set; }
+        [JsonProperty("FECHA_ARRIBO")]
+        public Nullable<DateTime> FechaArribo { get; set; }
+        [JsonProperty("FECHA_ZARPE_REAL")]
+        public Nullable<DateTime> FechaZarpeReal { get; set; }
 
         public List<BitacoraDetModel> lst { get; set; }
     }
