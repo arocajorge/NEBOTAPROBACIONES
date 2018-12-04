@@ -145,6 +145,15 @@
                             HorizontalOptions="FillAndExpand">
                         </Button>
                         <Button
+                            BackgroundColor="Yellow"
+                            TextColor="White"
+                            Command="{Binding CumplirParcialmenteCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Cumplida parcialmente"
+                            IsVisible="{Binding EsSupervisor, Mode=TwoWay}"
+                            HorizontalOptions="FillAndExpand">
+                        </Button>
+                        <Button
                             BackgroundColor="Red"
                             TextColor="White"
                             Command="{Binding AnularCommand}"
