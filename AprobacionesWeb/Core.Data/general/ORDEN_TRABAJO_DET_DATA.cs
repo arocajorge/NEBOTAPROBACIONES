@@ -83,14 +83,27 @@ namespace Core.Data.general
                              DINV_VTA = q.DINV_VTA,
                              TELEFONOS = q.TELEFONOS,
                              DINV_ICE = q.DINV_ICE
-                             
                          }).ToList();
+
+                if (Lista.Count > 0)
+                {
+                    string Codigo = Lista[0].CINV_ID;
+                    if (!string.IsNullOrEmpty(Codigo))
+                    {
+                        var prov = Context.ARPROVEEDOR.Where(q => q.CODIGO == Codigo).FirstOrDefault();
+                        if (prov != null)
+                            Lista.ForEach(q => {
+                                q.E_MAIL = prov.E_MAIL;
+                                q.Frecuencia = "Cada " + (string.IsNullOrEmpty(q.CINV_TIPRECIO.ToString()) ? "0" : q.CINV_TIPRECIO.ToString()) + " días";
+                            });
+                    }
+                }                
 
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
                 provider.NumberGroupSeparator = ",";
                 provider.NumberGroupSizes = new int[] { 3 };
-                Lista.ForEach(q => { q.TOTAL = ( (q.CINV_TDOC == "OT" || q.CINV_TDOC == "OK") ? (Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider)) : (q.DINV_VTA - q.DINV_DSC +  (q.DINV_ICE == null ? 0 : Convert.ToDecimal(q.DINV_ICE,provider)))) + q.DINV_IVA; });
+                Lista.ForEach(q => { q.TOTAL = ( (q.CINV_TDOC == "OT" || q.CINV_TDOC == "OK" || q.CINV_TDOC == "OR") ? (Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider)) : (q.DINV_VTA - q.DINV_DSC +  (q.DINV_ICE == null ? 0 : Convert.ToDecimal(q.DINV_ICE,provider)))) + q.DINV_IVA; });
             }
 
             return Lista.OrderBy(q=>q.DINV_LINEA).ToList();

@@ -39,5 +39,7 @@ namespace AprobacionesApi.Models
         public short? CINV_TIPRECIO { get; set; }
         public int CINV_SEC { get; set; }
         public string NOM_BODEGA { get; set; }
+        public string NOM_OBRAS { get; set; }
+        public List<BitacoraModel> ListaBitacoras { get; set; }
     }
 }

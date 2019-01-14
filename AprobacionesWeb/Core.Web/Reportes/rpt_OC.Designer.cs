@@ -900,11 +900,13 @@
             this.xrTableCell13.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
             this.xrTableCell13.Name = "xrTableCell13";
             this.xrTableCell13.StylePriority.UseFont = false;
-            this.xrTableCell13.Text = " ";
+            this.xrTableCell13.Text = "Correo:";
             this.xrTableCell13.Weight = 0.648327852444164D;
             // 
             // xrTableCell14
             // 
+            this.xrTableCell14.ExpressionBindings.AddRange(new DevExpress.XtraReports.UI.ExpressionBinding[] {
+            new DevExpress.XtraReports.UI.ExpressionBinding("BeforePrint", "Text", "[E_MAIL]")});
             this.xrTableCell14.Font = new System.Drawing.Font("Tahoma", 9F);
             this.xrTableCell14.Name = "xrTableCell14";
             this.xrTableCell14.StylePriority.UseFont = false;

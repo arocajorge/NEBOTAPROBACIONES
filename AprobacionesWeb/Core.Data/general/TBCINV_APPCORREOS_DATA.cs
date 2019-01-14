@@ -43,7 +43,7 @@ namespace Core.Data.general
                     return true;
 
                 orden.FECHA_ENVIO = DateTime.Now;
-                orden.COMENTARIO = "Enviado";
+                orden.COMENTARIO = INFO.COMENTARIO;
                 db.SaveChanges();
 
                 return true;

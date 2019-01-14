@@ -86,6 +86,9 @@
           <Property Name="LOGIN" Type="varchar2" MaxLength="10" />
           <Property Name="ESTADO" Type="varchar2" MaxLength="1" />
           <Property Name="EMPRESA" Type="number" Precision="5" Scale="0" />
+          <Property Name="FECHA_ARRIBO" Type="date" />
+          <Property Name="FECHA_ZARPE" Type="date" />
+          <Property Name="FECHA_ZARPE_REAL" Type="date" />
         </EntityType>
         <EntityType Name="DET_BITACORA">
           <Key>
@@ -463,6 +466,30 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_BITACORAS_APP' no tiene definida n
           <Property Name="LINEA_STCUMPLI2" Type="varchar2" MaxLength="1" />
           <Property Name="LINEA_FECCUMPLI1" Type="date" />
           <Property Name="LINEA_FECCUMPLI2" Type="date" />
+          <Property Name="ST_EMPLEADO" Type="number" Precision="1" Scale="0" />
+          <Property Name="FECHA_ARRIBO" Type="date" />
+          <Property Name="FECHA_ZARPE" Type="date" />
+          <Property Name="FECHA_ZARPE_REAL" Type="date" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'INDIGO.VW_BITACORAS_CUMPLIMIENTO_APP' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="VW_BITACORAS_CUMPLIMIENTO_APP">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="NOM_VIAJE" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="BARCO" Type="varchar2" MaxLength="10" />
+          <Property Name="NOM_BARCO" Type="varchar2" MaxLength="100" />
+          <Property Name="VIAJE" Type="varchar2" MaxLength="10" />
+          <Property Name="NOM_VIAJE" Type="varchar2" MaxLength="200" Nullable="false" />
+          <Property Name="FECHA_ARRIBO" Type="date" />
+          <Property Name="FECHA_ZARPE" Type="date" />
+          <Property Name="FECHA_ZARPE_REAL" Type="date" />
+          <Property Name="STCUMPLI_JEFE" Type="number" Precision="38" Scale="0" />
+          <Property Name="STCUMPLI_SUP" Type="number" Precision="38" Scale="0" />
+          <Property Name="STCUMPLI_TOTAL" Type="number" Precision="38" Scale="0" />
+          <Property Name="STCUMPLI_APRO" Type="number" Precision="38" Scale="0" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_NOMINA_APP' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -780,8 +807,28 @@ FROM "INDIGO"."SUCURSAL" "SUCURSAL"</DefiningQuery>
 "VW_BITACORAS_APP"."LINEA_STCUMPLI1" AS "LINEA_STCUMPLI1", 
 "VW_BITACORAS_APP"."LINEA_STCUMPLI2" AS "LINEA_STCUMPLI2", 
 "VW_BITACORAS_APP"."LINEA_FECCUMPLI1" AS "LINEA_FECCUMPLI1", 
-"VW_BITACORAS_APP"."LINEA_FECCUMPLI2" AS "LINEA_FECCUMPLI2"
+"VW_BITACORAS_APP"."LINEA_FECCUMPLI2" AS "LINEA_FECCUMPLI2", 
+"VW_BITACORAS_APP"."ST_EMPLEADO" AS "ST_EMPLEADO", 
+"VW_BITACORAS_APP"."FECHA_ARRIBO" AS "FECHA_ARRIBO", 
+"VW_BITACORAS_APP"."FECHA_ZARPE" AS "FECHA_ZARPE", 
+"VW_BITACORAS_APP"."FECHA_ZARPE_REAL" AS "FECHA_ZARPE_REAL"
 FROM "INDIGO"."VW_BITACORAS_APP" "VW_BITACORAS_APP"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_BITACORAS_CUMPLIMIENTO_APP" EntityType="Self.VW_BITACORAS_CUMPLIMIENTO_APP" store:Type="Views" store:Schema="INDIGO">
+            <DefiningQuery>SELECT 
+"VW_BITACORAS_CUMPLIMIENTO_APP"."ID" AS "ID", 
+"VW_BITACORAS_CUMPLIMIENTO_APP"."BARCO" AS "BARCO", 
+"VW_BITACORAS_CUMPLIMIENTO_APP"."NOM_BARCO" AS "NOM_BARCO", 
+"VW_BITACORAS_CUMPLIMIENTO_APP"."VIAJE" AS "VIAJE", 
+"VW_BITACORAS_CUMPLIMIENTO_APP"."NOM_VIAJE" AS "NOM_VIAJE", 
+"VW_BITACORAS_CUMPLIMIENTO_APP"."FECHA_ARRIBO" AS "FECHA_ARRIBO", 
+"VW_BITACORAS_CUMPLIMIENTO_APP"."FECHA_ZARPE" AS "FECHA_ZARPE", 
+"VW_BITACORAS_CUMPLIMIENTO_APP"."FECHA_ZARPE_REAL" AS "FECHA_ZARPE_REAL", 
+"VW_BITACORAS_CUMPLIMIENTO_APP"."STCUMPLI_JEFE" AS "STCUMPLI_JEFE", 
+"VW_BITACORAS_CUMPLIMIENTO_APP"."STCUMPLI_SUP" AS "STCUMPLI_SUP", 
+"VW_BITACORAS_CUMPLIMIENTO_APP"."STCUMPLI_TOTAL" AS "STCUMPLI_TOTAL", 
+"VW_BITACORAS_CUMPLIMIENTO_APP"."STCUMPLI_APRO" AS "STCUMPLI_APRO"
+FROM "INDIGO"."VW_BITACORAS_CUMPLIMIENTO_APP" "VW_BITACORAS_CUMPLIMIENTO_APP"</DefiningQuery>
           </EntitySet>
           <EntitySet Name="VW_ORDENES_NOMINA_APP" EntityType="Self.VW_ORDENES_NOMINA_APP" store:Type="Views" store:Schema="INDIGO">
             <DefiningQuery>SELECT 
@@ -1025,22 +1072,23 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <EntitySet Name="CAB_BITACORA" EntityType="ModelGeneral.CAB_BITACORA" />
           <EntitySet Name="DET_BITACORA" EntityType="ModelGeneral.DET_BITACORA" />
           <EntitySet Name="DET_BITACORA2" EntityType="ModelGeneral.DET_BITACORA2" />
+          <EntitySet Name="TBBI_SECDOC" EntityType="ModelGeneral.TBBI_SECDOC" />
           <EntitySet Name="TBCINV" EntityType="ModelGeneral.TBCINV" />
           <EntitySet Name="TBCINV_APP_ORDENES_SALTADAS" EntityType="ModelGeneral.TBCINV_APP_ORDENES_SALTADAS" />
           <EntitySet Name="TBCINV_APPCORREOS" EntityType="ModelGeneral.TBCINV_APPCORREOS" />
           <EntitySet Name="TBDINV" EntityType="ModelGeneral.TBDINV" />
+          <EntitySet Name="TBNOM_EMPLEADO" EntityType="ModelGeneral.TBNOM_EMPLEADO" />
           <EntitySet Name="USUARIOS" EntityType="ModelGeneral.USUARIOS" />
           <EntitySet Name="USUARIOS_MENU_APP" EntityType="ModelGeneral.USUARIOS_MENU_APP" />
           <EntitySet Name="SUCURSAL" EntityType="ModelGeneral.SUCURSAL" />
-          <EntitySet Name="VW_BITACORAS_APP" EntityType="ModelGeneral.VW_BITACORAS_APP" />
           <EntitySet Name="VW_ORDENES_NOMINA_APP" EntityType="ModelGeneral.VW_ORDENES_NOMINA_APP" />
           <EntitySet Name="VW_ORDENES_TRABAJO_APP" EntityType="ModelGeneral.VW_ORDENES_TRABAJO_APP" />
           <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL_APP" EntityType="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APP" />
           <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL_APS" EntityType="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APS" />
-          <EntitySet Name="TBBI_SECDOC" EntityType="ModelGeneral.TBBI_SECDOC" />
           <EntitySet Name="TBNOM_ORDEN_NOMINA_CAB" EntityType="ModelGeneral.TBNOM_ORDEN_NOMINA_CAB" />
           <EntitySet Name="TBNOM_ORDEN_NOMINA_DET" EntityType="ModelGeneral.TBNOM_ORDEN_NOMINA_DET" />
-          <EntitySet Name="TBNOM_EMPLEADO" EntityType="ModelGeneral.TBNOM_EMPLEADO" />
+          <EntitySet Name="VW_BITACORAS_APP" EntityType="ModelGeneral.VW_BITACORAS_APP" />
+          <EntitySet Name="VW_BITACORAS_CUMPLIMIENTO_APP" EntityType="ModelGeneral.VW_BITACORAS_CUMPLIMIENTO_APP" />
         </EntityContainer>
         <EntityType Name="APP_LOGERROR">
           <Key>
@@ -1123,6 +1171,9 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="ESTADO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="EMPRESA" Type="Int16" />
+          <Property Name="FECHA_ARRIBO" Type="DateTime" />
+          <Property Name="FECHA_ZARPE" Type="DateTime" />
+          <Property Name="FECHA_ZARPE_REAL" Type="DateTime" />
         </EntityType>
         <EntityType Name="DET_BITACORA">
           <Key>
@@ -1155,6 +1206,18 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="VALOR" Type="Decimal" Precision="19" Scale="2" />
           <Property Name="CUMPLIMIENTO" Type="Int16" />
           <Property Name="EMPRESA" Type="Int16" />
+        </EntityType>
+        <EntityType Name="TBBI_SECDOC">
+          <Key>
+            <PropertyRef Name="DOC_CIA" />
+            <PropertyRef Name="DOC_BOD" />
+            <PropertyRef Name="DOC_SGL" />
+          </Key>
+          <Property Name="DOC_CIA" Type="Int16" Nullable="false" />
+          <Property Name="DOC_BOD" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="DOC_SGL" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="DOC_NUM" Type="Int32" Nullable="false" />
+          <Property Name="DOC_TIPO" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
         </EntityType>
         <EntityType Name="TBCINV">
           <Key>
@@ -1263,6 +1326,81 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="DINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="DINV_OC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="TBNOM_EMPLEADO">
+          <Key>
+            <PropertyRef Name="EMPL_CO" />
+          </Key>
+          <Property Name="EMPL_EMPR" Type="Int16" Nullable="false" />
+          <Property Name="EMPL_CO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_AP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_NO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TIPO_TRAB_CO" Type="Int64" Nullable="false" />
+          <Property Name="EMPL_FEINGR" Type="DateTime" Nullable="false" />
+          <Property Name="EMPL_SLBASICO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="EMPL_VAHORA" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="EMPL_HRPROD" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="CARGO_CO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DEPAR_CO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DEPAR_CO_RESIDE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_FENACE" Type="DateTime" />
+          <Property Name="EMPL_NUCEDU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_LIC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_NUPASAPORTE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_LIB_MILITAR" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_NU_AFILIA" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_SEXO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="TIPO_SANG_TI" Type="Int64" Nullable="false" />
+          <Property Name="TIPO_SANG_CO" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_ESTATURA" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_PESO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_DR" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_FO" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="ESTA_CIVIL_TI" Type="Int64" Nullable="false" />
+          <Property Name="ESTA_CIVIL_CO" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_CONYUGE" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_NUCTA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_NUCTACTE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_FEFINCON" Type="DateTime" />
+          <Property Name="EMPL_ULTRAB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_FEINIVAC" Type="DateTime" />
+          <Property Name="EMPL_FEFINVAC" Type="DateTime" />
+          <Property Name="EMPL_FEULTRAB" Type="DateTime" />
+          <Property Name="EMPL_MOULTRAB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_FESALE" Type="DateTime" />
+          <Property Name="EMPL_FEVACA_AUM" Type="DateTime" />
+          <Property Name="EMPL_STVACA" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_DIAS_REAL" Type="Decimal" Precision="11" Scale="2" />
+          <Property Name="EMPL_DEC_SEXTO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_STFIJO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_TIEMPO_SEG_MED" Type="Int64" />
+          <Property Name="EMPL_SEG_MED" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_PORC_SEG_MED" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_ANTI_PARCIAL" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_BECA" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_BONO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_COMEDOR" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_PORC_COMEDOR" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_TRANS" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_TI_CAMBIO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_MONEDA" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_BONI_VOLUN" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_COMOTI_MASTERLE" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_TIMOTI_MASTERLE" Type="Int64" />
+          <Property Name="EMPL_OCUPACION" Type="String" MaxLength="14" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_COMOTI_SALE" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_TIMOTI_SALE" Type="Int64" />
+          <Property Name="EMPL_HORAENTTI" Type="Int64" />
+          <Property Name="EMPL_HORAENTCO" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_VA_UTILIDAD" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="EMPL_VA_MOI" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_BANCO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_COMENTARIO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_SUCURSAL_CO" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_STFONDORES" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPL_PREST_QUIR" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="EMPL_CELULAR" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
         <EntityType Name="USUARIOS">
           <Key>
             <PropertyRef Name="CODIGO" />
@@ -1297,35 +1435,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="TELEFONO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="ESTADO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="EMPRESA" Type="Int16" />
-        </EntityType>
-        <EntityType Name="VW_BITACORAS_APP">
-          <Key>
-            <PropertyRef Name="ID" />
-            <PropertyRef Name="LINEA" />
-          </Key>
-          <Property Name="EMPRESA" Type="Int16" />
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="VIAJE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="FECINGRESO" Type="DateTime" />
-          <Property Name="BARCO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_BARCO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="ESTADO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="LINEA" Type="Int16" Nullable="false" />
-          <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CONTRATISTA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="LINEA_DETALLE" Type="Int16" />
-          <Property Name="NUMERO_ORDEN" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="VALOR" Type="Decimal" Precision="19" Scale="2" />
-          <Property Name="CUMPLIMIENTO" Type="Int16" />
-          <Property Name="STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="STORDEN" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="LINEA_STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="LINEA_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="LINEA_FECCUMPLI1" Type="DateTime" />
-          <Property Name="LINEA_FECCUMPLI2" Type="DateTime" />
         </EntityType>
         <EntityType Name="VW_ORDENES_NOMINA_APP">
           <Key>
@@ -1584,18 +1693,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="CINV_COMENCUMPLI2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="TBBI_SECDOC">
-          <Key>
-            <PropertyRef Name="DOC_CIA" />
-            <PropertyRef Name="DOC_BOD" />
-            <PropertyRef Name="DOC_SGL" />
-          </Key>
-          <Property Name="DOC_CIA" Type="Int16" Nullable="false" />
-          <Property Name="DOC_BOD" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="DOC_SGL" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
-          <Property Name="DOC_NUM" Type="Int32" Nullable="false" />
-          <Property Name="DOC_TIPO" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-        </EntityType>
         <EntityType Name="TBNOM_ORDEN_NOMINA_CAB">
           <Key>
             <PropertyRef Name="CINV_SEC" />
@@ -1679,80 +1776,56 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="DINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="DINV_OC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="TBNOM_EMPLEADO">
+        <EntityType Name="VW_BITACORAS_APP">
           <Key>
-            <PropertyRef Name="EMPL_CO" />
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LINEA" />
           </Key>
-          <Property Name="EMPL_EMPR" Type="Int16" Nullable="false" />
-          <Property Name="EMPL_CO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_AP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_NO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="TIPO_TRAB_CO" Type="Int64" Nullable="false" />
-          <Property Name="EMPL_FEINGR" Type="DateTime" Nullable="false" />
-          <Property Name="EMPL_SLBASICO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
-          <Property Name="EMPL_VAHORA" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
-          <Property Name="EMPL_HRPROD" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="CARGO_CO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="DEPAR_CO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="DEPAR_CO_RESIDE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_FENACE" Type="DateTime" />
-          <Property Name="EMPL_NUCEDU" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_LIC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_NUPASAPORTE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_LIB_MILITAR" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_NU_AFILIA" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_SEXO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="TIPO_SANG_TI" Type="Int64" Nullable="false" />
-          <Property Name="TIPO_SANG_CO" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_ESTATURA" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EMPL_PESO" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EMPL_DR" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_FO" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
-          <Property Name="ESTA_CIVIL_TI" Type="Int64" Nullable="false" />
-          <Property Name="ESTA_CIVIL_CO" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_CONYUGE" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_NUCTA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_NUCTACTE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_FEFINCON" Type="DateTime" />
-          <Property Name="EMPL_ULTRAB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_FEINIVAC" Type="DateTime" />
-          <Property Name="EMPL_FEFINVAC" Type="DateTime" />
-          <Property Name="EMPL_FEULTRAB" Type="DateTime" />
-          <Property Name="EMPL_MOULTRAB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_FESALE" Type="DateTime" />
-          <Property Name="EMPL_FEVACA_AUM" Type="DateTime" />
-          <Property Name="EMPL_STVACA" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_DIAS_REAL" Type="Decimal" Precision="11" Scale="2" />
-          <Property Name="EMPL_DEC_SEXTO" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EMPL_STFIJO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_TIEMPO_SEG_MED" Type="Int64" />
-          <Property Name="EMPL_SEG_MED" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EMPL_PORC_SEG_MED" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EMPL_ANTI_PARCIAL" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EMPL_BECA" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EMPL_BONO" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EMPL_COMEDOR" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EMPL_PORC_COMEDOR" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EMPL_TRANS" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EMPL_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_TI_CAMBIO" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EMPL_MONEDA" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_BONI_VOLUN" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EMPL_COMOTI_MASTERLE" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_TIMOTI_MASTERLE" Type="Int64" />
-          <Property Name="EMPL_OCUPACION" Type="String" MaxLength="14" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_COMOTI_SALE" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_TIMOTI_SALE" Type="Int64" />
-          <Property Name="EMPL_HORAENTTI" Type="Int64" />
-          <Property Name="EMPL_HORAENTCO" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_VA_UTILIDAD" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="EMPL_VA_MOI" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_BANCO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_COMENTARIO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_SUCURSAL_CO" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_STFONDORES" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="EMPL_PREST_QUIR" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="EMPL_CELULAR" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="EMPRESA" Type="Int16" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="VIAJE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FECINGRESO" Type="DateTime" />
+          <Property Name="BARCO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_BARCO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LINEA" Type="Int16" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CONTRATISTA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="LINEA_DETALLE" Type="Int16" />
+          <Property Name="NUMERO_ORDEN" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="VALOR" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="CUMPLIMIENTO" Type="Int16" />
+          <Property Name="STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="STORDEN" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LINEA_STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LINEA_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LINEA_FECCUMPLI1" Type="DateTime" />
+          <Property Name="LINEA_FECCUMPLI2" Type="DateTime" />
+          <Property Name="ST_EMPLEADO" Type="Int16" />
+          <Property Name="FECHA_ARRIBO" Type="DateTime" />
+          <Property Name="FECHA_ZARPE" Type="DateTime" />
+          <Property Name="FECHA_ZARPE_REAL" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="VW_BITACORAS_CUMPLIMIENTO_APP">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="NOM_VIAJE" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="BARCO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_BARCO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VIAJE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_VIAJE" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_ARRIBO" Type="DateTime" />
+          <Property Name="FECHA_ZARPE" Type="DateTime" />
+          <Property Name="FECHA_ZARPE_REAL" Type="DateTime" />
+          <Property Name="STCUMPLI_JEFE" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="STCUMPLI_SUP" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="STCUMPLI_TOTAL" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="STCUMPLI_APRO" Type="Decimal" Precision="38" Scale="0" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1833,6 +1906,9 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <EntitySetMapping Name="CAB_BITACORA">
             <EntityTypeMapping TypeName="ModelGeneral.CAB_BITACORA">
               <MappingFragment StoreEntitySet="CAB_BITACORA">
+                <ScalarProperty Name="FECHA_ZARPE_REAL" ColumnName="FECHA_ZARPE_REAL" />
+                <ScalarProperty Name="FECHA_ZARPE" ColumnName="FECHA_ZARPE" />
+                <ScalarProperty Name="FECHA_ARRIBO" ColumnName="FECHA_ARRIBO" />
                 <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
                 <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
                 <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
@@ -1872,6 +1948,17 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
                 <ScalarProperty Name="LINEA_DETALLE" ColumnName="LINEA_DETALLE" />
                 <ScalarProperty Name="LINEA" ColumnName="LINEA" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBBI_SECDOC">
+            <EntityTypeMapping TypeName="ModelGeneral.TBBI_SECDOC">
+              <MappingFragment StoreEntitySet="TBBI_SECDOC">
+                <ScalarProperty Name="DOC_TIPO" ColumnName="DOC_TIPO" />
+                <ScalarProperty Name="DOC_NUM" ColumnName="DOC_NUM" />
+                <ScalarProperty Name="DOC_SGL" ColumnName="DOC_SGL" />
+                <ScalarProperty Name="DOC_BOD" ColumnName="DOC_BOD" />
+                <ScalarProperty Name="DOC_CIA" ColumnName="DOC_CIA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1986,6 +2073,82 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="TBNOM_EMPLEADO">
+            <EntityTypeMapping TypeName="ModelGeneral.TBNOM_EMPLEADO">
+              <MappingFragment StoreEntitySet="TBNOM_EMPLEADO">
+                <ScalarProperty Name="EMPL_CELULAR" ColumnName="EMPL_CELULAR" />
+                <ScalarProperty Name="EMPL_PREST_QUIR" ColumnName="EMPL_PREST_QUIR" />
+                <ScalarProperty Name="EMPL_STFONDORES" ColumnName="EMPL_STFONDORES" />
+                <ScalarProperty Name="EMPL_SUCURSAL_CO" ColumnName="EMPL_SUCURSAL_CO" />
+                <ScalarProperty Name="EMPL_COMENTARIO" ColumnName="EMPL_COMENTARIO" />
+                <ScalarProperty Name="EMPL_BANCO" ColumnName="EMPL_BANCO" />
+                <ScalarProperty Name="EMPL_VA_MOI" ColumnName="EMPL_VA_MOI" />
+                <ScalarProperty Name="EMPL_VA_UTILIDAD" ColumnName="EMPL_VA_UTILIDAD" />
+                <ScalarProperty Name="EMPL_HORAENTCO" ColumnName="EMPL_HORAENTCO" />
+                <ScalarProperty Name="EMPL_HORAENTTI" ColumnName="EMPL_HORAENTTI" />
+                <ScalarProperty Name="EMPL_TIMOTI_SALE" ColumnName="EMPL_TIMOTI_SALE" />
+                <ScalarProperty Name="EMPL_COMOTI_SALE" ColumnName="EMPL_COMOTI_SALE" />
+                <ScalarProperty Name="EMPL_OCUPACION" ColumnName="EMPL_OCUPACION" />
+                <ScalarProperty Name="EMPL_TIMOTI_MASTERLE" ColumnName="EMPL_TIMOTI_MASTERLE" />
+                <ScalarProperty Name="EMPL_COMOTI_MASTERLE" ColumnName="EMPL_COMOTI_MASTERLE" />
+                <ScalarProperty Name="EMPL_BONI_VOLUN" ColumnName="EMPL_BONI_VOLUN" />
+                <ScalarProperty Name="EMPL_MONEDA" ColumnName="EMPL_MONEDA" />
+                <ScalarProperty Name="EMPL_TI_CAMBIO" ColumnName="EMPL_TI_CAMBIO" />
+                <ScalarProperty Name="EMPL_ST" ColumnName="EMPL_ST" />
+                <ScalarProperty Name="EMPL_TRANS" ColumnName="EMPL_TRANS" />
+                <ScalarProperty Name="EMPL_PORC_COMEDOR" ColumnName="EMPL_PORC_COMEDOR" />
+                <ScalarProperty Name="EMPL_COMEDOR" ColumnName="EMPL_COMEDOR" />
+                <ScalarProperty Name="EMPL_BONO" ColumnName="EMPL_BONO" />
+                <ScalarProperty Name="EMPL_BECA" ColumnName="EMPL_BECA" />
+                <ScalarProperty Name="EMPL_ANTI_PARCIAL" ColumnName="EMPL_ANTI_PARCIAL" />
+                <ScalarProperty Name="EMPL_PORC_SEG_MED" ColumnName="EMPL_PORC_SEG_MED" />
+                <ScalarProperty Name="EMPL_SEG_MED" ColumnName="EMPL_SEG_MED" />
+                <ScalarProperty Name="EMPL_TIEMPO_SEG_MED" ColumnName="EMPL_TIEMPO_SEG_MED" />
+                <ScalarProperty Name="EMPL_STFIJO" ColumnName="EMPL_STFIJO" />
+                <ScalarProperty Name="EMPL_DEC_SEXTO" ColumnName="EMPL_DEC_SEXTO" />
+                <ScalarProperty Name="EMPL_DIAS_REAL" ColumnName="EMPL_DIAS_REAL" />
+                <ScalarProperty Name="EMPL_STVACA" ColumnName="EMPL_STVACA" />
+                <ScalarProperty Name="EMPL_FEVACA_AUM" ColumnName="EMPL_FEVACA_AUM" />
+                <ScalarProperty Name="EMPL_FESALE" ColumnName="EMPL_FESALE" />
+                <ScalarProperty Name="EMPL_MOULTRAB" ColumnName="EMPL_MOULTRAB" />
+                <ScalarProperty Name="EMPL_FEULTRAB" ColumnName="EMPL_FEULTRAB" />
+                <ScalarProperty Name="EMPL_FEFINVAC" ColumnName="EMPL_FEFINVAC" />
+                <ScalarProperty Name="EMPL_FEINIVAC" ColumnName="EMPL_FEINIVAC" />
+                <ScalarProperty Name="EMPL_ULTRAB" ColumnName="EMPL_ULTRAB" />
+                <ScalarProperty Name="EMPL_FEFINCON" ColumnName="EMPL_FEFINCON" />
+                <ScalarProperty Name="EMPL_NUCTACTE" ColumnName="EMPL_NUCTACTE" />
+                <ScalarProperty Name="EMPL_NUCTA" ColumnName="EMPL_NUCTA" />
+                <ScalarProperty Name="EMPL_CONYUGE" ColumnName="EMPL_CONYUGE" />
+                <ScalarProperty Name="ESTA_CIVIL_CO" ColumnName="ESTA_CIVIL_CO" />
+                <ScalarProperty Name="ESTA_CIVIL_TI" ColumnName="ESTA_CIVIL_TI" />
+                <ScalarProperty Name="EMPL_FO" ColumnName="EMPL_FO" />
+                <ScalarProperty Name="EMPL_DR" ColumnName="EMPL_DR" />
+                <ScalarProperty Name="EMPL_PESO" ColumnName="EMPL_PESO" />
+                <ScalarProperty Name="EMPL_ESTATURA" ColumnName="EMPL_ESTATURA" />
+                <ScalarProperty Name="TIPO_SANG_CO" ColumnName="TIPO_SANG_CO" />
+                <ScalarProperty Name="TIPO_SANG_TI" ColumnName="TIPO_SANG_TI" />
+                <ScalarProperty Name="EMPL_SEXO" ColumnName="EMPL_SEXO" />
+                <ScalarProperty Name="EMPL_NU_AFILIA" ColumnName="EMPL_NU_AFILIA" />
+                <ScalarProperty Name="EMPL_LIB_MILITAR" ColumnName="EMPL_LIB_MILITAR" />
+                <ScalarProperty Name="EMPL_NUPASAPORTE" ColumnName="EMPL_NUPASAPORTE" />
+                <ScalarProperty Name="EMPL_LIC" ColumnName="EMPL_LIC" />
+                <ScalarProperty Name="EMPL_NUCEDU" ColumnName="EMPL_NUCEDU" />
+                <ScalarProperty Name="EMPL_FENACE" ColumnName="EMPL_FENACE" />
+                <ScalarProperty Name="DEPAR_CO_RESIDE" ColumnName="DEPAR_CO_RESIDE" />
+                <ScalarProperty Name="DEPAR_CO" ColumnName="DEPAR_CO" />
+                <ScalarProperty Name="CARGO_CO" ColumnName="CARGO_CO" />
+                <ScalarProperty Name="EMPL_HRPROD" ColumnName="EMPL_HRPROD" />
+                <ScalarProperty Name="EMPL_VAHORA" ColumnName="EMPL_VAHORA" />
+                <ScalarProperty Name="EMPL_SLBASICO" ColumnName="EMPL_SLBASICO" />
+                <ScalarProperty Name="EMPL_FEINGR" ColumnName="EMPL_FEINGR" />
+                <ScalarProperty Name="TIPO_TRAB_CO" ColumnName="TIPO_TRAB_CO" />
+                <ScalarProperty Name="EMPL_NO" ColumnName="EMPL_NO" />
+                <ScalarProperty Name="EMPL_AP" ColumnName="EMPL_AP" />
+                <ScalarProperty Name="EMPL_CO" ColumnName="EMPL_CO" />
+                <ScalarProperty Name="EMPL_EMPR" ColumnName="EMPL_EMPR" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="USUARIOS">
             <EntityTypeMapping TypeName="ModelGeneral.USUARIOS">
               <MappingFragment StoreEntitySet="USUARIOS">
@@ -2020,35 +2183,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
                 <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
                 <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
                 <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VW_BITACORAS_APP">
-            <EntityTypeMapping TypeName="ModelGeneral.VW_BITACORAS_APP">
-              <MappingFragment StoreEntitySet="VW_BITACORAS_APP">
-                <ScalarProperty Name="LINEA_FECCUMPLI2" ColumnName="LINEA_FECCUMPLI2" />
-                <ScalarProperty Name="LINEA_FECCUMPLI1" ColumnName="LINEA_FECCUMPLI1" />
-                <ScalarProperty Name="LINEA_STCUMPLI2" ColumnName="LINEA_STCUMPLI2" />
-                <ScalarProperty Name="LINEA_STCUMPLI1" ColumnName="LINEA_STCUMPLI1" />
-                <ScalarProperty Name="STORDEN" ColumnName="STORDEN" />
-                <ScalarProperty Name="STCUMPLI2" ColumnName="STCUMPLI2" />
-                <ScalarProperty Name="STCUMPLI1" ColumnName="STCUMPLI1" />
-                <ScalarProperty Name="CUMPLIMIENTO" ColumnName="CUMPLIMIENTO" />
-                <ScalarProperty Name="VALOR" ColumnName="VALOR" />
-                <ScalarProperty Name="NUMERO_ORDEN" ColumnName="NUMERO_ORDEN" />
-                <ScalarProperty Name="LINEA_DETALLE" ColumnName="LINEA_DETALLE" />
-                <ScalarProperty Name="CONTRATISTA" ColumnName="CONTRATISTA" />
-                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
-                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
-                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
-                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
-                <ScalarProperty Name="NOM_BARCO" ColumnName="NOM_BARCO" />
-                <ScalarProperty Name="BARCO" ColumnName="BARCO" />
-                <ScalarProperty Name="FECINGRESO" ColumnName="FECINGRESO" />
-                <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
-                <ScalarProperty Name="VIAJE" ColumnName="VIAJE" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2290,17 +2424,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TBBI_SECDOC">
-            <EntityTypeMapping TypeName="ModelGeneral.TBBI_SECDOC">
-              <MappingFragment StoreEntitySet="TBBI_SECDOC">
-                <ScalarProperty Name="DOC_TIPO" ColumnName="DOC_TIPO" />
-                <ScalarProperty Name="DOC_NUM" ColumnName="DOC_NUM" />
-                <ScalarProperty Name="DOC_SGL" ColumnName="DOC_SGL" />
-                <ScalarProperty Name="DOC_BOD" ColumnName="DOC_BOD" />
-                <ScalarProperty Name="DOC_CIA" ColumnName="DOC_CIA" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TBNOM_ORDEN_NOMINA_CAB">
             <EntityTypeMapping TypeName="ModelGeneral.TBNOM_ORDEN_NOMINA_CAB">
               <MappingFragment StoreEntitySet="TBNOM_ORDEN_NOMINA_CAB">
@@ -2386,79 +2509,54 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TBNOM_EMPLEADO">
-            <EntityTypeMapping TypeName="ModelGeneral.TBNOM_EMPLEADO">
-              <MappingFragment StoreEntitySet="TBNOM_EMPLEADO">
-                <ScalarProperty Name="EMPL_CELULAR" ColumnName="EMPL_CELULAR" />
-                <ScalarProperty Name="EMPL_PREST_QUIR" ColumnName="EMPL_PREST_QUIR" />
-                <ScalarProperty Name="EMPL_STFONDORES" ColumnName="EMPL_STFONDORES" />
-                <ScalarProperty Name="EMPL_SUCURSAL_CO" ColumnName="EMPL_SUCURSAL_CO" />
-                <ScalarProperty Name="EMPL_COMENTARIO" ColumnName="EMPL_COMENTARIO" />
-                <ScalarProperty Name="EMPL_BANCO" ColumnName="EMPL_BANCO" />
-                <ScalarProperty Name="EMPL_VA_MOI" ColumnName="EMPL_VA_MOI" />
-                <ScalarProperty Name="EMPL_VA_UTILIDAD" ColumnName="EMPL_VA_UTILIDAD" />
-                <ScalarProperty Name="EMPL_HORAENTCO" ColumnName="EMPL_HORAENTCO" />
-                <ScalarProperty Name="EMPL_HORAENTTI" ColumnName="EMPL_HORAENTTI" />
-                <ScalarProperty Name="EMPL_TIMOTI_SALE" ColumnName="EMPL_TIMOTI_SALE" />
-                <ScalarProperty Name="EMPL_COMOTI_SALE" ColumnName="EMPL_COMOTI_SALE" />
-                <ScalarProperty Name="EMPL_OCUPACION" ColumnName="EMPL_OCUPACION" />
-                <ScalarProperty Name="EMPL_TIMOTI_MASTERLE" ColumnName="EMPL_TIMOTI_MASTERLE" />
-                <ScalarProperty Name="EMPL_COMOTI_MASTERLE" ColumnName="EMPL_COMOTI_MASTERLE" />
-                <ScalarProperty Name="EMPL_BONI_VOLUN" ColumnName="EMPL_BONI_VOLUN" />
-                <ScalarProperty Name="EMPL_MONEDA" ColumnName="EMPL_MONEDA" />
-                <ScalarProperty Name="EMPL_TI_CAMBIO" ColumnName="EMPL_TI_CAMBIO" />
-                <ScalarProperty Name="EMPL_ST" ColumnName="EMPL_ST" />
-                <ScalarProperty Name="EMPL_TRANS" ColumnName="EMPL_TRANS" />
-                <ScalarProperty Name="EMPL_PORC_COMEDOR" ColumnName="EMPL_PORC_COMEDOR" />
-                <ScalarProperty Name="EMPL_COMEDOR" ColumnName="EMPL_COMEDOR" />
-                <ScalarProperty Name="EMPL_BONO" ColumnName="EMPL_BONO" />
-                <ScalarProperty Name="EMPL_BECA" ColumnName="EMPL_BECA" />
-                <ScalarProperty Name="EMPL_ANTI_PARCIAL" ColumnName="EMPL_ANTI_PARCIAL" />
-                <ScalarProperty Name="EMPL_PORC_SEG_MED" ColumnName="EMPL_PORC_SEG_MED" />
-                <ScalarProperty Name="EMPL_SEG_MED" ColumnName="EMPL_SEG_MED" />
-                <ScalarProperty Name="EMPL_TIEMPO_SEG_MED" ColumnName="EMPL_TIEMPO_SEG_MED" />
-                <ScalarProperty Name="EMPL_STFIJO" ColumnName="EMPL_STFIJO" />
-                <ScalarProperty Name="EMPL_DEC_SEXTO" ColumnName="EMPL_DEC_SEXTO" />
-                <ScalarProperty Name="EMPL_DIAS_REAL" ColumnName="EMPL_DIAS_REAL" />
-                <ScalarProperty Name="EMPL_STVACA" ColumnName="EMPL_STVACA" />
-                <ScalarProperty Name="EMPL_FEVACA_AUM" ColumnName="EMPL_FEVACA_AUM" />
-                <ScalarProperty Name="EMPL_FESALE" ColumnName="EMPL_FESALE" />
-                <ScalarProperty Name="EMPL_MOULTRAB" ColumnName="EMPL_MOULTRAB" />
-                <ScalarProperty Name="EMPL_FEULTRAB" ColumnName="EMPL_FEULTRAB" />
-                <ScalarProperty Name="EMPL_FEFINVAC" ColumnName="EMPL_FEFINVAC" />
-                <ScalarProperty Name="EMPL_FEINIVAC" ColumnName="EMPL_FEINIVAC" />
-                <ScalarProperty Name="EMPL_ULTRAB" ColumnName="EMPL_ULTRAB" />
-                <ScalarProperty Name="EMPL_FEFINCON" ColumnName="EMPL_FEFINCON" />
-                <ScalarProperty Name="EMPL_NUCTACTE" ColumnName="EMPL_NUCTACTE" />
-                <ScalarProperty Name="EMPL_NUCTA" ColumnName="EMPL_NUCTA" />
-                <ScalarProperty Name="EMPL_CONYUGE" ColumnName="EMPL_CONYUGE" />
-                <ScalarProperty Name="ESTA_CIVIL_CO" ColumnName="ESTA_CIVIL_CO" />
-                <ScalarProperty Name="ESTA_CIVIL_TI" ColumnName="ESTA_CIVIL_TI" />
-                <ScalarProperty Name="EMPL_FO" ColumnName="EMPL_FO" />
-                <ScalarProperty Name="EMPL_DR" ColumnName="EMPL_DR" />
-                <ScalarProperty Name="EMPL_PESO" ColumnName="EMPL_PESO" />
-                <ScalarProperty Name="EMPL_ESTATURA" ColumnName="EMPL_ESTATURA" />
-                <ScalarProperty Name="TIPO_SANG_CO" ColumnName="TIPO_SANG_CO" />
-                <ScalarProperty Name="TIPO_SANG_TI" ColumnName="TIPO_SANG_TI" />
-                <ScalarProperty Name="EMPL_SEXO" ColumnName="EMPL_SEXO" />
-                <ScalarProperty Name="EMPL_NU_AFILIA" ColumnName="EMPL_NU_AFILIA" />
-                <ScalarProperty Name="EMPL_LIB_MILITAR" ColumnName="EMPL_LIB_MILITAR" />
-                <ScalarProperty Name="EMPL_NUPASAPORTE" ColumnName="EMPL_NUPASAPORTE" />
-                <ScalarProperty Name="EMPL_LIC" ColumnName="EMPL_LIC" />
-                <ScalarProperty Name="EMPL_NUCEDU" ColumnName="EMPL_NUCEDU" />
-                <ScalarProperty Name="EMPL_FENACE" ColumnName="EMPL_FENACE" />
-                <ScalarProperty Name="DEPAR_CO_RESIDE" ColumnName="DEPAR_CO_RESIDE" />
-                <ScalarProperty Name="DEPAR_CO" ColumnName="DEPAR_CO" />
-                <ScalarProperty Name="CARGO_CO" ColumnName="CARGO_CO" />
-                <ScalarProperty Name="EMPL_HRPROD" ColumnName="EMPL_HRPROD" />
-                <ScalarProperty Name="EMPL_VAHORA" ColumnName="EMPL_VAHORA" />
-                <ScalarProperty Name="EMPL_SLBASICO" ColumnName="EMPL_SLBASICO" />
-                <ScalarProperty Name="EMPL_FEINGR" ColumnName="EMPL_FEINGR" />
-                <ScalarProperty Name="TIPO_TRAB_CO" ColumnName="TIPO_TRAB_CO" />
-                <ScalarProperty Name="EMPL_NO" ColumnName="EMPL_NO" />
-                <ScalarProperty Name="EMPL_AP" ColumnName="EMPL_AP" />
-                <ScalarProperty Name="EMPL_CO" ColumnName="EMPL_CO" />
-                <ScalarProperty Name="EMPL_EMPR" ColumnName="EMPL_EMPR" />
+          <EntitySetMapping Name="VW_BITACORAS_APP">
+            <EntityTypeMapping TypeName="ModelGeneral.VW_BITACORAS_APP">
+              <MappingFragment StoreEntitySet="VW_BITACORAS_APP">
+                <ScalarProperty Name="FECHA_ZARPE_REAL" ColumnName="FECHA_ZARPE_REAL" />
+                <ScalarProperty Name="FECHA_ZARPE" ColumnName="FECHA_ZARPE" />
+                <ScalarProperty Name="FECHA_ARRIBO" ColumnName="FECHA_ARRIBO" />
+                <ScalarProperty Name="ST_EMPLEADO" ColumnName="ST_EMPLEADO" />
+                <ScalarProperty Name="LINEA_FECCUMPLI2" ColumnName="LINEA_FECCUMPLI2" />
+                <ScalarProperty Name="LINEA_FECCUMPLI1" ColumnName="LINEA_FECCUMPLI1" />
+                <ScalarProperty Name="LINEA_STCUMPLI2" ColumnName="LINEA_STCUMPLI2" />
+                <ScalarProperty Name="LINEA_STCUMPLI1" ColumnName="LINEA_STCUMPLI1" />
+                <ScalarProperty Name="STORDEN" ColumnName="STORDEN" />
+                <ScalarProperty Name="STCUMPLI2" ColumnName="STCUMPLI2" />
+                <ScalarProperty Name="STCUMPLI1" ColumnName="STCUMPLI1" />
+                <ScalarProperty Name="CUMPLIMIENTO" ColumnName="CUMPLIMIENTO" />
+                <ScalarProperty Name="VALOR" ColumnName="VALOR" />
+                <ScalarProperty Name="NUMERO_ORDEN" ColumnName="NUMERO_ORDEN" />
+                <ScalarProperty Name="LINEA_DETALLE" ColumnName="LINEA_DETALLE" />
+                <ScalarProperty Name="CONTRATISTA" ColumnName="CONTRATISTA" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
+                <ScalarProperty Name="NOM_BARCO" ColumnName="NOM_BARCO" />
+                <ScalarProperty Name="BARCO" ColumnName="BARCO" />
+                <ScalarProperty Name="FECINGRESO" ColumnName="FECINGRESO" />
+                <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
+                <ScalarProperty Name="VIAJE" ColumnName="VIAJE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_BITACORAS_CUMPLIMIENTO_APP">
+            <EntityTypeMapping TypeName="ModelGeneral.VW_BITACORAS_CUMPLIMIENTO_APP">
+              <MappingFragment StoreEntitySet="VW_BITACORAS_CUMPLIMIENTO_APP">
+                <ScalarProperty Name="STCUMPLI_APRO" ColumnName="STCUMPLI_APRO" />
+                <ScalarProperty Name="STCUMPLI_TOTAL" ColumnName="STCUMPLI_TOTAL" />
+                <ScalarProperty Name="STCUMPLI_SUP" ColumnName="STCUMPLI_SUP" />
+                <ScalarProperty Name="STCUMPLI_JEFE" ColumnName="STCUMPLI_JEFE" />
+                <ScalarProperty Name="FECHA_ZARPE_REAL" ColumnName="FECHA_ZARPE_REAL" />
+                <ScalarProperty Name="FECHA_ZARPE" ColumnName="FECHA_ZARPE" />
+                <ScalarProperty Name="FECHA_ARRIBO" ColumnName="FECHA_ARRIBO" />
+                <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
+                <ScalarProperty Name="VIAJE" ColumnName="VIAJE" />
+                <ScalarProperty Name="NOM_BARCO" ColumnName="NOM_BARCO" />
+                <ScalarProperty Name="BARCO" ColumnName="BARCO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

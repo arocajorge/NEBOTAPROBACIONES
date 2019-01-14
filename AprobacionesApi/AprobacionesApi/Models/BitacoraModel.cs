@@ -38,5 +38,17 @@ namespace AprobacionesApi.Models
         public string LINEA_LOGINCUMPLI2 { get; set; }
         public string ROL_APRO { get; set; }
         public string ESTADOAPRO { get; set; }
+        public Nullable<short> ST_EMPLEADO { get; set; }
+        public Nullable<System.DateTime> FECHA_ARRIBO { get; set; }
+        public Nullable<System.DateTime> FECHA_ZARPE { get; set; }
+        public Nullable<System.DateTime> FECHA_ZARPE_REAL { get; set; }
+
+        #region Cumplimientos
+        public Nullable<decimal> STCUMPLI_JEFE { get; set; }
+        public Nullable<decimal> STCUMPLI_SUP { get; set; }
+        public Nullable<decimal> STCUMPLI_TOTAL { get; set; }
+        public Nullable<decimal> STCUMPLI_APRO { get; set; }
+        #endregion
+
     }
 }

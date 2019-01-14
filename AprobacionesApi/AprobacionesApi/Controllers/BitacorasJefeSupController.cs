@@ -12,11 +12,14 @@ namespace AprobacionesApi.Controllers
     public class BitacorasJefeSupController : ApiController
     {
         EntitiesGeneral db = new EntitiesGeneral();
-        public IEnumerable<BitacoraModel> GET(string BARCO = "", string VIAJE = "")
+        public IEnumerable<BitacoraModel> GET(string BARCO = "", string VIAJE = "", string MOSTRARTODO = "")
         {
             try
             {
-                var lst =
+                List<BitacoraModel> lst = new List<BitacoraModel>();
+                if (string.IsNullOrEmpty(MOSTRARTODO))
+                {
+                    lst =
                  (from q in db.VW_BITACORAS_APP
                   where q.VIAJE == VIAJE
                   && q.BARCO == BARCO
@@ -37,26 +40,61 @@ namespace AprobacionesApi.Controllers
                       LINEA_FECCUMPLI2 = grouping.Max(q => q.LINEA_FECCUMPLI2),
                       LINEA_STCUMPLI1 = grouping.Max(q => q.LINEA_STCUMPLI1),
                       LINEA_STCUMPLI2 = grouping.Max(q => q.LINEA_STCUMPLI2),
+                      NUMERO_ORDEN = grouping.Max(q => q.NUMERO_ORDEN),
+                      FECHA_ARRIBO = grouping.Max(q=> q.FECHA_ARRIBO),
+                      FECHA_ZARPE = grouping.Max(q => q.FECHA_ZARPE),
+                      FECHA_ZARPE_REAL = grouping.Max(q => q.FECHA_ZARPE_REAL),
                   }).ToList();
-                lst.ForEach(q =>
+                    lst.ForEach(q =>
+                    {
+                        q.CUMPLIJEFE = (q.CANTIDADLINEAS - q.PENTIENTEJEFE) == 0 ? true : false;
+                        q.CUMPLISUP = (q.CANTIDADLINEAS - q.PENTIENTESUPERVISOR) == 0 ? true : false;
+                    });
+                }else
                 {
-                    q.CUMPLIJEFE = (q.CANTIDADLINEAS - q.PENTIENTEJEFE) == 0 ? true : false;
-                    q.CUMPLISUP = (q.CANTIDADLINEAS - q.PENTIENTESUPERVISOR) == 0 ? true : false;
-                });
+                    lst = db.VW_BITACORAS_APP.Where(q => q.BARCO == BARCO && q.VIAJE == VIAJE && q.ESTADO == "A").Select(q =>
+                      new BitacoraModel
+                      {
+                          ID = q.ID,
+                          DESCRIPCION = q.DESCRIPCION,
+                          CONTRATISTA = q.CONTRATISTA,
+                          NOM_BARCO = q.NOM_BARCO,
+                          NOM_VIAJE = q.NOM_VIAJE,
+                          LINEA = q.LINEA,
+                          LINEA_FECCUMPLI1 = q.LINEA_FECCUMPLI1,
+                          LINEA_FECCUMPLI2 = q.LINEA_FECCUMPLI2,
+                          LINEA_STCUMPLI1 = q.LINEA_STCUMPLI1,
+                          LINEA_STCUMPLI2 = q.LINEA_STCUMPLI2,
+                          NUMERO_ORDEN = q.NUMERO_ORDEN,
+                          VALOR = q.VALOR,
+                          ST_EMPLEADO = q.ST_EMPLEADO,
+                          FECHA_ARRIBO = q.FECHA_ARRIBO,
+                          FECHA_ZARPE = q.FECHA_ZARPE,
+                          FECHA_ZARPE_REAL = q.FECHA_ZARPE_REAL
+                      }).ToList();
+
+                    lst.ForEach(q => {
+                        q.CONTRATISTA = q.ST_EMPLEADO == 1 ? ("EMPLEADO: " + q.CONTRATISTA) : ("CONTRATISTA: " + q.CONTRATISTA);
+                        q.NUMERO_ORDEN = string.IsNullOrEmpty(q.NUMERO_ORDEN) ? "" : ("OT." + q.NUMERO_ORDEN); });
+                }
+
                 return lst;
             }
             catch (Exception ex)
             {
-                long SECUENCIAID = db.APP_LOGERROR.Count() > 0 ? (db.APP_LOGERROR.Select(q => q.SECUENCIA).Max() + 1) : 1;
-                db.APP_LOGERROR.Add(new APP_LOGERROR
+                using (EntitiesGeneral Error = new EntitiesGeneral())
                 {
-                    ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
-                    INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
-                    FECHA = DateTime.Now,
-                    PROCESO = "BitacorasJefeSup/GET",
-                    SECUENCIA = SECUENCIAID
-                });
-                db.SaveChanges();
+                    long ID = Error.APP_LOGERROR.Count() > 0 ? (Error.APP_LOGERROR.Select(q => q.SECUENCIA).Max() + 1) : 1;
+                    Error.APP_LOGERROR.Add(new APP_LOGERROR
+                    {
+                        ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
+                        INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
+                        FECHA = DateTime.Now,
+                        PROCESO = "OrdenTrabajo/POST",
+                        SECUENCIA = ID
+                    });
+                    Error.SaveChanges();
+                }
                 return new List<BitacoraModel>();
             }            
         }
@@ -139,7 +177,7 @@ namespace AprobacionesApi.Controllers
                     }
                     else
                     {
-                        int ContAprobadas = ROL_APRO == "J" ? bitacoras.Where(q => q.LINEA_STCUMPLI1 == "P").Count() : bitacoras.Where(q => q.LINEA_STCUMPLI2 == "P").Count();
+                        int ContAprobadas = ROL_APRO == "J" ? bitacoras.Where(q => q.LINEA_STCUMPLI1 == "P").Count() : bitacoras.Where(q => q.LINEA_STCUMPLI2 == "P" || q.LINEA_STCUMPLI2 == "T").Count();
                         int ContPendientes = ROL_APRO == "J" ? bitacoras.Where(q => q.LINEA_STCUMPLI1 == "A" || string.IsNullOrEmpty(q.LINEA_STCUMPLI1)).Count() : bitacoras.Where(q => q.LINEA_STCUMPLI2 == "A" || string.IsNullOrEmpty(q.LINEA_STCUMPLI2)).Count();
                         int ContTotal = bitacoras.Count();
 
@@ -160,7 +198,7 @@ namespace AprobacionesApi.Controllers
                                 OrdenEntity.CINV_FECCUMPLI2 = DateTime.Now;
                                 OrdenEntity.CINV_LOGINCUMPLI2 = CINV_LOGIN;
                                 OrdenEntity.CINV_STCUMPLI2 = (ContTotal == ContAprobadas) ? "P" : "A";
-                                OrdenEntity.CINV_STCUMPLI2 = ((ContTotal == ContAprobadas) ? "Cumplido " : "Pendiente ") + "por bitácora";
+                                OrdenEntity.CINV_COMENCUMPLI2= ((ContTotal == ContAprobadas) ? "Cumplido " : "Pendiente ") + "por bitácora";
                             }
 
                             db.SaveChanges();

@@ -71,5 +71,7 @@ namespace Core.Info.general
         public decimal DINV_VTA { get; set; }
         public string TELEFONOS { get; set; }
         public Nullable<decimal> DINV_ICE { get; set; }
+        public string E_MAIL { get; set; }
+        public string Frecuencia { get; set; }
     }
 }

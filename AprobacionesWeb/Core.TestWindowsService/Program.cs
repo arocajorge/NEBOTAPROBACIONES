@@ -29,33 +29,37 @@ namespace Core.TestWindowsService
         }
         private static void OnTimedEvent()
         {
+            TBCINV_APPCORREOS_DATA Odata = new TBCINV_APPCORREOS_DATA();
+            var Orden = Odata.GET_ORDEN();
+
+            if (Orden == null)
+                return;
             try
             {
-                TBCINV_APPCORREOS_DATA Odata = new TBCINV_APPCORREOS_DATA();
-                var Orden = Odata.GET_ORDEN();
-
-                if (Orden == null)
-                    return;
-
                 int CINV_NUM = Orden.CINV_NUM;
                 string CINV_TDOC = Orden.CINV_TDOC;
 
-                if (Orden.CINV_ST == "P")
-                {
-                    enviar_correo_proveedor(Orden.CINV_NUM, Orden.CINV_TDOC);
-                }
 
-                enviar_correo(Orden.CINV_NUM, "Supervisor", Orden.CINV_TDOC);
+                if (Orden.ROL_APRO.Trim().ToUpper() == "J" || Orden.ROL_APRO.Trim().ToUpper() == "S")
+                {
+                    Orden.COMENTARIO = enviar_correo(Orden.CINV_NUM, Orden.ROL_APRO.Trim().ToUpper() == "J" ? ("Jefe de bahia") : "Supervisor", Orden.CINV_TDOC);
+                }
+                else
+                    Orden.COMENTARIO = enviar_correo_proveedor(Orden.CINV_NUM, Orden.CINV_TDOC, Orden.CINV_ST);
+
+                Orden.FECHA_ENVIO = DateTime.Now;
 
                 Odata.GUARDAR(Orden);
             }
             catch (Exception ex)
             {
-                Console.Write(ex.Message);
+                Orden.FECHA_ENVIO = null;
+                Orden.COMENTARIO = ex.ToString().PadRight(1000);
+                Odata.GUARDAR(Orden);
             }
         }
 
-        private static void enviar_correo(int IDs, string nivel_aprobacion, string tipo_doc)
+        private static string enviar_correo(int IDs, string nivel_aprobacion, string tipo_doc)
         {
             #region Armar cuerpo del correo correo
             MailMessage mail = new MailMessage();
@@ -66,11 +70,11 @@ namespace Core.TestWindowsService
             ORDEN_TRABAJO_INFO item = data_ot.get_info(IDs, tipo_doc);
 
             if (!string.IsNullOrEmpty(item.CORREO_SOLICITADO))
-                mail.To.Add(item.CORREO_SOLICITADO);
+                mail.To.Add(item.CORREO_SOLICITADO.Trim());
             if (!string.IsNullOrEmpty(item.CORREO_CENTROCOSTO))
-                mail.To.Add(item.CORREO_CENTROCOSTO);
+                mail.To.Add(item.CORREO_CENTROCOSTO.Trim());
             if (!string.IsNullOrEmpty(item.CORREO_CENTROCOSTO2))
-                mail.To.Add(item.CORREO_CENTROCOSTO2);
+                mail.To.Add(item.CORREO_CENTROCOSTO2.Trim());
 
             string Body = "";
 
@@ -94,14 +98,16 @@ namespace Core.TestWindowsService
                 smtp.Credentials = new NetworkCredential(correo_desde, contrasenia);
                 smtp.Send(mail);
                 #endregion
+                return "Enviado";
             }
             catch (Exception ex)
             {
+                return "No enviado";
 
             }
         }
 
-        private static void enviar_correo_proveedor(int ID, string tipo_doc)
+        private static string enviar_correo_proveedor(int ID, string tipo_doc, string Estado)
         {
             #region Armar cuerpo del correo correo
             MailMessage mail = new MailMessage();
@@ -110,18 +116,36 @@ namespace Core.TestWindowsService
             ORDEN_TRABAJO_INFO info = data_ot.get_info(Convert.ToInt32(ID), tipo_doc);
 
 
-            if (string.IsNullOrEmpty(info.E_MAIL))
-                return;
-            mail.To.Add(info.E_MAIL);
-            mail.Subject = "Ordenes de " + (tipo_doc == "OT" ? "trabajo" : "compra") + " Aprobada No." + (tipo_doc == "OT" ? (info.CODIGOTR + "-") : "") + ID.ToString();
+            if (Estado.Trim() == "P")
+            {
+                
+                if (!string.IsNullOrEmpty(info.E_MAIL))
+                {
+                    string[] array = info.E_MAIL.Split(';');
+                    foreach (var item in array)
+                    {
+                        string correo = item.Trim();
+                        if(!string.IsNullOrEmpty(correo))
+                            mail.To.Add(correo);
+                    }                    
+                }
+            }
+            if (!string.IsNullOrEmpty(info.CORREO_SOLICITADO))
+                mail.To.Add(info.CORREO_SOLICITADO.Trim());
+            if (!string.IsNullOrEmpty(info.CORREO_CENTROCOSTO))
+                mail.To.Add(info.CORREO_CENTROCOSTO.Trim());
+            if (!string.IsNullOrEmpty(info.CORREO_CENTROCOSTO2))
+                mail.To.Add(info.CORREO_CENTROCOSTO2.Trim());
+
+            mail.Subject = "Orden de " + (tipo_doc == "OC" ? "compra" : "trabajo") + (Estado == "P" ? " Aprobada " : " Anulada ") + "No." + (tipo_doc == "OT" || tipo_doc == "OR" ? (info.CODIGOTR + "-") : "") + ID.ToString();
             string Body = "";
-            Body += "<p>Saludos, se detalla orden de " + (tipo_doc == "OT" ? "trabajo" : "compra") + " para: " + info.CINV_COM1 + "</p>";
+            Body += "<p>Saludos, se detalla orden de " + (tipo_doc == "OC" ? "compra" : "trabajo") + " para: " + info.CINV_COM1 + "</p>";
             Body += "<p>Estimado Proveedor</p>";
             Body += "<p>En días próximos cambiaremos la forma de pago mediante transferencias bancarias por tal razón necesitamos que nos hagan llegar la siguiente información:*Formulario del Proveedor(entregado por Asistente administrativa) junto con los sigtes documentos:Persona Natural: Copia de cédula y certificado bancarioPersona Jurídica: Ruc, Copia y cédula del representante legal y certificado bancario</p>";
             Body += "<p>Gracias por su colaboración</p><br>";
 
             MemoryStream mem = new MemoryStream();
-            if (tipo_doc == "OT")
+            if (tipo_doc == "OT" || tipo_doc == "OK" || tipo_doc == "OR")
             {
                 rpt_OT rpt = new rpt_OT();
                 rpt.p_tipo_doc.Value = info.CINV_TDOC;
@@ -155,10 +179,11 @@ namespace Core.TestWindowsService
                 smtp.Credentials = new NetworkCredential(correo_desde, contrasenia);
                 smtp.Send(mail);
                 #endregion
+                return "Enviado";
             }
             catch (Exception ex)
             {
-
+                return "No enviado";
             }
             mem.Close();
             mem.Flush();

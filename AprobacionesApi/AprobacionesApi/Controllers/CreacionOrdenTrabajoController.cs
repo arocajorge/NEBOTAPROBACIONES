@@ -218,7 +218,7 @@ namespace AprobacionesApi.Controllers
                         SECUENCIA = ID
                     });
                     Error.SaveChanges();
-                }                
+                }
             }
         }
 

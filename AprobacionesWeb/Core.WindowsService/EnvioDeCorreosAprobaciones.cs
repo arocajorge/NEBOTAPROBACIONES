@@ -91,13 +91,13 @@ namespace Core.WindowsService
             ORDEN_TRABAJO_DATA data_ot = new ORDEN_TRABAJO_DATA();
             ORDEN_TRABAJO_INFO item = data_ot.get_info(IDs, tipo_doc);
 
-                if (!string.IsNullOrEmpty(item.CORREO_SOLICITADO))
-                    mail.To.Add(item.CORREO_SOLICITADO);
-                if (!string.IsNullOrEmpty(item.CORREO_CENTROCOSTO))
-                    mail.To.Add(item.CORREO_CENTROCOSTO);
-                if (!string.IsNullOrEmpty(item.CORREO_CENTROCOSTO2))
-                    mail.To.Add(item.CORREO_CENTROCOSTO2);
-            
+            if (!string.IsNullOrEmpty(item.CORREO_SOLICITADO))
+                mail.To.Add(item.CORREO_SOLICITADO.Trim());
+            if (!string.IsNullOrEmpty(item.CORREO_CENTROCOSTO))
+                mail.To.Add(item.CORREO_CENTROCOSTO.Trim());
+            if (!string.IsNullOrEmpty(item.CORREO_CENTROCOSTO2))
+                mail.To.Add(item.CORREO_CENTROCOSTO2.Trim());
+
             string Body = "";
 
             Body += "<p>Saludos</p>";
@@ -122,7 +122,7 @@ namespace Core.WindowsService
                 #endregion
                 return "Enviado";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return "No enviado";
 
@@ -140,26 +140,34 @@ namespace Core.WindowsService
 
             if (Estado.Trim() == "P")
             {
-                if (string.IsNullOrEmpty(info.E_MAIL))
-                    return "No enviado";
-                mail.To.Add(info.E_MAIL);
+
+                if (!string.IsNullOrEmpty(info.E_MAIL))
+                {
+                    string[] array = info.E_MAIL.Split(';');
+                    foreach (var item in array)
+                    {
+                        string correo = item.Trim();
+                        if (!string.IsNullOrEmpty(correo))
+                            mail.To.Add(correo);
+                    }
+                }
             }
             if (!string.IsNullOrEmpty(info.CORREO_SOLICITADO))
-                mail.To.Add(info.CORREO_SOLICITADO);
+                mail.To.Add(info.CORREO_SOLICITADO.Trim());
             if (!string.IsNullOrEmpty(info.CORREO_CENTROCOSTO))
-                mail.To.Add(info.CORREO_CENTROCOSTO);
+                mail.To.Add(info.CORREO_CENTROCOSTO.Trim());
             if (!string.IsNullOrEmpty(info.CORREO_CENTROCOSTO2))
-                mail.To.Add(info.CORREO_CENTROCOSTO2);
+                mail.To.Add(info.CORREO_CENTROCOSTO2.Trim());
 
-            mail.Subject = "Orden de " + (tipo_doc == "OT" ? "trabajo" : "compra") + (Estado == "P"  ?" Aprobada " : " Anulada ")+ "No." + (tipo_doc == "OT" ? (info.CODIGOTR + "-") : "") + ID.ToString();
+            mail.Subject = "Orden de " + (tipo_doc == "OC" ? "compra" : "trabajo") + (Estado == "P" ? " Aprobada " : " Anulada ") + "No." + (tipo_doc == "OT" || tipo_doc == "OR" ? (info.CODIGOTR + "-") : "") + ID.ToString();
             string Body = "";
-            Body += "<p>Saludos, se detalla orden de " + (tipo_doc == "OT" ? "trabajo" : "compra") + " para: " + info.CINV_COM1 + "</p>";
+            Body += "<p>Saludos, se detalla orden de " + (tipo_doc == "OC" ? "compra" : "trabajo") + " para: " + info.CINV_COM1 + "</p>";
             Body += "<p>Estimado Proveedor</p>";
             Body += "<p>En días próximos cambiaremos la forma de pago mediante transferencias bancarias por tal razón necesitamos que nos hagan llegar la siguiente información:*Formulario del Proveedor(entregado por Asistente administrativa) junto con los sigtes documentos:Persona Natural: Copia de cédula y certificado bancarioPersona Jurídica: Ruc, Copia y cédula del representante legal y certificado bancario</p>";
             Body += "<p>Gracias por su colaboración</p><br>";
 
             MemoryStream mem = new MemoryStream();
-            if (tipo_doc == "OT" || tipo_doc == "OK")
+            if (tipo_doc == "OT" || tipo_doc == "OK" || tipo_doc == "OR")
             {
                 rpt_OT rpt = new rpt_OT();
                 rpt.p_tipo_doc.Value = info.CINV_TDOC;
@@ -195,7 +203,7 @@ namespace Core.WindowsService
                 #endregion
                 return "Enviado";
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return "No enviado";
             }

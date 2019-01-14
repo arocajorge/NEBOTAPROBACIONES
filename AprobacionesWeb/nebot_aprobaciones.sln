@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.WindowsService", "Core
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.TestWindowsService", "Core.TestWindowsService\Core.TestWindowsService.csproj", "{AF734F23-2075-45D2-8C98-CC7F536EF372}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CorreosSetup", "CorreosSetup\CorreosSetup.vdproj", "{CA9AC6AB-E087-415C-818B-0610C46AD2BF}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupCorreoAuto", "SetupCorreoAuto\SetupCorreoAuto.vdproj", "{3E1AC002-A5FA-4174-8C2E-98A96EEAAB6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,8 +41,8 @@ Global
 		{AF734F23-2075-45D2-8C98-CC7F536EF372}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF734F23-2075-45D2-8C98-CC7F536EF372}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF734F23-2075-45D2-8C98-CC7F536EF372}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA9AC6AB-E087-415C-818B-0610C46AD2BF}.Debug|Any CPU.ActiveCfg = Debug
-		{CA9AC6AB-E087-415C-818B-0610C46AD2BF}.Release|Any CPU.ActiveCfg = Release
+		{3E1AC002-A5FA-4174-8C2E-98A96EEAAB6D}.Debug|Any CPU.ActiveCfg = Debug
+		{3E1AC002-A5FA-4174-8C2E-98A96EEAAB6D}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

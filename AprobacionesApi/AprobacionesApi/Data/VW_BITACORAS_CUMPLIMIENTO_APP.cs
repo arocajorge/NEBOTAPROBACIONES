@@ -12,18 +12,19 @@ namespace AprobacionesApi.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class CAB_BITACORA
+    public partial class VW_BITACORAS_CUMPLIMIENTO_APP
     {
         public int ID { get; set; }
-        public string VIAJE { get; set; }
-        public string DATA_VIAJE { get; set; }
-        public Nullable<System.DateTime> FECINGRESO { get; set; }
         public string BARCO { get; set; }
-        public string LOGIN { get; set; }
-        public string ESTADO { get; set; }
-        public Nullable<short> EMPRESA { get; set; }
+        public string NOM_BARCO { get; set; }
+        public string VIAJE { get; set; }
+        public string NOM_VIAJE { get; set; }
         public Nullable<System.DateTime> FECHA_ARRIBO { get; set; }
         public Nullable<System.DateTime> FECHA_ZARPE { get; set; }
         public Nullable<System.DateTime> FECHA_ZARPE_REAL { get; set; }
+        public Nullable<decimal> STCUMPLI_JEFE { get; set; }
+        public Nullable<decimal> STCUMPLI_SUP { get; set; }
+        public Nullable<decimal> STCUMPLI_TOTAL { get; set; }
+        public Nullable<decimal> STCUMPLI_APRO { get; set; }
     }
 }

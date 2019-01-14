@@ -131,6 +131,13 @@ Al recibir esta coomunicacón, el proveedor da por conocido y aceptado todos los
     <value>Nota: NO NOS HACEMOS RESPONSABLES POR NINGUN PEDIDO HECHO POR NINGUN EMPLEADO DE LA EMPRESA SIN ESTAR
 RESPALDADO POR UNA ORDEN DE TRABAJO NI ATENDEREMOS LLAMADAS SOBRE SERVICIOS QUE NO TENGAN ORDEN DE TRABAJO</value>
   </data>
+  <data name="CC_NOMBRE_REPORTE.Expression" xml:space="preserve">
+    <value>Iif([CINV_TDOC]='OT' || [CINV_TDOC]='OR', 
+Concat('ORDEN DE TRABAJO',
+	Iif([CINV_TDOC]='OR',' RECURRRENTE' , '')
+		, ' No.',[CODIGOTR],'-',[CINV_NUM] )
+, Concat('ORDEN DE COMPRA DE CAJA CHICA No.',[CINV_NUM] ) )</value>
+  </data>
   <metadata name="objectDataSource1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>

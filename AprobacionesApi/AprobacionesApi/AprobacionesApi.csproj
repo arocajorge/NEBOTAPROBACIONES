@@ -114,6 +114,7 @@
     <Compile Include="Controllers\BitacorasDetJefeSupController.cs" />
     <Compile Include="Controllers\BitacorasJefeSupController.cs" />
     <Compile Include="Controllers\CatalogosController.cs" />
+    <Compile Include="Controllers\ControlBitacoraController.cs" />
     <Compile Include="Controllers\CreacionOrdenTrabajoController.cs" />
     <Compile Include="Controllers\ModificacionOrdenTrabajoController.cs" />
     <Compile Include="Controllers\OrdenNominaController.cs" />
@@ -189,6 +190,9 @@
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\VW_BITACORAS_APP.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_BITACORAS_CUMPLIMIENTO_APP.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\VW_ORDENES_NOMINA_APP.cs">
