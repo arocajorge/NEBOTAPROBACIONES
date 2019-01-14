@@ -69,6 +69,7 @@ namespace Core.App.Aprobacion.ViewModels
             ListaTipos.Add("Orden de trabajo");
             ListaTipos.Add("Orden de compra");
             ListaTipos.Add("Orden de caja chica");
+            ListaTipos.Add("Orden recurrente");
             TipoSelectedIndex = "Orden de trabajo";
         }
         #endregion
@@ -150,6 +151,9 @@ namespace Core.App.Aprobacion.ViewModels
                 case "Orden de caja chica":
                     CINV_TDOC = "OK";
                     break;
+                case "Orden recurrente":
+                    CINV_TDOC = "OR";
+                    break;
             }
             var response_cs = await apiService.GetObject<OrdenModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "OrdenTrabajo", "CINV_TDOC="+CINV_TDOC+"&CINV_NUM="+NumeroOrden);
             if (!response_cs.IsSuccess)
@@ -179,11 +183,14 @@ namespace Core.App.Aprobacion.ViewModels
                     case "OT":
                         TipoDocumento = "Orden de trabajo";
                         break;
+                    case "OR":
+                        TipoDocumento = "Orden recurrente";
+                        break;
                 }
                 Orden.Titulo = TipoDocumento + " No. " + Orden.NumeroOrden;
 
                 MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel(Orden);
-                Application.Current.MainPage = new NavigationPage(new AprobacionGerentePage());
+                Application.Current.MainPage = new NavigationPage(new GerenteMasterPage());
             }
             else
             {

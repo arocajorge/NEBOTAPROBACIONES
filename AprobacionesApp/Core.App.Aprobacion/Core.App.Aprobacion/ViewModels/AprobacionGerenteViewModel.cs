@@ -6,6 +6,7 @@
     using Core.App.Aprobacion.Views;
     using GalaSoft.MvvmLight.Command;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Windows.Input;
     using Xamarin.Forms;
 
@@ -115,6 +116,13 @@
                 Color = "Green";
                 Estado = "Aprobada";
             }
+
+            int Longitud = Orden.lst.Max(q => q.Cantidad.ToString().Length);
+
+            Orden.lst.ForEach(q => {
+                q.SecuenciaDetalle = q.Linea - 1;
+                q.Longitud = Longitud * 15;
+            });
             ListaDetalle = new ObservableCollection<OrdenDetalleModel>(Orden.lst);
             Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
         }
@@ -192,7 +200,11 @@
                         case "OT":
                             TipoDocumento = "Orden de trabajo";
                             break;
+                        case "OR":
+                            TipoDocumento = "Orden recurrente";
+                            break;
                     }
+
 
                     if (Orden.TipoDocumento == "OC")
                     {
@@ -225,15 +237,22 @@
                     Orden.Titulo = TipoDocumento + " No. " + Orden.NumeroOrden;
                     Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
 
-                    ListaDetalle = new ObservableCollection<OrdenDetalleModel>(Orden.lst);
+                    int Longitud = Orden.lst.Max(q => q.Cantidad.ToString().Length);
+                    Orden.lst.ForEach(q => {
+                        q.SecuenciaDetalle = q.Linea - 1;
+                        q.Longitud = Longitud * 15;
+                    });
 
+                    Orden.lst.ForEach(q => q.SecuenciaDetalle = q.Linea - 1);
+                    ListaDetalle = new ObservableCollection<OrdenDetalleModel>(Orden.lst);
+                    
                     IsEnabled = true;
                     IsRunning = false;
                 }
                 else
                 {
                     MainViewModel.GetInstance().NoHayOrdenesPendientes = new NoHayOrdenesPendientesViewModel();
-                    Application.Current.MainPage = new NavigationPage(new NoHayOrdenesPendientesPage());
+                    Application.Current.MainPage = new NoHayOrdenesMasterPage();
                 }
             }
             catch (System.Exception ex)

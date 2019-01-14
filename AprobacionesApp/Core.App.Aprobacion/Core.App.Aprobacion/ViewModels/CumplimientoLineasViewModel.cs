@@ -6,20 +6,21 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Core.App.Aprobacion.ViewModels
 {
-    public class JefeSupervisorBitacorasViewModel : BaseViewModel
+    public class CumplimientoLineasViewModel : BaseViewModel
     {
-
         #region Variables
         private ObservableCollection<BitacoraItemViewModel> _lstDet;
         private List<BitacoraModel> _lstBitacora;
         private string _filter;
         private ApiService apiService;
         private bool _IsRefreshing;
+        private BitacoraModel Bitacora;
         #endregion
 
         #region Propiedades
@@ -51,8 +52,9 @@ namespace Core.App.Aprobacion.ViewModels
         #endregion
 
         #region Constructor
-        public JefeSupervisorBitacorasViewModel()
+        public CumplimientoLineasViewModel(BitacoraModel model)
         {
+            Bitacora = model;
             apiService = new ApiService();
             LoadLista();
         }
@@ -74,7 +76,13 @@ namespace Core.App.Aprobacion.ViewModels
                 CantidadLineas = l.CantidadLineas,
                 Imagen = l.Imagen,
                 Color = l.Color,
-                Estado = l.Estado
+                Estado = l.Estado,
+                EstadoJefe = l.EstadoJefe,
+                EstadoSupervisor = l.EstadoSupervisor,
+                ImagenJefe = l.ImagenJefe,
+                ImagenSupervisor = l.ImagenSupervisor,
+                NumeroOrden = l.NumeroOrden,
+                
             });
             return temp;
         }
@@ -112,9 +120,9 @@ namespace Core.App.Aprobacion.ViewModels
                         Settings.UrlConexionActual = UrlDistinto;
                 }
                 string parameters = string.Empty;
-                parameters += "&BARCO=" + Settings.Sucursal;
-                parameters += "&VIAJE=" + Settings.Viaje;
-
+                parameters += "BARCO=" + Bitacora.Barco;
+                parameters += "&VIAJE=" + Bitacora.Viaje;
+                parameters += "&MOSTRARTODO=S";
                 var response_cs = await apiService.GetList<BitacoraModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "BitacorasJefeSup", parameters);
                 if (!response_cs.IsSuccess)
                 {
@@ -133,19 +141,17 @@ namespace Core.App.Aprobacion.ViewModels
                            "No existen resultados para los filtros seleccionados ", //+ parameters,
                            "Aceptar");
                 }
-                if (Settings.RolApro == "J")
+                _lstBitacora.ForEach(q =>
                 {
-                    _lstBitacora.ForEach(q => { q.Imagen = q.CantidadLineas == 0 ? ("ic_keyboard_arrow_right") : (q.PendienteJefe == 0 ? "ic_assignment_turned_in" : "ic_access_time");
-                        q.Color = q.EstadoJefe == "P" ? "Green" : (q.EstadoJefe == "X" ? "Red" : "Black");
-                        q.Estado = q.EstadoJefe == "P" ? "Cumplida" : (q.EstadoJefe == "X" ? "Incumplida" : "Pendiente");
-                    });
-                }else
-                    _lstBitacora.ForEach(q => { q.Imagen = q.CantidadLineas == 0 ? ("ic_keyboard_arrow_right") : (q.PendienteSupervisor == 0 ? "ic_assignment_turned_in" : "ic_access_time");
-                        q.Color = q.EstadoSupervisor == "P" ? "Green" : (q.EstadoSupervisor == "X" ? "Red" : (q.EstadoSupervisor == "T" ? "CornflowerBlue" : "Black"));
-                        q.Estado = q.EstadoSupervisor == "P" ? "Cumplida" : (q.EstadoSupervisor == "X" ? "Incumplida" : (q.EstadoSupervisor == "T" ? "Cumplida parcialmente" : "Pendiente"));
-                    });
-
+                    q.ImagenJefe = q.EstadoJefe == "P" ? "ic_check_box" : "ic_check_box_outline_blank";
+                    q.ImagenSupervisor = (q.EstadoSupervisor == "P" || q.EstadoSupervisor == "T") ? "ic_check_box" : "ic_check_box_outline_blank";
+                    q.Color = 
+                    q.EstadoSupervisor == "P" ? "LightGreen" :
+                    (q.EstadoSupervisor == "T" ? "CornflowerBlue" :
+                    ((q.EstadoJefe == "P" && q.EstadoSupervisor != "P" && q.EstadoSupervisor != "T") ? "Yellow" : "White"));
+                });
                 _lstBitacora = _lstBitacora.OrderBy(q => q.Linea).ToList();
+                
                 this.LstBitacoras = new ObservableCollection<BitacoraItemViewModel>(ToBitacoraItemModel());
                 IsRefreshing = false;
             }
@@ -181,6 +187,7 @@ namespace Core.App.Aprobacion.ViewModels
                 else
                     this.LstBitacoras = new ObservableCollection<BitacoraItemViewModel>(
                         ToBitacoraItemModel().Where(q => q.Contratista.ToLower().Contains(filter.ToLower()) || q.Linea.ToString().Contains(filter.ToLower()) || q.Descripcion.ToLower().Contains(filter.ToLower())
+                        || q.NumeroOrden.Contains(filter.ToLower())
                         ).OrderBy(q => q.Linea));
                 IsRefreshing = false;
             }

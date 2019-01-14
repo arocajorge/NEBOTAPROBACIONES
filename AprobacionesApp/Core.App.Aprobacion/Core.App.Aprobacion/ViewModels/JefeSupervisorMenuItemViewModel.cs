@@ -47,6 +47,12 @@ namespace Core.App.Aprobacion.ViewModels
                     App.MasterJefeSupervisor.IsPresented = false;
                 if(App.MasterReferidos != null)
                     App.MasterReferidos.IsPresented = false;
+                if (App.MasterGerente != null)
+                    App.MasterGerente.IsPresented = false;
+                if (App.MasterCumplimiento != null)
+                    App.MasterCumplimiento.IsPresented = false;
+                if (App.NoHayOrdenes != null)
+                    App.NoHayOrdenes.IsPresented = false;
 
                 switch (this.PageName)
                 {
@@ -146,6 +152,14 @@ namespace Core.App.Aprobacion.ViewModels
                     case "MisOrdenesTrabajoPage":
                         MainViewModel.GetInstance().MisOrdenesTrabajo = new MisOrdenesTrabajoViewModel();
                         await App.Navigator.PushAsync(new MisOrdenesTrabajoPage());
+                        break;
+                    case "CumplimientoFiltroPage":
+                        MainViewModel.GetInstance().CumplimientoFiltro = new CumplimientoFiltroViewModel();
+                        await App.Navigator.PushAsync(new CumplimientoFiltroPage());
+                        break;
+                    case "AprobacionGerentePage":
+                        MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();
+                        Application.Current.MainPage = new GerenteMasterPage();
                         break;
                 }
             }

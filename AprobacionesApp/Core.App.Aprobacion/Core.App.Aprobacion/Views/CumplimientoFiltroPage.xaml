@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.CumplimientoFiltroPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Filtros">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout
+                Padding="20"
+                BindingContext="{Binding CumplimientoFiltro}">
+                <Label      
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    Text="Barco">
+                </Label>
+                <Picker
+                    ItemsSource="{Binding ListaSucursal}"
+                    ItemDisplayBinding="{Binding Descripcion}"
+                    SelectedIndex="{Binding SucursalSelectedIndex, Mode=TwoWay}"
+                    Title="Seleccione el barco">
+                </Picker>
+
+                <Label      
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    Text="Viaje">
+                </Label>
+                <Picker
+                    ItemsSource="{Binding ListaViaje}"
+                    ItemDisplayBinding="{Binding Descripcion}"
+                    SelectedIndex="{Binding ViajeSelectedIndex, Mode=TwoWay}"
+                    Title="Seleccione el viaje">
+                </Picker>
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                    VerticalOptions="CenterAndExpand">
+                </ActivityIndicator>
+                <Button
+                        BackgroundColor="CornflowerBlue"
+                        TextColor="White"
+                        Command="{Binding FiltrarCommand}"
+                        IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                        VerticalOptions="End"
+                        Text="Guardar">
+                </Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

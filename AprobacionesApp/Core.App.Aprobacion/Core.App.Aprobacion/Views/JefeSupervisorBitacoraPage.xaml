@@ -137,11 +137,20 @@
                     </ListView>
                     <StackLayout>
                         <Button
-                            BackgroundColor="CornflowerBlue"
+                            BackgroundColor="Green"
                             TextColor="White"
                             Command="{Binding AprobarCommand}"
                             IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                             Text="Cumplida"
+                            HorizontalOptions="FillAndExpand">
+                        </Button>
+                        <Button
+                            BackgroundColor="CornflowerBlue"
+                            TextColor="White"
+                            Command="{Binding CumplirParcialmenteCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Cumplida parcialmente"
+                            IsVisible="{Binding EsSupervisor, Mode=TwoWay}"
                             HorizontalOptions="FillAndExpand">
                         </Button>
                         <Button

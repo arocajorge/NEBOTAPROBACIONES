@@ -100,6 +100,16 @@
                             Text="{Binding Orden.Comentario}"
                             TextColor="Black">
                     </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Obras: "
+                            TextColor="Black"></Label>
+                    <Label
+                            FontSize="Medium"
+                            Text="{Binding Orden.NombreObras}"
+                            TextColor="Black">
+                    </Label>
                     <StackLayout
                         Orientation="Horizontal">
                         <Label
@@ -132,12 +142,16 @@
                                         Orientation="Horizontal">
                                         <Label
                                             Text="{Binding Cantidad}"
-                                            TextColor="Black"
+                                            TextColor="Blue"
+                                            FontAttributes="Bold"
+                                            FontSize="Small"
+                                            WidthRequest="{Binding Longitud}"
                                             HorizontalOptions="Start">
                                         </Label>
                                         <Label
                                             Text="{Binding Detalle}"
                                             TextColor="Black"
+                                            FontSize="Small"
                                             HorizontalOptions="CenterAndExpand">
                                         </Label>
                                         <Switch

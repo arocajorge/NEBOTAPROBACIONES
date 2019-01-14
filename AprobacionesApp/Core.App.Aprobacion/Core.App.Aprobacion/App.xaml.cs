@@ -3,14 +3,13 @@ using Core.App.Aprobacion.Models;
 using Core.App.Aprobacion.Services;
 using Core.App.Aprobacion.ViewModels;
 using Core.App.Aprobacion.Views;
-using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-[assembly: XamlCompilation (XamlCompilationOptions.Compile)]
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Core.App.Aprobacion
 {
-	public partial class App : Application
+    public partial class App : Application
 	{
         #region Variables
         private ApiService apiService;
@@ -19,6 +18,9 @@ namespace Core.App.Aprobacion
         public static NavigationPage Navigator { get; internal set; }
         public static JefeSupervisorMasterPage MasterJefeSupervisor { get; set; }
         public static ReferidosMasterPage MasterReferidos { get; set; }
+        public static GerenteMasterPage MasterGerente { get; set; }
+        public static CumplimientoMasterPage MasterCumplimiento { get; set; }
+        public static NoHayOrdenesMasterPage NoHayOrdenes { get; set; }
         #endregion
 
         #region Constructor
@@ -44,7 +46,7 @@ namespace Core.App.Aprobacion
 
 		protected override void OnResume ()
 		{
-            ValidarLogin();
+           // ValidarLogin();
         }
         #endregion
 
@@ -99,7 +101,7 @@ namespace Core.App.Aprobacion
                         if (usuario.MenuFiltro == "AprobacionGerentePage")
                         {
                             MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();
-                            MainPage = new NavigationPage(new AprobacionGerentePage());
+                            MainPage = new GerenteMasterPage();
                             return;
                         }
                         if (usuario.MenuFiltro == "JefeSupervisorFiltroPage")
