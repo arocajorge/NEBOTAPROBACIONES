@@ -16,5 +16,7 @@ namespace AprobacionesApi.Models
         public string APELLIDO { get; set; }
         public string E_MAIL { get; set; }
         public string IDENTIFICACION { get; set; }
+        public decimal? DURACION { get; set; }
+        public decimal? DURACIONACUMULADA { get; set; }
     }
 }

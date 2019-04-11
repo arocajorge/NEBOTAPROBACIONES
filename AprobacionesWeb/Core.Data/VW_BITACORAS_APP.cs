@@ -37,5 +37,11 @@ namespace Core.Data
         public string LINEA_STCUMPLI2 { get; set; }
         public Nullable<System.DateTime> LINEA_FECCUMPLI1 { get; set; }
         public Nullable<System.DateTime> LINEA_FECCUMPLI2 { get; set; }
+        public Nullable<bool> ST_EMPLEADO { get; set; }
+        public Nullable<System.DateTime> FECHA_ARRIBO { get; set; }
+        public Nullable<System.DateTime> FECHA_ZARPE { get; set; }
+        public Nullable<System.DateTime> FECHA_ZARPE_REAL { get; set; }
+        public Nullable<decimal> DURACION { get; set; }
+        public Nullable<System.DateTime> FECHAOT { get; set; }
     }
 }

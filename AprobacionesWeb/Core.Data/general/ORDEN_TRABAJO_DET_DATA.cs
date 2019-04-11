@@ -82,7 +82,8 @@ namespace Core.Data.general
                              DINV_PRCT_DSC = q.DINV_PRCT_DSC,
                              DINV_VTA = q.DINV_VTA,
                              TELEFONOS = q.TELEFONOS,
-                             DINV_ICE = q.DINV_ICE
+                             DINV_ICE = q.DINV_ICE,
+                             
                          }).ToList();
 
                 if (Lista.Count > 0)

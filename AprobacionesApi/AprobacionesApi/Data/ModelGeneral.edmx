@@ -73,6 +73,8 @@
           <Property Name="CODIGOZO" Type="varchar2" MaxLength="10" />
           <Property Name="E_MAIL" Type="varchar2" MaxLength="200" />
           <Property Name="CONTACTO" Type="varchar2" MaxLength="60" />
+          <Property Name="DURACION" Type="number" Precision="18" Scale="4" />
+          <Property Name="USUARIO_ULTMOD" Type="varchar2" MaxLength="10" />
         </EntityType>
         <EntityType Name="CAB_BITACORA">
           <Key>
@@ -121,6 +123,7 @@
           <Property Name="VALOR" Type="number" Precision="19" Scale="2" />
           <Property Name="CUMPLIMIENTO" Type="number" Precision="5" Scale="0" />
           <Property Name="EMPRESA" Type="number" Precision="5" Scale="0" />
+          <Property Name="TIPO" Type="varchar2" MaxLength="5" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'INDIGO.SUCURSAL' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -159,7 +162,7 @@ advertencia 6002: La tabla o vista 'INDIGO.SUCURSAL' no tiene definida ninguna c
           <Property Name="CINV_REF" Type="varchar2" MaxLength="20" />
           <Property Name="CINV_FECING" Type="date" Nullable="false" />
           <Property Name="CINV_ID" Type="varchar2" MaxLength="6" />
-          <Property Name="CINV_NOMID" Type="varchar2" MaxLength="60" />
+          <Property Name="CINV_NOMID" Type="varchar2" MaxLength="65" />
           <Property Name="CINV_DSC" Type="number" Precision="19" Scale="4" />
           <Property Name="CINV_COM1" Type="varchar2" MaxLength="200" />
           <Property Name="CINV_COM2" Type="varchar2" MaxLength="200" />
@@ -194,6 +197,7 @@ advertencia 6002: La tabla o vista 'INDIGO.SUCURSAL' no tiene definida ninguna c
           <Property Name="CINV_FECCUMPLI2" Type="date" />
           <Property Name="CINV_LOGINCUMPLI1" Type="varchar2" MaxLength="10" />
           <Property Name="CINV_LOGINCUMPLI2" Type="varchar2" MaxLength="10" />
+          <Property Name="DURACION" Type="number" Precision="18" Scale="4" />
         </EntityType>
         <EntityType Name="TBCINV_APP_ORDENES_SALTADAS">
           <Key>
@@ -217,6 +221,35 @@ advertencia 6002: La tabla o vista 'INDIGO.SUCURSAL' no tiene definida ninguna c
           <Property Name="COMENTARIO" Type="varchar2" MaxLength="1000" />
           <Property Name="ROL_APRO" Type="varchar2" MaxLength="1" />
           <Property Name="SECUENCIAL" Type="number" Precision="10" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TBCINV_FILTROS_APP">
+          <Key>
+            <PropertyRef Name="USUARIO" />
+          </Key>
+          <Property Name="USUARIO" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="BARCO" Type="varchar2" MaxLength="20" />
+          <Property Name="VIAJE" Type="varchar2" MaxLength="50" />
+          <Property Name="SOLICITANTE" Type="varchar2" MaxLength="50" />
+          <Property Name="BODEGA" Type="varchar2" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TBCPED">
+          <Key>
+            <PropertyRef Name="PED_ID" />
+          </Key>
+          <Property Name="PED_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="PED_FECHA" Type="date" />
+          <Property Name="PED_BOD" Type="varchar2" MaxLength="10" />
+          <Property Name="PED_VIAJE" Type="varchar2" MaxLength="10" />
+          <Property Name="PED_SUC" Type="varchar2" MaxLength="10" />
+          <Property Name="PED_SOL" Type="varchar2" MaxLength="10" />
+          <Property Name="PED_OBS" Type="varchar2" MaxLength="1000" />
+          <Property Name="PED_ST" Type="varchar2" MaxLength="5" />
+          <Property Name="OC_FECHA" Type="date" />
+          <Property Name="INV_FECHA" Type="date" />
+          <Property Name="PED_LOGIN" Type="varchar2" MaxLength="20" />
+          <Property Name="PED_FECTRAN" Type="date" />
+          <Property Name="PED_COM" Type="varchar2" MaxLength="2000" />
+          <Property Name="PED_FECAPRO" Type="date" />
         </EntityType>
         <EntityType Name="TBDINV">
           <Key>
@@ -253,6 +286,18 @@ advertencia 6002: La tabla o vista 'INDIGO.SUCURSAL' no tiene definida ninguna c
           <Property Name="BODEGA3" Type="number" Precision="10" Scale="0" />
           <Property Name="DINV_ST" Type="varchar2" MaxLength="1" />
           <Property Name="DINV_OC" Type="varchar2" MaxLength="10" />
+          <Property Name="PED_ID" Type="number" Precision="38" Scale="0" />
+          <Property Name="PED_LINEA" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="TBDPED">
+          <Key>
+            <PropertyRef Name="PED_ID" />
+            <PropertyRef Name="PED_SEC" />
+          </Key>
+          <Property Name="PED_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="PED_SEC" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="PED_CANT" Type="number" Precision="38" Scale="0" />
+          <Property Name="PED_DETALLE" Type="varchar2" MaxLength="1000" />
         </EntityType>
         <EntityType Name="TBNOM_EMPLEADO">
           <Key>
@@ -441,7 +486,6 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_BITACORAS_APP' no tiene definida n
         <EntityType Name="VW_BITACORAS_APP">
           <Key>
             <PropertyRef Name="ID" />
-            <PropertyRef Name="LINEA" />
           </Key>
           <Property Name="EMPRESA" Type="number" Precision="5" Scale="0" />
           <Property Name="ID" Type="number" Precision="10" Scale="0" Nullable="false" />
@@ -452,15 +496,15 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_BITACORAS_APP' no tiene definida n
           <Property Name="NOM_BARCO" Type="varchar2" MaxLength="100" />
           <Property Name="LOGIN" Type="varchar2" MaxLength="10" />
           <Property Name="ESTADO" Type="varchar2" MaxLength="1" />
-          <Property Name="LINEA" Type="number" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="LINEA" Type="number" Precision="5" Scale="0" />
           <Property Name="DESCRIPCION" Type="varchar2" MaxLength="200" />
           <Property Name="CONTRATISTA" Type="varchar2" MaxLength="200" />
           <Property Name="LINEA_DETALLE" Type="number" Precision="5" Scale="0" />
           <Property Name="NUMERO_ORDEN" Type="varchar2" MaxLength="200" />
           <Property Name="VALOR" Type="number" Precision="19" Scale="2" />
           <Property Name="CUMPLIMIENTO" Type="number" Precision="5" Scale="0" />
-          <Property Name="STCUMPLI1" Type="varchar2" MaxLength="1" />
-          <Property Name="STCUMPLI2" Type="varchar2" MaxLength="1" />
+          <Property Name="CINV_STCUMPLI1" Type="varchar2" MaxLength="1" />
+          <Property Name="CINV_STCUMPLI2" Type="varchar2" MaxLength="1" />
           <Property Name="STORDEN" Type="varchar2" MaxLength="1" />
           <Property Name="LINEA_STCUMPLI1" Type="varchar2" MaxLength="1" />
           <Property Name="LINEA_STCUMPLI2" Type="varchar2" MaxLength="1" />
@@ -470,6 +514,10 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_BITACORAS_APP' no tiene definida n
           <Property Name="FECHA_ARRIBO" Type="date" />
           <Property Name="FECHA_ZARPE" Type="date" />
           <Property Name="FECHA_ZARPE_REAL" Type="date" />
+          <Property Name="DURACION" Type="number" Precision="18" Scale="4" />
+          <Property Name="FECHA_OT" Type="date" />
+          <Property Name="TIPO" Type="varchar2" MaxLength="5" />
+          <Property Name="CINV_ST" Type="varchar2" MaxLength="1" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'INDIGO.VW_BITACORAS_CUMPLIMIENTO_APP' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -490,6 +538,44 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_BITACORAS_CUMPLIMIENTO_APP' no tie
           <Property Name="STCUMPLI_SUP" Type="number" Precision="38" Scale="0" />
           <Property Name="STCUMPLI_TOTAL" Type="number" Precision="38" Scale="0" />
           <Property Name="STCUMPLI_APRO" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'INDIGO.VW_BITACORAS2_APP' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="VW_BITACORAS2_APP">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LINEA" />
+            <PropertyRef Name="LINEA_DETALLE" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="LINEA" Type="number" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="LINEA_DETALLE" Type="number" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="NUMERO_ORDEN" Type="varchar2" MaxLength="200" />
+          <Property Name="VALOR" Type="number" Precision="19" Scale="2" />
+          <Property Name="CUMPLIMIENTO" Type="number" Precision="5" Scale="0" />
+          <Property Name="EMPRESA" Type="number" Precision="5" Scale="0" />
+          <Property Name="TIPO" Type="varchar2" MaxLength="5" />
+          <Property Name="CINV_NUM" Type="number" Precision="38" Scale="0" />
+          <Property Name="NOMPROVEEDOR" Type="varchar2" MaxLength="65" />
+          <Property Name="CINV_COM1" Type="varchar2" MaxLength="1000" />
+          <Property Name="ESTADO" Type="varchar2" MaxLength="8" />
+          <Property Name="COLOR_ESTADO" Type="varchar2" MaxLength="5" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'INDIGO.VW_FILTROS_APP' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="VW_FILTROS_APP">
+          <Key>
+            <PropertyRef Name="USUARIO" />
+          </Key>
+          <Property Name="USUARIO" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="BARCO" Type="varchar2" MaxLength="20" />
+          <Property Name="VIAJE" Type="varchar2" MaxLength="50" />
+          <Property Name="SOLICITANTE" Type="varchar2" MaxLength="50" />
+          <Property Name="BODEGA" Type="varchar2" MaxLength="50" />
+          <Property Name="NOMBREBARCO" Type="varchar2" MaxLength="100" />
+          <Property Name="NOMBREVIAJE" Type="varchar2" MaxLength="200" />
+          <Property Name="NOMBRESOLICITANTE" Type="varchar2" MaxLength="101" />
+          <Property Name="NOMBREBODEGA" Type="varchar2" MaxLength="200" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_NOMINA_APP' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -572,7 +658,7 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_APP' no tiene defi
           <Property Name="CINV_REF" Type="varchar2" MaxLength="20" />
           <Property Name="CINV_FECING" Type="date" Nullable="false" />
           <Property Name="CINV_ID" Type="varchar2" MaxLength="6" />
-          <Property Name="CINV_NOMID" Type="varchar2" MaxLength="60" />
+          <Property Name="CINV_NOMID" Type="varchar2" MaxLength="65" />
           <Property Name="CINV_DSC" Type="number" Precision="19" Scale="4" />
           <Property Name="CINV_COM1" Type="varchar2" MaxLength="200" />
           <Property Name="CINV_COM2" Type="varchar2" MaxLength="200" />
@@ -627,6 +713,8 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_APP' no tiene defi
           <Property Name="TELEFONOS" Type="varchar2" MaxLength="40" />
           <Property Name="DETALLE_ORDEN" Type="varchar2" MaxLength="255" />
           <Property Name="DINV_ICE" Type="number" Precision="19" Scale="4" />
+          <Property Name="DURACION" Type="number" Precision="18" Scale="4" />
+          <Property Name="DINV_ST" Type="varchar2" MaxLength="1" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL_APP' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -646,7 +734,7 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL_APP' no tien
           <Property Name="CINV_REF" Type="varchar2" MaxLength="20" />
           <Property Name="CINV_FECING" Type="date" Nullable="false" />
           <Property Name="CINV_ID" Type="varchar2" MaxLength="6" />
-          <Property Name="CINV_NOMID" Type="varchar2" MaxLength="60" />
+          <Property Name="CINV_NOMID" Type="varchar2" MaxLength="65" />
           <Property Name="CINV_DSC" Type="number" Precision="19" Scale="4" />
           <Property Name="CINV_COM1" Type="varchar2" MaxLength="200" />
           <Property Name="CINV_COM2" Type="varchar2" MaxLength="200" />
@@ -691,6 +779,7 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL_APP' no tien
           <Property Name="CINV_STCUMPLI2" Type="varchar2" MaxLength="1" />
           <Property Name="CINV_COMENCUMPLI2" Type="varchar2" MaxLength="200" />
           <Property Name="NOM_VIAJE" Type="varchar2" MaxLength="200" />
+          <Property Name="DURACION" Type="number" Precision="18" Scale="4" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL_APS' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -710,7 +799,7 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL_APS' no tien
           <Property Name="CINV_REF" Type="varchar2" MaxLength="20" />
           <Property Name="CINV_FECING" Type="date" Nullable="false" />
           <Property Name="CINV_ID" Type="varchar2" MaxLength="6" />
-          <Property Name="CINV_NOMID" Type="varchar2" MaxLength="60" />
+          <Property Name="CINV_NOMID" Type="varchar2" MaxLength="65" />
           <Property Name="CINV_DSC" Type="number" Precision="19" Scale="4" />
           <Property Name="CINV_COM1" Type="varchar2" MaxLength="200" />
           <Property Name="CINV_COM2" Type="varchar2" MaxLength="200" />
@@ -755,6 +844,36 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL_APS' no tien
           <Property Name="CINV_STCUMPLI2" Type="varchar2" MaxLength="1" />
           <Property Name="CINV_COMENCUMPLI2" Type="varchar2" MaxLength="200" />
           <Property Name="NOM_VIAJE" Type="varchar2" MaxLength="200" />
+          <Property Name="DURACION" Type="number" Precision="18" Scale="4" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'INDIGO.VW_PEDIDOS_APP' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="VW_PEDIDOS_APP">
+          <Key>
+            <PropertyRef Name="PED_ID" />
+            <PropertyRef Name="NOM_BODEGA" />
+            <PropertyRef Name="NOM_VIAJE" />
+          </Key>
+          <Property Name="PED_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="PED_FECHA" Type="date" />
+          <Property Name="PED_BOD" Type="varchar2" MaxLength="10" />
+          <Property Name="PED_VIAJE" Type="varchar2" MaxLength="10" />
+          <Property Name="PED_SUC" Type="varchar2" MaxLength="10" />
+          <Property Name="PED_SOL" Type="varchar2" MaxLength="10" />
+          <Property Name="PED_OBS" Type="varchar2" MaxLength="1000" />
+          <Property Name="PED_ST" Type="varchar2" MaxLength="5" />
+          <Property Name="OC_FECHA" Type="date" />
+          <Property Name="INV_FECHA" Type="date" />
+          <Property Name="PED_LOGIN" Type="varchar2" MaxLength="20" />
+          <Property Name="PED_FECTRAN" Type="date" />
+          <Property Name="PED_COM" Type="varchar2" MaxLength="2000" />
+          <Property Name="PED_FECAPRO" Type="date" />
+          <Property Name="NOM_BODEGA" Type="varchar2" MaxLength="200" Nullable="false" />
+          <Property Name="NOM_VIAJE" Type="varchar2" MaxLength="200" Nullable="false" />
+          <Property Name="NOM_SUCURSAL" Type="varchar2" MaxLength="100" />
+          <Property Name="NOM_EMPLEADO" Type="varchar2" MaxLength="101" />
+          <Property Name="ESTADO" Type="varchar2" MaxLength="9" />
+          <Property Name="COLOR" Type="varchar2" MaxLength="10" />
         </EntityType>
         <EntityContainer Name="ModelGeneralStoreContainer">
           <EntitySet Name="APP_LOGERROR" EntityType="Self.APP_LOGERROR" Schema="INDIGO" store:Type="Tables" />
@@ -767,7 +886,10 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL_APS' no tien
           <EntitySet Name="TBCINV" EntityType="Self.TBCINV" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="TBCINV_APP_ORDENES_SALTADAS" EntityType="Self.TBCINV_APP_ORDENES_SALTADAS" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="TBCINV_APPCORREOS" EntityType="Self.TBCINV_APPCORREOS" Schema="INDIGO" store:Type="Tables" />
+          <EntitySet Name="TBCINV_FILTROS_APP" EntityType="Self.TBCINV_FILTROS_APP" Schema="INDIGO" store:Type="Tables" />
+          <EntitySet Name="TBCPED" EntityType="Self.TBCPED" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="TBDINV" EntityType="Self.TBDINV" Schema="INDIGO" store:Type="Tables" />
+          <EntitySet Name="TBDPED" EntityType="Self.TBDPED" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="TBNOM_EMPLEADO" EntityType="Self.TBNOM_EMPLEADO" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="TBNOM_ORDEN_NOMINA_CAB" EntityType="Self.TBNOM_ORDEN_NOMINA_CAB" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="TBNOM_ORDEN_NOMINA_DET" EntityType="Self.TBNOM_ORDEN_NOMINA_DET" Schema="INDIGO" store:Type="Tables" />
@@ -801,8 +923,8 @@ FROM "INDIGO"."SUCURSAL" "SUCURSAL"</DefiningQuery>
 "VW_BITACORAS_APP"."NUMERO_ORDEN" AS "NUMERO_ORDEN", 
 "VW_BITACORAS_APP"."VALOR" AS "VALOR", 
 "VW_BITACORAS_APP"."CUMPLIMIENTO" AS "CUMPLIMIENTO", 
-"VW_BITACORAS_APP"."STCUMPLI1" AS "STCUMPLI1", 
-"VW_BITACORAS_APP"."STCUMPLI2" AS "STCUMPLI2", 
+"VW_BITACORAS_APP"."CINV_STCUMPLI1" AS "CINV_STCUMPLI1", 
+"VW_BITACORAS_APP"."CINV_STCUMPLI2" AS "CINV_STCUMPLI2", 
 "VW_BITACORAS_APP"."STORDEN" AS "STORDEN", 
 "VW_BITACORAS_APP"."LINEA_STCUMPLI1" AS "LINEA_STCUMPLI1", 
 "VW_BITACORAS_APP"."LINEA_STCUMPLI2" AS "LINEA_STCUMPLI2", 
@@ -811,7 +933,11 @@ FROM "INDIGO"."SUCURSAL" "SUCURSAL"</DefiningQuery>
 "VW_BITACORAS_APP"."ST_EMPLEADO" AS "ST_EMPLEADO", 
 "VW_BITACORAS_APP"."FECHA_ARRIBO" AS "FECHA_ARRIBO", 
 "VW_BITACORAS_APP"."FECHA_ZARPE" AS "FECHA_ZARPE", 
-"VW_BITACORAS_APP"."FECHA_ZARPE_REAL" AS "FECHA_ZARPE_REAL"
+"VW_BITACORAS_APP"."FECHA_ZARPE_REAL" AS "FECHA_ZARPE_REAL", 
+"VW_BITACORAS_APP"."DURACION" AS "DURACION", 
+"VW_BITACORAS_APP"."FECHA_OT" AS "FECHA_OT", 
+"VW_BITACORAS_APP"."TIPO" AS "TIPO", 
+"VW_BITACORAS_APP"."CINV_ST" AS "CINV_ST"
 FROM "INDIGO"."VW_BITACORAS_APP" "VW_BITACORAS_APP"</DefiningQuery>
           </EntitySet>
           <EntitySet Name="VW_BITACORAS_CUMPLIMIENTO_APP" EntityType="Self.VW_BITACORAS_CUMPLIMIENTO_APP" store:Type="Views" store:Schema="INDIGO">
@@ -829,6 +955,36 @@ FROM "INDIGO"."VW_BITACORAS_APP" "VW_BITACORAS_APP"</DefiningQuery>
 "VW_BITACORAS_CUMPLIMIENTO_APP"."STCUMPLI_TOTAL" AS "STCUMPLI_TOTAL", 
 "VW_BITACORAS_CUMPLIMIENTO_APP"."STCUMPLI_APRO" AS "STCUMPLI_APRO"
 FROM "INDIGO"."VW_BITACORAS_CUMPLIMIENTO_APP" "VW_BITACORAS_CUMPLIMIENTO_APP"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_BITACORAS2_APP" EntityType="Self.VW_BITACORAS2_APP" store:Type="Views" store:Schema="INDIGO">
+            <DefiningQuery>SELECT 
+"VW_BITACORAS2_APP"."ID" AS "ID", 
+"VW_BITACORAS2_APP"."LINEA" AS "LINEA", 
+"VW_BITACORAS2_APP"."LINEA_DETALLE" AS "LINEA_DETALLE", 
+"VW_BITACORAS2_APP"."NUMERO_ORDEN" AS "NUMERO_ORDEN", 
+"VW_BITACORAS2_APP"."VALOR" AS "VALOR", 
+"VW_BITACORAS2_APP"."CUMPLIMIENTO" AS "CUMPLIMIENTO", 
+"VW_BITACORAS2_APP"."EMPRESA" AS "EMPRESA", 
+"VW_BITACORAS2_APP"."TIPO" AS "TIPO", 
+"VW_BITACORAS2_APP"."CINV_NUM" AS "CINV_NUM", 
+"VW_BITACORAS2_APP"."NOMPROVEEDOR" AS "NOMPROVEEDOR", 
+"VW_BITACORAS2_APP"."CINV_COM1" AS "CINV_COM1", 
+"VW_BITACORAS2_APP"."ESTADO" AS "ESTADO", 
+"VW_BITACORAS2_APP"."COLOR_ESTADO" AS "COLOR_ESTADO"
+FROM "INDIGO"."VW_BITACORAS2_APP" "VW_BITACORAS2_APP"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_FILTROS_APP" EntityType="Self.VW_FILTROS_APP" store:Type="Views" store:Schema="INDIGO">
+            <DefiningQuery>SELECT 
+"VW_FILTROS_APP"."USUARIO" AS "USUARIO", 
+"VW_FILTROS_APP"."BARCO" AS "BARCO", 
+"VW_FILTROS_APP"."VIAJE" AS "VIAJE", 
+"VW_FILTROS_APP"."SOLICITANTE" AS "SOLICITANTE", 
+"VW_FILTROS_APP"."BODEGA" AS "BODEGA", 
+"VW_FILTROS_APP"."NOMBREBARCO" AS "NOMBREBARCO", 
+"VW_FILTROS_APP"."NOMBREVIAJE" AS "NOMBREVIAJE", 
+"VW_FILTROS_APP"."NOMBRESOLICITANTE" AS "NOMBRESOLICITANTE", 
+"VW_FILTROS_APP"."NOMBREBODEGA" AS "NOMBREBODEGA"
+FROM "INDIGO"."VW_FILTROS_APP" "VW_FILTROS_APP"</DefiningQuery>
           </EntitySet>
           <EntitySet Name="VW_ORDENES_NOMINA_APP" EntityType="Self.VW_ORDENES_NOMINA_APP" store:Type="Views" store:Schema="INDIGO">
             <DefiningQuery>SELECT 
@@ -943,7 +1099,9 @@ FROM "INDIGO"."VW_ORDENES_NOMINA_APP" "VW_ORDENES_NOMINA_APP"</DefiningQuery>
 "VW_ORDENES_TRABAJO_APP"."DINV_VTA" AS "DINV_VTA", 
 "VW_ORDENES_TRABAJO_APP"."TELEFONOS" AS "TELEFONOS", 
 "VW_ORDENES_TRABAJO_APP"."DETALLE_ORDEN" AS "DETALLE_ORDEN", 
-"VW_ORDENES_TRABAJO_APP"."DINV_ICE" AS "DINV_ICE"
+"VW_ORDENES_TRABAJO_APP"."DINV_ICE" AS "DINV_ICE", 
+"VW_ORDENES_TRABAJO_APP"."DURACION" AS "DURACION", 
+"VW_ORDENES_TRABAJO_APP"."DINV_ST" AS "DINV_ST"
 FROM "INDIGO"."VW_ORDENES_TRABAJO_APP" "VW_ORDENES_TRABAJO_APP"</DefiningQuery>
           </EntitySet>
           <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL_APP" EntityType="Self.VW_ORDENES_TRABAJO_TOTAL_APP" store:Type="Views" store:Schema="INDIGO">
@@ -1000,7 +1158,8 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_APP" "VW_ORDENES_TRABAJO_APP"</DefiningQuery>
 "VW_ORDENES_TRABAJO_TOTAL_APP"."CINV_COMENCUMPLI1" AS "CINV_COMENCUMPLI1", 
 "VW_ORDENES_TRABAJO_TOTAL_APP"."CINV_STCUMPLI2" AS "CINV_STCUMPLI2", 
 "VW_ORDENES_TRABAJO_TOTAL_APP"."CINV_COMENCUMPLI2" AS "CINV_COMENCUMPLI2", 
-"VW_ORDENES_TRABAJO_TOTAL_APP"."NOM_VIAJE" AS "NOM_VIAJE"
+"VW_ORDENES_TRABAJO_TOTAL_APP"."NOM_VIAJE" AS "NOM_VIAJE", 
+"VW_ORDENES_TRABAJO_TOTAL_APP"."DURACION" AS "DURACION"
 FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</DefiningQuery>
           </EntitySet>
           <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL_APS" EntityType="Self.VW_ORDENES_TRABAJO_TOTAL_APS" store:Type="Views" store:Schema="INDIGO">
@@ -1057,8 +1216,33 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
 "VW_ORDENES_TRABAJO_TOTAL_APS"."CINV_COMENCUMPLI1" AS "CINV_COMENCUMPLI1", 
 "VW_ORDENES_TRABAJO_TOTAL_APS"."CINV_STCUMPLI2" AS "CINV_STCUMPLI2", 
 "VW_ORDENES_TRABAJO_TOTAL_APS"."CINV_COMENCUMPLI2" AS "CINV_COMENCUMPLI2", 
-"VW_ORDENES_TRABAJO_TOTAL_APS"."NOM_VIAJE" AS "NOM_VIAJE"
+"VW_ORDENES_TRABAJO_TOTAL_APS"."NOM_VIAJE" AS "NOM_VIAJE", 
+"VW_ORDENES_TRABAJO_TOTAL_APS"."DURACION" AS "DURACION"
 FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VW_PEDIDOS_APP" EntityType="Self.VW_PEDIDOS_APP" store:Type="Views" store:Schema="INDIGO">
+            <DefiningQuery>SELECT 
+"VW_PEDIDOS_APP"."PED_ID" AS "PED_ID", 
+"VW_PEDIDOS_APP"."PED_FECHA" AS "PED_FECHA", 
+"VW_PEDIDOS_APP"."PED_BOD" AS "PED_BOD", 
+"VW_PEDIDOS_APP"."PED_VIAJE" AS "PED_VIAJE", 
+"VW_PEDIDOS_APP"."PED_SUC" AS "PED_SUC", 
+"VW_PEDIDOS_APP"."PED_SOL" AS "PED_SOL", 
+"VW_PEDIDOS_APP"."PED_OBS" AS "PED_OBS", 
+"VW_PEDIDOS_APP"."PED_ST" AS "PED_ST", 
+"VW_PEDIDOS_APP"."OC_FECHA" AS "OC_FECHA", 
+"VW_PEDIDOS_APP"."INV_FECHA" AS "INV_FECHA", 
+"VW_PEDIDOS_APP"."PED_LOGIN" AS "PED_LOGIN", 
+"VW_PEDIDOS_APP"."PED_FECTRAN" AS "PED_FECTRAN", 
+"VW_PEDIDOS_APP"."PED_COM" AS "PED_COM", 
+"VW_PEDIDOS_APP"."PED_FECAPRO" AS "PED_FECAPRO", 
+"VW_PEDIDOS_APP"."NOM_BODEGA" AS "NOM_BODEGA", 
+"VW_PEDIDOS_APP"."NOM_VIAJE" AS "NOM_VIAJE", 
+"VW_PEDIDOS_APP"."NOM_SUCURSAL" AS "NOM_SUCURSAL", 
+"VW_PEDIDOS_APP"."NOM_EMPLEADO" AS "NOM_EMPLEADO", 
+"VW_PEDIDOS_APP"."ESTADO" AS "ESTADO", 
+"VW_PEDIDOS_APP"."COLOR" AS "COLOR"
+FROM "INDIGO"."VW_PEDIDOS_APP" "VW_PEDIDOS_APP"</DefiningQuery>
           </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -1068,12 +1252,9 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
         <EntityContainer Name="EntitiesGeneral" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="APP_LOGERROR" EntityType="ModelGeneral.APP_LOGERROR" />
           <EntitySet Name="ARINDEX" EntityType="ModelGeneral.ARINDEX" />
-          <EntitySet Name="ARPROVEEDOR" EntityType="ModelGeneral.ARPROVEEDOR" />
           <EntitySet Name="CAB_BITACORA" EntityType="ModelGeneral.CAB_BITACORA" />
           <EntitySet Name="DET_BITACORA" EntityType="ModelGeneral.DET_BITACORA" />
-          <EntitySet Name="DET_BITACORA2" EntityType="ModelGeneral.DET_BITACORA2" />
           <EntitySet Name="TBBI_SECDOC" EntityType="ModelGeneral.TBBI_SECDOC" />
-          <EntitySet Name="TBCINV" EntityType="ModelGeneral.TBCINV" />
           <EntitySet Name="TBCINV_APP_ORDENES_SALTADAS" EntityType="ModelGeneral.TBCINV_APP_ORDENES_SALTADAS" />
           <EntitySet Name="TBCINV_APPCORREOS" EntityType="ModelGeneral.TBCINV_APPCORREOS" />
           <EntitySet Name="TBDINV" EntityType="ModelGeneral.TBDINV" />
@@ -1082,13 +1263,22 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <EntitySet Name="USUARIOS_MENU_APP" EntityType="ModelGeneral.USUARIOS_MENU_APP" />
           <EntitySet Name="SUCURSAL" EntityType="ModelGeneral.SUCURSAL" />
           <EntitySet Name="VW_ORDENES_NOMINA_APP" EntityType="ModelGeneral.VW_ORDENES_NOMINA_APP" />
-          <EntitySet Name="VW_ORDENES_TRABAJO_APP" EntityType="ModelGeneral.VW_ORDENES_TRABAJO_APP" />
-          <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL_APP" EntityType="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APP" />
-          <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL_APS" EntityType="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APS" />
           <EntitySet Name="TBNOM_ORDEN_NOMINA_CAB" EntityType="ModelGeneral.TBNOM_ORDEN_NOMINA_CAB" />
           <EntitySet Name="TBNOM_ORDEN_NOMINA_DET" EntityType="ModelGeneral.TBNOM_ORDEN_NOMINA_DET" />
-          <EntitySet Name="VW_BITACORAS_APP" EntityType="ModelGeneral.VW_BITACORAS_APP" />
           <EntitySet Name="VW_BITACORAS_CUMPLIMIENTO_APP" EntityType="ModelGeneral.VW_BITACORAS_CUMPLIMIENTO_APP" />
+          <EntitySet Name="ARPROVEEDOR" EntityType="ModelGeneral.ARPROVEEDOR" />
+          <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL_APP" EntityType="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APP" />
+          <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL_APS" EntityType="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APS" />
+          <EntitySet Name="VW_ORDENES_TRABAJO_APP" EntityType="ModelGeneral.VW_ORDENES_TRABAJO_APP" />
+          <EntitySet Name="TBCINV" EntityType="ModelGeneral.TBCINV" />
+          <EntitySet Name="TBDPED" EntityType="ModelGeneral.TBDPED" />
+          <EntitySet Name="DET_BITACORA2" EntityType="ModelGeneral.DET_BITACORA2" />
+          <EntitySet Name="VW_BITACORAS2_APP" EntityType="ModelGeneral.VW_BITACORAS2_APP" />
+          <EntitySet Name="VW_BITACORAS_APP" EntityType="ModelGeneral.VW_BITACORAS_APP" />
+          <EntitySet Name="TBCPED" EntityType="ModelGeneral.TBCPED" />
+          <EntitySet Name="TBCINV_FILTROS_APP" EntityType="ModelGeneral.TBCINV_FILTROS_APP" />
+          <EntitySet Name="VW_FILTROS_APP" EntityType="ModelGeneral.VW_FILTROS_APP" />
+          <EntitySet Name="VW_PEDIDOS_APP" EntityType="ModelGeneral.VW_PEDIDOS_APP" />
         </EntityContainer>
         <EntityType Name="APP_LOGERROR">
           <Key>
@@ -1124,41 +1314,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="EMPRESA" Type="Int16" Nullable="false" />
           <Property Name="COD_UND_CAE" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="ARPROVEEDOR">
-          <Key>
-            <PropertyRef Name="CODIGO" />
-          </Key>
-          <Property Name="CODIGO" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="NOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CEDULA" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="RUC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
-          <Property Name="DOMICILIO" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
-          <Property Name="TELEFONOS" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="DATA" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CIUDAD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="FECHA_ULTMOD" Type="DateTime" />
-          <Property Name="FEC_APERTURA" Type="DateTime" />
-          <Property Name="ESTADO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="FECHA_STATUS" Type="DateTime" />
-          <Property Name="FEC_ULTCOMP" Type="DateTime" />
-          <Property Name="EXENTO_IVA" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="APELLIDO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="COMENTARIO" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
-          <Property Name="SALDO_COMPRAS" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="CUPO_COMPRAS" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="CUPOMES_COMPRAS" Type="Decimal" Precision="15" Scale="4" />
-          <Property Name="DESCUENTO" Type="Decimal" Precision="15" Scale="4" />
-          <Property Name="CODIGO_NUM" Type="Int64" />
-          <Property Name="CODIGO1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="SALDOD_COMPRAS" Type="Decimal" Precision="18" Scale="4" />
-          <Property Name="STATUS" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="PAIS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CTACONTABLE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="DATAZO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CODIGOZO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="E_MAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CONTACTO" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="CAB_BITACORA">
           <Key>
             <PropertyRef Name="ID" />
@@ -1193,20 +1348,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="LINEA_FECCUMPLI1" Type="DateTime" />
           <Property Name="LINEA_FECCUMPLI2" Type="DateTime" />
         </EntityType>
-        <EntityType Name="DET_BITACORA2">
-          <Key>
-            <PropertyRef Name="ID" />
-            <PropertyRef Name="LINEA" />
-            <PropertyRef Name="LINEA_DETALLE" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="LINEA" Type="Int16" Nullable="false" />
-          <Property Name="LINEA_DETALLE" Type="Int16" Nullable="false" />
-          <Property Name="NUMERO_ORDEN" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="VALOR" Type="Decimal" Precision="19" Scale="2" />
-          <Property Name="CUMPLIMIENTO" Type="Int16" />
-          <Property Name="EMPRESA" Type="Int16" />
-        </EntityType>
         <EntityType Name="TBBI_SECDOC">
           <Key>
             <PropertyRef Name="DOC_CIA" />
@@ -1218,54 +1359,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="DOC_SGL" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
           <Property Name="DOC_NUM" Type="Int32" Nullable="false" />
           <Property Name="DOC_TIPO" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-        </EntityType>
-        <EntityType Name="TBCINV">
-          <Key>
-            <PropertyRef Name="CINV_SEC" />
-          </Key>
-          <Property Name="CINV_SEC" Type="Int32" Nullable="false" />
-          <Property Name="CINV_TDOC" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NUM" Type="Int32" Nullable="false" />
-          <Property Name="CINV_BOD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TBOD" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_REF" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_FECING" Type="DateTime" Nullable="false" />
-          <Property Name="CINV_ID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NOMID" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_DSC" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="CINV_COM1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TASA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="CINV_LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TDIV" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="EMPRESA" Type="Int16" Nullable="false" />
-          <Property Name="DATATR" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CODIGOTR" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NOTA" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_FPAGO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_HORA" Type="DateTime" />
-          <Property Name="CINV_TIPRECIO" Type="Int16" />
-          <Property Name="CINV_FECAPRUEBA" Type="DateTime" />
-          <Property Name="CINV_FECLLEGADA" Type="DateTime" />
-          <Property Name="CINV_FECEMBARQUE" Type="DateTime" />
-          <Property Name="CINV_FECDESADUA" Type="DateTime" />
-          <Property Name="CINV_MOTIVOANULA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_PROVISION" Type="Int32" />
-          <Property Name="CINV_COM5" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM6" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM7" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_DETAPAGO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COMENCUMPLI1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COMENCUMPLI2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_FECCUMPLI1" Type="DateTime" />
-          <Property Name="CINV_FECCUMPLI2" Type="DateTime" />
-          <Property Name="CINV_LOGINCUMPLI1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_LOGINCUMPLI2" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TBCINV_APP_ORDENES_SALTADAS">
           <Key>
@@ -1325,6 +1418,8 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="BODEGA3" Type="Int32" />
           <Property Name="DINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="DINV_OC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PED_ID" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="PED_LINEA" Type="Decimal" Precision="38" Scale="0" />
         </EntityType>
         <EntityType Name="TBNOM_EMPLEADO">
           <Key>
@@ -1490,209 +1585,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="CINV_STREFER" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="CINV_COMREFER" Type="String" MaxLength="401" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="VW_ORDENES_TRABAJO_APP">
-          <Key>
-            <PropertyRef Name="CINV_SEC" />
-            <PropertyRef Name="CINV_NUM" />
-            <PropertyRef Name="CINV_FECING" />
-            <PropertyRef Name="CINV_TASA" />
-            <PropertyRef Name="EMPRESA" />
-            <PropertyRef Name="DINV_LINEA" />
-            <PropertyRef Name="DINV_CANT" />
-            <PropertyRef Name="DINV_COS" />
-            <PropertyRef Name="DINV_IVA" />
-            <PropertyRef Name="DINV_DSC" />
-            <PropertyRef Name="DINV_PRCT_DSC" />
-            <PropertyRef Name="DINV_VTA" />
-          </Key>
-          <Property Name="CINV_SEC" Type="Int32" Nullable="false" />
-          <Property Name="CINV_TDOC" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NUM" Type="Int32" Nullable="false" />
-          <Property Name="CINV_BOD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TBOD" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_REF" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_FECING" Type="DateTime" Nullable="false" />
-          <Property Name="CINV_ID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NOMID" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_DSC" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="CINV_COM1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TASA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="CINV_LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TDIV" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="EMPRESA" Type="Int16" Nullable="false" />
-          <Property Name="DATATR" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CODIGOTR" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NOTA" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_FPAGO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_HORA" Type="DateTime" />
-          <Property Name="CINV_TIPRECIO" Type="Int16" />
-          <Property Name="CINV_FECAPRUEBA" Type="DateTime" />
-          <Property Name="CINV_FECLLEGADA" Type="DateTime" />
-          <Property Name="CINV_FECEMBARQUE" Type="DateTime" />
-          <Property Name="CINV_FECDESADUA" Type="DateTime" />
-          <Property Name="CINV_MOTIVOANULA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="DINV_LINEA" Type="Int16" Nullable="false" />
-          <Property Name="DINV_DETALLEDSCTO" Type="String" MaxLength="286" FixedLength="false" Unicode="false" />
-          <Property Name="DINV_DETALLEADVAL1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="DINV_DETALLEADVAL2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="DINV_DETALLEADVAL3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="DINV_DETALLEADVAL4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CODIGO1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="NOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="APELLIDO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="RUC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
-          <Property Name="CEDULA" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="DOMICILIO" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_EMPLEADO" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
-          <Property Name="CENTRO_COSTO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_BODEGA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM5" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM6" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM7" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_DETAPAGO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="UNIDAD" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="DINV_CANT" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="DINV_COS" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="DINV_PRECIO_REAL" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="DINV_IVA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="DINV_DSC" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="DINV_PRCT_DSC" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="DINV_VTA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="TELEFONOS" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
-          <Property Name="DETALLE_ORDEN" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="DINV_ICE" Type="Decimal" Precision="19" Scale="4" />
-        </EntityType>
-        <EntityType Name="VW_ORDENES_TRABAJO_TOTAL_APP">
-          <Key>
-            <PropertyRef Name="CINV_SEC" />
-            <PropertyRef Name="CINV_NUM" />
-            <PropertyRef Name="CINV_FECING" />
-            <PropertyRef Name="CINV_TASA" />
-            <PropertyRef Name="EMPRESA" />
-          </Key>
-          <Property Name="CINV_SEC" Type="Int32" Nullable="false" />
-          <Property Name="CINV_TDOC" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NUM" Type="Int32" Nullable="false" />
-          <Property Name="CINV_BOD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TBOD" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_REF" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_FECING" Type="DateTime" Nullable="false" />
-          <Property Name="CINV_ID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NOMID" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_DSC" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="CINV_COM1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TASA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="CINV_LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TDIV" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="EMPRESA" Type="Int16" Nullable="false" />
-          <Property Name="DATATR" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CODIGOTR" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NOTA" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_FPAGO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_HORA" Type="DateTime" />
-          <Property Name="CINV_TIPRECIO" Type="Int16" />
-          <Property Name="CINV_FECAPRUEBA" Type="DateTime" />
-          <Property Name="CINV_FECLLEGADA" Type="DateTime" />
-          <Property Name="CINV_FECEMBARQUE" Type="DateTime" />
-          <Property Name="CINV_FECDESADUA" Type="DateTime" />
-          <Property Name="CINV_MOTIVOANULA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_PROVISION" Type="Int32" />
-          <Property Name="CODIGO1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="NOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="APELLIDO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="RUC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
-          <Property Name="CEDULA" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="DOMICILIO" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
-          <Property Name="E_MAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_BODEGA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_CENTROCOSTO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CORREO_CENTROCOSTO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CORREO_CENTROCOSTO2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_SOLICITADO" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
-          <Property Name="CORREO_SOLICITADO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="VALOR_OC" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="CINV_COM5" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM6" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM7" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COMENCUMPLI1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COMENCUMPLI2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="VW_ORDENES_TRABAJO_TOTAL_APS">
-          <Key>
-            <PropertyRef Name="CINV_SEC" />
-            <PropertyRef Name="CINV_NUM" />
-            <PropertyRef Name="CINV_FECING" />
-            <PropertyRef Name="CINV_TASA" />
-            <PropertyRef Name="EMPRESA" />
-          </Key>
-          <Property Name="CINV_SEC" Type="Int32" Nullable="false" />
-          <Property Name="CINV_TDOC" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NUM" Type="Int32" Nullable="false" />
-          <Property Name="CINV_BOD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TBOD" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_REF" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_FECING" Type="DateTime" Nullable="false" />
-          <Property Name="CINV_ID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NOMID" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_DSC" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="CINV_COM1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TASA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="CINV_LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_TDIV" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="EMPRESA" Type="Int16" Nullable="false" />
-          <Property Name="DATATR" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CODIGOTR" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_NOTA" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_FPAGO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_HORA" Type="DateTime" />
-          <Property Name="CINV_TIPRECIO" Type="Int16" />
-          <Property Name="CINV_FECAPRUEBA" Type="DateTime" />
-          <Property Name="CINV_FECLLEGADA" Type="DateTime" />
-          <Property Name="CINV_FECEMBARQUE" Type="DateTime" />
-          <Property Name="CINV_FECDESADUA" Type="DateTime" />
-          <Property Name="CINV_MOTIVOANULA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_PROVISION" Type="Int32" />
-          <Property Name="CODIGO1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="NOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="APELLIDO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="RUC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
-          <Property Name="CEDULA" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="DOMICILIO" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
-          <Property Name="E_MAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_BODEGA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_CENTROCOSTO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CORREO_CENTROCOSTO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="CORREO_CENTROCOSTO2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_SOLICITADO" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
-          <Property Name="CORREO_SOLICITADO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="VALOR_OC" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="CINV_COM5" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM6" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COM7" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COMENCUMPLI1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="CINV_COMENCUMPLI2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="TBNOM_ORDEN_NOMINA_CAB">
           <Key>
             <PropertyRef Name="CINV_SEC" />
@@ -1776,39 +1668,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="DINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="DINV_OC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="VW_BITACORAS_APP">
-          <Key>
-            <PropertyRef Name="ID" />
-            <PropertyRef Name="LINEA" />
-          </Key>
-          <Property Name="EMPRESA" Type="Int16" />
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="VIAJE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="FECINGRESO" Type="DateTime" />
-          <Property Name="BARCO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="NOM_BARCO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="ESTADO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="LINEA" Type="Int16" Nullable="false" />
-          <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="CONTRATISTA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="LINEA_DETALLE" Type="Int16" />
-          <Property Name="NUMERO_ORDEN" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="VALOR" Type="Decimal" Precision="19" Scale="2" />
-          <Property Name="CUMPLIMIENTO" Type="Int16" />
-          <Property Name="STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="STORDEN" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="LINEA_STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="LINEA_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="LINEA_FECCUMPLI1" Type="DateTime" />
-          <Property Name="LINEA_FECCUMPLI2" Type="DateTime" />
-          <Property Name="ST_EMPLEADO" Type="Int16" />
-          <Property Name="FECHA_ARRIBO" Type="DateTime" />
-          <Property Name="FECHA_ZARPE" Type="DateTime" />
-          <Property Name="FECHA_ZARPE_REAL" Type="DateTime" />
-        </EntityType>
         <EntityType Name="VW_BITACORAS_CUMPLIMIENTO_APP">
           <Key>
             <PropertyRef Name="ID" />
@@ -1826,6 +1685,450 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <Property Name="STCUMPLI_SUP" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="STCUMPLI_TOTAL" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="STCUMPLI_APRO" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="ARPROVEEDOR">
+          <Key>
+            <PropertyRef Name="CODIGO" />
+          </Key>
+          <Property Name="CODIGO" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CEDULA" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="RUC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="DOMICILIO" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="TELEFONOS" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="DATA" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CIUDAD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_ULTMOD" Type="DateTime" />
+          <Property Name="FEC_APERTURA" Type="DateTime" />
+          <Property Name="ESTADO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_STATUS" Type="DateTime" />
+          <Property Name="FEC_ULTCOMP" Type="DateTime" />
+          <Property Name="EXENTO_IVA" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="APELLIDO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="COMENTARIO" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+          <Property Name="SALDO_COMPRAS" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="CUPO_COMPRAS" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="CUPOMES_COMPRAS" Type="Decimal" Precision="15" Scale="4" />
+          <Property Name="DESCUENTO" Type="Decimal" Precision="15" Scale="4" />
+          <Property Name="CODIGO_NUM" Type="Int64" />
+          <Property Name="CODIGO1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="SALDOD_COMPRAS" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="STATUS" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="PAIS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CTACONTABLE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="DATAZO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CODIGOZO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="E_MAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CONTACTO" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="DURACION" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="USUARIO_ULTMOD" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="VW_ORDENES_TRABAJO_TOTAL_APP">
+          <Key>
+            <PropertyRef Name="CINV_SEC" />
+            <PropertyRef Name="CINV_NUM" />
+            <PropertyRef Name="CINV_FECING" />
+            <PropertyRef Name="CINV_TASA" />
+            <PropertyRef Name="EMPRESA" />
+          </Key>
+          <Property Name="CINV_SEC" Type="Int32" Nullable="false" />
+          <Property Name="CINV_TDOC" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NUM" Type="Int32" Nullable="false" />
+          <Property Name="CINV_BOD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TBOD" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_REF" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_FECING" Type="DateTime" Nullable="false" />
+          <Property Name="CINV_ID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NOMID" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_DSC" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CINV_COM1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TASA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="CINV_LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TDIV" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPRESA" Type="Int16" Nullable="false" />
+          <Property Name="DATATR" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CODIGOTR" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NOTA" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_FPAGO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_HORA" Type="DateTime" />
+          <Property Name="CINV_TIPRECIO" Type="Int16" />
+          <Property Name="CINV_FECAPRUEBA" Type="DateTime" />
+          <Property Name="CINV_FECLLEGADA" Type="DateTime" />
+          <Property Name="CINV_FECEMBARQUE" Type="DateTime" />
+          <Property Name="CINV_FECDESADUA" Type="DateTime" />
+          <Property Name="CINV_MOTIVOANULA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_PROVISION" Type="Int32" />
+          <Property Name="CODIGO1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="APELLIDO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="RUC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="CEDULA" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="DOMICILIO" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="E_MAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_BODEGA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_CENTROCOSTO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CORREO_CENTROCOSTO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CORREO_CENTROCOSTO2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_SOLICITADO" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
+          <Property Name="CORREO_SOLICITADO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="VALOR_OC" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="CINV_COM5" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM6" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM7" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COMENCUMPLI1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COMENCUMPLI2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DURACION" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="VW_ORDENES_TRABAJO_TOTAL_APS">
+          <Key>
+            <PropertyRef Name="CINV_SEC" />
+            <PropertyRef Name="CINV_NUM" />
+            <PropertyRef Name="CINV_FECING" />
+            <PropertyRef Name="CINV_TASA" />
+            <PropertyRef Name="EMPRESA" />
+          </Key>
+          <Property Name="CINV_SEC" Type="Int32" Nullable="false" />
+          <Property Name="CINV_TDOC" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NUM" Type="Int32" Nullable="false" />
+          <Property Name="CINV_BOD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TBOD" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_REF" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_FECING" Type="DateTime" Nullable="false" />
+          <Property Name="CINV_ID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NOMID" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_DSC" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CINV_COM1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TASA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="CINV_LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TDIV" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPRESA" Type="Int16" Nullable="false" />
+          <Property Name="DATATR" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CODIGOTR" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NOTA" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_FPAGO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_HORA" Type="DateTime" />
+          <Property Name="CINV_TIPRECIO" Type="Int16" />
+          <Property Name="CINV_FECAPRUEBA" Type="DateTime" />
+          <Property Name="CINV_FECLLEGADA" Type="DateTime" />
+          <Property Name="CINV_FECEMBARQUE" Type="DateTime" />
+          <Property Name="CINV_FECDESADUA" Type="DateTime" />
+          <Property Name="CINV_MOTIVOANULA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_PROVISION" Type="Int32" />
+          <Property Name="CODIGO1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="APELLIDO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="RUC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="CEDULA" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="DOMICILIO" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="E_MAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_BODEGA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_CENTROCOSTO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CORREO_CENTROCOSTO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CORREO_CENTROCOSTO2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_SOLICITADO" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
+          <Property Name="CORREO_SOLICITADO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="VALOR_OC" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="CINV_COM5" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM6" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM7" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COMENCUMPLI1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COMENCUMPLI2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DURACION" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="VW_ORDENES_TRABAJO_APP">
+          <Key>
+            <PropertyRef Name="CINV_SEC" />
+            <PropertyRef Name="CINV_NUM" />
+            <PropertyRef Name="CINV_FECING" />
+            <PropertyRef Name="CINV_TASA" />
+            <PropertyRef Name="EMPRESA" />
+            <PropertyRef Name="DINV_LINEA" />
+            <PropertyRef Name="DINV_CANT" />
+            <PropertyRef Name="DINV_COS" />
+            <PropertyRef Name="DINV_IVA" />
+            <PropertyRef Name="DINV_DSC" />
+            <PropertyRef Name="DINV_PRCT_DSC" />
+            <PropertyRef Name="DINV_VTA" />
+          </Key>
+          <Property Name="CINV_SEC" Type="Int32" Nullable="false" />
+          <Property Name="CINV_TDOC" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NUM" Type="Int32" Nullable="false" />
+          <Property Name="CINV_BOD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TBOD" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_REF" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_FECING" Type="DateTime" Nullable="false" />
+          <Property Name="CINV_ID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NOMID" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_DSC" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CINV_COM1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TASA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="CINV_LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TDIV" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPRESA" Type="Int16" Nullable="false" />
+          <Property Name="DATATR" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CODIGOTR" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NOTA" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_FPAGO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_HORA" Type="DateTime" />
+          <Property Name="CINV_TIPRECIO" Type="Int16" />
+          <Property Name="CINV_FECAPRUEBA" Type="DateTime" />
+          <Property Name="CINV_FECLLEGADA" Type="DateTime" />
+          <Property Name="CINV_FECEMBARQUE" Type="DateTime" />
+          <Property Name="CINV_FECDESADUA" Type="DateTime" />
+          <Property Name="CINV_MOTIVOANULA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_LINEA" Type="Int16" Nullable="false" />
+          <Property Name="DINV_DETALLEDSCTO" Type="String" MaxLength="286" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_DETALLEADVAL1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_DETALLEADVAL2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_DETALLEADVAL3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_DETALLEADVAL4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CODIGO1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="APELLIDO" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="RUC" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="CEDULA" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="DOMICILIO" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_EMPLEADO" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
+          <Property Name="CENTRO_COSTO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_BODEGA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM5" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM6" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM7" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_DETAPAGO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="UNIDAD" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_CANT" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="DINV_COS" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="DINV_PRECIO_REAL" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DINV_IVA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="DINV_DSC" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="DINV_PRCT_DSC" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="DINV_VTA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="TELEFONOS" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="DETALLE_ORDEN" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DINV_ICE" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DURACION" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="DINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBCINV">
+          <Key>
+            <PropertyRef Name="CINV_SEC" />
+          </Key>
+          <Property Name="CINV_SEC" Type="Int32" Nullable="false" />
+          <Property Name="CINV_TDOC" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NUM" Type="Int32" Nullable="false" />
+          <Property Name="CINV_BOD" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TBOD" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_REF" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_FECING" Type="DateTime" Nullable="false" />
+          <Property Name="CINV_ID" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NOMID" Type="String" MaxLength="65" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_DSC" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CINV_COM1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM3" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM4" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TASA" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="CINV_LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TDIV" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="EMPRESA" Type="Int16" Nullable="false" />
+          <Property Name="DATATR" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CODIGOTR" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NOTA" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_FPAGO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_HORA" Type="DateTime" />
+          <Property Name="CINV_TIPRECIO" Type="Int16" />
+          <Property Name="CINV_FECAPRUEBA" Type="DateTime" />
+          <Property Name="CINV_FECLLEGADA" Type="DateTime" />
+          <Property Name="CINV_FECEMBARQUE" Type="DateTime" />
+          <Property Name="CINV_FECDESADUA" Type="DateTime" />
+          <Property Name="CINV_MOTIVOANULA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_PROVISION" Type="Int32" />
+          <Property Name="CINV_COM5" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM6" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM7" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_DETAPAGO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COMENCUMPLI1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COMENCUMPLI2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_FECCUMPLI1" Type="DateTime" />
+          <Property Name="CINV_FECCUMPLI2" Type="DateTime" />
+          <Property Name="CINV_LOGINCUMPLI1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_LOGINCUMPLI2" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DURACION" Type="Decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <EntityType Name="TBDPED">
+          <Key>
+            <PropertyRef Name="PED_ID" />
+            <PropertyRef Name="PED_SEC" />
+          </Key>
+          <Property Name="PED_ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="PED_SEC" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="PED_CANT" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="PED_DETALLE" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="DET_BITACORA2">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LINEA" />
+            <PropertyRef Name="LINEA_DETALLE" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="LINEA" Type="Int16" Nullable="false" />
+          <Property Name="LINEA_DETALLE" Type="Int16" Nullable="false" />
+          <Property Name="NUMERO_ORDEN" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="VALOR" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="CUMPLIMIENTO" Type="Int16" />
+          <Property Name="EMPRESA" Type="Int16" />
+          <Property Name="TIPO" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="VW_BITACORAS2_APP">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LINEA" />
+            <PropertyRef Name="LINEA_DETALLE" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="LINEA" Type="Int16" Nullable="false" />
+          <Property Name="LINEA_DETALLE" Type="Int16" Nullable="false" />
+          <Property Name="NUMERO_ORDEN" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="VALOR" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="CUMPLIMIENTO" Type="Int16" />
+          <Property Name="EMPRESA" Type="Int16" />
+          <Property Name="TIPO" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_NUM" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="NOMPROVEEDOR" Type="String" MaxLength="65" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_COM1" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="COLOR_ESTADO" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="VW_BITACORAS_APP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="EMPRESA" Type="Int16" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="VIAJE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FECINGRESO" Type="DateTime" />
+          <Property Name="BARCO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_BARCO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LINEA" Type="Int16" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CONTRATISTA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="LINEA_DETALLE" Type="Int16" />
+          <Property Name="NUMERO_ORDEN" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="VALOR" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="CUMPLIMIENTO" Type="Int16" />
+          <Property Name="CINV_STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="STORDEN" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LINEA_STCUMPLI1" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LINEA_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="LINEA_FECCUMPLI1" Type="DateTime" />
+          <Property Name="LINEA_FECCUMPLI2" Type="DateTime" />
+          <Property Name="ST_EMPLEADO" Type="Int16" />
+          <Property Name="FECHA_ARRIBO" Type="DateTime" />
+          <Property Name="FECHA_ZARPE" Type="DateTime" />
+          <Property Name="FECHA_ZARPE_REAL" Type="DateTime" />
+          <Property Name="DURACION" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FECHA_OT" Type="DateTime" />
+          <Property Name="TIPO" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TBCPED">
+          <Key>
+            <PropertyRef Name="PED_ID" />
+          </Key>
+          <Property Name="PED_ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="PED_FECHA" Type="DateTime" />
+          <Property Name="PED_BOD" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PED_VIAJE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PED_SUC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PED_SOL" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PED_OBS" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="PED_ST" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="OC_FECHA" Type="DateTime" />
+          <Property Name="INV_FECHA" Type="DateTime" />
+          <Property Name="PED_LOGIN" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PED_FECTRAN" Type="DateTime" />
+          <Property Name="PED_COM" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="PED_FECAPRO" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="TBCINV_FILTROS_APP">
+          <Key>
+            <PropertyRef Name="USUARIO" />
+          </Key>
+          <Property Name="USUARIO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BARCO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="VIAJE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SOLICITANTE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BODEGA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="VW_FILTROS_APP">
+          <Key>
+            <PropertyRef Name="USUARIO" />
+          </Key>
+          <Property Name="USUARIO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BARCO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="VIAJE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SOLICITANTE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BODEGA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBREBARCO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBREVIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBRESOLICITANTE" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
+          <Property Name="NOMBREBODEGA" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="VW_PEDIDOS_APP">
+          <Key>
+            <PropertyRef Name="PED_ID" />
+            <PropertyRef Name="NOM_BODEGA" />
+            <PropertyRef Name="NOM_VIAJE" />
+          </Key>
+          <Property Name="PED_ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="PED_FECHA" Type="DateTime" />
+          <Property Name="PED_BOD" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PED_VIAJE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PED_SUC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PED_SOL" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PED_OBS" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="PED_ST" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="OC_FECHA" Type="DateTime" />
+          <Property Name="INV_FECHA" Type="DateTime" />
+          <Property Name="PED_LOGIN" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PED_FECTRAN" Type="DateTime" />
+          <Property Name="PED_COM" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="PED_FECAPRO" Type="DateTime" />
+          <Property Name="NOM_BODEGA" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_VIAJE" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_SUCURSAL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="NOM_EMPLEADO" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="COLOR" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1867,42 +2170,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ARPROVEEDOR">
-            <EntityTypeMapping TypeName="ModelGeneral.ARPROVEEDOR">
-              <MappingFragment StoreEntitySet="ARPROVEEDOR">
-                <ScalarProperty Name="CONTACTO" ColumnName="CONTACTO" />
-                <ScalarProperty Name="E_MAIL" ColumnName="E_MAIL" />
-                <ScalarProperty Name="CODIGOZO" ColumnName="CODIGOZO" />
-                <ScalarProperty Name="DATAZO" ColumnName="DATAZO" />
-                <ScalarProperty Name="CTACONTABLE" ColumnName="CTACONTABLE" />
-                <ScalarProperty Name="PAIS" ColumnName="PAIS" />
-                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
-                <ScalarProperty Name="SALDOD_COMPRAS" ColumnName="SALDOD_COMPRAS" />
-                <ScalarProperty Name="CODIGO1" ColumnName="CODIGO1" />
-                <ScalarProperty Name="CODIGO_NUM" ColumnName="CODIGO_NUM" />
-                <ScalarProperty Name="DESCUENTO" ColumnName="DESCUENTO" />
-                <ScalarProperty Name="CUPOMES_COMPRAS" ColumnName="CUPOMES_COMPRAS" />
-                <ScalarProperty Name="CUPO_COMPRAS" ColumnName="CUPO_COMPRAS" />
-                <ScalarProperty Name="SALDO_COMPRAS" ColumnName="SALDO_COMPRAS" />
-                <ScalarProperty Name="COMENTARIO" ColumnName="COMENTARIO" />
-                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
-                <ScalarProperty Name="EXENTO_IVA" ColumnName="EXENTO_IVA" />
-                <ScalarProperty Name="FEC_ULTCOMP" ColumnName="FEC_ULTCOMP" />
-                <ScalarProperty Name="FECHA_STATUS" ColumnName="FECHA_STATUS" />
-                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
-                <ScalarProperty Name="FEC_APERTURA" ColumnName="FEC_APERTURA" />
-                <ScalarProperty Name="FECHA_ULTMOD" ColumnName="FECHA_ULTMOD" />
-                <ScalarProperty Name="CIUDAD" ColumnName="CIUDAD" />
-                <ScalarProperty Name="DATA" ColumnName="DATA" />
-                <ScalarProperty Name="TELEFONOS" ColumnName="TELEFONOS" />
-                <ScalarProperty Name="DOMICILIO" ColumnName="DOMICILIO" />
-                <ScalarProperty Name="RUC" ColumnName="RUC" />
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CAB_BITACORA">
             <EntityTypeMapping TypeName="ModelGeneral.CAB_BITACORA">
               <MappingFragment StoreEntitySet="CAB_BITACORA">
@@ -1938,19 +2205,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DET_BITACORA2">
-            <EntityTypeMapping TypeName="ModelGeneral.DET_BITACORA2">
-              <MappingFragment StoreEntitySet="DET_BITACORA2">
-                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
-                <ScalarProperty Name="CUMPLIMIENTO" ColumnName="CUMPLIMIENTO" />
-                <ScalarProperty Name="VALOR" ColumnName="VALOR" />
-                <ScalarProperty Name="NUMERO_ORDEN" ColumnName="NUMERO_ORDEN" />
-                <ScalarProperty Name="LINEA_DETALLE" ColumnName="LINEA_DETALLE" />
-                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TBBI_SECDOC">
             <EntityTypeMapping TypeName="ModelGeneral.TBBI_SECDOC">
               <MappingFragment StoreEntitySet="TBBI_SECDOC">
@@ -1959,55 +2213,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
                 <ScalarProperty Name="DOC_SGL" ColumnName="DOC_SGL" />
                 <ScalarProperty Name="DOC_BOD" ColumnName="DOC_BOD" />
                 <ScalarProperty Name="DOC_CIA" ColumnName="DOC_CIA" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TBCINV">
-            <EntityTypeMapping TypeName="ModelGeneral.TBCINV">
-              <MappingFragment StoreEntitySet="TBCINV">
-                <ScalarProperty Name="CINV_LOGINCUMPLI2" ColumnName="CINV_LOGINCUMPLI2" />
-                <ScalarProperty Name="CINV_LOGINCUMPLI1" ColumnName="CINV_LOGINCUMPLI1" />
-                <ScalarProperty Name="CINV_FECCUMPLI2" ColumnName="CINV_FECCUMPLI2" />
-                <ScalarProperty Name="CINV_FECCUMPLI1" ColumnName="CINV_FECCUMPLI1" />
-                <ScalarProperty Name="CINV_COMENCUMPLI2" ColumnName="CINV_COMENCUMPLI2" />
-                <ScalarProperty Name="CINV_STCUMPLI2" ColumnName="CINV_STCUMPLI2" />
-                <ScalarProperty Name="CINV_COMENCUMPLI1" ColumnName="CINV_COMENCUMPLI1" />
-                <ScalarProperty Name="CINV_STCUMPLI1" ColumnName="CINV_STCUMPLI1" />
-                <ScalarProperty Name="CINV_DETAPAGO" ColumnName="CINV_DETAPAGO" />
-                <ScalarProperty Name="CINV_COM7" ColumnName="CINV_COM7" />
-                <ScalarProperty Name="CINV_COM6" ColumnName="CINV_COM6" />
-                <ScalarProperty Name="CINV_COM5" ColumnName="CINV_COM5" />
-                <ScalarProperty Name="CINV_PROVISION" ColumnName="CINV_PROVISION" />
-                <ScalarProperty Name="CINV_MOTIVOANULA" ColumnName="CINV_MOTIVOANULA" />
-                <ScalarProperty Name="CINV_FECDESADUA" ColumnName="CINV_FECDESADUA" />
-                <ScalarProperty Name="CINV_FECEMBARQUE" ColumnName="CINV_FECEMBARQUE" />
-                <ScalarProperty Name="CINV_FECLLEGADA" ColumnName="CINV_FECLLEGADA" />
-                <ScalarProperty Name="CINV_FECAPRUEBA" ColumnName="CINV_FECAPRUEBA" />
-                <ScalarProperty Name="CINV_TIPRECIO" ColumnName="CINV_TIPRECIO" />
-                <ScalarProperty Name="CINV_HORA" ColumnName="CINV_HORA" />
-                <ScalarProperty Name="CINV_FPAGO" ColumnName="CINV_FPAGO" />
-                <ScalarProperty Name="CINV_NOTA" ColumnName="CINV_NOTA" />
-                <ScalarProperty Name="CODIGOTR" ColumnName="CODIGOTR" />
-                <ScalarProperty Name="DATATR" ColumnName="DATATR" />
-                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
-                <ScalarProperty Name="CINV_ST" ColumnName="CINV_ST" />
-                <ScalarProperty Name="CINV_TDIV" ColumnName="CINV_TDIV" />
-                <ScalarProperty Name="CINV_LOGIN" ColumnName="CINV_LOGIN" />
-                <ScalarProperty Name="CINV_TASA" ColumnName="CINV_TASA" />
-                <ScalarProperty Name="CINV_COM4" ColumnName="CINV_COM4" />
-                <ScalarProperty Name="CINV_COM3" ColumnName="CINV_COM3" />
-                <ScalarProperty Name="CINV_COM2" ColumnName="CINV_COM2" />
-                <ScalarProperty Name="CINV_COM1" ColumnName="CINV_COM1" />
-                <ScalarProperty Name="CINV_DSC" ColumnName="CINV_DSC" />
-                <ScalarProperty Name="CINV_NOMID" ColumnName="CINV_NOMID" />
-                <ScalarProperty Name="CINV_ID" ColumnName="CINV_ID" />
-                <ScalarProperty Name="CINV_FECING" ColumnName="CINV_FECING" />
-                <ScalarProperty Name="CINV_REF" ColumnName="CINV_REF" />
-                <ScalarProperty Name="CINV_TBOD" ColumnName="CINV_TBOD" />
-                <ScalarProperty Name="CINV_BOD" ColumnName="CINV_BOD" />
-                <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
-                <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
-                <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2039,6 +2244,8 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
           <EntitySetMapping Name="TBDINV">
             <EntityTypeMapping TypeName="ModelGeneral.TBDINV">
               <MappingFragment StoreEntitySet="TBDINV">
+                <ScalarProperty Name="PED_LINEA" ColumnName="PED_LINEA" />
+                <ScalarProperty Name="PED_ID" ColumnName="PED_ID" />
                 <ScalarProperty Name="DINV_OC" ColumnName="DINV_OC" />
                 <ScalarProperty Name="DINV_ST" ColumnName="DINV_ST" />
                 <ScalarProperty Name="BODEGA3" ColumnName="BODEGA3" />
@@ -2237,193 +2444,6 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="VW_ORDENES_TRABAJO_APP">
-            <EntityTypeMapping TypeName="ModelGeneral.VW_ORDENES_TRABAJO_APP">
-              <MappingFragment StoreEntitySet="VW_ORDENES_TRABAJO_APP">
-                <ScalarProperty Name="DINV_ICE" ColumnName="DINV_ICE" />
-                <ScalarProperty Name="DETALLE_ORDEN" ColumnName="DETALLE_ORDEN" />
-                <ScalarProperty Name="TELEFONOS" ColumnName="TELEFONOS" />
-                <ScalarProperty Name="DINV_VTA" ColumnName="DINV_VTA" />
-                <ScalarProperty Name="DINV_PRCT_DSC" ColumnName="DINV_PRCT_DSC" />
-                <ScalarProperty Name="DINV_DSC" ColumnName="DINV_DSC" />
-                <ScalarProperty Name="DINV_IVA" ColumnName="DINV_IVA" />
-                <ScalarProperty Name="DINV_PRECIO_REAL" ColumnName="DINV_PRECIO_REAL" />
-                <ScalarProperty Name="DINV_COS" ColumnName="DINV_COS" />
-                <ScalarProperty Name="DINV_CANT" ColumnName="DINV_CANT" />
-                <ScalarProperty Name="UNIDAD" ColumnName="UNIDAD" />
-                <ScalarProperty Name="CINV_STCUMPLI2" ColumnName="CINV_STCUMPLI2" />
-                <ScalarProperty Name="CINV_STCUMPLI1" ColumnName="CINV_STCUMPLI1" />
-                <ScalarProperty Name="CINV_DETAPAGO" ColumnName="CINV_DETAPAGO" />
-                <ScalarProperty Name="CINV_COM7" ColumnName="CINV_COM7" />
-                <ScalarProperty Name="CINV_COM6" ColumnName="CINV_COM6" />
-                <ScalarProperty Name="CINV_COM5" ColumnName="CINV_COM5" />
-                <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
-                <ScalarProperty Name="NOM_BODEGA" ColumnName="NOM_BODEGA" />
-                <ScalarProperty Name="CENTRO_COSTO" ColumnName="CENTRO_COSTO" />
-                <ScalarProperty Name="NOM_EMPLEADO" ColumnName="NOM_EMPLEADO" />
-                <ScalarProperty Name="DOMICILIO" ColumnName="DOMICILIO" />
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="RUC" ColumnName="RUC" />
-                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-                <ScalarProperty Name="CODIGO1" ColumnName="CODIGO1" />
-                <ScalarProperty Name="DINV_DETALLEADVAL4" ColumnName="DINV_DETALLEADVAL4" />
-                <ScalarProperty Name="DINV_DETALLEADVAL3" ColumnName="DINV_DETALLEADVAL3" />
-                <ScalarProperty Name="DINV_DETALLEADVAL2" ColumnName="DINV_DETALLEADVAL2" />
-                <ScalarProperty Name="DINV_DETALLEADVAL1" ColumnName="DINV_DETALLEADVAL1" />
-                <ScalarProperty Name="DINV_DETALLEDSCTO" ColumnName="DINV_DETALLEDSCTO" />
-                <ScalarProperty Name="DINV_LINEA" ColumnName="DINV_LINEA" />
-                <ScalarProperty Name="CINV_MOTIVOANULA" ColumnName="CINV_MOTIVOANULA" />
-                <ScalarProperty Name="CINV_FECDESADUA" ColumnName="CINV_FECDESADUA" />
-                <ScalarProperty Name="CINV_FECEMBARQUE" ColumnName="CINV_FECEMBARQUE" />
-                <ScalarProperty Name="CINV_FECLLEGADA" ColumnName="CINV_FECLLEGADA" />
-                <ScalarProperty Name="CINV_FECAPRUEBA" ColumnName="CINV_FECAPRUEBA" />
-                <ScalarProperty Name="CINV_TIPRECIO" ColumnName="CINV_TIPRECIO" />
-                <ScalarProperty Name="CINV_HORA" ColumnName="CINV_HORA" />
-                <ScalarProperty Name="CINV_FPAGO" ColumnName="CINV_FPAGO" />
-                <ScalarProperty Name="CINV_NOTA" ColumnName="CINV_NOTA" />
-                <ScalarProperty Name="CODIGOTR" ColumnName="CODIGOTR" />
-                <ScalarProperty Name="DATATR" ColumnName="DATATR" />
-                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
-                <ScalarProperty Name="CINV_ST" ColumnName="CINV_ST" />
-                <ScalarProperty Name="CINV_TDIV" ColumnName="CINV_TDIV" />
-                <ScalarProperty Name="CINV_LOGIN" ColumnName="CINV_LOGIN" />
-                <ScalarProperty Name="CINV_TASA" ColumnName="CINV_TASA" />
-                <ScalarProperty Name="CINV_COM4" ColumnName="CINV_COM4" />
-                <ScalarProperty Name="CINV_COM3" ColumnName="CINV_COM3" />
-                <ScalarProperty Name="CINV_COM2" ColumnName="CINV_COM2" />
-                <ScalarProperty Name="CINV_COM1" ColumnName="CINV_COM1" />
-                <ScalarProperty Name="CINV_DSC" ColumnName="CINV_DSC" />
-                <ScalarProperty Name="CINV_NOMID" ColumnName="CINV_NOMID" />
-                <ScalarProperty Name="CINV_ID" ColumnName="CINV_ID" />
-                <ScalarProperty Name="CINV_FECING" ColumnName="CINV_FECING" />
-                <ScalarProperty Name="CINV_REF" ColumnName="CINV_REF" />
-                <ScalarProperty Name="CINV_TBOD" ColumnName="CINV_TBOD" />
-                <ScalarProperty Name="CINV_BOD" ColumnName="CINV_BOD" />
-                <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
-                <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
-                <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VW_ORDENES_TRABAJO_TOTAL_APP">
-            <EntityTypeMapping TypeName="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APP">
-              <MappingFragment StoreEntitySet="VW_ORDENES_TRABAJO_TOTAL_APP">
-                <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
-                <ScalarProperty Name="CINV_COMENCUMPLI2" ColumnName="CINV_COMENCUMPLI2" />
-                <ScalarProperty Name="CINV_STCUMPLI2" ColumnName="CINV_STCUMPLI2" />
-                <ScalarProperty Name="CINV_COMENCUMPLI1" ColumnName="CINV_COMENCUMPLI1" />
-                <ScalarProperty Name="CINV_STCUMPLI1" ColumnName="CINV_STCUMPLI1" />
-                <ScalarProperty Name="CINV_COM7" ColumnName="CINV_COM7" />
-                <ScalarProperty Name="CINV_COM6" ColumnName="CINV_COM6" />
-                <ScalarProperty Name="CINV_COM5" ColumnName="CINV_COM5" />
-                <ScalarProperty Name="VALOR_OC" ColumnName="VALOR_OC" />
-                <ScalarProperty Name="CORREO_SOLICITADO" ColumnName="CORREO_SOLICITADO" />
-                <ScalarProperty Name="NOM_SOLICITADO" ColumnName="NOM_SOLICITADO" />
-                <ScalarProperty Name="CORREO_CENTROCOSTO2" ColumnName="CORREO_CENTROCOSTO2" />
-                <ScalarProperty Name="CORREO_CENTROCOSTO" ColumnName="CORREO_CENTROCOSTO" />
-                <ScalarProperty Name="NOM_CENTROCOSTO" ColumnName="NOM_CENTROCOSTO" />
-                <ScalarProperty Name="NOM_BODEGA" ColumnName="NOM_BODEGA" />
-                <ScalarProperty Name="E_MAIL" ColumnName="E_MAIL" />
-                <ScalarProperty Name="DOMICILIO" ColumnName="DOMICILIO" />
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="RUC" ColumnName="RUC" />
-                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-                <ScalarProperty Name="CODIGO1" ColumnName="CODIGO1" />
-                <ScalarProperty Name="CINV_PROVISION" ColumnName="CINV_PROVISION" />
-                <ScalarProperty Name="CINV_MOTIVOANULA" ColumnName="CINV_MOTIVOANULA" />
-                <ScalarProperty Name="CINV_FECDESADUA" ColumnName="CINV_FECDESADUA" />
-                <ScalarProperty Name="CINV_FECEMBARQUE" ColumnName="CINV_FECEMBARQUE" />
-                <ScalarProperty Name="CINV_FECLLEGADA" ColumnName="CINV_FECLLEGADA" />
-                <ScalarProperty Name="CINV_FECAPRUEBA" ColumnName="CINV_FECAPRUEBA" />
-                <ScalarProperty Name="CINV_TIPRECIO" ColumnName="CINV_TIPRECIO" />
-                <ScalarProperty Name="CINV_HORA" ColumnName="CINV_HORA" />
-                <ScalarProperty Name="CINV_FPAGO" ColumnName="CINV_FPAGO" />
-                <ScalarProperty Name="CINV_NOTA" ColumnName="CINV_NOTA" />
-                <ScalarProperty Name="CODIGOTR" ColumnName="CODIGOTR" />
-                <ScalarProperty Name="DATATR" ColumnName="DATATR" />
-                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
-                <ScalarProperty Name="CINV_ST" ColumnName="CINV_ST" />
-                <ScalarProperty Name="CINV_TDIV" ColumnName="CINV_TDIV" />
-                <ScalarProperty Name="CINV_LOGIN" ColumnName="CINV_LOGIN" />
-                <ScalarProperty Name="CINV_TASA" ColumnName="CINV_TASA" />
-                <ScalarProperty Name="CINV_COM4" ColumnName="CINV_COM4" />
-                <ScalarProperty Name="CINV_COM3" ColumnName="CINV_COM3" />
-                <ScalarProperty Name="CINV_COM2" ColumnName="CINV_COM2" />
-                <ScalarProperty Name="CINV_COM1" ColumnName="CINV_COM1" />
-                <ScalarProperty Name="CINV_DSC" ColumnName="CINV_DSC" />
-                <ScalarProperty Name="CINV_NOMID" ColumnName="CINV_NOMID" />
-                <ScalarProperty Name="CINV_ID" ColumnName="CINV_ID" />
-                <ScalarProperty Name="CINV_FECING" ColumnName="CINV_FECING" />
-                <ScalarProperty Name="CINV_REF" ColumnName="CINV_REF" />
-                <ScalarProperty Name="CINV_TBOD" ColumnName="CINV_TBOD" />
-                <ScalarProperty Name="CINV_BOD" ColumnName="CINV_BOD" />
-                <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
-                <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
-                <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="VW_ORDENES_TRABAJO_TOTAL_APS">
-            <EntityTypeMapping TypeName="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APS">
-              <MappingFragment StoreEntitySet="VW_ORDENES_TRABAJO_TOTAL_APS">
-                <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
-                <ScalarProperty Name="CINV_COMENCUMPLI2" ColumnName="CINV_COMENCUMPLI2" />
-                <ScalarProperty Name="CINV_STCUMPLI2" ColumnName="CINV_STCUMPLI2" />
-                <ScalarProperty Name="CINV_COMENCUMPLI1" ColumnName="CINV_COMENCUMPLI1" />
-                <ScalarProperty Name="CINV_STCUMPLI1" ColumnName="CINV_STCUMPLI1" />
-                <ScalarProperty Name="CINV_COM7" ColumnName="CINV_COM7" />
-                <ScalarProperty Name="CINV_COM6" ColumnName="CINV_COM6" />
-                <ScalarProperty Name="CINV_COM5" ColumnName="CINV_COM5" />
-                <ScalarProperty Name="VALOR_OC" ColumnName="VALOR_OC" />
-                <ScalarProperty Name="CORREO_SOLICITADO" ColumnName="CORREO_SOLICITADO" />
-                <ScalarProperty Name="NOM_SOLICITADO" ColumnName="NOM_SOLICITADO" />
-                <ScalarProperty Name="CORREO_CENTROCOSTO2" ColumnName="CORREO_CENTROCOSTO2" />
-                <ScalarProperty Name="CORREO_CENTROCOSTO" ColumnName="CORREO_CENTROCOSTO" />
-                <ScalarProperty Name="NOM_CENTROCOSTO" ColumnName="NOM_CENTROCOSTO" />
-                <ScalarProperty Name="NOM_BODEGA" ColumnName="NOM_BODEGA" />
-                <ScalarProperty Name="E_MAIL" ColumnName="E_MAIL" />
-                <ScalarProperty Name="DOMICILIO" ColumnName="DOMICILIO" />
-                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-                <ScalarProperty Name="RUC" ColumnName="RUC" />
-                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-                <ScalarProperty Name="CODIGO1" ColumnName="CODIGO1" />
-                <ScalarProperty Name="CINV_PROVISION" ColumnName="CINV_PROVISION" />
-                <ScalarProperty Name="CINV_MOTIVOANULA" ColumnName="CINV_MOTIVOANULA" />
-                <ScalarProperty Name="CINV_FECDESADUA" ColumnName="CINV_FECDESADUA" />
-                <ScalarProperty Name="CINV_FECEMBARQUE" ColumnName="CINV_FECEMBARQUE" />
-                <ScalarProperty Name="CINV_FECLLEGADA" ColumnName="CINV_FECLLEGADA" />
-                <ScalarProperty Name="CINV_FECAPRUEBA" ColumnName="CINV_FECAPRUEBA" />
-                <ScalarProperty Name="CINV_TIPRECIO" ColumnName="CINV_TIPRECIO" />
-                <ScalarProperty Name="CINV_HORA" ColumnName="CINV_HORA" />
-                <ScalarProperty Name="CINV_FPAGO" ColumnName="CINV_FPAGO" />
-                <ScalarProperty Name="CINV_NOTA" ColumnName="CINV_NOTA" />
-                <ScalarProperty Name="CODIGOTR" ColumnName="CODIGOTR" />
-                <ScalarProperty Name="DATATR" ColumnName="DATATR" />
-                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
-                <ScalarProperty Name="CINV_ST" ColumnName="CINV_ST" />
-                <ScalarProperty Name="CINV_TDIV" ColumnName="CINV_TDIV" />
-                <ScalarProperty Name="CINV_LOGIN" ColumnName="CINV_LOGIN" />
-                <ScalarProperty Name="CINV_TASA" ColumnName="CINV_TASA" />
-                <ScalarProperty Name="CINV_COM4" ColumnName="CINV_COM4" />
-                <ScalarProperty Name="CINV_COM3" ColumnName="CINV_COM3" />
-                <ScalarProperty Name="CINV_COM2" ColumnName="CINV_COM2" />
-                <ScalarProperty Name="CINV_COM1" ColumnName="CINV_COM1" />
-                <ScalarProperty Name="CINV_DSC" ColumnName="CINV_DSC" />
-                <ScalarProperty Name="CINV_NOMID" ColumnName="CINV_NOMID" />
-                <ScalarProperty Name="CINV_ID" ColumnName="CINV_ID" />
-                <ScalarProperty Name="CINV_FECING" ColumnName="CINV_FECING" />
-                <ScalarProperty Name="CINV_REF" ColumnName="CINV_REF" />
-                <ScalarProperty Name="CINV_TBOD" ColumnName="CINV_TBOD" />
-                <ScalarProperty Name="CINV_BOD" ColumnName="CINV_BOD" />
-                <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
-                <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
-                <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TBNOM_ORDEN_NOMINA_CAB">
             <EntityTypeMapping TypeName="ModelGeneral.TBNOM_ORDEN_NOMINA_CAB">
               <MappingFragment StoreEntitySet="TBNOM_ORDEN_NOMINA_CAB">
@@ -2509,9 +2529,353 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="VW_BITACORAS_CUMPLIMIENTO_APP">
+            <EntityTypeMapping TypeName="ModelGeneral.VW_BITACORAS_CUMPLIMIENTO_APP">
+              <MappingFragment StoreEntitySet="VW_BITACORAS_CUMPLIMIENTO_APP">
+                <ScalarProperty Name="STCUMPLI_APRO" ColumnName="STCUMPLI_APRO" />
+                <ScalarProperty Name="STCUMPLI_TOTAL" ColumnName="STCUMPLI_TOTAL" />
+                <ScalarProperty Name="STCUMPLI_SUP" ColumnName="STCUMPLI_SUP" />
+                <ScalarProperty Name="STCUMPLI_JEFE" ColumnName="STCUMPLI_JEFE" />
+                <ScalarProperty Name="FECHA_ZARPE_REAL" ColumnName="FECHA_ZARPE_REAL" />
+                <ScalarProperty Name="FECHA_ZARPE" ColumnName="FECHA_ZARPE" />
+                <ScalarProperty Name="FECHA_ARRIBO" ColumnName="FECHA_ARRIBO" />
+                <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
+                <ScalarProperty Name="VIAJE" ColumnName="VIAJE" />
+                <ScalarProperty Name="NOM_BARCO" ColumnName="NOM_BARCO" />
+                <ScalarProperty Name="BARCO" ColumnName="BARCO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ARPROVEEDOR">
+            <EntityTypeMapping TypeName="ModelGeneral.ARPROVEEDOR">
+              <MappingFragment StoreEntitySet="ARPROVEEDOR">
+                <ScalarProperty Name="USUARIO_ULTMOD" ColumnName="USUARIO_ULTMOD" />
+                <ScalarProperty Name="DURACION" ColumnName="DURACION" />
+                <ScalarProperty Name="CONTACTO" ColumnName="CONTACTO" />
+                <ScalarProperty Name="E_MAIL" ColumnName="E_MAIL" />
+                <ScalarProperty Name="CODIGOZO" ColumnName="CODIGOZO" />
+                <ScalarProperty Name="DATAZO" ColumnName="DATAZO" />
+                <ScalarProperty Name="CTACONTABLE" ColumnName="CTACONTABLE" />
+                <ScalarProperty Name="PAIS" ColumnName="PAIS" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="SALDOD_COMPRAS" ColumnName="SALDOD_COMPRAS" />
+                <ScalarProperty Name="CODIGO1" ColumnName="CODIGO1" />
+                <ScalarProperty Name="CODIGO_NUM" ColumnName="CODIGO_NUM" />
+                <ScalarProperty Name="DESCUENTO" ColumnName="DESCUENTO" />
+                <ScalarProperty Name="CUPOMES_COMPRAS" ColumnName="CUPOMES_COMPRAS" />
+                <ScalarProperty Name="CUPO_COMPRAS" ColumnName="CUPO_COMPRAS" />
+                <ScalarProperty Name="SALDO_COMPRAS" ColumnName="SALDO_COMPRAS" />
+                <ScalarProperty Name="COMENTARIO" ColumnName="COMENTARIO" />
+                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
+                <ScalarProperty Name="EXENTO_IVA" ColumnName="EXENTO_IVA" />
+                <ScalarProperty Name="FEC_ULTCOMP" ColumnName="FEC_ULTCOMP" />
+                <ScalarProperty Name="FECHA_STATUS" ColumnName="FECHA_STATUS" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="FEC_APERTURA" ColumnName="FEC_APERTURA" />
+                <ScalarProperty Name="FECHA_ULTMOD" ColumnName="FECHA_ULTMOD" />
+                <ScalarProperty Name="CIUDAD" ColumnName="CIUDAD" />
+                <ScalarProperty Name="DATA" ColumnName="DATA" />
+                <ScalarProperty Name="TELEFONOS" ColumnName="TELEFONOS" />
+                <ScalarProperty Name="DOMICILIO" ColumnName="DOMICILIO" />
+                <ScalarProperty Name="RUC" ColumnName="RUC" />
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_ORDENES_TRABAJO_TOTAL_APP">
+            <EntityTypeMapping TypeName="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APP">
+              <MappingFragment StoreEntitySet="VW_ORDENES_TRABAJO_TOTAL_APP">
+                <ScalarProperty Name="DURACION" ColumnName="DURACION" />
+                <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
+                <ScalarProperty Name="CINV_COMENCUMPLI2" ColumnName="CINV_COMENCUMPLI2" />
+                <ScalarProperty Name="CINV_STCUMPLI2" ColumnName="CINV_STCUMPLI2" />
+                <ScalarProperty Name="CINV_COMENCUMPLI1" ColumnName="CINV_COMENCUMPLI1" />
+                <ScalarProperty Name="CINV_STCUMPLI1" ColumnName="CINV_STCUMPLI1" />
+                <ScalarProperty Name="CINV_COM7" ColumnName="CINV_COM7" />
+                <ScalarProperty Name="CINV_COM6" ColumnName="CINV_COM6" />
+                <ScalarProperty Name="CINV_COM5" ColumnName="CINV_COM5" />
+                <ScalarProperty Name="VALOR_OC" ColumnName="VALOR_OC" />
+                <ScalarProperty Name="CORREO_SOLICITADO" ColumnName="CORREO_SOLICITADO" />
+                <ScalarProperty Name="NOM_SOLICITADO" ColumnName="NOM_SOLICITADO" />
+                <ScalarProperty Name="CORREO_CENTROCOSTO2" ColumnName="CORREO_CENTROCOSTO2" />
+                <ScalarProperty Name="CORREO_CENTROCOSTO" ColumnName="CORREO_CENTROCOSTO" />
+                <ScalarProperty Name="NOM_CENTROCOSTO" ColumnName="NOM_CENTROCOSTO" />
+                <ScalarProperty Name="NOM_BODEGA" ColumnName="NOM_BODEGA" />
+                <ScalarProperty Name="E_MAIL" ColumnName="E_MAIL" />
+                <ScalarProperty Name="DOMICILIO" ColumnName="DOMICILIO" />
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="RUC" ColumnName="RUC" />
+                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="CODIGO1" ColumnName="CODIGO1" />
+                <ScalarProperty Name="CINV_PROVISION" ColumnName="CINV_PROVISION" />
+                <ScalarProperty Name="CINV_MOTIVOANULA" ColumnName="CINV_MOTIVOANULA" />
+                <ScalarProperty Name="CINV_FECDESADUA" ColumnName="CINV_FECDESADUA" />
+                <ScalarProperty Name="CINV_FECEMBARQUE" ColumnName="CINV_FECEMBARQUE" />
+                <ScalarProperty Name="CINV_FECLLEGADA" ColumnName="CINV_FECLLEGADA" />
+                <ScalarProperty Name="CINV_FECAPRUEBA" ColumnName="CINV_FECAPRUEBA" />
+                <ScalarProperty Name="CINV_TIPRECIO" ColumnName="CINV_TIPRECIO" />
+                <ScalarProperty Name="CINV_HORA" ColumnName="CINV_HORA" />
+                <ScalarProperty Name="CINV_FPAGO" ColumnName="CINV_FPAGO" />
+                <ScalarProperty Name="CINV_NOTA" ColumnName="CINV_NOTA" />
+                <ScalarProperty Name="CODIGOTR" ColumnName="CODIGOTR" />
+                <ScalarProperty Name="DATATR" ColumnName="DATATR" />
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+                <ScalarProperty Name="CINV_ST" ColumnName="CINV_ST" />
+                <ScalarProperty Name="CINV_TDIV" ColumnName="CINV_TDIV" />
+                <ScalarProperty Name="CINV_LOGIN" ColumnName="CINV_LOGIN" />
+                <ScalarProperty Name="CINV_TASA" ColumnName="CINV_TASA" />
+                <ScalarProperty Name="CINV_COM4" ColumnName="CINV_COM4" />
+                <ScalarProperty Name="CINV_COM3" ColumnName="CINV_COM3" />
+                <ScalarProperty Name="CINV_COM2" ColumnName="CINV_COM2" />
+                <ScalarProperty Name="CINV_COM1" ColumnName="CINV_COM1" />
+                <ScalarProperty Name="CINV_DSC" ColumnName="CINV_DSC" />
+                <ScalarProperty Name="CINV_NOMID" ColumnName="CINV_NOMID" />
+                <ScalarProperty Name="CINV_ID" ColumnName="CINV_ID" />
+                <ScalarProperty Name="CINV_FECING" ColumnName="CINV_FECING" />
+                <ScalarProperty Name="CINV_REF" ColumnName="CINV_REF" />
+                <ScalarProperty Name="CINV_TBOD" ColumnName="CINV_TBOD" />
+                <ScalarProperty Name="CINV_BOD" ColumnName="CINV_BOD" />
+                <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
+                <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
+                <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_ORDENES_TRABAJO_TOTAL_APS">
+            <EntityTypeMapping TypeName="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APS">
+              <MappingFragment StoreEntitySet="VW_ORDENES_TRABAJO_TOTAL_APS">
+                <ScalarProperty Name="DURACION" ColumnName="DURACION" />
+                <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
+                <ScalarProperty Name="CINV_COMENCUMPLI2" ColumnName="CINV_COMENCUMPLI2" />
+                <ScalarProperty Name="CINV_STCUMPLI2" ColumnName="CINV_STCUMPLI2" />
+                <ScalarProperty Name="CINV_COMENCUMPLI1" ColumnName="CINV_COMENCUMPLI1" />
+                <ScalarProperty Name="CINV_STCUMPLI1" ColumnName="CINV_STCUMPLI1" />
+                <ScalarProperty Name="CINV_COM7" ColumnName="CINV_COM7" />
+                <ScalarProperty Name="CINV_COM6" ColumnName="CINV_COM6" />
+                <ScalarProperty Name="CINV_COM5" ColumnName="CINV_COM5" />
+                <ScalarProperty Name="VALOR_OC" ColumnName="VALOR_OC" />
+                <ScalarProperty Name="CORREO_SOLICITADO" ColumnName="CORREO_SOLICITADO" />
+                <ScalarProperty Name="NOM_SOLICITADO" ColumnName="NOM_SOLICITADO" />
+                <ScalarProperty Name="CORREO_CENTROCOSTO2" ColumnName="CORREO_CENTROCOSTO2" />
+                <ScalarProperty Name="CORREO_CENTROCOSTO" ColumnName="CORREO_CENTROCOSTO" />
+                <ScalarProperty Name="NOM_CENTROCOSTO" ColumnName="NOM_CENTROCOSTO" />
+                <ScalarProperty Name="NOM_BODEGA" ColumnName="NOM_BODEGA" />
+                <ScalarProperty Name="E_MAIL" ColumnName="E_MAIL" />
+                <ScalarProperty Name="DOMICILIO" ColumnName="DOMICILIO" />
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="RUC" ColumnName="RUC" />
+                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="CODIGO1" ColumnName="CODIGO1" />
+                <ScalarProperty Name="CINV_PROVISION" ColumnName="CINV_PROVISION" />
+                <ScalarProperty Name="CINV_MOTIVOANULA" ColumnName="CINV_MOTIVOANULA" />
+                <ScalarProperty Name="CINV_FECDESADUA" ColumnName="CINV_FECDESADUA" />
+                <ScalarProperty Name="CINV_FECEMBARQUE" ColumnName="CINV_FECEMBARQUE" />
+                <ScalarProperty Name="CINV_FECLLEGADA" ColumnName="CINV_FECLLEGADA" />
+                <ScalarProperty Name="CINV_FECAPRUEBA" ColumnName="CINV_FECAPRUEBA" />
+                <ScalarProperty Name="CINV_TIPRECIO" ColumnName="CINV_TIPRECIO" />
+                <ScalarProperty Name="CINV_HORA" ColumnName="CINV_HORA" />
+                <ScalarProperty Name="CINV_FPAGO" ColumnName="CINV_FPAGO" />
+                <ScalarProperty Name="CINV_NOTA" ColumnName="CINV_NOTA" />
+                <ScalarProperty Name="CODIGOTR" ColumnName="CODIGOTR" />
+                <ScalarProperty Name="DATATR" ColumnName="DATATR" />
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+                <ScalarProperty Name="CINV_ST" ColumnName="CINV_ST" />
+                <ScalarProperty Name="CINV_TDIV" ColumnName="CINV_TDIV" />
+                <ScalarProperty Name="CINV_LOGIN" ColumnName="CINV_LOGIN" />
+                <ScalarProperty Name="CINV_TASA" ColumnName="CINV_TASA" />
+                <ScalarProperty Name="CINV_COM4" ColumnName="CINV_COM4" />
+                <ScalarProperty Name="CINV_COM3" ColumnName="CINV_COM3" />
+                <ScalarProperty Name="CINV_COM2" ColumnName="CINV_COM2" />
+                <ScalarProperty Name="CINV_COM1" ColumnName="CINV_COM1" />
+                <ScalarProperty Name="CINV_DSC" ColumnName="CINV_DSC" />
+                <ScalarProperty Name="CINV_NOMID" ColumnName="CINV_NOMID" />
+                <ScalarProperty Name="CINV_ID" ColumnName="CINV_ID" />
+                <ScalarProperty Name="CINV_FECING" ColumnName="CINV_FECING" />
+                <ScalarProperty Name="CINV_REF" ColumnName="CINV_REF" />
+                <ScalarProperty Name="CINV_TBOD" ColumnName="CINV_TBOD" />
+                <ScalarProperty Name="CINV_BOD" ColumnName="CINV_BOD" />
+                <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
+                <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
+                <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_ORDENES_TRABAJO_APP">
+            <EntityTypeMapping TypeName="ModelGeneral.VW_ORDENES_TRABAJO_APP">
+              <MappingFragment StoreEntitySet="VW_ORDENES_TRABAJO_APP">
+                <ScalarProperty Name="DINV_ST" ColumnName="DINV_ST" />
+                <ScalarProperty Name="DURACION" ColumnName="DURACION" />
+                <ScalarProperty Name="DINV_ICE" ColumnName="DINV_ICE" />
+                <ScalarProperty Name="DETALLE_ORDEN" ColumnName="DETALLE_ORDEN" />
+                <ScalarProperty Name="TELEFONOS" ColumnName="TELEFONOS" />
+                <ScalarProperty Name="DINV_VTA" ColumnName="DINV_VTA" />
+                <ScalarProperty Name="DINV_PRCT_DSC" ColumnName="DINV_PRCT_DSC" />
+                <ScalarProperty Name="DINV_DSC" ColumnName="DINV_DSC" />
+                <ScalarProperty Name="DINV_IVA" ColumnName="DINV_IVA" />
+                <ScalarProperty Name="DINV_PRECIO_REAL" ColumnName="DINV_PRECIO_REAL" />
+                <ScalarProperty Name="DINV_COS" ColumnName="DINV_COS" />
+                <ScalarProperty Name="DINV_CANT" ColumnName="DINV_CANT" />
+                <ScalarProperty Name="UNIDAD" ColumnName="UNIDAD" />
+                <ScalarProperty Name="CINV_STCUMPLI2" ColumnName="CINV_STCUMPLI2" />
+                <ScalarProperty Name="CINV_STCUMPLI1" ColumnName="CINV_STCUMPLI1" />
+                <ScalarProperty Name="CINV_DETAPAGO" ColumnName="CINV_DETAPAGO" />
+                <ScalarProperty Name="CINV_COM7" ColumnName="CINV_COM7" />
+                <ScalarProperty Name="CINV_COM6" ColumnName="CINV_COM6" />
+                <ScalarProperty Name="CINV_COM5" ColumnName="CINV_COM5" />
+                <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
+                <ScalarProperty Name="NOM_BODEGA" ColumnName="NOM_BODEGA" />
+                <ScalarProperty Name="CENTRO_COSTO" ColumnName="CENTRO_COSTO" />
+                <ScalarProperty Name="NOM_EMPLEADO" ColumnName="NOM_EMPLEADO" />
+                <ScalarProperty Name="DOMICILIO" ColumnName="DOMICILIO" />
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="RUC" ColumnName="RUC" />
+                <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="CODIGO1" ColumnName="CODIGO1" />
+                <ScalarProperty Name="DINV_DETALLEADVAL4" ColumnName="DINV_DETALLEADVAL4" />
+                <ScalarProperty Name="DINV_DETALLEADVAL3" ColumnName="DINV_DETALLEADVAL3" />
+                <ScalarProperty Name="DINV_DETALLEADVAL2" ColumnName="DINV_DETALLEADVAL2" />
+                <ScalarProperty Name="DINV_DETALLEADVAL1" ColumnName="DINV_DETALLEADVAL1" />
+                <ScalarProperty Name="DINV_DETALLEDSCTO" ColumnName="DINV_DETALLEDSCTO" />
+                <ScalarProperty Name="DINV_LINEA" ColumnName="DINV_LINEA" />
+                <ScalarProperty Name="CINV_MOTIVOANULA" ColumnName="CINV_MOTIVOANULA" />
+                <ScalarProperty Name="CINV_FECDESADUA" ColumnName="CINV_FECDESADUA" />
+                <ScalarProperty Name="CINV_FECEMBARQUE" ColumnName="CINV_FECEMBARQUE" />
+                <ScalarProperty Name="CINV_FECLLEGADA" ColumnName="CINV_FECLLEGADA" />
+                <ScalarProperty Name="CINV_FECAPRUEBA" ColumnName="CINV_FECAPRUEBA" />
+                <ScalarProperty Name="CINV_TIPRECIO" ColumnName="CINV_TIPRECIO" />
+                <ScalarProperty Name="CINV_HORA" ColumnName="CINV_HORA" />
+                <ScalarProperty Name="CINV_FPAGO" ColumnName="CINV_FPAGO" />
+                <ScalarProperty Name="CINV_NOTA" ColumnName="CINV_NOTA" />
+                <ScalarProperty Name="CODIGOTR" ColumnName="CODIGOTR" />
+                <ScalarProperty Name="DATATR" ColumnName="DATATR" />
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+                <ScalarProperty Name="CINV_ST" ColumnName="CINV_ST" />
+                <ScalarProperty Name="CINV_TDIV" ColumnName="CINV_TDIV" />
+                <ScalarProperty Name="CINV_LOGIN" ColumnName="CINV_LOGIN" />
+                <ScalarProperty Name="CINV_TASA" ColumnName="CINV_TASA" />
+                <ScalarProperty Name="CINV_COM4" ColumnName="CINV_COM4" />
+                <ScalarProperty Name="CINV_COM3" ColumnName="CINV_COM3" />
+                <ScalarProperty Name="CINV_COM2" ColumnName="CINV_COM2" />
+                <ScalarProperty Name="CINV_COM1" ColumnName="CINV_COM1" />
+                <ScalarProperty Name="CINV_DSC" ColumnName="CINV_DSC" />
+                <ScalarProperty Name="CINV_NOMID" ColumnName="CINV_NOMID" />
+                <ScalarProperty Name="CINV_ID" ColumnName="CINV_ID" />
+                <ScalarProperty Name="CINV_FECING" ColumnName="CINV_FECING" />
+                <ScalarProperty Name="CINV_REF" ColumnName="CINV_REF" />
+                <ScalarProperty Name="CINV_TBOD" ColumnName="CINV_TBOD" />
+                <ScalarProperty Name="CINV_BOD" ColumnName="CINV_BOD" />
+                <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
+                <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
+                <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBCINV">
+            <EntityTypeMapping TypeName="ModelGeneral.TBCINV">
+              <MappingFragment StoreEntitySet="TBCINV">
+                <ScalarProperty Name="DURACION" ColumnName="DURACION" />
+                <ScalarProperty Name="CINV_LOGINCUMPLI2" ColumnName="CINV_LOGINCUMPLI2" />
+                <ScalarProperty Name="CINV_LOGINCUMPLI1" ColumnName="CINV_LOGINCUMPLI1" />
+                <ScalarProperty Name="CINV_FECCUMPLI2" ColumnName="CINV_FECCUMPLI2" />
+                <ScalarProperty Name="CINV_FECCUMPLI1" ColumnName="CINV_FECCUMPLI1" />
+                <ScalarProperty Name="CINV_COMENCUMPLI2" ColumnName="CINV_COMENCUMPLI2" />
+                <ScalarProperty Name="CINV_STCUMPLI2" ColumnName="CINV_STCUMPLI2" />
+                <ScalarProperty Name="CINV_COMENCUMPLI1" ColumnName="CINV_COMENCUMPLI1" />
+                <ScalarProperty Name="CINV_STCUMPLI1" ColumnName="CINV_STCUMPLI1" />
+                <ScalarProperty Name="CINV_DETAPAGO" ColumnName="CINV_DETAPAGO" />
+                <ScalarProperty Name="CINV_COM7" ColumnName="CINV_COM7" />
+                <ScalarProperty Name="CINV_COM6" ColumnName="CINV_COM6" />
+                <ScalarProperty Name="CINV_COM5" ColumnName="CINV_COM5" />
+                <ScalarProperty Name="CINV_PROVISION" ColumnName="CINV_PROVISION" />
+                <ScalarProperty Name="CINV_MOTIVOANULA" ColumnName="CINV_MOTIVOANULA" />
+                <ScalarProperty Name="CINV_FECDESADUA" ColumnName="CINV_FECDESADUA" />
+                <ScalarProperty Name="CINV_FECEMBARQUE" ColumnName="CINV_FECEMBARQUE" />
+                <ScalarProperty Name="CINV_FECLLEGADA" ColumnName="CINV_FECLLEGADA" />
+                <ScalarProperty Name="CINV_FECAPRUEBA" ColumnName="CINV_FECAPRUEBA" />
+                <ScalarProperty Name="CINV_TIPRECIO" ColumnName="CINV_TIPRECIO" />
+                <ScalarProperty Name="CINV_HORA" ColumnName="CINV_HORA" />
+                <ScalarProperty Name="CINV_FPAGO" ColumnName="CINV_FPAGO" />
+                <ScalarProperty Name="CINV_NOTA" ColumnName="CINV_NOTA" />
+                <ScalarProperty Name="CODIGOTR" ColumnName="CODIGOTR" />
+                <ScalarProperty Name="DATATR" ColumnName="DATATR" />
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+                <ScalarProperty Name="CINV_ST" ColumnName="CINV_ST" />
+                <ScalarProperty Name="CINV_TDIV" ColumnName="CINV_TDIV" />
+                <ScalarProperty Name="CINV_LOGIN" ColumnName="CINV_LOGIN" />
+                <ScalarProperty Name="CINV_TASA" ColumnName="CINV_TASA" />
+                <ScalarProperty Name="CINV_COM4" ColumnName="CINV_COM4" />
+                <ScalarProperty Name="CINV_COM3" ColumnName="CINV_COM3" />
+                <ScalarProperty Name="CINV_COM2" ColumnName="CINV_COM2" />
+                <ScalarProperty Name="CINV_COM1" ColumnName="CINV_COM1" />
+                <ScalarProperty Name="CINV_DSC" ColumnName="CINV_DSC" />
+                <ScalarProperty Name="CINV_NOMID" ColumnName="CINV_NOMID" />
+                <ScalarProperty Name="CINV_ID" ColumnName="CINV_ID" />
+                <ScalarProperty Name="CINV_FECING" ColumnName="CINV_FECING" />
+                <ScalarProperty Name="CINV_REF" ColumnName="CINV_REF" />
+                <ScalarProperty Name="CINV_TBOD" ColumnName="CINV_TBOD" />
+                <ScalarProperty Name="CINV_BOD" ColumnName="CINV_BOD" />
+                <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
+                <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
+                <ScalarProperty Name="CINV_SEC" ColumnName="CINV_SEC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBDPED">
+            <EntityTypeMapping TypeName="ModelGeneral.TBDPED">
+              <MappingFragment StoreEntitySet="TBDPED">
+                <ScalarProperty Name="PED_DETALLE" ColumnName="PED_DETALLE" />
+                <ScalarProperty Name="PED_CANT" ColumnName="PED_CANT" />
+                <ScalarProperty Name="PED_SEC" ColumnName="PED_SEC" />
+                <ScalarProperty Name="PED_ID" ColumnName="PED_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DET_BITACORA2">
+            <EntityTypeMapping TypeName="ModelGeneral.DET_BITACORA2">
+              <MappingFragment StoreEntitySet="DET_BITACORA2">
+                <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+                <ScalarProperty Name="CUMPLIMIENTO" ColumnName="CUMPLIMIENTO" />
+                <ScalarProperty Name="VALOR" ColumnName="VALOR" />
+                <ScalarProperty Name="NUMERO_ORDEN" ColumnName="NUMERO_ORDEN" />
+                <ScalarProperty Name="LINEA_DETALLE" ColumnName="LINEA_DETALLE" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_BITACORAS2_APP">
+            <EntityTypeMapping TypeName="ModelGeneral.VW_BITACORAS2_APP">
+              <MappingFragment StoreEntitySet="VW_BITACORAS2_APP">
+                <ScalarProperty Name="COLOR_ESTADO" ColumnName="COLOR_ESTADO" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="CINV_COM1" ColumnName="CINV_COM1" />
+                <ScalarProperty Name="NOMPROVEEDOR" ColumnName="NOMPROVEEDOR" />
+                <ScalarProperty Name="CINV_NUM" ColumnName="CINV_NUM" />
+                <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+                <ScalarProperty Name="CUMPLIMIENTO" ColumnName="CUMPLIMIENTO" />
+                <ScalarProperty Name="VALOR" ColumnName="VALOR" />
+                <ScalarProperty Name="NUMERO_ORDEN" ColumnName="NUMERO_ORDEN" />
+                <ScalarProperty Name="LINEA_DETALLE" ColumnName="LINEA_DETALLE" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="VW_BITACORAS_APP">
             <EntityTypeMapping TypeName="ModelGeneral.VW_BITACORAS_APP">
               <MappingFragment StoreEntitySet="VW_BITACORAS_APP">
+                <ScalarProperty Name="CINV_ST" ColumnName="CINV_ST" />
+                <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+                <ScalarProperty Name="FECHA_OT" ColumnName="FECHA_OT" />
+                <ScalarProperty Name="DURACION" ColumnName="DURACION" />
                 <ScalarProperty Name="FECHA_ZARPE_REAL" ColumnName="FECHA_ZARPE_REAL" />
                 <ScalarProperty Name="FECHA_ZARPE" ColumnName="FECHA_ZARPE" />
                 <ScalarProperty Name="FECHA_ARRIBO" ColumnName="FECHA_ARRIBO" />
@@ -2521,8 +2885,8 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
                 <ScalarProperty Name="LINEA_STCUMPLI2" ColumnName="LINEA_STCUMPLI2" />
                 <ScalarProperty Name="LINEA_STCUMPLI1" ColumnName="LINEA_STCUMPLI1" />
                 <ScalarProperty Name="STORDEN" ColumnName="STORDEN" />
-                <ScalarProperty Name="STCUMPLI2" ColumnName="STCUMPLI2" />
-                <ScalarProperty Name="STCUMPLI1" ColumnName="STCUMPLI1" />
+                <ScalarProperty Name="CINV_STCUMPLI2" ColumnName="CINV_STCUMPLI2" />
+                <ScalarProperty Name="CINV_STCUMPLI1" ColumnName="CINV_STCUMPLI1" />
                 <ScalarProperty Name="CUMPLIMIENTO" ColumnName="CUMPLIMIENTO" />
                 <ScalarProperty Name="VALOR" ColumnName="VALOR" />
                 <ScalarProperty Name="NUMERO_ORDEN" ColumnName="NUMERO_ORDEN" />
@@ -2542,21 +2906,75 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="VW_BITACORAS_CUMPLIMIENTO_APP">
-            <EntityTypeMapping TypeName="ModelGeneral.VW_BITACORAS_CUMPLIMIENTO_APP">
-              <MappingFragment StoreEntitySet="VW_BITACORAS_CUMPLIMIENTO_APP">
-                <ScalarProperty Name="STCUMPLI_APRO" ColumnName="STCUMPLI_APRO" />
-                <ScalarProperty Name="STCUMPLI_TOTAL" ColumnName="STCUMPLI_TOTAL" />
-                <ScalarProperty Name="STCUMPLI_SUP" ColumnName="STCUMPLI_SUP" />
-                <ScalarProperty Name="STCUMPLI_JEFE" ColumnName="STCUMPLI_JEFE" />
-                <ScalarProperty Name="FECHA_ZARPE_REAL" ColumnName="FECHA_ZARPE_REAL" />
-                <ScalarProperty Name="FECHA_ZARPE" ColumnName="FECHA_ZARPE" />
-                <ScalarProperty Name="FECHA_ARRIBO" ColumnName="FECHA_ARRIBO" />
-                <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
+          <EntitySetMapping Name="TBCPED">
+            <EntityTypeMapping TypeName="ModelGeneral.TBCPED">
+              <MappingFragment StoreEntitySet="TBCPED">
+                <ScalarProperty Name="PED_FECAPRO" ColumnName="PED_FECAPRO" />
+                <ScalarProperty Name="PED_COM" ColumnName="PED_COM" />
+                <ScalarProperty Name="PED_FECTRAN" ColumnName="PED_FECTRAN" />
+                <ScalarProperty Name="PED_LOGIN" ColumnName="PED_LOGIN" />
+                <ScalarProperty Name="INV_FECHA" ColumnName="INV_FECHA" />
+                <ScalarProperty Name="OC_FECHA" ColumnName="OC_FECHA" />
+                <ScalarProperty Name="PED_ST" ColumnName="PED_ST" />
+                <ScalarProperty Name="PED_OBS" ColumnName="PED_OBS" />
+                <ScalarProperty Name="PED_SOL" ColumnName="PED_SOL" />
+                <ScalarProperty Name="PED_SUC" ColumnName="PED_SUC" />
+                <ScalarProperty Name="PED_VIAJE" ColumnName="PED_VIAJE" />
+                <ScalarProperty Name="PED_BOD" ColumnName="PED_BOD" />
+                <ScalarProperty Name="PED_FECHA" ColumnName="PED_FECHA" />
+                <ScalarProperty Name="PED_ID" ColumnName="PED_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBCINV_FILTROS_APP">
+            <EntityTypeMapping TypeName="ModelGeneral.TBCINV_FILTROS_APP">
+              <MappingFragment StoreEntitySet="TBCINV_FILTROS_APP">
+                <ScalarProperty Name="BODEGA" ColumnName="BODEGA" />
+                <ScalarProperty Name="SOLICITANTE" ColumnName="SOLICITANTE" />
                 <ScalarProperty Name="VIAJE" ColumnName="VIAJE" />
-                <ScalarProperty Name="NOM_BARCO" ColumnName="NOM_BARCO" />
                 <ScalarProperty Name="BARCO" ColumnName="BARCO" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_FILTROS_APP">
+            <EntityTypeMapping TypeName="ModelGeneral.VW_FILTROS_APP">
+              <MappingFragment StoreEntitySet="VW_FILTROS_APP">
+                <ScalarProperty Name="NOMBREBODEGA" ColumnName="NOMBREBODEGA" />
+                <ScalarProperty Name="NOMBRESOLICITANTE" ColumnName="NOMBRESOLICITANTE" />
+                <ScalarProperty Name="NOMBREVIAJE" ColumnName="NOMBREVIAJE" />
+                <ScalarProperty Name="NOMBREBARCO" ColumnName="NOMBREBARCO" />
+                <ScalarProperty Name="BODEGA" ColumnName="BODEGA" />
+                <ScalarProperty Name="SOLICITANTE" ColumnName="SOLICITANTE" />
+                <ScalarProperty Name="VIAJE" ColumnName="VIAJE" />
+                <ScalarProperty Name="BARCO" ColumnName="BARCO" />
+                <ScalarProperty Name="USUARIO" ColumnName="USUARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_PEDIDOS_APP">
+            <EntityTypeMapping TypeName="ModelGeneral.VW_PEDIDOS_APP">
+              <MappingFragment StoreEntitySet="VW_PEDIDOS_APP">
+                <ScalarProperty Name="COLOR" ColumnName="COLOR" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="NOM_EMPLEADO" ColumnName="NOM_EMPLEADO" />
+                <ScalarProperty Name="NOM_SUCURSAL" ColumnName="NOM_SUCURSAL" />
+                <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
+                <ScalarProperty Name="NOM_BODEGA" ColumnName="NOM_BODEGA" />
+                <ScalarProperty Name="PED_FECAPRO" ColumnName="PED_FECAPRO" />
+                <ScalarProperty Name="PED_COM" ColumnName="PED_COM" />
+                <ScalarProperty Name="PED_FECTRAN" ColumnName="PED_FECTRAN" />
+                <ScalarProperty Name="PED_LOGIN" ColumnName="PED_LOGIN" />
+                <ScalarProperty Name="INV_FECHA" ColumnName="INV_FECHA" />
+                <ScalarProperty Name="OC_FECHA" ColumnName="OC_FECHA" />
+                <ScalarProperty Name="PED_ST" ColumnName="PED_ST" />
+                <ScalarProperty Name="PED_OBS" ColumnName="PED_OBS" />
+                <ScalarProperty Name="PED_SOL" ColumnName="PED_SOL" />
+                <ScalarProperty Name="PED_SUC" ColumnName="PED_SUC" />
+                <ScalarProperty Name="PED_VIAJE" ColumnName="PED_VIAJE" />
+                <ScalarProperty Name="PED_BOD" ColumnName="PED_BOD" />
+                <ScalarProperty Name="PED_FECHA" ColumnName="PED_FECHA" />
+                <ScalarProperty Name="PED_ID" ColumnName="PED_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

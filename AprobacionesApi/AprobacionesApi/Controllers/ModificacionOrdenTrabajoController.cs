@@ -49,7 +49,7 @@ namespace AprobacionesApi.Controllers
                     CINV_COM3 = q.CINV_COM3,
                     CINV_COM4 = q.CINV_COM4,
                     VALOR_OC = q.VALOR_OC,
-
+                    DURACION = q.DURACION
                 }).FirstOrDefault();
 
                 NumberFormatInfo provider = new NumberFormatInfo();

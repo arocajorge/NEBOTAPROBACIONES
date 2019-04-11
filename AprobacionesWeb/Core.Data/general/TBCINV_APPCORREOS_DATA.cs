@@ -22,7 +22,8 @@ namespace Core.Data.general
                     CINV_TDOC = Orden.CINV_TDOC,
                     CINV_ST = Orden.CINV_ST,
                     FECHA_APRO = Orden.FECHA_APRO,
-                    ROL_APRO = Orden.ROL_APRO
+                    ROL_APRO = Orden.ROL_APRO,
+                    COMENTARIO = Orden.COMENTARIO
                 };
 
                 return INFO;

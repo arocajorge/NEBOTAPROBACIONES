@@ -21,5 +21,6 @@ namespace AprobacionesApi.Data
         public Nullable<decimal> VALOR { get; set; }
         public Nullable<short> CUMPLIMIENTO { get; set; }
         public Nullable<short> EMPRESA { get; set; }
+        public string TIPO { get; set; }
     }
 }

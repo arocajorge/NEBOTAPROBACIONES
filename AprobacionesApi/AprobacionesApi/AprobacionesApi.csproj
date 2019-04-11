@@ -111,18 +111,23 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AprobacionJefeSupController.cs" />
+    <Compile Include="Controllers\AprobacionPedidoController.cs" />
     <Compile Include="Controllers\BitacorasDetJefeSupController.cs" />
     <Compile Include="Controllers\BitacorasJefeSupController.cs" />
     <Compile Include="Controllers\CatalogosController.cs" />
     <Compile Include="Controllers\ControlBitacoraController.cs" />
     <Compile Include="Controllers\CreacionOrdenTrabajoController.cs" />
+    <Compile Include="Controllers\FiltroController.cs" />
     <Compile Include="Controllers\ModificacionOrdenTrabajoController.cs" />
     <Compile Include="Controllers\OrdenNominaController.cs" />
     <Compile Include="Controllers\OrdenNominaDetController.cs" />
     <Compile Include="Controllers\OrdenTrabajoController.cs" />
+    <Compile Include="Controllers\OrdenTrabajoDetController.cs" />
+    <Compile Include="Controllers\PedidosController.cs" />
     <Compile Include="Controllers\PoliticaDePrivacidadController.cs" />
     <Compile Include="Controllers\ProveedorController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\ValidarConexionController.cs" />
     <Compile Include="Data\APP_LOGERROR.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
@@ -171,7 +176,16 @@
     <Compile Include="Data\TBCINV_APP_ORDENES_SALTADAS.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\TBCINV_FILTROS_APP.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\TBCPED.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\TBDINV.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\TBDPED.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\TBNOM_EMPLEADO.cs">
@@ -189,10 +203,16 @@
     <Compile Include="Data\USUARIOS_MENU_APP.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\VW_BITACORAS2_APP.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\VW_BITACORAS_APP.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\VW_BITACORAS_CUMPLIMIENTO_APP.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\VW_FILTROS_APP.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\VW_ORDENES_NOMINA_APP.cs">
@@ -207,16 +227,22 @@
     <Compile Include="Data\VW_ORDENES_TRABAJO_TOTAL_APS.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\VW_PEDIDOS_APP.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BitacoraDetModel.cs" />
     <Compile Include="Models\BitacoraModel.cs" />
     <Compile Include="Models\CatalogoModel.cs" />
+    <Compile Include="Models\FiltroModel.cs" />
     <Compile Include="Models\OrdenDetalleModel.cs" />
     <Compile Include="Models\OrdenModel.cs" />
     <Compile Include="Models\OrdenNominaDetalleModel.cs" />
     <Compile Include="Models\OrdenNominaModel.cs" />
+    <Compile Include="Models\PedidoDetModel.cs" />
+    <Compile Include="Models\PedidoModel.cs" />
     <Compile Include="Models\ProveedorModel.cs" />
     <Compile Include="Models\UsuarioMenuModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />

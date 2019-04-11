@@ -45,5 +45,7 @@ namespace AprobacionesApi.Data
         public Nullable<int> BODEGA3 { get; set; }
         public string DINV_ST { get; set; }
         public string DINV_OC { get; set; }
+        public Nullable<decimal> PED_ID { get; set; }
+        public Nullable<decimal> PED_LINEA { get; set; }
     }
 }

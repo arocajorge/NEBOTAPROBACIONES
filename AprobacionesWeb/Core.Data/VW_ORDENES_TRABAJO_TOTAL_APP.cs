@@ -67,5 +67,6 @@ namespace Core.Data
         public string CINV_STCUMPLI2 { get; set; }
         public string CINV_COMENCUMPLI2 { get; set; }
         public string NOM_VIAJE { get; set; }
+        public Nullable<decimal> DURACION { get; set; }
     }
 }

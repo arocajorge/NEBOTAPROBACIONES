@@ -12,7 +12,7 @@ namespace Core.Data
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    [DbConfigurationType(typeof(MyDbConfiguration))]
+    
     public partial class Entities_general : DbContext
     {
         public Entities_general()

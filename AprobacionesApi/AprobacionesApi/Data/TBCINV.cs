@@ -57,5 +57,6 @@ namespace AprobacionesApi.Data
         public Nullable<System.DateTime> CINV_FECCUMPLI2 { get; set; }
         public string CINV_LOGINCUMPLI1 { get; set; }
         public string CINV_LOGINCUMPLI2 { get; set; }
+        public Nullable<decimal> DURACION { get; set; }
     }
 }

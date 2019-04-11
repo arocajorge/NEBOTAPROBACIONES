@@ -41,5 +41,6 @@ namespace AprobacionesApi.Models
         public string NOM_BODEGA { get; set; }
         public string NOM_OBRAS { get; set; }
         public List<BitacoraModel> ListaBitacoras { get; set; }
+        public decimal? DURACION { get; set; }
     }
 }

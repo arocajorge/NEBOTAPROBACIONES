@@ -42,12 +42,18 @@ namespace AprobacionesApi.Models
         public Nullable<System.DateTime> FECHA_ARRIBO { get; set; }
         public Nullable<System.DateTime> FECHA_ZARPE { get; set; }
         public Nullable<System.DateTime> FECHA_ZARPE_REAL { get; set; }
+        public Nullable<System.DateTime> FECHAOT { get; set; }
+        public string TIPO { get; set; }
 
         #region Cumplimientos
         public Nullable<decimal> STCUMPLI_JEFE { get; set; }
         public Nullable<decimal> STCUMPLI_SUP { get; set; }
         public Nullable<decimal> STCUMPLI_TOTAL { get; set; }
         public Nullable<decimal> STCUMPLI_APRO { get; set; }
+        public decimal? DURACION { get; set; }
+        public int ANULADOS { get; set; }
+        public string MENSAJE_ANULADOS { get; set; }
+        public int APROBADOS { get; set; }
         #endregion
 
     }

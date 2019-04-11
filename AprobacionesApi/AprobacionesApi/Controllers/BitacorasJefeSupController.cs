@@ -33,9 +33,9 @@ namespace AprobacionesApi.Controllers
                       NOM_BARCO = grouping.Max(c => c.NOM_BARCO),
                       NOM_VIAJE = grouping.Max(c => c.NOM_VIAJE),
                       CANTIDADLINEAS = grouping.Where(c => c.LINEA_DETALLE != null).Count(),
-                      PENTIENTEJEFE = grouping.Where(q => string.IsNullOrEmpty(q.STCUMPLI1)).Count(),
-                      PENTIENTESUPERVISOR = grouping.Where(q => string.IsNullOrEmpty(q.STCUMPLI2)).Count(),
-                      LINEA = grouping.Key,
+                      PENTIENTEJEFE = grouping.Where(q => string.IsNullOrEmpty(q.LINEA_STCUMPLI1)).Count(),
+                      PENTIENTESUPERVISOR = grouping.Where(q => string.IsNullOrEmpty(q.LINEA_STCUMPLI2)).Count(),
+                      LINEA = grouping.Key ??0,
                       LINEA_FECCUMPLI1 = grouping.Max(q => q.LINEA_FECCUMPLI1),
                       LINEA_FECCUMPLI2 = grouping.Max(q => q.LINEA_FECCUMPLI2),
                       LINEA_STCUMPLI1 = grouping.Max(q => q.LINEA_STCUMPLI1),
@@ -44,11 +44,16 @@ namespace AprobacionesApi.Controllers
                       FECHA_ARRIBO = grouping.Max(q=> q.FECHA_ARRIBO),
                       FECHA_ZARPE = grouping.Max(q => q.FECHA_ZARPE),
                       FECHA_ZARPE_REAL = grouping.Max(q => q.FECHA_ZARPE_REAL),
+                      DURACION = grouping.Sum(q=> q.DURACION),
+                      ANULADOS = grouping.Where(q=> q.CINV_ST == "X").Count(),
+                      APROBADOS = grouping.Where(q => q.CINV_ST == "P").Count()
+
                   }).ToList();
                     lst.ForEach(q =>
                     {
                         q.CUMPLIJEFE = (q.CANTIDADLINEAS - q.PENTIENTEJEFE) == 0 ? true : false;
                         q.CUMPLISUP = (q.CANTIDADLINEAS - q.PENTIENTESUPERVISOR) == 0 ? true : false;
+                        q.MENSAJE_ANULADOS = (q.APROBADOS > 0 ? "("+q.APROBADOS.ToString()+") APROBADOS " : "") + (q.ANULADOS > 0 ? ("("+q.ANULADOS.ToString() + ") ANULADOS") : "");
                     });
                 }else
                 {
@@ -60,7 +65,7 @@ namespace AprobacionesApi.Controllers
                           CONTRATISTA = q.CONTRATISTA,
                           NOM_BARCO = q.NOM_BARCO,
                           NOM_VIAJE = q.NOM_VIAJE,
-                          LINEA = q.LINEA,
+                          LINEA = q.LINEA ?? 0,
                           LINEA_FECCUMPLI1 = q.LINEA_FECCUMPLI1,
                           LINEA_FECCUMPLI2 = q.LINEA_FECCUMPLI2,
                           LINEA_STCUMPLI1 = q.LINEA_STCUMPLI1,
@@ -70,12 +75,15 @@ namespace AprobacionesApi.Controllers
                           ST_EMPLEADO = q.ST_EMPLEADO,
                           FECHA_ARRIBO = q.FECHA_ARRIBO,
                           FECHA_ZARPE = q.FECHA_ZARPE,
-                          FECHA_ZARPE_REAL = q.FECHA_ZARPE_REAL
+                          FECHA_ZARPE_REAL = q.FECHA_ZARPE_REAL,
+                          DURACION = q.DURACION,
+                          FECHAOT = q.FECHA_OT,
+                          TIPO = q.TIPO
                       }).ToList();
 
                     lst.ForEach(q => {
                         q.CONTRATISTA = q.ST_EMPLEADO == 1 ? ("EMPLEADO: " + q.CONTRATISTA) : ("CONTRATISTA: " + q.CONTRATISTA);
-                        q.NUMERO_ORDEN = string.IsNullOrEmpty(q.NUMERO_ORDEN) ? "" : ("OT." + q.NUMERO_ORDEN); });
+                        q.NUMERO_ORDEN = string.IsNullOrEmpty(q.NUMERO_ORDEN) ? "" : (q.TIPO +". " + q.NUMERO_ORDEN); });
                 }
 
                 return lst;
@@ -115,13 +123,28 @@ namespace AprobacionesApi.Controllers
                 {
                     linea.LINEA_FECCUMPLI1 = DateTime.Now;
                     linea.LINEA_STCUMPLI1 = value.ESTADOAPRO;
-                    linea.LINEA_LOGINCUMPLI1 = usuario.USUARIO;                    
+                    linea.LINEA_LOGINCUMPLI1 = usuario.USUARIO;
                 }
                 else
                 {
-                    linea.LINEA_FECCUMPLI2 = DateTime.Now;
-                    linea.LINEA_STCUMPLI2 = value.ESTADOAPRO;
-                    linea.LINEA_LOGINCUMPLI2 = usuario.USUARIO;
+                    if (string.IsNullOrEmpty(value.ESTADOAPRO))
+                    {
+
+                        linea.LINEA_FECCUMPLI1 = null;
+                        linea.LINEA_STCUMPLI1 = null;
+                        linea.LINEA_LOGINCUMPLI1 = null;
+
+                        linea.LINEA_FECCUMPLI2 = null;
+                        linea.LINEA_STCUMPLI2 = null;
+                        linea.LINEA_LOGINCUMPLI2 = null;
+                    }
+                    else
+                    {
+                        linea.LINEA_FECCUMPLI2 = DateTime.Now;
+                        linea.LINEA_STCUMPLI2 = value.ESTADOAPRO;
+                        linea.LINEA_LOGINCUMPLI2 = usuario.USUARIO;
+                    }
+                    
                 }
 
                 db.SaveChanges();
@@ -147,10 +170,10 @@ namespace AprobacionesApi.Controllers
         {
             try
             {
-                var ordenes = db.VW_BITACORAS_APP.Where(q => q.ID == ID && q.LINEA == LINEA).ToList();
+                var ordenes = db.VW_BITACORAS_APP.Where(q => q.ID == ID && q.LINEA == LINEA && q.TIPO == "OT").ToList();
                 foreach (var orden in ordenes)
                 {
-                    var bitacoras = db.VW_BITACORAS_APP.Where(q => q.NUMERO_ORDEN == orden.NUMERO_ORDEN).ToList();
+                    var bitacoras = db.VW_BITACORAS_APP.Where(q => q.NUMERO_ORDEN == orden.NUMERO_ORDEN && q.TIPO == "OT").ToList();
                     int ContAnuladas = ROL_APRO == "J" ? bitacoras.Where(q => q.LINEA_STCUMPLI1 == "X").Count() : bitacoras.Where(q => q.LINEA_STCUMPLI2 == "X").Count();
 
                     if (ContAnuladas > 0)

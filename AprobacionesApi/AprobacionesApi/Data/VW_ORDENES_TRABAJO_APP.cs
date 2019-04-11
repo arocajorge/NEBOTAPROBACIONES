@@ -77,5 +77,7 @@ namespace AprobacionesApi.Data
         public string TELEFONOS { get; set; }
         public string DETALLE_ORDEN { get; set; }
         public Nullable<decimal> DINV_ICE { get; set; }
+        public Nullable<decimal> DURACION { get; set; }
+        public string DINV_ST { get; set; }
     }
 }

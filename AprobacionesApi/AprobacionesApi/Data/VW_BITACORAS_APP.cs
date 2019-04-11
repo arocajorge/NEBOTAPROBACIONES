@@ -23,15 +23,15 @@ namespace AprobacionesApi.Data
         public string NOM_BARCO { get; set; }
         public string LOGIN { get; set; }
         public string ESTADO { get; set; }
-        public short LINEA { get; set; }
+        public Nullable<short> LINEA { get; set; }
         public string DESCRIPCION { get; set; }
         public string CONTRATISTA { get; set; }
         public Nullable<short> LINEA_DETALLE { get; set; }
         public string NUMERO_ORDEN { get; set; }
         public Nullable<decimal> VALOR { get; set; }
         public Nullable<short> CUMPLIMIENTO { get; set; }
-        public string STCUMPLI1 { get; set; }
-        public string STCUMPLI2 { get; set; }
+        public string CINV_STCUMPLI1 { get; set; }
+        public string CINV_STCUMPLI2 { get; set; }
         public string STORDEN { get; set; }
         public string LINEA_STCUMPLI1 { get; set; }
         public string LINEA_STCUMPLI2 { get; set; }
@@ -41,5 +41,9 @@ namespace AprobacionesApi.Data
         public Nullable<System.DateTime> FECHA_ARRIBO { get; set; }
         public Nullable<System.DateTime> FECHA_ZARPE { get; set; }
         public Nullable<System.DateTime> FECHA_ZARPE_REAL { get; set; }
+        public Nullable<decimal> DURACION { get; set; }
+        public Nullable<System.DateTime> FECHA_OT { get; set; }
+        public string TIPO { get; set; }
+        public string CINV_ST { get; set; }
     }
 }

@@ -15,12 +15,11 @@ namespace AprobacionesApi.Controllers
     {
         EntitiesGeneral db = new EntitiesGeneral();
 
-        public List<OrdenModel> GET(string USUARIO = "",string BARCO = "", string BODEGA = "", string VIAJE = "", string CINV_NUM = "", string ESTADOJEFE = "", string ESTADOSUPERVISOR = "", int DIAINI = 0, int MESINI = 0, int ANIOINI = 0, int DIAFIN =0, int MESFIN =0, int ANIOFIN = 0)
+        public List<OrdenModel> GET(string USUARIO = "",string BARCO = "", string VIAJE = "", string CINV_NUM = "", int DIAINI = 0, int MESINI = 0, int ANIOINI = 0)
         {
             try
             {
                 DateTime FECHAINI = new DateTime(ANIOINI, MESINI, DIAINI);
-                DateTime FECHAFIN = new DateTime(ANIOFIN, MESFIN, DIAFIN);
 
                 List<OrdenModel> Lista;
                 if (string.IsNullOrEmpty(USUARIO))
@@ -30,7 +29,7 @@ namespace AprobacionesApi.Controllers
                 if (UsuarioInfo == null)
                     return new List<OrdenModel>();
 
-                Lista = GetList(BARCO, BODEGA, VIAJE, CINV_NUM, ESTADOJEFE, ESTADOSUPERVISOR, Convert.ToDateTime(FECHAINI), Convert.ToDateTime(FECHAFIN));
+                Lista = GetList(BARCO, VIAJE, CINV_NUM, Convert.ToDateTime(FECHAINI));
 
                 return Lista;
             }
@@ -51,7 +50,7 @@ namespace AprobacionesApi.Controllers
         }
 
 
-        public List<OrdenModel> GetList(string Barco, string Bodega, string Viaje, string num_ot, string estado_jefe_bodega, string estado_supervisor, DateTime fecha_ini, DateTime fecha_fin)
+        public List<OrdenModel> GetList(string Barco, string Viaje, string num_ot, DateTime fecha_ini)
         {
             try
             {
@@ -60,17 +59,17 @@ namespace AprobacionesApi.Controllers
                 string where_clause = "(CINV_ST = \"P\" OR CINV_ST = \"G\") AND CINV_TDOC = \"OT\" ";
                 if (!string.IsNullOrEmpty(Barco))
                     where_clause += "AND CODIGOTR = \"" + Barco + "\" ";
-                if (!string.IsNullOrEmpty(Bodega))
-                    where_clause += "AND CINV_BOD = \"" + Bodega + "\" ";
+                //if (!string.IsNullOrEmpty(Bodega))
+                    //where_clause += "AND CINV_BOD = \"" + Bodega + "\" ";
                 if (!string.IsNullOrEmpty(Viaje))
                     where_clause += "AND CINV_FPAGO = \"" + Viaje + "\" ";
-                if (!string.IsNullOrEmpty(estado_jefe_bodega))
-                    where_clause += "AND CINV_STCUMPLI1 = \"" + estado_jefe_bodega + "\" ";
-                if (!string.IsNullOrEmpty(estado_supervisor))
-                    where_clause += "AND CINV_STCUMPLI2 = \"" + estado_supervisor + "\" ";
+                //if (!string.IsNullOrEmpty(estado_jefe_bodega))
+                //    where_clause += "AND CINV_STCUMPLI1 = \"" + estado_jefe_bodega + "\" ";
+                //if (!string.IsNullOrEmpty(estado_supervisor))
+                //    where_clause += "AND CINV_STCUMPLI2 = \"" + estado_supervisor + "\" ";
 
                 where_clause += "AND DATETIME(" + fecha_ini.Date.Year + "," + fecha_ini.Date.Month + "," + fecha_ini.Date.Day + ") <= CINV_FECING ";
-                where_clause += "AND CINV_FECING <= DATETIME(" + fecha_fin.Date.Year + "," + fecha_fin.Date.Month + "," + fecha_fin.Date.Day + ")";
+                //where_clause += "AND CINV_FECING <= DATETIME(" + fecha_fin.Date.Year + "," + fecha_fin.Date.Month + "," + fecha_fin.Date.Day + ")";
 
                 Lista = (from q in db.VW_ORDENES_TRABAJO_TOTAL_APP.Where(where_clause, null)
                          select new OrdenModel
@@ -85,8 +84,8 @@ namespace AprobacionesApi.Controllers
                              CINV_BOD = q.CINV_BOD,
                              CINV_ST = q.CINV_ST,
 
-                             CINV_STCUMPLI1 = (q.CINV_STCUMPLI1 == null || q.CINV_STCUMPLI1 == "A") ? "Pendiente" : (q.CINV_STCUMPLI1 == "P" ? "Aprobado" : "Anulado"),
-                             CINV_STCUMPLI2 = (q.CINV_STCUMPLI2 == null || q.CINV_STCUMPLI2 == "A") ? "Pendiente" : (q.CINV_STCUMPLI2 == "P" ? "Aprobado" : "Anulado"),
+                             CINV_STCUMPLI1 = (q.CINV_STCUMPLI1 == null || q.CINV_STCUMPLI1 == "A") ? "Pendiente" : (q.CINV_STCUMPLI1 == "P" ? "Aprobado" :  "Anulado"),
+                             CINV_STCUMPLI2 = (q.CINV_STCUMPLI2 == null || q.CINV_STCUMPLI2 == "A") ? "Pendiente" : (q.CINV_STCUMPLI2 == "P" ? "Aprobado" : (q.CINV_STCUMPLI2 == "T" ? "Aprobado parcial" :"Anulado")),
 
                              CINV_NOMID = q.CINV_NOMID,
                              CINV_TDOC = q.CINV_TDOC,
@@ -94,6 +93,7 @@ namespace AprobacionesApi.Controllers
                              CINV_COM4 = q.CINV_COM4,
                              VALOR_OC = q.VALOR_OC,
                              NOM_CENTROCOSTO = q.NOM_CENTROCOSTO,
+                             DURACION = q.DURACION
                          }).ToList();
 
                 NumberFormatInfo provider = new NumberFormatInfo();

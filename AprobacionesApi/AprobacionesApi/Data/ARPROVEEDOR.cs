@@ -44,5 +44,7 @@ namespace AprobacionesApi.Data
         public string CODIGOZO { get; set; }
         public string E_MAIL { get; set; }
         public string CONTACTO { get; set; }
+        public Nullable<decimal> DURACION { get; set; }
+        public string USUARIO_ULTMOD { get; set; }
     }
 }

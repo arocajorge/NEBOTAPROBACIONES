@@ -39,7 +39,8 @@ namespace AprobacionesApi.Controllers
                         CINV_COM4 = q.CINV_COM4,
                         VALOR_OC = q.VALOR_OC,
                         NOM_CENTROCOSTO = q.NOM_CENTROCOSTO,
-                        NOM_VIAJE = q.NOM_VIAJE
+                        NOM_VIAJE = q.NOM_VIAJE,
+                        DURACION = q.DURACION
                     }).FirstOrDefault();
                 }
                 else
@@ -68,7 +69,8 @@ namespace AprobacionesApi.Controllers
                                  CINV_COM4 = q.CINV_COM4,
                                  VALOR_OC = q.VALOR_OC,
                                  NOM_CENTROCOSTO = q.NOM_CENTROCOSTO,
-                                 NOM_VIAJE = q.NOM_VIAJE
+                                 NOM_VIAJE = q.NOM_VIAJE,
+                                 DURACION = q.DURACION
                              }).FirstOrDefault();
 
                     if (orden == null)
@@ -100,7 +102,8 @@ namespace AprobacionesApi.Controllers
                                      CINV_COM4 = q.CINV_COM4,
                                      VALOR_OC = q.VALOR_OC,
                                      NOM_CENTROCOSTO = q.NOM_CENTROCOSTO,
-                                     NOM_VIAJE = q.NOM_VIAJE
+                                     NOM_VIAJE = q.NOM_VIAJE,
+                                     DURACION = q.DURACION,
                                  }).FirstOrDefault();
                     }
                 }
@@ -134,7 +137,8 @@ namespace AprobacionesApi.Controllers
                                  DINV_IVA = q.DINV_IVA,
                                  NOM_VIAJE = q.NOM_VIAJE,
                                  DINV_DSC = q.DINV_DSC,
-                                 DINV_ICE = q.DINV_ICE
+                                 DINV_ICE = q.DINV_ICE,
+                                 ESCHATARRA  = q.DINV_ST == "S" ? true : false,
                              }).ToList();
                 if (orden.lst != null)
                     orden.lst.ForEach(q => { q.TOTAL = ((orden.CINV_TDOC == "OT" || orden.CINV_TDOC == "OK" || orden.CINV_TDOC == "OR") ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : (q.DINV_COS + (q.DINV_ICE == null ? 0 : Convert.ToDecimal(q.DINV_ICE, provider)))) + q.DINV_IVA; orden.NOM_VIAJE = q.NOM_VIAJE; });
@@ -147,7 +151,7 @@ namespace AprobacionesApi.Controllers
                     orden.ListaBitacoras = db.VW_BITACORAS_APP.Where(q => q.NUMERO_ORDEN == NumeroOrden).Select(q => new BitacoraModel
                     {
                         ID = q.ID,
-                        LINEA = q.LINEA,
+                        LINEA = q.LINEA ?? 0,
                         LINEA_DETALLE = q.LINEA,
                         NOM_VIAJE = q.NOM_VIAJE,
                         NOM_BARCO = q.NOM_BARCO,
@@ -156,7 +160,34 @@ namespace AprobacionesApi.Controllers
 
                     orden.ListaBitacoras.ForEach(q => orden.NOM_OBRAS += q.LINEA.ToString() + ".- " + q.DESCRIPCION + "\n");
                     orden.NOM_OBRAS = string.IsNullOrEmpty(orden.NOM_OBRAS) ? "" : orden.NOM_OBRAS.Trim();
+                }else
+                 if (orden.CINV_TDOC == "OC")
+                {
+                    orden.ListaBitacoras = new List<BitacoraModel>();
+
+                    orden.ListaBitacoras = (from a in db.VW_ORDENES_TRABAJO_TOTAL_APP
+                                            join b in db.DET_BITACORA
+                                            on a.CINV_TIPRECIO equals b.LINEA
+                                            join c in db.CAB_BITACORA
+                                            on new { b.ID }  equals  new { c.ID }
+                                            where a.CINV_TDOC == orden.CINV_TDOC
+                                            && a.CINV_NUM == orden.CINV_NUM
+                                            && a.CODIGOTR == c.BARCO
+                                            && a.CINV_FPAGO == c.VIAJE 
+                                            select new BitacoraModel
+                                            {
+                                                ID = b.ID,
+                                                LINEA = b.LINEA,
+                                                NOM_VIAJE = a.NOM_VIAJE,
+                                                NOM_BARCO = a.NOM_CENTROCOSTO,
+                                                DESCRIPCION = b.DESCRIPCION
+                                            }).ToList();
+                    
+
+                    orden.ListaBitacoras.ForEach(q => orden.NOM_OBRAS += q.LINEA.ToString() + ".- " + q.DESCRIPCION + "\n");
+                    orden.NOM_OBRAS = string.IsNullOrEmpty(orden.NOM_OBRAS) ? "" : orden.NOM_OBRAS.Trim();
                 }
+
 
 
                 return orden;
@@ -206,6 +237,8 @@ namespace AprobacionesApi.Controllers
                         switch (usuario.ROL_APRO)
                         {
                             case "G":
+                                if(Entity.CINV_TDOC == "OR")
+                                    Entity.CINV_FECEMBARQUE = Entity.CINV_FECAPRUEBA;
                                 Entity.CINV_ST = value.CINV_ST;
                                 Entity.CINV_MOTIVOANULA = value.CINV_MOTIVOANULA;
                                 Entity.CINV_FECAPRUEBA = DateTime.Now.Date;
@@ -223,7 +256,7 @@ namespace AprobacionesApi.Controllers
                                 Entity.CINV_LOGINCUMPLI2 = value.CINV_LOGIN;
                                 break;
                         }
-
+                        value.lst = value.lst ?? new List<OrdenDetalleModel>();
                         foreach (var item in value.lst)
                         {
                             var detalle = db.TBDINV.Where(q => q.DINV_CTINV == Entity.CINV_SEC && q.DINV_LINEA == item.DINV_LINEA).FirstOrDefault();
@@ -250,17 +283,19 @@ namespace AprobacionesApi.Controllers
             }
             catch (Exception ex)
             {
-                long SECUENCIAID = db.APP_LOGERROR.Count() > 0 ? (db.APP_LOGERROR.Select(q => q.SECUENCIA).Max() + 1) : 1;
-                db.APP_LOGERROR.Add(new APP_LOGERROR
+                using (EntitiesGeneral error = new EntitiesGeneral())
                 {
-                    ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
-                    INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
-                    FECHA = DateTime.Now,
-                    PROCESO = "BitacorasJefeSup/GET",
-                    SECUENCIA = SECUENCIAID
-                });
-                db.SaveChanges();
-                
+                    long SECUENCIAID = error.APP_LOGERROR.Count() > 0 ? (db.APP_LOGERROR.Select(q => q.SECUENCIA).Max() + 1) : 1;
+                    error.APP_LOGERROR.Add(new APP_LOGERROR
+                    {
+                        ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
+                        INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
+                        FECHA = DateTime.Now,
+                        PROCESO = "BitacorasJefeSup/GET",
+                        SECUENCIA = SECUENCIAID
+                    });
+                    error.SaveChanges();
+                }
             }
         }   
                 

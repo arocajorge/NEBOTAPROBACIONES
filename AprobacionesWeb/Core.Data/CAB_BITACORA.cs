@@ -22,5 +22,8 @@ namespace Core.Data
         public string LOGIN { get; set; }
         public string ESTADO { get; set; }
         public Nullable<short> EMPRESA { get; set; }
+        public Nullable<System.DateTime> FECHA_ARRIBO { get; set; }
+        public Nullable<System.DateTime> FECHA_ZARPE { get; set; }
+        public Nullable<System.DateTime> FECHA_ZARPE_REAL { get; set; }
     }
 }

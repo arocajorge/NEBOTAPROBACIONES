@@ -63,6 +63,8 @@
           <Property Name="CODIGOZO" Type="varchar2" MaxLength="10" />
           <Property Name="E_MAIL" Type="varchar2" MaxLength="200" />
           <Property Name="CONTACTO" Type="varchar2" MaxLength="60" />
+          <Property Name="DURACION" Type="number" Precision="18" Scale="4" />
+          <Property Name="USUARIO_ULTMOD" Type="varchar2" MaxLength="10" />
         </EntityType>
         <EntityType Name="CAB_BITACORA">
           <Key>
@@ -76,6 +78,9 @@
           <Property Name="LOGIN" Type="varchar2" MaxLength="10" />
           <Property Name="ESTADO" Type="varchar2" MaxLength="1" />
           <Property Name="EMPRESA" Type="number" Precision="5" Scale="0" />
+          <Property Name="FECHA_ARRIBO" Type="date" />
+          <Property Name="FECHA_ZARPE" Type="date" />
+          <Property Name="FECHA_ZARPE_REAL" Type="date" />
         </EntityType>
         <EntityType Name="DET_BITACORA">
           <Key>
@@ -169,6 +174,7 @@ advertencia 6002: La tabla o vista 'INDIGO.SUCURSAL' no tiene definida ninguna c
           <Property Name="CINV_FECCUMPLI2" Type="date" />
           <Property Name="CINV_LOGINCUMPLI1" Type="varchar2" MaxLength="10" />
           <Property Name="CINV_LOGINCUMPLI2" Type="varchar2" MaxLength="10" />
+          <Property Name="DURACION" Type="number" Precision="18" Scale="4" />
         </EntityType>
         <EntityType Name="TBCINV_APP_ORDENES_SALTADAS">
           <Key>
@@ -306,6 +312,12 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_BITACORAS_APP' no tiene definida n
           <Property Name="LINEA_STCUMPLI2" Type="varchar2" MaxLength="1" />
           <Property Name="LINEA_FECCUMPLI1" Type="date" />
           <Property Name="LINEA_FECCUMPLI2" Type="date" />
+          <Property Name="ST_EMPLEADO" Type="number" Precision="1" Scale="0" />
+          <Property Name="FECHA_ARRIBO" Type="date" />
+          <Property Name="FECHA_ZARPE" Type="date" />
+          <Property Name="FECHA_ZARPE_REAL" Type="date" />
+          <Property Name="DURACION" Type="number" Precision="38" Scale="0" />
+          <Property Name="FECHAOT" Type="date" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_APP' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -387,6 +399,8 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_APP' no tiene defi
           <Property Name="TELEFONOS" Type="varchar2" MaxLength="40" />
           <Property Name="DETALLE_ORDEN" Type="varchar2" MaxLength="255" />
           <Property Name="DINV_ICE" Type="number" Precision="19" Scale="4" />
+          <Property Name="DURACION" Type="number" Precision="18" Scale="4" />
+          <Property Name="DINV_ST" Type="varchar2" MaxLength="1" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL_APP' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -451,6 +465,7 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_ORDENES_TRABAJO_TOTAL_APP' no tien
           <Property Name="CINV_STCUMPLI2" Type="varchar2" MaxLength="1" />
           <Property Name="CINV_COMENCUMPLI2" Type="varchar2" MaxLength="200" />
           <Property Name="NOM_VIAJE" Type="varchar2" MaxLength="200" />
+          <Property Name="DURACION" Type="number" Precision="18" Scale="4" />
         </EntityType>
         <EntityContainer Name="Model_generalStoreContainer">
           <EntitySet Name="ARINDEX" EntityType="Self.ARINDEX" Schema="INDIGO" store:Type="Tables" />
@@ -525,7 +540,13 @@ FROM "INDIGO"."VW_BITACORAS" "VW_BITACORAS"</DefiningQuery>
 "VW_BITACORAS_APP"."LINEA_STCUMPLI1" AS "LINEA_STCUMPLI1", 
 "VW_BITACORAS_APP"."LINEA_STCUMPLI2" AS "LINEA_STCUMPLI2", 
 "VW_BITACORAS_APP"."LINEA_FECCUMPLI1" AS "LINEA_FECCUMPLI1", 
-"VW_BITACORAS_APP"."LINEA_FECCUMPLI2" AS "LINEA_FECCUMPLI2"
+"VW_BITACORAS_APP"."LINEA_FECCUMPLI2" AS "LINEA_FECCUMPLI2", 
+"VW_BITACORAS_APP"."ST_EMPLEADO" AS "ST_EMPLEADO", 
+"VW_BITACORAS_APP"."FECHA_ARRIBO" AS "FECHA_ARRIBO", 
+"VW_BITACORAS_APP"."FECHA_ZARPE" AS "FECHA_ZARPE", 
+"VW_BITACORAS_APP"."FECHA_ZARPE_REAL" AS "FECHA_ZARPE_REAL", 
+"VW_BITACORAS_APP"."DURACION" AS "DURACION", 
+"VW_BITACORAS_APP"."FECHAOT" AS "FECHAOT"
 FROM "INDIGO"."VW_BITACORAS_APP" "VW_BITACORAS_APP"</DefiningQuery>
           </EntitySet>
           <EntitySet Name="VW_ORDENES_TRABAJO_APP" EntityType="Self.VW_ORDENES_TRABAJO_APP" store:Type="Views" store:Schema="INDIGO">
@@ -592,7 +613,9 @@ FROM "INDIGO"."VW_BITACORAS_APP" "VW_BITACORAS_APP"</DefiningQuery>
 "VW_ORDENES_TRABAJO_APP"."DINV_VTA" AS "DINV_VTA", 
 "VW_ORDENES_TRABAJO_APP"."TELEFONOS" AS "TELEFONOS", 
 "VW_ORDENES_TRABAJO_APP"."DETALLE_ORDEN" AS "DETALLE_ORDEN", 
-"VW_ORDENES_TRABAJO_APP"."DINV_ICE" AS "DINV_ICE"
+"VW_ORDENES_TRABAJO_APP"."DINV_ICE" AS "DINV_ICE", 
+"VW_ORDENES_TRABAJO_APP"."DURACION" AS "DURACION", 
+"VW_ORDENES_TRABAJO_APP"."DINV_ST" AS "DINV_ST"
 FROM "INDIGO"."VW_ORDENES_TRABAJO_APP" "VW_ORDENES_TRABAJO_APP"</DefiningQuery>
           </EntitySet>
           <EntitySet Name="VW_ORDENES_TRABAJO_TOTAL_APP" EntityType="Self.VW_ORDENES_TRABAJO_TOTAL_APP" store:Type="Views" store:Schema="INDIGO">
@@ -649,7 +672,8 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_APP" "VW_ORDENES_TRABAJO_APP"</DefiningQuery>
 "VW_ORDENES_TRABAJO_TOTAL_APP"."CINV_COMENCUMPLI1" AS "CINV_COMENCUMPLI1", 
 "VW_ORDENES_TRABAJO_TOTAL_APP"."CINV_STCUMPLI2" AS "CINV_STCUMPLI2", 
 "VW_ORDENES_TRABAJO_TOTAL_APP"."CINV_COMENCUMPLI2" AS "CINV_COMENCUMPLI2", 
-"VW_ORDENES_TRABAJO_TOTAL_APP"."NOM_VIAJE" AS "NOM_VIAJE"
+"VW_ORDENES_TRABAJO_TOTAL_APP"."NOM_VIAJE" AS "NOM_VIAJE", 
+"VW_ORDENES_TRABAJO_TOTAL_APP"."DURACION" AS "DURACION"
 FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</DefiningQuery>
           </EntitySet>
         </EntityContainer>
@@ -710,6 +734,9 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <Property Name="LOGIN" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="ESTADO" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="EMPRESA" Type="Int16" />
+          <Property Name="FECHA_ARRIBO" Type="DateTime" />
+          <Property Name="FECHA_ZARPE" Type="DateTime" />
+          <Property Name="FECHA_ZARPE_REAL" Type="DateTime" />
         </EntityType>
         <EntityType Name="DET_BITACORA">
           <Key>
@@ -790,6 +817,7 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <Property Name="CINV_FECCUMPLI2" Type="DateTime" />
           <Property Name="CINV_LOGINCUMPLI1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="CINV_LOGINCUMPLI2" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DURACION" Type="Decimal" Precision="18" Scale="4" />
         </EntityType>
         <EntityType Name="TBCINV_APP_ORDENES_SALTADAS">
           <Key>
@@ -934,6 +962,12 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <Property Name="LINEA_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="LINEA_FECCUMPLI1" Type="DateTime" />
           <Property Name="LINEA_FECCUMPLI2" Type="DateTime" />
+          <Property Name="ST_EMPLEADO" Type="Boolean" />
+          <Property Name="FECHA_ARRIBO" Type="DateTime" />
+          <Property Name="FECHA_ZARPE" Type="DateTime" />
+          <Property Name="FECHA_ZARPE_REAL" Type="DateTime" />
+          <Property Name="DURACION" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="FECHAOT" Type="DateTime" />
         </EntityType>
         <EntityType Name="ARPROVEEDOR">
           <Key>
@@ -969,6 +1003,8 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <Property Name="CODIGOZO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="E_MAIL" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="CONTACTO" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Name="DURACION" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="USUARIO_ULTMOD" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="VW_ORDENES_TRABAJO_APP">
           <Key>
@@ -1048,6 +1084,8 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <Property Name="TELEFONOS" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
           <Property Name="DETALLE_ORDEN" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="DINV_ICE" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DURACION" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="DINV_ST" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="VW_ORDENES_TRABAJO_TOTAL_APP">
           <Key>
@@ -1110,6 +1148,7 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <Property Name="CINV_STCUMPLI2" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="CINV_COMENCUMPLI2" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="NOM_VIAJE" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DURACION" Type="Decimal" Precision="18" Scale="4" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1143,6 +1182,9 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <EntitySetMapping Name="CAB_BITACORA">
             <EntityTypeMapping TypeName="Model_general.CAB_BITACORA">
               <MappingFragment StoreEntitySet="CAB_BITACORA">
+                <ScalarProperty Name="FECHA_ZARPE_REAL" ColumnName="FECHA_ZARPE_REAL" />
+                <ScalarProperty Name="FECHA_ZARPE" ColumnName="FECHA_ZARPE" />
+                <ScalarProperty Name="FECHA_ARRIBO" ColumnName="FECHA_ARRIBO" />
                 <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
                 <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
                 <ScalarProperty Name="LOGIN" ColumnName="LOGIN" />
@@ -1188,6 +1230,7 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <EntitySetMapping Name="TBCINV">
             <EntityTypeMapping TypeName="Model_general.TBCINV">
               <MappingFragment StoreEntitySet="TBCINV">
+                <ScalarProperty Name="DURACION" ColumnName="DURACION" />
                 <ScalarProperty Name="CINV_LOGINCUMPLI2" ColumnName="CINV_LOGINCUMPLI2" />
                 <ScalarProperty Name="CINV_LOGINCUMPLI1" ColumnName="CINV_LOGINCUMPLI1" />
                 <ScalarProperty Name="CINV_FECCUMPLI2" ColumnName="CINV_FECCUMPLI2" />
@@ -1357,6 +1400,12 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <EntitySetMapping Name="VW_BITACORAS_APP">
             <EntityTypeMapping TypeName="Model_general.VW_BITACORAS_APP">
               <MappingFragment StoreEntitySet="VW_BITACORAS_APP">
+                <ScalarProperty Name="FECHAOT" ColumnName="FECHAOT" />
+                <ScalarProperty Name="DURACION" ColumnName="DURACION" />
+                <ScalarProperty Name="FECHA_ZARPE_REAL" ColumnName="FECHA_ZARPE_REAL" />
+                <ScalarProperty Name="FECHA_ZARPE" ColumnName="FECHA_ZARPE" />
+                <ScalarProperty Name="FECHA_ARRIBO" ColumnName="FECHA_ARRIBO" />
+                <ScalarProperty Name="ST_EMPLEADO" ColumnName="ST_EMPLEADO" />
                 <ScalarProperty Name="LINEA_FECCUMPLI2" ColumnName="LINEA_FECCUMPLI2" />
                 <ScalarProperty Name="LINEA_FECCUMPLI1" ColumnName="LINEA_FECCUMPLI1" />
                 <ScalarProperty Name="LINEA_STCUMPLI2" ColumnName="LINEA_STCUMPLI2" />
@@ -1386,6 +1435,8 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <EntitySetMapping Name="ARPROVEEDOR">
             <EntityTypeMapping TypeName="Model_general.ARPROVEEDOR">
               <MappingFragment StoreEntitySet="ARPROVEEDOR">
+                <ScalarProperty Name="USUARIO_ULTMOD" ColumnName="USUARIO_ULTMOD" />
+                <ScalarProperty Name="DURACION" ColumnName="DURACION" />
                 <ScalarProperty Name="CONTACTO" ColumnName="CONTACTO" />
                 <ScalarProperty Name="E_MAIL" ColumnName="E_MAIL" />
                 <ScalarProperty Name="CODIGOZO" ColumnName="CODIGOZO" />
@@ -1422,6 +1473,8 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <EntitySetMapping Name="VW_ORDENES_TRABAJO_APP">
             <EntityTypeMapping TypeName="Model_general.VW_ORDENES_TRABAJO_APP">
               <MappingFragment StoreEntitySet="VW_ORDENES_TRABAJO_APP">
+                <ScalarProperty Name="DINV_ST" ColumnName="DINV_ST" />
+                <ScalarProperty Name="DURACION" ColumnName="DURACION" />
                 <ScalarProperty Name="DINV_ICE" ColumnName="DINV_ICE" />
                 <ScalarProperty Name="DETALLE_ORDEN" ColumnName="DETALLE_ORDEN" />
                 <ScalarProperty Name="TELEFONOS" ColumnName="TELEFONOS" />
@@ -1491,6 +1544,7 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APP" "VW_ORDENES_TRABAJO_TOTAL_APP"</Def
           <EntitySetMapping Name="VW_ORDENES_TRABAJO_TOTAL_APP">
             <EntityTypeMapping TypeName="Model_general.VW_ORDENES_TRABAJO_TOTAL_APP">
               <MappingFragment StoreEntitySet="VW_ORDENES_TRABAJO_TOTAL_APP">
+                <ScalarProperty Name="DURACION" ColumnName="DURACION" />
                 <ScalarProperty Name="NOM_VIAJE" ColumnName="NOM_VIAJE" />
                 <ScalarProperty Name="CINV_COMENCUMPLI2" ColumnName="CINV_COMENCUMPLI2" />
                 <ScalarProperty Name="CINV_STCUMPLI2" ColumnName="CINV_STCUMPLI2" />

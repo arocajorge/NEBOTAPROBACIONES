@@ -17,7 +17,7 @@ namespace AprobacionesApi.Controllers
         {
             try
             {
-                var lst = db.DET_BITACORA2.Where(q => q.ID == ID && q.LINEA == LINEA).Select(q => new BitacoraDetModel
+                var lst = db.VW_BITACORAS2_APP.Where(q => q.ID == ID && q.LINEA == LINEA).Select(q => new BitacoraDetModel
                 {
                     ID = q.ID,
                     LINEA = q.LINEA,
@@ -25,12 +25,13 @@ namespace AprobacionesApi.Controllers
                     NUMERO_ORDEN = q.NUMERO_ORDEN,
                     VALOR = q.VALOR,
                     CUMPLIMIENTO = q.CUMPLIMIENTO,
+                    TIPO = q.TIPO,
+                    CINV_NUM = q.CINV_NUM ?? 0,
+                    NOMPROVEEDOR = q.NOMPROVEEDOR,
+                    CINV_COM1 = q.CINV_COM1,
+                    COLOR_ESTADO = q.COLOR_ESTADO,
+                    CINV_ST = q.ESTADO
                 }).ToList();
-                lst.ForEach(q => {
-                    q.CINV_NUM = string.IsNullOrEmpty(q.NUMERO_ORDEN) ? 0 : Convert.ToInt32(q.NUMERO_ORDEN);
-                    q.NOMPROVEEDOR = q.CINV_NUM > 0 ? "" : db.VW_ORDENES_TRABAJO_TOTAL_APP.Where(l => l.CINV_TDOC == "OT" && l.CINV_NUM == q.CINV_NUM).FirstOrDefault().CINV_NOMID;
-                    q.CINV_COM1 = db.VW_ORDENES_TRABAJO_TOTAL_APP.Where(l => l.CINV_TDOC == "OT" && l.CINV_NUM == q.CINV_NUM).FirstOrDefault().CINV_COM1;
-                });
 
                 return lst;
             }
@@ -60,18 +61,22 @@ namespace AprobacionesApi.Controllers
                     var lst = db.DET_BITACORA2.Where(q => q.ID == value.ID && q.LINEA == value.LINEA).Select(q => q.LINEA_DETALLE).ToList();
                     if (lst.Count > 0)
                         LINEA_DETALLE = (short)(lst.Max(q => q) + 1);
-                    int NUMERO_ORDEN = Convert.ToInt32(value.NUMERO_ORDEN);
+
+                    int NUMERO_ORDEN = 0;
+                    decimal VALOR_OT = 0;
+
+                    if (value.TIPO == "OT")
+                    NUMERO_ORDEN = Convert.ToInt32(value.NUMERO_ORDEN);
                     var orden = db.VW_ORDENES_TRABAJO_TOTAL_APP.Where(q => q.CINV_TDOC == "OT" && q.CINV_NUM == NUMERO_ORDEN).FirstOrDefault();
-                    if (orden == null)
-                        return;
+                    if (orden != null)
+                    {
+                        NumberFormatInfo provider = new NumberFormatInfo();
+                        provider.NumberDecimalSeparator = ".";
+                        provider.NumberGroupSeparator = ",";
+                        provider.NumberGroupSizes = new int[] { 3 };
 
-                    NumberFormatInfo provider = new NumberFormatInfo();
-                    provider.NumberDecimalSeparator = ".";
-                    provider.NumberGroupSeparator = ",";
-                    provider.NumberGroupSizes = new int[] { 3 };
-
-                    decimal VALOR_OT = (orden.CINV_TDOC == "OT") ? (Convert.ToDecimal(orden.CINV_COM3, provider) + Convert.ToDecimal(orden.CINV_COM4, provider)) : (orden.VALOR_OC == null ? 0 : Convert.ToDecimal(orden.VALOR_OC));
-
+                        VALOR_OT = (orden.CINV_TDOC == "OT") ? (Convert.ToDecimal(orden.CINV_COM3, provider) + Convert.ToDecimal(orden.CINV_COM4, provider)) : (orden.VALOR_OC == null ? 0 : Convert.ToDecimal(orden.VALOR_OC));
+                    }
                     db.DET_BITACORA2.Add(new DET_BITACORA2
                     {
                         ID = value.ID,
@@ -80,12 +85,13 @@ namespace AprobacionesApi.Controllers
                         VALOR = VALOR_OT,
                         NUMERO_ORDEN = value.NUMERO_ORDEN,
                         EMPRESA = 1,
-                        CUMPLIMIENTO = 0
+                        CUMPLIMIENTO = 0,
+                        TIPO = value.TIPO
                     });
                 }
                 else
                 {
-                    var obj = db.DET_BITACORA2.Where(q => q.ID == value.ID && q.LINEA == value.LINEA && q.NUMERO_ORDEN == value.NUMERO_ORDEN).FirstOrDefault();
+                    var obj = db.DET_BITACORA2.Where(q => q.ID == value.ID && q.LINEA == value.LINEA && q.NUMERO_ORDEN == value.NUMERO_ORDEN && q.TIPO == value.TIPO).FirstOrDefault();
                     if (obj != null)
                         db.DET_BITACORA2.Remove(obj);
                 }

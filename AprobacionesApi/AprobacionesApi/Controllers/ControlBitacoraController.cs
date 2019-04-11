@@ -40,7 +40,8 @@ namespace AprobacionesApi.Controllers
                         STCUMPLI_SUP = q.STCUMPLI_SUP,
                         FECHA_ARRIBO = q.FECHA_ARRIBO,
                         FECHA_ZARPE = q.FECHA_ZARPE,
-                        FECHA_ZARPE_REAL = q.FECHA_ZARPE_REAL
+                        FECHA_ZARPE_REAL = q.FECHA_ZARPE_REAL,
+                        
                     }).ToList();
                 else
                     Lista = db.VW_BITACORAS_CUMPLIMIENTO_APP.Where(where_clause, null).Select(q => new BitacoraModel

@@ -38,42 +38,45 @@ namespace AprobacionesApi.Controllers
                     NOM_BODEGA = q.NOM_BODEGA,
 
                     CINV_COM1 = q.CINV_COM1,
-                    CODIGO1 = q.CODIGO1,                    
+                    CODIGO1 = q.CODIGO1,
                     CINV_FECING = q.CINV_FECING,
 
                     CINV_ID = q.CINV_ID,
                     CINV_NOMID = q.CINV_NOMID,
 
-                    CINV_ST = q.CINV_ST,                                  
+                    CINV_ST = q.CINV_ST,
                     CINV_STCUMPLI1 = (q.CINV_STCUMPLI1 == null || q.CINV_STCUMPLI1 == "A") ? "Pendiente" : (q.CINV_STCUMPLI1 == "P" ? "Aprobado" : "Anulado"),
                     CINV_STCUMPLI2 = (q.CINV_STCUMPLI2 == null || q.CINV_STCUMPLI2 == "A") ? "Pendiente" : (q.CINV_STCUMPLI2 == "P" ? "Aprobado" : "Anulado"),
                     CINV_COM3 = q.CINV_COM3,
                     CINV_COM4 = q.CINV_COM4,
                     VALOR_OC = q.VALOR_OC,
-                    
+                    DURACION = q.DURACION
                 }).ToList();
 
                 NumberFormatInfo provider = new NumberFormatInfo();
                 provider.NumberDecimalSeparator = ".";
                 provider.NumberGroupSeparator = ",";
                 provider.NumberGroupSizes = new int[] { 3 };
-                Lista.ForEach(q => { q.VALOR_OT = q.CINV_TDOC == "OT" || q.CINV_TDOC == "OK"  ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : 0; });
+                Lista.ForEach(q => { q.VALOR_OT = q.CINV_TDOC == "OT" || q.CINV_TDOC == "OK" ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : 0; });
 
                 return Lista.OrderBy(q => q.CINV_NUM).ToList();
             }
             catch (Exception ex)
             {
-                long ID = db.APP_LOGERROR.Count() > 0 ? (db.APP_LOGERROR.Select(q => q.SECUENCIA).Max() + 1) : 1;
-                db.APP_LOGERROR.Add(new APP_LOGERROR
+                using (EntitiesGeneral Error = new EntitiesGeneral())
                 {
-                    ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
-                    INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
-                    FECHA = DateTime.Now,
-                    PROCESO = "CreacionOrdenTrabajo/GET",
-                    SECUENCIA = ID
-                });
-                db.SaveChanges();
-                return new List<OrdenModel>();
+                    long ID = Error.APP_LOGERROR.Count() > 0 ? (Error.APP_LOGERROR.Select(q => q.SECUENCIA).Max() + 1) : 1;
+                    Error.APP_LOGERROR.Add(new APP_LOGERROR
+                    {
+                        ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
+                        INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
+                        FECHA = DateTime.Now,
+                        PROCESO = "CreacionOrdenTrabajo/GET",
+                        SECUENCIA = ID
+                    });
+                    Error.SaveChanges();
+                    return new List<OrdenModel>();
+                }
             }
         }
         
@@ -97,7 +100,7 @@ namespace AprobacionesApi.Controllers
                         }
                     }                    
                 }
-                value.CINV_COM1 = arregloString.Count() > 0 ? (arregloString[0].Length > 254 ? arregloString[0].Substring(0,254) : arregloString[0]) : "";
+                value.CINV_COM1 = arregloString.Count() > 0 ? (arregloString[0].Length > 190 ? arregloString[0].Substring(0,190) : arregloString[0]) : "";
 
                 if (value.CINV_NUM  == 0)
                 {                    
@@ -128,6 +131,7 @@ namespace AprobacionesApi.Controllers
                         EMPRESA = 1,
                         CINV_STCUMPLI1 = "A",
                         CINV_STCUMPLI2 = "A",
+                        DURACION = value.DURACION
                     });
                     int SecuenciaDet = GETID("SEQDINV", value.lst.Count + 1) - value.lst.Count;
                     short Linea = 1;
@@ -171,6 +175,7 @@ namespace AprobacionesApi.Controllers
                         orden.CINV_FECLLEGADA = value.CINV_FECING;
                         orden.CODIGOTR = value.CODIGOTR;
                         orden.CINV_TIPRECIO = 0;
+                        orden.DURACION = value.DURACION;
 
                         var lista = db.TBDINV.Where(q => q.DINV_CTINV == orden.CINV_SEC).ToList();
                         foreach (var item in lista)
@@ -222,7 +227,7 @@ namespace AprobacionesApi.Controllers
             }
         }
 
-        private int GETID(string DOC_SGL, int ITEMS)
+        public int GETID(string DOC_SGL, int ITEMS)
         {
             try
             {
