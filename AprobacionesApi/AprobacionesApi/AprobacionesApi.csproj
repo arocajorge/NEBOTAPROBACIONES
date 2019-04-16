@@ -116,6 +116,7 @@
     <Compile Include="Controllers\BitacorasJefeSupController.cs" />
     <Compile Include="Controllers\CatalogosController.cs" />
     <Compile Include="Controllers\ControlBitacoraController.cs" />
+    <Compile Include="Controllers\CreacionBitacoraController.cs" />
     <Compile Include="Controllers\CreacionOrdenTrabajoController.cs" />
     <Compile Include="Controllers\FiltroController.cs" />
     <Compile Include="Controllers\ModificacionOrdenTrabajoController.cs" />
