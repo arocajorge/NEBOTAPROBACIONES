@@ -178,7 +178,8 @@ namespace AprobacionesApi.Controllers
 
                     if (ContAnuladas > 0)
                     {
-                        var OrdenAnular = db.TBCINV.Where(q => q.CINV_TDOC == "OT" && q.CINV_NUM.ToString() == orden.NUMERO_ORDEN).FirstOrDefault();
+                        decimal CINV_NUM = Convert.ToDecimal(orden.NUMERO_ORDEN);
+                        var OrdenAnular = db.TBCINV.Where(q => q.CINV_TDOC == "OT" && q.CINV_NUM == CINV_NUM).FirstOrDefault();
                         if (OrdenAnular != null)
                         {
                             if (ROL_APRO == "J")

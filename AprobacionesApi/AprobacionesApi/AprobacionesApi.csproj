@@ -114,9 +114,11 @@
     <Compile Include="Controllers\AprobacionPedidoController.cs" />
     <Compile Include="Controllers\BitacorasDetJefeSupController.cs" />
     <Compile Include="Controllers\BitacorasJefeSupController.cs" />
+    <Compile Include="Controllers\BonoController.cs" />
     <Compile Include="Controllers\CatalogosController.cs" />
     <Compile Include="Controllers\ControlBitacoraController.cs" />
     <Compile Include="Controllers\CreacionBitacoraController.cs" />
+    <Compile Include="Controllers\CreacionLineaController.cs" />
     <Compile Include="Controllers\CreacionOrdenTrabajoController.cs" />
     <Compile Include="Controllers\FiltroController.cs" />
     <Compile Include="Controllers\ModificacionOrdenTrabajoController.cs" />
@@ -126,6 +128,7 @@
     <Compile Include="Controllers\OrdenTrabajoDetController.cs" />
     <Compile Include="Controllers\PedidosController.cs" />
     <Compile Include="Controllers\PoliticaDePrivacidadController.cs" />
+    <Compile Include="Controllers\PresupuestoController.cs" />
     <Compile Include="Controllers\ProveedorController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\ValidarConexionController.cs" />
@@ -139,6 +142,12 @@
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\CAB_BITACORA.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\CAB_BITACORA_PARAM.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\CAB_BITACORA_PARAM_OP4.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\DET_BITACORA.cs">
@@ -231,11 +240,15 @@
     <Compile Include="Data\VW_PEDIDOS_APP.cs">
       <DependentUpon>ModelGeneral.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\VW_PRESUPUESTO_APP.cs">
+      <DependentUpon>ModelGeneral.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BitacoraDetModel.cs" />
     <Compile Include="Models\BitacoraModel.cs" />
+    <Compile Include="Models\BonoModel.cs" />
     <Compile Include="Models\CatalogoModel.cs" />
     <Compile Include="Models\FiltroModel.cs" />
     <Compile Include="Models\OrdenDetalleModel.cs" />
@@ -244,6 +257,7 @@
     <Compile Include="Models\OrdenNominaModel.cs" />
     <Compile Include="Models\PedidoDetModel.cs" />
     <Compile Include="Models\PedidoModel.cs" />
+    <Compile Include="Models\PresupuestoModel.cs" />
     <Compile Include="Models\ProveedorModel.cs" />
     <Compile Include="Models\UsuarioMenuModel.cs" />
     <Compile Include="Models\UsuarioModel.cs" />

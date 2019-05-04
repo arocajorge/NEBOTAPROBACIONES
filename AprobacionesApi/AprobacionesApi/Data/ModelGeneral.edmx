@@ -92,6 +92,36 @@
           <Property Name="FECHA_ZARPE" Type="date" />
           <Property Name="FECHA_ZARPE_REAL" Type="date" />
         </EntityType>
+        <EntityType Name="CAB_BITACORA_PARAM">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="OP1_INICIO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="OP1_FIN" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="OP1_PREMIO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="OP1_MULTA" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="OP2_INICIO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="OP2_FIN" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="OP2_PREMIO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="OP3_VERDE" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="OP3_AZUL" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="OP4_COMISION" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="OP3_TOTAL" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="OP3_ROJO" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="CAB_BITACORA_PARAM_OP4">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LINEA" />
+          </Key>
+          <Property Name="ID" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="LINEA" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="OP4_INI" Type="number" Precision="38" Scale="0" />
+          <Property Name="OP4_FIN" Type="number" Precision="38" Scale="0" />
+          <Property Name="OP4_POR" Type="number" Precision="38" Scale="0" />
+          <Property Name="OP4_VALOR" Type="number" Precision="38" Scale="0" />
+        </EntityType>
         <EntityType Name="DET_BITACORA">
           <Key>
             <PropertyRef Name="ID" />
@@ -123,7 +153,7 @@
           <Property Name="VALOR" Type="number" Precision="19" Scale="2" />
           <Property Name="CUMPLIMIENTO" Type="number" Precision="5" Scale="0" />
           <Property Name="EMPRESA" Type="number" Precision="5" Scale="0" />
-          <Property Name="TIPO" Type="varchar2" MaxLength="5" />
+          <Property Name="TIPO" Type="varchar2" MaxLength="25" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'INDIGO.SUCURSAL' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -516,7 +546,7 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_BITACORAS_APP' no tiene definida n
           <Property Name="FECHA_ZARPE_REAL" Type="date" />
           <Property Name="DURACION" Type="number" Precision="18" Scale="4" />
           <Property Name="FECHA_OT" Type="date" />
-          <Property Name="TIPO" Type="varchar2" MaxLength="5" />
+          <Property Name="TIPO" Type="varchar2" MaxLength="25" />
           <Property Name="CINV_ST" Type="varchar2" MaxLength="1" />
         </EntityType>
         <!--Errores durante la generación:
@@ -554,7 +584,7 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_BITACORAS2_APP' no tiene definida 
           <Property Name="VALOR" Type="number" Precision="19" Scale="2" />
           <Property Name="CUMPLIMIENTO" Type="number" Precision="5" Scale="0" />
           <Property Name="EMPRESA" Type="number" Precision="5" Scale="0" />
-          <Property Name="TIPO" Type="varchar2" MaxLength="5" />
+          <Property Name="TIPO" Type="varchar2" MaxLength="25" />
           <Property Name="CINV_NUM" Type="number" Precision="38" Scale="0" />
           <Property Name="NOMPROVEEDOR" Type="varchar2" MaxLength="65" />
           <Property Name="CINV_COM1" Type="varchar2" MaxLength="1000" />
@@ -875,11 +905,36 @@ advertencia 6002: La tabla o vista 'INDIGO.VW_PEDIDOS_APP' no tiene definida nin
           <Property Name="ESTADO" Type="varchar2" MaxLength="9" />
           <Property Name="COLOR" Type="varchar2" MaxLength="10" />
         </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'INDIGO.VW_PRESUPUESTO_APP' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="VW_PRESUPUESTO_APP">
+          <Key>
+            <PropertyRef Name="EMPRESA" />
+            <PropertyRef Name="BARCO" />
+            <PropertyRef Name="VIAJE" />
+            <PropertyRef Name="DATA_VIAJE" />
+            <PropertyRef Name="PRESUP_OT" />
+            <PropertyRef Name="PRESUP_OC" />
+          </Key>
+          <Property Name="EMPRESA" Type="number" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="BARCO" Type="varchar2" MaxLength="10" Nullable="false" />
+          <Property Name="VIAJE" Type="varchar2" MaxLength="10" Nullable="false" />
+          <Property Name="DATA_VIAJE" Type="varchar2" MaxLength="5" Nullable="false" />
+          <Property Name="CINV_TDOC" Type="char" MaxLength="2" />
+          <Property Name="FECHA_ULT_MOD" Type="date" />
+          <Property Name="PRESUP_OT" Type="number" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="PRESUP_OC" Type="number" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="APROBADO" Type="number" Precision="38" Scale="0" />
+          <Property Name="PENDIENTE" Type="number" Precision="38" Scale="0" />
+          <Property Name="SALDO" Type="number" Precision="38" Scale="0" />
+        </EntityType>
         <EntityContainer Name="ModelGeneralStoreContainer">
           <EntitySet Name="APP_LOGERROR" EntityType="Self.APP_LOGERROR" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="ARINDEX" EntityType="Self.ARINDEX" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="ARPROVEEDOR" EntityType="Self.ARPROVEEDOR" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="CAB_BITACORA" EntityType="Self.CAB_BITACORA" Schema="INDIGO" store:Type="Tables" />
+          <EntitySet Name="CAB_BITACORA_PARAM" EntityType="Self.CAB_BITACORA_PARAM" Schema="INDIGO" store:Type="Tables" />
+          <EntitySet Name="CAB_BITACORA_PARAM_OP4" EntityType="Self.CAB_BITACORA_PARAM_OP4" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="DET_BITACORA" EntityType="Self.DET_BITACORA" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="DET_BITACORA2" EntityType="Self.DET_BITACORA2" Schema="INDIGO" store:Type="Tables" />
           <EntitySet Name="TBBI_SECDOC" EntityType="Self.TBBI_SECDOC" Schema="INDIGO" store:Type="Tables" />
@@ -1244,6 +1299,21 @@ FROM "INDIGO"."VW_ORDENES_TRABAJO_TOTAL_APS" "VW_ORDENES_TRABAJO_TOTAL_APS"</Def
 "VW_PEDIDOS_APP"."COLOR" AS "COLOR"
 FROM "INDIGO"."VW_PEDIDOS_APP" "VW_PEDIDOS_APP"</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="VW_PRESUPUESTO_APP" EntityType="Self.VW_PRESUPUESTO_APP" store:Type="Views" store:Schema="INDIGO">
+            <DefiningQuery>SELECT 
+"VW_PRESUPUESTO_APP"."EMPRESA" AS "EMPRESA", 
+"VW_PRESUPUESTO_APP"."BARCO" AS "BARCO", 
+"VW_PRESUPUESTO_APP"."VIAJE" AS "VIAJE", 
+"VW_PRESUPUESTO_APP"."DATA_VIAJE" AS "DATA_VIAJE", 
+"VW_PRESUPUESTO_APP"."CINV_TDOC" AS "CINV_TDOC", 
+"VW_PRESUPUESTO_APP"."FECHA_ULT_MOD" AS "FECHA_ULT_MOD", 
+"VW_PRESUPUESTO_APP"."PRESUP_OT" AS "PRESUP_OT", 
+"VW_PRESUPUESTO_APP"."PRESUP_OC" AS "PRESUP_OC", 
+"VW_PRESUPUESTO_APP"."APROBADO" AS "APROBADO", 
+"VW_PRESUPUESTO_APP"."PENDIENTE" AS "PENDIENTE", 
+"VW_PRESUPUESTO_APP"."SALDO" AS "SALDO"
+FROM "INDIGO"."VW_PRESUPUESTO_APP" "VW_PRESUPUESTO_APP"</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -1279,6 +1349,9 @@ FROM "INDIGO"."VW_PEDIDOS_APP" "VW_PEDIDOS_APP"</DefiningQuery>
           <EntitySet Name="TBCINV_FILTROS_APP" EntityType="ModelGeneral.TBCINV_FILTROS_APP" />
           <EntitySet Name="VW_FILTROS_APP" EntityType="ModelGeneral.VW_FILTROS_APP" />
           <EntitySet Name="VW_PEDIDOS_APP" EntityType="ModelGeneral.VW_PEDIDOS_APP" />
+          <EntitySet Name="VW_PRESUPUESTO_APP" EntityType="ModelGeneral.VW_PRESUPUESTO_APP" />
+          <EntitySet Name="CAB_BITACORA_PARAM" EntityType="ModelGeneral.CAB_BITACORA_PARAM" />
+          <EntitySet Name="CAB_BITACORA_PARAM_OP4" EntityType="ModelGeneral.CAB_BITACORA_PARAM_OP4" />
         </EntityContainer>
         <EntityType Name="APP_LOGERROR">
           <Key>
@@ -2130,6 +2203,57 @@ FROM "INDIGO"."VW_PEDIDOS_APP" "VW_PEDIDOS_APP"</DefiningQuery>
           <Property Name="ESTADO" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
           <Property Name="COLOR" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="VW_PRESUPUESTO_APP">
+          <Key>
+            <PropertyRef Name="EMPRESA" />
+            <PropertyRef Name="BARCO" />
+            <PropertyRef Name="VIAJE" />
+            <PropertyRef Name="DATA_VIAJE" />
+            <PropertyRef Name="PRESUP_OT" />
+            <PropertyRef Name="PRESUP_OC" />
+          </Key>
+          <Property Name="EMPRESA" Type="Int16" Nullable="false" />
+          <Property Name="BARCO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="VIAJE" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="DATA_VIAJE" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CINV_TDOC" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="FECHA_ULT_MOD" Type="DateTime" />
+          <Property Name="PRESUP_OT" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="PRESUP_OC" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="APROBADO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="PENDIENTE" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="SALDO" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="CAB_BITACORA_PARAM">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="OP1_INICIO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="OP1_FIN" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="OP1_PREMIO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="OP1_MULTA" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="OP2_INICIO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="OP2_FIN" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="OP2_PREMIO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="OP3_VERDE" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="OP3_AZUL" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="OP4_COMISION" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="OP3_TOTAL" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="OP3_ROJO" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="CAB_BITACORA_PARAM_OP4">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="LINEA" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="LINEA" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="OP4_INI" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="OP4_FIN" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="OP4_POR" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="OP4_VALOR" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2975,6 +3099,54 @@ FROM "INDIGO"."VW_PEDIDOS_APP" "VW_PEDIDOS_APP"</DefiningQuery>
                 <ScalarProperty Name="PED_BOD" ColumnName="PED_BOD" />
                 <ScalarProperty Name="PED_FECHA" ColumnName="PED_FECHA" />
                 <ScalarProperty Name="PED_ID" ColumnName="PED_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VW_PRESUPUESTO_APP">
+            <EntityTypeMapping TypeName="ModelGeneral.VW_PRESUPUESTO_APP">
+              <MappingFragment StoreEntitySet="VW_PRESUPUESTO_APP">
+                <ScalarProperty Name="SALDO" ColumnName="SALDO" />
+                <ScalarProperty Name="PENDIENTE" ColumnName="PENDIENTE" />
+                <ScalarProperty Name="APROBADO" ColumnName="APROBADO" />
+                <ScalarProperty Name="PRESUP_OC" ColumnName="PRESUP_OC" />
+                <ScalarProperty Name="PRESUP_OT" ColumnName="PRESUP_OT" />
+                <ScalarProperty Name="FECHA_ULT_MOD" ColumnName="FECHA_ULT_MOD" />
+                <ScalarProperty Name="CINV_TDOC" ColumnName="CINV_TDOC" />
+                <ScalarProperty Name="DATA_VIAJE" ColumnName="DATA_VIAJE" />
+                <ScalarProperty Name="VIAJE" ColumnName="VIAJE" />
+                <ScalarProperty Name="BARCO" ColumnName="BARCO" />
+                <ScalarProperty Name="EMPRESA" ColumnName="EMPRESA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CAB_BITACORA_PARAM">
+            <EntityTypeMapping TypeName="ModelGeneral.CAB_BITACORA_PARAM">
+              <MappingFragment StoreEntitySet="CAB_BITACORA_PARAM">
+                <ScalarProperty Name="OP3_ROJO" ColumnName="OP3_ROJO" />
+                <ScalarProperty Name="OP3_TOTAL" ColumnName="OP3_TOTAL" />
+                <ScalarProperty Name="OP4_COMISION" ColumnName="OP4_COMISION" />
+                <ScalarProperty Name="OP3_AZUL" ColumnName="OP3_AZUL" />
+                <ScalarProperty Name="OP3_VERDE" ColumnName="OP3_VERDE" />
+                <ScalarProperty Name="OP2_PREMIO" ColumnName="OP2_PREMIO" />
+                <ScalarProperty Name="OP2_FIN" ColumnName="OP2_FIN" />
+                <ScalarProperty Name="OP2_INICIO" ColumnName="OP2_INICIO" />
+                <ScalarProperty Name="OP1_MULTA" ColumnName="OP1_MULTA" />
+                <ScalarProperty Name="OP1_PREMIO" ColumnName="OP1_PREMIO" />
+                <ScalarProperty Name="OP1_FIN" ColumnName="OP1_FIN" />
+                <ScalarProperty Name="OP1_INICIO" ColumnName="OP1_INICIO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CAB_BITACORA_PARAM_OP4">
+            <EntityTypeMapping TypeName="ModelGeneral.CAB_BITACORA_PARAM_OP4">
+              <MappingFragment StoreEntitySet="CAB_BITACORA_PARAM_OP4">
+                <ScalarProperty Name="OP4_VALOR" ColumnName="OP4_VALOR" />
+                <ScalarProperty Name="OP4_POR" ColumnName="OP4_POR" />
+                <ScalarProperty Name="OP4_FIN" ColumnName="OP4_FIN" />
+                <ScalarProperty Name="OP4_INI" ColumnName="OP4_INI" />
+                <ScalarProperty Name="LINEA" ColumnName="LINEA" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
