@@ -32,11 +32,23 @@ namespace Core.App.Aprobacion.Models
         [JsonProperty("OPCION3")]
         public string Opcion3 { get; set; }
 
+        [JsonProperty("OPCION3_VERDE")]
+        public string Opcion3Verde { get; set; }
+
+        [JsonProperty("OPCION3_AZUL")]
+        public string Opcion3Azul { get; set; }
+
+        [JsonProperty("OPCION3_ROJO")]
+        public string Opcion3Rojo { get; set; }
+
         [JsonProperty("OP3_VERDE")]
         public double Op3Verde { get; set; }
 
         [JsonProperty("OP3_AZUL")]
         public double Op3Azul { get; set; }
+
+        [JsonProperty("OP3_ROJO")]
+        public double Op3Rojo { get; set; }
 
         [JsonProperty("OPCION4")]
         public string Opcion4 { get; set; }

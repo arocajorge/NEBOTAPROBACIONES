@@ -154,7 +154,7 @@
                             <Label
                             FontSize="Large"
                             FontAttributes="Bold"
-                            Text="(+) Cumplida: "
+                            Text="{Binding Bono.Opcion3Verde}"
                             TextColor="Green"
                             HorizontalOptions="StartAndExpand">
                         </Label>
@@ -170,7 +170,7 @@
                             <Label
                             FontSize="Large"
                             FontAttributes="Bold"
-                            Text="(+) Parcialmente cumplida: "
+                            Text="{Binding Bono.Opcion3Azul}"
                             TextColor="Blue"
                             HorizontalOptions="StartAndExpand">
                         </Label>
@@ -178,6 +178,22 @@
                             FontSize="Large"
                             Text="{Binding Bono.Op3Azul, StringFormat='{0:C2}'}"
                             TextColor="Blue"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                    </StackLayout>
+                    <StackLayout 
+                            Orientation="Horizontal">
+                            <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="{Binding Bono.Opcion3Rojo}"
+                            TextColor="Red"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Large"
+                            Text="{Binding Bono.Op3Rojo, StringFormat='{0:C2}'}"
+                            TextColor="Red"
                             HorizontalTextAlignment="End">
                         </Label>
                     </StackLayout>
