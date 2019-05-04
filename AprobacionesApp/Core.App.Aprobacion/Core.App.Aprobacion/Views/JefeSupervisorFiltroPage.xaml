@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Core.App.Aprobacion.Views.JefeSupervisorFiltroPage"
@@ -40,40 +40,6 @@
                     ItemDisplayBinding="{Binding Descripcion}"
                     SelectedIndex="{Binding ViajeSelectedIndex, Mode=TwoWay}"
                     Title="Seleccione el viaje">
-                </Picker>
-
-                <Label      
-                    TextColor="Black"
-                    FontAttributes="Bold"
-                    Text="Bodega">
-                </Label>
-                <Picker
-                    ItemsSource="{Binding ListaBodega}"
-                    ItemDisplayBinding="{Binding Descripcion}"
-                    SelectedIndex="{Binding BodegaSelectedIndex, Mode=TwoWay}"
-                    Title="Seleccione la bodega">
-                </Picker>
-                <Label      
-                    TextColor="Black"
-                    FontAttributes="Bold"
-                    Text="Estado jefe">
-                </Label>
-                <Picker
-                    ItemsSource="{Binding ListaEstadoJefe}"
-                    ItemDisplayBinding="{Binding Descripcion}"
-                    SelectedIndex="{Binding EstadoJefeSelectedIndex, Mode=TwoWay}"
-                    Title="Seleccione el estado">
-                </Picker>
-                <Label      
-                    TextColor="Black"
-                    FontAttributes="Bold"
-                    Text="Estado supervisor">
-                </Label>
-                <Picker
-                    ItemsSource="{Binding ListaEstadoSupervisor}"
-                    ItemDisplayBinding="{Binding Descripcion}"
-                    SelectedIndex="{Binding EstadoSupervisorSelectedIndex, Mode=TwoWay}"
-                    Title="Seleccione el estado">
                 </Picker>
                 
                 <ActivityIndicator

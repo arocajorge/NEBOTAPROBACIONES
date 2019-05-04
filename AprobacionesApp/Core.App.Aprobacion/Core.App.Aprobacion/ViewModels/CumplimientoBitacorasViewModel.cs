@@ -73,7 +73,12 @@ namespace Core.App.Aprobacion.ViewModels
                 CantidadSupervisor = l.CantidadSupervisor,
                 FechaZarpe = l.FechaZarpe,
                 FechaArribo = l.FechaArribo,
-                FechaZarpeReal = l.FechaZarpeReal
+                FechaZarpeReal = l.FechaZarpeReal,
+
+                DiferenciaDiasZA = (Convert.ToDateTime(l.FechaZarpe).Date - Convert.ToDateTime(l.FechaArribo).Date).TotalDays,
+                DiferenciaDiasZRA =  (Convert.ToDateTime(l.FechaZarpeReal == null ? l.FechaArribo : l.FechaZarpeReal).Date - Convert.ToDateTime(l.FechaArribo).Date).TotalDays
+
+
             });
             return temp;
         }

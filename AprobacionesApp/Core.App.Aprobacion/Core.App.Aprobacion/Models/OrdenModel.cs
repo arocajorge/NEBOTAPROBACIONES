@@ -62,10 +62,29 @@
         public string ValorIva { get; set; }
         [JsonProperty("NOM_OBRAS")]
         public string NombreObras { get; set; }
+        [JsonProperty("DURACION")]
+        public decimal? Duracion { get; set; }
+
+        #region Presupuesto
+        [JsonProperty("PRESUPUESTO")]
+        public decimal Presupuesto { get; set; }
+
+        [JsonProperty("APROBADO")]
+        public decimal Aprobado { get; set; }
+
+        [JsonProperty("PENDIENTE")]
+        public decimal Pendiente { get; set; }
+
+        [JsonProperty("SALDO")]
+        public decimal Saldo { get; set; }
+        #endregion
 
 
         public string Imagen { get; set; }
         public string Titulo { get; set; }
+        public string Color { get; set; }
+        public bool EsModificacion { get; set; }
+        public bool EsAprobacion { get; set; }
         [JsonProperty("lst")]
         public List<OrdenDetalleModel> lst { get; set; }
     }

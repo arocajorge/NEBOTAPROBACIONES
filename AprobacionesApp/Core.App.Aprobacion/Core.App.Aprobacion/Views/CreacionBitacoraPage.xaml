@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.CreacionBitacoraPage">
+    <ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding CreacionBitacora}">
+            <ScrollView>
+                <StackLayout
+                    Padding="20">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        TextColor="Blue"
+                        Text="{Binding Titulo, Mode=TwoWay}"
+                        HorizontalTextAlignment="Center">
+                    </Label>
+                                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                             <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            FontAttributes="Bold"
+                            Text="Barco:">
+                        </Label>
+                        <Button
+                            Grid.Column="1"
+                            Grid.Row="0"      
+                            Grid.RowSpan="2"
+                            Command="{Binding BuscarSucursalCommand}"
+                            HorizontalOptions="End"
+                            Image="ic_search">
+                        </Button>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            FontAttributes="None"
+                            TextColor="Black"
+                            Text="{Binding NombreSucursal, Mode=TwoWay}">
+                        </Label>
+
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="2"
+                            FontAttributes="Bold"
+                            Text="Viaje:">
+                        </Label>
+                        <Button
+                            Grid.Column="1"
+                            Grid.Row="2"      
+                            Grid.RowSpan="2"
+                            Command="{Binding BuscarViajeCommand}"
+                            HorizontalOptions="End"
+                            Image="ic_search">
+                        </Button>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="3"
+                            FontAttributes="None"
+                            TextColor="Black"
+                            Text="{Binding NomViaje, Mode=TwoWay}">
+                        </Label>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="4"
+                            FontAttributes="Bold"
+                            Text="Fecha arribo:">
+                        </Label>
+                        <DatePicker
+                            Grid.Column="1"
+                            Grid.Row="4"
+                            HorizontalOptions="EndAndExpand"
+                            TextColor="Black"
+                            Date="{Binding FechaArribo, Mode=TwoWay}">
+                            <DatePicker.Format>dd/MM/yyyy</DatePicker.Format>
+                        </DatePicker> 
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="5"
+                            FontAttributes="Bold"
+                            Text="Fecha zarpe:">
+                        </Label>
+                        <DatePicker
+                            Grid.Column="1"
+                            Grid.Row="5"
+                            HorizontalOptions="EndAndExpand"
+                            TextColor="Black"
+                            Date="{Binding FechaZarpe, Mode=TwoWay}">
+                            <DatePicker.Format>dd/MM/yyyy</DatePicker.Format>
+                        </DatePicker> 
+                    </Grid>
+                    <ActivityIndicator
+                            IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                            VerticalOptions="CenterAndExpand">
+                    </ActivityIndicator>
+                    
+                    <StackLayout
+                        Orientation="Horizontal">
+                        <Button
+                            BackgroundColor="CornflowerBlue"
+                            TextColor="White"
+                            Command="{Binding GuardarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Guardar"
+                            HorizontalOptions="FillAndExpand">
+                        </Button>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

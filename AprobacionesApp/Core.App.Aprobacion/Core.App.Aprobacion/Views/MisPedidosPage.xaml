@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.MisPedidosPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Mis pedidos de compra">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Icon="ic_add"
+            Command="{Binding NuevaPedidoCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout            
+            BindingContext="{Binding MisPedidos}"
+            Padding="5">
+            <SearchBar
+                SearchCommand="{Binding BuscarCommand}"
+                Text="{Binding filter, Mode=TwoWay}"
+                Placeholder="Buscar..."
+                HeightRequest="50">
+            </SearchBar>
+            <ListView                
+                HasUnevenRows="True"
+                RefreshCommand="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsRefreshing,Mode=TwoWay}"
+                ItemsSource="{Binding LstOrdenes}"
+                SeparatorVisibility="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame                                
+                                HasShadow="True"
+                                CornerRadius="20"
+                                BackgroundColor="{Binding Color, Mode=TwoWay}"
+                                Margin="5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout
+                                    Grid.Column="0"
+                                    VerticalOptions="Center">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="{Binding ID, StringFormat='No.{0}'}"
+                                                TextColor="Black">
+                                            </Label>
+                                            <Label
+                                                HorizontalOptions="EndAndExpand"
+                                                Text="{Binding Fecha, StringFormat='{0:dd/MM/yyyy}'}"
+                                                FontAttributes="None"
+                                                TextColor="Black">
+                                            </Label>
+                                        </StackLayout>
+                                        <Label
+                                            FontAttributes="None"
+                                            Text="{Binding NombreSucursal}"
+                                            TextColor="Black">
+                                        </Label>
+                                        <Label
+                                            FontAttributes="None"
+                                            Text="{Binding NombreViaje}"
+                                            TextColor="Black">
+                                        </Label>
+                                         <Label
+                                            FontAttributes="None"
+                                            Text="{Binding Observacion}"
+                                            TextColor="Black">
+                                        </Label>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            Text="{Binding ComentarioAprobacion}"
+                                            TextColor="White">
+                                        </Label>
+                                    </StackLayout>
+                                    <Image
+                                        Grid.Column="1"
+                                        HorizontalOptions="End"
+                                        Source="ic_keyboard_arrow_right">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding UpdatePedidoCommand}"></TapGestureRecognizer>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

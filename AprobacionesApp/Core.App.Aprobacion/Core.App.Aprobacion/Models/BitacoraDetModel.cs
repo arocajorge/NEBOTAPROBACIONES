@@ -42,5 +42,16 @@ namespace Core.App.Aprobacion.Models
 
         [JsonProperty("CINV_COM1")]
         public string Comentario { get; set; }
+
+        [JsonProperty("TIPO")]
+        public string Tipo { get; set; }
+        [JsonProperty("CINV_ST")]
+        public string Estado { get; set; }
+        [JsonProperty("COLOR_ESTADO")]
+        public string ColorEstado { get; set; }
+        [JsonProperty("ST_EMPLEADO")]
+        public short? EsEmpleado { get; set; }
+
+        public string Titulo { get; set; }
     }
 }

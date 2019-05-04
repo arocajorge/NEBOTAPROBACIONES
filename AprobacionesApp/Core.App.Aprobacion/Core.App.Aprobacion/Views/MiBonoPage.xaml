@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.MiBonoPage"
+              BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Mi bono">
+<ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding MiBono}">
+                 <ScrollView>
+                    <StackLayout
+                        Padding="20">
+                        <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="{Binding Bono.Barco}"
+                            HorizontalTextAlignment="Center"
+                            TextColor="Black">
+                        </Label>
+                        <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="{Binding Bono.Viaje}"
+                            HorizontalTextAlignment="Center"
+                            TextColor="Black">
+                        </Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Fecha arribo: "
+                            HorizontalOptions="StartAndExpand"
+                            TextColor="Black">
+                            </Label>
+                            <Label
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            FontSize="Medium"
+                            Text="{Binding Bono.FechaArribo, StringFormat='{0:dd/MM/yyyy}'}"
+                            TextColor="Black">
+                            </Label> 
+                         <Label
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Fecha zarpe: "
+                            HorizontalOptions="StartAndExpand"
+                                TextColor="Black">
+                            </Label>
+                            <Label
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            FontSize="Medium"
+                            Text="{Binding Bono.FechaZarpe, StringFormat='{0:dd/MM/yyyy}'}"
+                            TextColor="Black">
+                            </Label>   
+                         <Label
+                            Grid.Column="0"
+                            Grid.Row="2"
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            HorizontalOptions="StartAndExpand"
+                            Text="Fecha zarpe real: "
+                            TextColor="Black">
+                            </Label>
+                            <Label
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            FontSize="Medium"
+                            Text="{Binding Bono.FechaZarpeReal, StringFormat='{0:dd/MM/yyyy}'}"
+                            TextColor="Black">
+                            </Label>  
+                    </Grid>
+                        
+                        <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="{Binding Bono.Opcion1}"
+                            HorizontalTextAlignment="Center"
+                            TextColor="Black">
+                        </Label>
+                         <StackLayout 
+                            Orientation="Horizontal">
+                            <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="(+) Premio: "
+                            TextColor="Green"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Large"
+                            Text="{Binding Bono.Op1Premio, StringFormat='{0:C2}'}"
+                            TextColor="Green"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                    </StackLayout>
+                        <StackLayout 
+                            Orientation="Horizontal">
+                            <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="(-) Multa: "
+                            TextColor="Red"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Large"
+                            Text="{Binding Bono.Op1Multa, StringFormat='{0:C2}'}"
+                            TextColor="Red"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                    </StackLayout>
+                        <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="{Binding Bono.Opcion2}"
+                            HorizontalTextAlignment="Center"
+                            TextColor="Black">
+                        </Label>
+                      <StackLayout 
+                           Orientation="Horizontal">
+                            <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="(+) Premio: "
+                            TextColor="Green"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Large"
+                            Text="{Binding Bono.Op2Premio, StringFormat='{0:C2}'}"
+                            TextColor="Green"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                    </StackLayout>
+                    
+                        <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="{Binding Bono.Opcion3}"
+                            HorizontalTextAlignment="Center"
+                            TextColor="Black">
+                        </Label>
+                        <StackLayout 
+                            Orientation="Horizontal">
+                            <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="(+) Cumplida: "
+                            TextColor="Green"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Large"
+                            Text="{Binding Bono.Op3Verde, StringFormat='{0:C2}'}"
+                            TextColor="Green"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                    </StackLayout>
+                    <StackLayout 
+                            Orientation="Horizontal">
+                            <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="(+) Parcialmente cumplida: "
+                            TextColor="Blue"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Large"
+                            Text="{Binding Bono.Op3Azul, StringFormat='{0:C2}'}"
+                            TextColor="Blue"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                    </StackLayout>
+                        <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="{Binding Bono.Opcion4}"
+                            HorizontalTextAlignment="Center"
+                            TextColor="Black">
+                        </Label>
+                    <StackLayout 
+                            Orientation="Horizontal">
+                            <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="(+) Comisión: "
+                            TextColor="Green"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Large"
+                            Text="{Binding Bono.Op4Premio, StringFormat='{0:C2}'}"
+                            TextColor="Green"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                    </StackLayout>
+                    <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="(=) TOTAL"
+                            HorizontalTextAlignment="Center"
+                            TextColor="Black">
+                        </Label>
+                        <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="{Binding Bono.Total, StringFormat='{0:C2}'}"
+                            HorizontalTextAlignment="Center"
+                            TextColor="Black">
+                        </Label>
+                    </StackLayout>
+                </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

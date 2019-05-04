@@ -20,6 +20,12 @@
         [JsonProperty("TELEFONOS")]
         public string Telefonos { get; set; }
 
+        [JsonProperty("DURACION")]
+        public decimal? Duracion { get; set; }
+
+        [JsonProperty("DURACIONACUMULADA")]
+        public decimal? DuracionAcumulada { get; set; }
+
         public string Identificacion { get; set; }
     }
 }

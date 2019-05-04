@@ -22,9 +22,24 @@ namespace Core.App.Aprobacion.ViewModels
         private int _Height;
         private string _numeroOrden;
         private bool _EsSupervisor;
+        private ObservableCollection<string> _ListaTipoOrden;
+        private string _TipoSelectedIndex;
         #endregion
 
         #region Propiedades
+        public string TipoSelectedIndex
+        {
+            get { return this._TipoSelectedIndex; }
+            set { SetValue(ref this._TipoSelectedIndex, value); }
+        }
+        public ObservableCollection<string> ListaTipoOrden
+        {
+            get { return this._ListaTipoOrden; }
+            set
+            {
+                SetValue(ref this._ListaTipoOrden, value);
+            }
+        }
         public ObservableCollection<BitacoraDetItemViewModel> LstDet
         {
             get { return this._lstBitacoras; }
@@ -73,11 +88,19 @@ namespace Core.App.Aprobacion.ViewModels
             apiService = new ApiService();
             Bitacora = new BitacoraModel();
             Bitacora = Model;
+            CargarTipos();
             CargarBitacora();
+            TipoSelectedIndex = "Orden de trabajo";
         }
         #endregion
 
         #region Metodos
+        private void CargarTipos()
+        {
+            ListaTipoOrden = new ObservableCollection<string>();
+            ListaTipoOrden.Add("Orden de trabajo");
+            ListaTipoOrden.Add("Pedido de compra");
+        }
         private IEnumerable<BitacoraDetItemViewModel> ToBitacoraItemModel()
         {
             var temp = Bitacora.lst.Select(l => new BitacoraDetItemViewModel
@@ -89,7 +112,10 @@ namespace Core.App.Aprobacion.ViewModels
                 Valor = l.Valor,
                 Nomproveedor = l.Nomproveedor,
                 Comentario = l.Comentario,
-                CinvNum = l.CinvNum
+                CinvNum = l.CinvNum,
+                Tipo = l.Tipo,
+                ColorEstado = l.ColorEstado,
+                Estado = l.Estado
             });
             return temp;
         }
@@ -198,7 +224,7 @@ namespace Core.App.Aprobacion.ViewModels
                     this.IsRunning = false;
                     await Application.Current.MainPage.DisplayAlert(
                         "Alerta",
-                        "Ingrese el número de orden",
+                        "Ingrese el número",
                         "Aceptar");
                     return;
                 }
@@ -231,7 +257,8 @@ namespace Core.App.Aprobacion.ViewModels
                         Id = Bitacora.Id,
                         Linea = Bitacora.Linea,
                         NumeroOrden = Convert.ToInt32(NumeroOrden),
-                    });
+                        Tipo = TipoSelectedIndex == "Orden de trabajo" ? "OT" : "PE"
+            });
                 NumeroOrden = string.Empty;
                 CargarBitacora();
             }
@@ -295,6 +322,7 @@ namespace Core.App.Aprobacion.ViewModels
                         Id = Bitacora.Id,
                         Linea = Bitacora.Linea,
                         NumeroOrden = Convert.ToInt32(NumeroOrden),
+                        Tipo = TipoSelectedIndex == "Orden de trabajo" ? "OT" : "PE",
                         Eliminar = true
                     });
                 NumeroOrden = string.Empty;
@@ -474,6 +502,70 @@ namespace Core.App.Aprobacion.ViewModels
 
             this.Bitacora.Usuario = Settings.IdUsuario;
             this.Bitacora.Estado = "X";
+
+            var response_sinc = await apiService.Post<BitacoraModel>(
+                Settings.UrlConexionActual,
+                Settings.RutaCarpeta,
+                "BitacorasJefeSup",
+                this.Bitacora);
+
+            if (!response_sinc.IsSuccess)
+            {
+                this.IsEnabled = true;
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    response_sinc.Message,
+                    "Aceptar");
+                return;
+            }
+
+            await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    "Actualización de estado exitosa",
+                    "Aceptar");
+
+            this.IsEnabled = true;
+            this.IsRunning = false;
+
+            MainViewModel.GetInstance().JefeSupervisorBitacoras.LoadLista();
+            await App.Navigator.Navigation.PopAsync();
+        }
+
+        public ICommand DesaprobarCommand
+        {
+            get
+            {
+                return new RelayCommand(Desaprobar);
+            }
+        }
+
+        private async void Desaprobar()
+        {
+            this.IsEnabled = false;
+            this.IsRunning = true;
+
+            Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
+            if (!con.IsSuccess)
+            {
+                string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
+                con = await apiService.CheckConnection(UrlDistinto);
+                if (!con.IsSuccess)
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        con.Message,
+                        "Aceptar");
+                    return;
+                }
+                else
+                    Settings.UrlConexionActual = UrlDistinto;
+            }
+
+            this.Bitacora.Usuario = Settings.IdUsuario;
+            this.Bitacora.Estado = "";
 
             var response_sinc = await apiService.Post<BitacoraModel>(
                 Settings.UrlConexionActual,

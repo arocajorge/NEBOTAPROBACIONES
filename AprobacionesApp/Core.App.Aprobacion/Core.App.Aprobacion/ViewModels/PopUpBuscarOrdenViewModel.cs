@@ -22,6 +22,8 @@ namespace Core.App.Aprobacion.ViewModels
         private ApiService apiService;
         private bool _IsEnabled;
         private bool _IsRunning;
+        private bool _IsVisible;
+        private bool _ModificarChatarra;
         #endregion
 
         #region Propiedades        
@@ -38,7 +40,18 @@ namespace Core.App.Aprobacion.ViewModels
         public string TipoSelectedIndex
         {
             get { return this._TipoSelectedIndex; }
-            set { SetValue(ref this._TipoSelectedIndex, value); }
+
+            set { SetValue(ref this._TipoSelectedIndex, value);
+                if (TipoSelectedIndex == "Orden de compra")
+                    IsVisible = true;
+                else
+                    IsVisible = false;
+            }
+        }
+        public bool ModificarChatarra
+        {
+            get { return this._ModificarChatarra; }
+            set { SetValue(ref this._ModificarChatarra, value); }
         }
         public bool IsRunning
         {
@@ -50,6 +63,11 @@ namespace Core.App.Aprobacion.ViewModels
             get { return this._IsEnabled; }
             set { SetValue(ref this._IsEnabled, value); }
         }
+        public bool IsVisible
+        {
+            get { return this._IsVisible; }
+            set { SetValue(ref this._IsVisible, value); }
+        }
         #endregion
 
         #region Constructor
@@ -57,6 +75,7 @@ namespace Core.App.Aprobacion.ViewModels
         {
             this.IsEnabled = true;
             this.IsRunning = false;
+            IsVisible = false;
             apiService = new ApiService();
             CargarTipos();            
         }
@@ -81,7 +100,14 @@ namespace Core.App.Aprobacion.ViewModels
         }
         public ICommand SearchCommand
         {
-            get { return new RelayCommand(Search); }
+            get {
+            return new RelayCommand(Search); }
+        }
+
+        public ICommand ModificarCommand
+        {
+            get {
+            return new RelayCommand(Modificar); }
         }
 
         private async void Search()
@@ -188,9 +214,10 @@ namespace Core.App.Aprobacion.ViewModels
                         break;
                 }
                 Orden.Titulo = TipoDocumento + " No. " + Orden.NumeroOrden;
+                Orden.EsAprobacion = true;
 
                 MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel(Orden);
-                Application.Current.MainPage = new NavigationPage(new GerenteMasterPage());
+                Application.Current.MainPage = new GerenteMasterPage();
             }
             else
             {
@@ -199,6 +226,127 @@ namespace Core.App.Aprobacion.ViewModels
                 await Application.Current.MainPage.DisplayAlert(
                     "Alerta",
                     "La "+ TipoSelectedIndex+" No."+NumeroOrden+" no se encuentra pendiente de aprobación",
+                    "Aceptar");
+                return;
+            }
+        }
+
+
+        private async void Modificar()
+        {
+            this.IsEnabled = false;
+            this.IsRunning = true;
+            if (string.IsNullOrEmpty(this.TipoSelectedIndex))
+            {
+                this.IsEnabled = true;
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    "Debe seleccionar el tipo de orden",
+                    "Aceptar");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(this.NumeroOrden))
+            {
+                this.IsEnabled = true;
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    "Debe ingresar el número de orden",
+                    "Aceptar");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(Settings.UrlConexionActual))
+            {
+                this.IsEnabled = true;
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    "Dispositivo no configurado",
+                    "Aceptar");
+                return;
+            }
+
+            Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
+            if (!con.IsSuccess)
+            {
+                string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
+                con = await apiService.CheckConnection(UrlDistinto);
+                if (!con.IsSuccess)
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        con.Message,
+                        "Aceptar");
+                    return;
+                }
+                else
+                    Settings.UrlConexionActual = UrlDistinto;
+            }
+            string CINV_TDOC = string.Empty;
+            switch (TipoSelectedIndex)
+            {
+                case "Orden de trabajo":
+                    CINV_TDOC = "OT";
+                    break;
+                case "Orden de compra":
+                    CINV_TDOC = "OC";
+                    break;
+                case "Orden de caja chica":
+                    CINV_TDOC = "OK";
+                    break;
+                case "Orden recurrente":
+                    CINV_TDOC = "OR";
+                    break;
+            }
+            var response_cs = await apiService.GetObject<OrdenModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "OrdenTrabajo", "CINV_TDOC=" + CINV_TDOC + "&CINV_NUM=" + NumeroOrden);
+            if (!response_cs.IsSuccess)
+            {
+                this.IsEnabled = true;
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    response_cs.Message,
+                    "Aceptar");
+                return;
+            }
+
+            var Orden = (OrdenModel)response_cs.Result;
+            if (Orden != null && Orden.NumeroOrden != 0)
+            {
+
+                string TipoDocumento = Orden.TipoDocumento;
+                switch (TipoDocumento)
+                {
+                    case "OC":
+                        TipoDocumento = "Orden de compra";
+                        break;
+                    case "OK":
+                        TipoDocumento = "Orden de caja chica";
+                        break;
+                    case "OT":
+                        TipoDocumento = "Orden de trabajo";
+                        break;
+                    case "OR":
+                        TipoDocumento = "Orden recurrente";
+                        break;
+                }
+                Orden.Titulo = TipoDocumento + " No. " + Orden.NumeroOrden;
+                Orden.EsModificacion = true;
+                MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel(Orden);
+                Application.Current.MainPage = new GerenteMasterPage();
+            }
+            else
+            {
+                this.IsEnabled = true;
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    "La " + TipoSelectedIndex + " No." + NumeroOrden + " no se encuentra pendiente de aprobación",
                     "Aceptar");
                 return;
             }

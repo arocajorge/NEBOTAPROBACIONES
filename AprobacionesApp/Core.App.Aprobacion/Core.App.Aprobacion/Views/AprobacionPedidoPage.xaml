@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.AprobacionPedidoPage">
+    <ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding AprobacionPedido}">
+            <ScrollView>
+                <StackLayout
+                    Padding="20">
+                    <Image
+                        IsVisible="{Binding IsVisibleLogo, Mode=TwoWay}"
+                        Source="ic_ok">
+                    </Image>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        TextColor="Blue"
+                        Text="{Binding Orden.Titulo, Mode=TwoWay}"
+                        HorizontalTextAlignment="Center">
+                    </Label>                 
+                        <Label
+                            FontAttributes="Bold"
+                        IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                            Text="Bodega:">
+                        </Label>
+                        <Label
+                            FontAttributes="None"
+                            TextColor="Black"
+                        IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                            Text="{Binding Orden.NombreBodega, Mode=TwoWay}">
+                        </Label>
+                        <Label
+                            FontAttributes="Bold"
+                        IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                            Text="Barco:">
+                        </Label>
+                        <Label
+                            FontAttributes="None"
+                            TextColor="Black"
+                        IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                            Text="{Binding Orden.NombreSucursal, Mode=TwoWay}">
+                        </Label>
+
+                        <Label
+                            FontAttributes="Bold"
+                        IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                            Text="Viaje:">
+                        </Label>
+                        <Label
+                            FontAttributes="None"
+                            TextColor="Black"
+                        IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                            Text="{Binding Orden.NombreViaje, Mode=TwoWay}">
+                        </Label>
+
+                        <Label
+                            FontAttributes="Bold"
+                        IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                            Text="Solicitante:">
+                        </Label>
+                        <Label
+                            FontAttributes="None"
+                            TextColor="Black"
+                        IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                            Text="{Binding Orden.NombreEmpleado, Mode=TwoWay}">
+                        </Label>
+                        <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Detalle: "
+                        IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                            TextColor="Black">
+                        
+                    </Label>
+                    <Label
+                            FontSize="Medium"
+                        IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                            Text="{Binding Orden.Observacion, Mode=TwoWay}"
+                            TextColor="Black">
+                    </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Comentario: "
+                        IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                            TextColor="Black"></Label>
+                    <Editor
+                            HeightRequest="120"
+                            FontSize="Medium"
+                        IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                            Text="{Binding Orden.ComentarioAprobacion, Mode=TwoWay}"
+                            TextColor="Black">
+                    </Editor>
+                    <ActivityIndicator
+                            IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                            VerticalOptions="CenterAndExpand">
+                    </ActivityIndicator>
+                    
+                    <StackLayout
+                        Orientation="Horizontal">
+                        <Button
+                            BackgroundColor="CornflowerBlue"
+                            TextColor="White"
+                            IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                            Command="{Binding AprobarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Aprobar"
+                            HorizontalOptions="FillAndExpand">
+                        </Button>
+                        <Button
+                            BackgroundColor="Red"
+                            TextColor="White"
+                            IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                            Command="{Binding AnularCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Anular"
+                            HorizontalOptions="FillAndExpand">
+                        </Button>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

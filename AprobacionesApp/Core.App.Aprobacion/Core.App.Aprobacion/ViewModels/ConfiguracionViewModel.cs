@@ -93,7 +93,7 @@ namespace Core.App.Aprobacion.ViewModels
                     "Aceptar");
                 return;
             }
-
+            Settings.RutaCarpeta = this.RutaCarpeta;
             Response con = await apiService.CheckConnection(this.UrlServidorExterno);
             if (!con.IsSuccess)
             {
@@ -117,7 +117,7 @@ namespace Core.App.Aprobacion.ViewModels
 
             Settings.UrlConexionExterna = this.UrlServidorExterno;
             Settings.UrlConexionInterna = this.UrlServidorInterno;
-            Settings.RutaCarpeta = this.RutaCarpeta;            
+                  
            
             #region Limpio los settings
             Settings.IdUsuario = string.Empty;

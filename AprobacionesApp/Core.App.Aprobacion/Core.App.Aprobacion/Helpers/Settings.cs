@@ -18,12 +18,14 @@
         const string idUsuario = "idUsuario";
 
         const string sucursal = "sucursal";
-        const string bodega = "bodega";
         const string viaje = "viaje";
+        const string bodega = "bodega";
+        const string solicitante = "solicitante";
+        const string nombreSucursal = "nombreSucursal";
+        const string nombreViaje = "nombreViaje";
+        const string nombreBodega = "nombreBodega";
+        const string nombreSolicitante = "nombreSolicitante";
         const string fechaInicio = "fechaInicio";
-        const string numeroOrden = "numeroOrden";
-        const string estadoSupervisor = "estadoSupervisor";
-        const string estadoJefe = "estadoJefe";
         const string estadoGerente = "estadoGerente";
         const string rolApro = "rolApro";
 
@@ -108,17 +110,6 @@
                 AppSettings.AddOrUpdateValue(sucursal, value);
             }
         }
-        public static string Bodega
-        {
-            get
-            {
-                return AppSettings.GetValueOrDefault(bodega, stringDefault);
-            }
-            set
-            {
-                AppSettings.AddOrUpdateValue(bodega, value);
-            }
-        }
         public static string Viaje
         {
             get
@@ -130,26 +121,26 @@
                 AppSettings.AddOrUpdateValue(viaje, value);
             }
         }
-        public static string EstadoJefe
+        public static string NombreSucursal
         {
             get
             {
-                return AppSettings.GetValueOrDefault(estadoJefe, stringDefault);
+                return AppSettings.GetValueOrDefault(nombreSucursal, stringDefault);
             }
             set
             {
-                AppSettings.AddOrUpdateValue(estadoJefe, value);
+                AppSettings.AddOrUpdateValue(nombreSucursal, value);
             }
         }
-        public static string EstadoSupervisor
+        public static string NombreViaje
         {
             get
             {
-                return AppSettings.GetValueOrDefault(estadoSupervisor, stringDefault);
+                return AppSettings.GetValueOrDefault(nombreViaje, stringDefault);
             }
             set
             {
-                AppSettings.AddOrUpdateValue(estadoSupervisor, value);
+                AppSettings.AddOrUpdateValue(nombreViaje, value);
             }
         }
         public static string EstadoGerente
@@ -174,15 +165,48 @@
                 AppSettings.AddOrUpdateValue(fechaInicio, value);
             }
         }
-        public static string NumeroOrden
+        public static string Solicitante
         {
             get
             {
-                return AppSettings.GetValueOrDefault(numeroOrden, stringDefault);
+                return AppSettings.GetValueOrDefault(solicitante, stringDefault);
             }
             set
             {
-                AppSettings.AddOrUpdateValue(numeroOrden, value);
+                AppSettings.AddOrUpdateValue(solicitante, value);
+            }
+        }
+        public static string Bodega
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(bodega, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(bodega, value);
+            }
+        }
+        public static string NombreSolicitante
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(nombreSolicitante, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(nombreSolicitante, value);
+            }
+        }
+        public static string NombreBodega
+        {
+            get
+            {
+                return AppSettings.GetValueOrDefault(nombreBodega, stringDefault);
+            }
+            set
+            {
+                AppSettings.AddOrUpdateValue(nombreBodega, value);
             }
         }
     }

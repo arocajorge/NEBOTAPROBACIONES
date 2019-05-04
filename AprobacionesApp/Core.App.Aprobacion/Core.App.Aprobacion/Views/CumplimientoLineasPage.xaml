@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Core.App.Aprobacion.Views.CumplimientoLineasPage"
@@ -14,8 +14,13 @@
                 Placeholder="Buscar..."
                 HeightRequest="50">
             </SearchBar>
+            <Picker
+                    ItemsSource="{Binding ListaColores}"
+                    SelectedItem="{Binding ColorSelectedIndex, Mode=TwoWay}"
+                    Title="Estado">
+                </Picker>
             <ListView          
-                BackgroundColor="Silver"
+                BackgroundColor="White"
                 HasUnevenRows="True"
                 RefreshCommand="{Binding RefreshCommand}"
                 IsRefreshing="{Binding IsRefreshing,Mode=TwoWay}"
@@ -25,6 +30,11 @@
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.ContextActions>
+                                <MenuItem
+                                    Command="{Binding DesaprobarCommand}"
+                                    Text="Desaprobar"
+                                    IsDestructive="true">                                    
+                                </MenuItem>
                                 <MenuItem
                                     Command="{Binding AprobarCommand}"
                                     Text="Aprobar">                                    
@@ -40,7 +50,7 @@
                                         <StackLayout Orientation="Horizontal">
                                             <Label
                                                 FontAttributes="Bold"
-                                                Text="{Binding Linea, StringFormat='No.{0}'}"
+                                                Text="{Binding Linea, StringFormat='Obra.{0}'}"
                                                 HorizontalOptions="StartAndExpand"
                                                 TextColor="Black">
                                             </Label>
@@ -52,7 +62,29 @@
                                                 TextColor="Black">
                                         </Label>
                                     </StackLayout>
+                                    <StackLayout
+                                         Orientation="Horizontal">
+                                    <Label
+                                            FontAttributes="None"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="{Binding FechaOT, StringFormat= 'Fecha: {0:dd/MM/yyyy}'}"
+                                            TextColor="Black">
+                                        </Label>
                                         <Label
+                                            FontAttributes="None"
+                                            HorizontalOptions="End"
+                                            Text="{Binding Duracion, StringFormat= 'Días orden: {0:n0}'}"
+                                            TextColor="Black">
+                                        </Label> 
+                                        </StackLayout>
+                                    
+                                    <Label
+                                            FontAttributes="Bold"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="{Binding DuracionReal, StringFormat= 'Duración real: {0:n0}'}"
+                                            TextColor="Black">
+                                        </Label> 
+                                    <Label
                                             FontAttributes="None"
                                             HorizontalOptions="StartAndExpand"
                                             Text="{Binding Contratista}"
@@ -105,6 +137,41 @@
                                             Source="{Binding ImagenSupervisor, Mode=TwoWay}"
                                             HeightRequest="30">
                                         </Image>
+                                        
+                                        <Label
+                                            Grid.Column="0"
+                                            Grid.Row="1"
+                                            TextColor="Black"
+                                            FontSize="Small"
+                                            FontAttributes="None"
+                                            Text="{Binding FechaAproJefe, StringFormat='{0:dd/MM/yyyy}'}">
+                                        </Label>
+                                            <Label
+                                             Grid.Column="1"
+                                            Grid.Row="1"
+                                                HorizontalOptions="End"
+                                                Text="{Binding DiferenciaDiasZA, StringFormat='{0} días'}"
+                                                FontAttributes="None"
+                                            FontSize="Small"
+                                                TextColor="Black">
+                                            </Label>
+                                        <Label
+                                            Grid.Column="2"
+                                            Grid.Row="1"
+                                            TextColor="Black"
+                                            FontSize="Small"
+                                            FontAttributes="None"
+                                            Text="{Binding FechaAproSupervisor, StringFormat='{0:dd/MM/yyyy}'}">
+                                        </Label>
+                                        <Label
+                                            Grid.Column="3"
+                                            Grid.Row="1"
+                                                HorizontalOptions="End"
+                                                Text="{Binding DiferenciaDiasZRA, StringFormat='{0} días'}"
+                                                FontAttributes="None"
+                                            FontSize="Small"
+                                                TextColor="Black">
+                                            </Label>
                                     </Grid>
                                 </StackLayout>
                             </Frame>

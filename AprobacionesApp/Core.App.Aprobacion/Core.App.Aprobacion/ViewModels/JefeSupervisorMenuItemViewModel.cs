@@ -88,14 +88,16 @@ namespace Core.App.Aprobacion.ViewModels
                         }
                         break;
                     case "LoginPage":
-                        #region Limpio los settings
-                        #endregion
                         MainViewModel.GetInstance().Login = new LoginViewModel();
                         Application.Current.MainPage = new NavigationPage(new LoginPage());
                         break;
                     case "JefeSupervisorOrdenesPage":
                         MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
                         Application.Current.MainPage = new JefeSupervisorMasterPage();
+                        break;
+                    case "AprobacionPedidoPage":
+                        MainViewModel.GetInstance().AprobacionPedido = new AprobacionPedidoViewModel();
+                        await App.Navigator.PushAsync(new AprobacionPedidoPage());
                         break;
                     case "JefeSupervisorBitacorasPage":
                         if (string.IsNullOrEmpty(Settings.Sucursal) || string.IsNullOrEmpty(Settings.Viaje))
@@ -105,34 +107,8 @@ namespace Core.App.Aprobacion.ViewModels
                               "Para ingresar a bitácoras debe escoger barco y viaje",
                               "Aceptar");
 
-                            Response conection = await apiService.CheckConnection(Settings.UrlConexionActual);
-                            if (!conection.IsSuccess)
-                            {
-                                string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
-                                con = await apiService.CheckConnection(UrlDistinto);
-                                if (!con.IsSuccess)
-                                {
-                                    MainViewModel.GetInstance().NoHayConexion = new NoHayConexionViewModel();
-                                    Application.Current.MainPage = new NavigationPage(new NoHayConexionPage());
-                                    return;
-                                }
-                                else
-                                    Settings.UrlConexionActual = UrlDistinto;
-                            }
-
-                            var response_cs2 = await apiService.GetObject<UsuarioModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Usuario", "USUARIO=" + Settings.IdUsuario);
-                            if (!response_cs2.IsSuccess)
-                            {
-                                MainViewModel.GetInstance().NoHayConexion = new NoHayConexionViewModel();
-                                Application.Current.MainPage = new NavigationPage(new NoHayConexionPage());
-                                return;
-                            }
-                            var usuario1 = (UsuarioModel)response_cs2.Result;
-                            if (usuario1 != null)
-                            {
-                                MainViewModel.GetInstance().FiltroJefeSupervisor = new JefeSupervisorFiltroViewModel(usuario1.RolApro.ToUpper());
-                                Application.Current.MainPage = new NavigationPage(new JefeSupervisorFiltroPage());
-                            }
+                            MainViewModel.GetInstance().FiltroJefeSupervisor = new JefeSupervisorFiltroViewModel(Settings.RolApro.ToUpper());
+                            Application.Current.MainPage = new NavigationPage(new JefeSupervisorFiltroPage());
                         }
                         else
                         {
@@ -153,6 +129,10 @@ namespace Core.App.Aprobacion.ViewModels
                         MainViewModel.GetInstance().MisOrdenesTrabajo = new MisOrdenesTrabajoViewModel();
                         await App.Navigator.PushAsync(new MisOrdenesTrabajoPage());
                         break;
+                    case "MisPedidosPage":
+                        MainViewModel.GetInstance().MisPedidos = new MisPedidosViewModel();
+                        await App.Navigator.PushAsync(new MisPedidosPage());
+                        break;
                     case "CumplimientoFiltroPage":
                         MainViewModel.GetInstance().CumplimientoFiltro = new CumplimientoFiltroViewModel();
                         await App.Navigator.PushAsync(new CumplimientoFiltroPage());
@@ -160,6 +140,31 @@ namespace Core.App.Aprobacion.ViewModels
                     case "AprobacionGerentePage":
                         MainViewModel.GetInstance().AprobacionGerente = new AprobacionGerenteViewModel();
                         Application.Current.MainPage = new GerenteMasterPage();
+                        break;
+                    case "ComboProveedoresPage":
+                        MainViewModel.GetInstance().ComboProveedores = new ComboProveedoresViewModel(true);
+                        await App.Navigator.PushAsync(new ComboProveedoresPage());
+                        break;
+                    case "MiBonoPage":
+                        if (string.IsNullOrEmpty(Settings.Sucursal) || string.IsNullOrEmpty(Settings.Viaje))
+                        {
+                            await Application.Current.MainPage.DisplayAlert(
+                              "Alerta",
+                              "Para ingresar a mi bono debe escoger barco y viaje",
+                              "Aceptar");
+
+                            MainViewModel.GetInstance().FiltroJefeSupervisor = new JefeSupervisorFiltroViewModel(Settings.RolApro.ToUpper());
+                            Application.Current.MainPage = new NavigationPage(new JefeSupervisorFiltroPage());
+                        }
+                        else
+                        {
+                            MainViewModel.GetInstance().MiBono = new MiBonoViewModel();
+                            await App.Navigator.PushAsync(new MiBonoPage());
+                        }
+                        break;
+                    case "CreacionBitacorasPage":
+                        MainViewModel.GetInstance().CreacionBitacoras = new CreacionBitacorasViewModel();
+                        await App.Navigator.PushAsync(new CreacionBitacorasPage());
                         break;
                 }
             }
