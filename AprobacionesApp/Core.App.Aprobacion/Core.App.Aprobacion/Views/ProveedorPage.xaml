@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Core.App.Aprobacion.Views.ProveedorPage"
+              BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Proveedor">
+    <ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding Proveedor}">
+            <ScrollView>
+                <StackLayout
+                    Padding="20">
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Proveedor: "
+                            TextColor="Black"></Label>
+                    <Label
+                            VerticalOptions="EndAndExpand"
+                            FontSize="Medium"
+                            Text="{Binding Proveedor.Nombre}"
+                            TextColor="Black">
+                    </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Identificación: "
+                            TextColor="Black"></Label>
+                    <Label
+                            VerticalOptions="EndAndExpand"
+                            FontSize="Medium"
+                            Text="{Binding Proveedor.Identificacion}"
+                            TextColor="Black">
+                    </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Teléfonos: "
+                            TextColor="Black"></Label>
+                    <Label
+                            VerticalOptions="EndAndExpand"
+                            FontSize="Medium"
+                            Text="{Binding Proveedor.Telefonos}"
+                            TextColor="Black">
+                    </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Email: "
+                            TextColor="Black"></Label>
+                    <Label
+                            VerticalOptions="EndAndExpand"
+                            FontSize="Medium"
+                            Text="{Binding Proveedor.EMail}"
+                            TextColor="Black">
+                    </Label>
+            
+                    <Grid>
+                            <Grid.ColumnDefinitions>
+                               <ColumnDefinition Width="*"/>
+                               <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Días ocupados: "
+                            TextColor="Black"></Label>
+                    <Label
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            VerticalOptions="EndAndExpand"
+                            FontSize="Medium"
+                            Text="{Binding Proveedor.DuracionAcumulada, StringFormat='{0:n0}'}"
+                            TextColor="Black">
+                    </Label>
+                            <Label
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            FontAttributes="Bold"
+                            VerticalOptions="CenterAndExpand"
+                            FontSize="Medium"
+                            Text="Días máximos:">
+                        </Label>
+                        <Entry
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Text="{Binding Duracion, Mode=TwoWay, StringFormat='{0:n0}'}"
+                            Keyboard="Numeric">                            
+                        </Entry>
+                    </Grid>
+                    <ActivityIndicator
+                            IsRunning="false"
+                            VerticalOptions="CenterAndExpand">
+                    </ActivityIndicator>
+            <Button
+                            BackgroundColor="CornflowerBlue"
+                            TextColor="White"
+                            Command="{Binding GuardarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Guardar"
+                        VerticalOptions="EndAndExpand"
+                            HorizontalOptions="FillAndExpand">
+                        </Button>
+                    </StackLayout>
+                </ScrollView>
+            </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -19,6 +19,7 @@ namespace Core.App.Aprobacion.ViewModels
         private string _filter;
         private ApiService apiService;
         private bool _IsRefreshing;
+        private bool _ModificaProveedor;
         #endregion
 
         #region Propiedades
@@ -28,6 +29,14 @@ namespace Core.App.Aprobacion.ViewModels
             set
             {
                 SetValue(ref this._IsRefreshing, value);
+            }
+        }
+        public bool ModificaProveedor
+        {
+            get { return this._ModificaProveedor; }
+            set
+            {
+                SetValue(ref this._ModificaProveedor, value);
             }
         }
         public ObservableCollection<ProveedorItemViewModel> LstProveedores
@@ -51,8 +60,9 @@ namespace Core.App.Aprobacion.ViewModels
         #endregion
 
         #region Constructor
-        public ComboProveedoresViewModel()
+        public ComboProveedoresViewModel(bool Modifica = false)
         {
+            ModificaProveedor = Modifica;
             apiService = new ApiService();
             LoadLista();
         }
@@ -66,7 +76,10 @@ namespace Core.App.Aprobacion.ViewModels
                 Codigo = l.Codigo,
                 Nombre = l.Nombre,
                 Identificacion = l.Identificacion,
-                EMail = l.EMail
+                EMail = l.EMail,
+                ModificaProveedor = ModificaProveedor,
+                Duracion = l.Duracion,
+                Telefonos = l.Telefonos,
             });
             return temp;
         }

@@ -15,11 +15,52 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\ProveedorPage.cs" />
+    <Compile Remove="ViewModels\MisOrdenesTrabajoOrdenViewModel %28copia%29.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Update="Views\JefeSupervisorFiltroPage.xaml.cs">
       <DependentUpon>JefeSupervisorFiltroPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ComboProveedoresPage.xaml.cs">
       <DependentUpon>ComboProveedoresPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\AprobacionGerentePage %28copia%29.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\MiBonoPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\CumplimientoBitacorasPage %28copia%29.xaml.cs">
+      <DependentUpon>CreacionBitacorasPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\CreacionBitacorasPage.xaml.cs">
+      <DependentUpon>CreacionBitacorasPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\CreacionBitacora.xaml.cs">
+      <DependentUpon>CreacionBitacoraPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\CreacionBitacoraPage.xaml.cs">
+      <DependentUpon>CreacionBitacoraPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\JefeSupervisorBitacorasPage %28copia%29.xaml.cs">
+      <DependentUpon>CreacionLineasPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\CreacionLineasPage.xaml.cs">
+      <DependentUpon>CreacionLineasPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\CreacionBitacoraPage.cs">
+      <DependentUpon>CreacionBitacoraPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\CreacionBitacoraPage %28otra copia%29.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 

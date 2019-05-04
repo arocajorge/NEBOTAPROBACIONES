@@ -1,5 +1,6 @@
 ﻿namespace Core.App.Aprobacion.Services
 {
+    using Core.App.Aprobacion.Helpers;
     using Core.App.Aprobacion.Models;
     using Newtonsoft.Json;
     using Plugin.Connectivity;
@@ -13,6 +14,8 @@
         public async Task<Response> CheckConnection(string urlServidor = "")
         {
             string[] cadena = urlServidor.Split(':');
+            string IPCompleta = string.Empty;
+            IPCompleta = urlServidor;
             urlServidor = string.Empty;
             urlServidor = cadena[0]+":";
             urlServidor += cadena[1];
@@ -41,6 +44,16 @@
                 {
                     IsSuccess = false,
                     Message = "No se puede conectar al servidor"
+                };
+            }
+
+            var response_cs = await GetObject<bool>(IPCompleta, Settings.RutaCarpeta, "ValidarConexion", "");
+            if (!response_cs.IsSuccess)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "No se puede validar la conexión con la ruta de aplicaciones de el servidor"
                 };
             }
 

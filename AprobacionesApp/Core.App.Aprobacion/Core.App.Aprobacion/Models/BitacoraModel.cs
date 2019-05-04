@@ -50,6 +50,10 @@ namespace Core.App.Aprobacion.Models
         public string ImagenJefe { get; set; }
         public string ImagenSupervisor { get; set; }
 
+        [JsonProperty("LINEA_FECCUMPLI1")]
+        public DateTime? FechaAproJefe { get; set; }
+        [JsonProperty("LINEA_FECCUMPLI2")]
+        public DateTime? FechaAproSupervisor { get; set; }
 
         public string Imagen { get; set; }
         public string Color { get; set; }
@@ -73,6 +77,20 @@ namespace Core.App.Aprobacion.Models
         public Nullable<DateTime> FechaArribo { get; set; }
         [JsonProperty("FECHA_ZARPE_REAL")]
         public Nullable<DateTime> FechaZarpeReal { get; set; }
+        [JsonProperty("DURACION")]
+        public decimal? Duracion { get; set; }
+        [JsonProperty("FECHAOT")]
+        public Nullable<DateTime> FechaOT { get; set; }
+        [JsonProperty("TIPO")]
+        public string Tipo { get; set; }
+        [JsonProperty("MENSAJE_ANULADOS")]
+        public string MensajeAnulados { get; set; }
+
+        public double DiferenciaDiasZA { get; set; }
+        public double DiferenciaDiasZRA { get; set; }
+        public double DuracionReal { get; set; }
+        public string Titulo { get; set; }
+
 
         public List<BitacoraDetModel> lst { get; set; }
     }

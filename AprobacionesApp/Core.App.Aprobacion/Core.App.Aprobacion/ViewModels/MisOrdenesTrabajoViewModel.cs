@@ -83,7 +83,8 @@ namespace Core.App.Aprobacion.ViewModels
                 IdSolicitante = l.IdSolicitante,
                 IdSucursal = l.IdSucursal,
                 IdViaje = l.IdViaje,
-                Usuario = l.Usuario                
+                Usuario = l.Usuario  ,
+                Duracion = l.Duracion              
             });
             return temp;
         }

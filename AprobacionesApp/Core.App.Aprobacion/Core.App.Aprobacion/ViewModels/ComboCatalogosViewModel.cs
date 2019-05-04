@@ -20,6 +20,7 @@ namespace Core.App.Aprobacion.ViewModels
         private ApiService apiService;
         private bool _IsRefreshing;
         private Enumeradores.eCombo Combo;
+        private string Pantalla;
         #endregion
 
         #region Propiedades
@@ -52,10 +53,11 @@ namespace Core.App.Aprobacion.ViewModels
         #endregion
 
         #region Constructor
-        public ComboCatalogosViewModel(Enumeradores.eCombo _Combo)
+        public ComboCatalogosViewModel(Enumeradores.eCombo _Combo, string _Pantalla)
         {
             apiService = new ApiService();
             Combo = _Combo;
+            Pantalla = _Pantalla;
             LoadLista();
         }
         #endregion
@@ -67,7 +69,8 @@ namespace Core.App.Aprobacion.ViewModels
             {
                 Codigo = l.Codigo,
                 Descripcion = l.Descripcion,
-                Combo = l.Combo
+                Combo = l.Combo,
+                Pantalla = Pantalla
             });
             return temp;
         }
@@ -77,6 +80,7 @@ namespace Core.App.Aprobacion.ViewModels
             try
             {
                 this.LstCatalogo = new ObservableCollection<CatalogoItemViewModel>(ToCatalogoItemModel());
+                
                 IsRefreshing = false;
             }
             catch (Exception ex)

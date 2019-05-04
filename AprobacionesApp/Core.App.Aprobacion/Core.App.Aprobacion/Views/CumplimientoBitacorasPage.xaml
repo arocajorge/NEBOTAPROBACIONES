@@ -41,35 +41,70 @@
                                                 FontAttributes="Bold"
                                                 Text="{Binding ID, StringFormat='No.{0}'}"
                                                 HorizontalOptions="Start"
+                                                FontSize="Small"
+                                                TextColor="Black">
+                                            </Label>
+                                        </StackLayout>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="{Binding NomBarco}"
+                                            
+                                            TextColor="Black">
+                                        </Label>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="{Binding NomViaje}"
+                                            TextColor="Black">
+                                        </Label>
+                                                               <StackLayout Orientation="Horizontal">
+                                            <Label
+                                                HorizontalOptions="StartAndExpand"
+                                                Text="{Binding FechaArribo, StringFormat='A: {0:dd/MM/yyyy}'}"
+                                                FontAttributes="None"
+                                                FontSize="Micro"
+                                                TextColor="Black">
+                                            </Label>
+                                            <Label
+                                                HorizontalOptions="Start"
+                                                Text="{Binding FechaZarpe, StringFormat='Z: {0:dd/MM/yyyy}'}"
+                                                FontAttributes="None"
+                                                FontSize="Micro"
+                                                TextColor="Black">
+                                            </Label>
+                                            <Label
+                                                HorizontalOptions="End"
+                                                Text="{Binding DiferenciaDiasZA, StringFormat='{0} días'}"
+                                                FontAttributes="None"
+                                                FontSize="Micro"
                                                 TextColor="Black">
                                             </Label>
                                         </StackLayout>
                                                                <StackLayout Orientation="Horizontal">
                                             <Label
                                                 HorizontalOptions="StartAndExpand"
-                                                Text="{Binding FechaArribo, StringFormat='Arribo: {0:dd/MM/yyyy}'}"
+                                                Text="{Binding FechaArribo, StringFormat='A: {0:dd/MM/yyyy}'}"
                                                 FontAttributes="None"
+                                            FontSize="Micro"
+                                                TextColor="Black">
+                                            </Label>
+                                            <Label
+                                                HorizontalOptions="Start"
+                                                Text="{Binding FechaZarpeReal, StringFormat='ZR: {0:dd/MM/yyyy}'}"
+                                                FontAttributes="None"
+                                            FontSize="Micro"
                                                 TextColor="Black">
                                             </Label>
                                             <Label
                                                 HorizontalOptions="End"
-                                                Text="{Binding FechaZarpe, StringFormat='Zarpe: {0:dd/MM/yyyy}'}"
+                                                Text="{Binding DiferenciaDiasZRA, StringFormat='{0} días'}"
                                                 FontAttributes="None"
+                                            FontSize="Micro"
                                                 TextColor="Black">
                                             </Label>
                                         </StackLayout>
-                                        <Label
-                                            FontAttributes="None"
-                                            HorizontalOptions="StartAndExpand"
-                                            Text="{Binding NomBarco}"
-                                            TextColor="Black">
-                                        </Label>
-                                        <Label
-                                            FontAttributes="None"
-                                            HorizontalOptions="StartAndExpand"
-                                            Text="{Binding NomViaje}"
-                                            TextColor="Black">
-                                        </Label>
+                                        
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>

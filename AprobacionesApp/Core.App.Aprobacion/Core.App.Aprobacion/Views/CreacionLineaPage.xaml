@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="Core.App.Aprobacion.Views.CreacionLineaPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Obra">
+<ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding CreacionLinea}">
+            <ScrollView>
+                <StackLayout
+                    Padding="20">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="Large"
+                        TextColor="Blue"
+                        Text="{Binding Titulo, Mode=TwoWay}"
+                        HorizontalTextAlignment="Center">
+                    </Label>
+                                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            FontAttributes="Bold"
+                            Text="Contratista / empleado:">
+                        </Label>
+                        <Switch
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            IsToggled="{Binding EsEmpleado, Mode=TwoWay}">
+                        </Switch>
+                        <Editor
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            HeightRequest="100"
+                            FontAttributes="None"
+                            TextColor="Black"
+                            FontSize="Medium"
+                            Text="{Binding Contratista, Mode=TwoWay}">
+                        </Editor>
+                        <Label
+                            Grid.Column="0"
+                            Grid.Row="2"
+                            FontAttributes="Bold"
+                            Text="Descripción:">
+                        </Label>
+                        <Editor
+                            Grid.Column="0"
+                            Grid.Row="3"
+                            HeightRequest="100"
+                            FontAttributes="None"
+                            TextColor="Black"
+                            FontSize="Medium"
+                            Text="{Binding Descripcion, Mode=TwoWay}">
+                        </Editor>
+                    </Grid>
+                    <ActivityIndicator
+                            IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                            VerticalOptions="CenterAndExpand">
+                    </ActivityIndicator>
+                    
+                    <StackLayout
+                        Orientation="Horizontal">
+                        <Button
+                            BackgroundColor="CornflowerBlue"
+                            TextColor="White"
+                            Command="{Binding GuardarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Guardar"
+                            HorizontalOptions="FillAndExpand">
+                        </Button>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

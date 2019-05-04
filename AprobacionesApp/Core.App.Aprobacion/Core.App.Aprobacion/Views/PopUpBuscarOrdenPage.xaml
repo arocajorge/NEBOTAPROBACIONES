@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Core.App.Aprobacion.Views.PopUpBuscarOrdenPage"
@@ -45,6 +45,15 @@
                 IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                 VerticalOptions="EndAndExpand"
                 Text="Buscar">
+            </Button>
+            <Button
+                BackgroundColor="Teal"
+                TextColor="White"
+                Command="{Binding ModificarCommand}"
+                IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                VerticalOptions="EndAndExpand"
+                IsVisible="{Binding IsVisible, Mode=TwoWay}"
+                Text="Modificar chatarra">
             </Button>
         </StackLayout>
     </ScrollView>

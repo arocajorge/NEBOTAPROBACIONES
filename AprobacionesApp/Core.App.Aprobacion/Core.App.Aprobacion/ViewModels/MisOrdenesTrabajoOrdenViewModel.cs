@@ -36,6 +36,11 @@ namespace Core.App.Aprobacion.ViewModels
         private string _Titulo;
         private ObservableCollection<string> _ListaTipoOrden;
         private string _TipoSelectedIndex;
+        private decimal _Duracion;
+        private decimal _Presupuesto;
+        private decimal _Aprobado;
+        private decimal _Pendiente;
+        private decimal _Saldo;
         #endregion
 
         #region Propiedades
@@ -43,6 +48,31 @@ namespace Core.App.Aprobacion.ViewModels
         {
             get { return this._TipoSelectedIndex; }
             set { SetValue(ref this._TipoSelectedIndex, value); }
+        }
+        public decimal Duracion
+        {
+            get { return this._Duracion; }
+            set { SetValue(ref this._Duracion, value); }
+        }
+        public decimal Presupuesto
+        {
+            get { return this._Presupuesto; }
+            set { SetValue(ref this._Presupuesto, value); }
+        }
+        public decimal Aprobado
+        {
+            get { return this._Aprobado; }
+            set { SetValue(ref this._Aprobado, value); }
+        }
+        public decimal Pendiente
+        {
+            get { return this._Pendiente; }
+            set { SetValue(ref this._Pendiente, value); }
+        }
+        public decimal Saldo
+        {
+            get { return this._Saldo; }
+            set { SetValue(ref this._Saldo, value); }
         }
         public ObservableCollection<string> ListaTipoOrden
         {
@@ -143,6 +173,7 @@ namespace Core.App.Aprobacion.ViewModels
             Orden = Model;
             Titulo = Orden.Titulo;
             Fecha = Orden.Fecha;
+            Duracion = Orden.Duracion == null ? 0 : Convert.ToDecimal(Orden.Duracion);
             
             Valor =  string.IsNullOrEmpty(Orden.Valor) ? 0 : Convert.ToDecimal(Orden.Valor,provider);
             ValorIva = string.IsNullOrEmpty(Orden.ValorIva) ? 0 : Convert.ToDecimal(Orden.ValorIva, provider);
@@ -160,6 +191,7 @@ namespace Core.App.Aprobacion.ViewModels
             apiService = new ApiService();
 
             CargarTipos();
+            GetPresupuesto();
             
         }
         private void CargarTipos()
@@ -188,11 +220,13 @@ namespace Core.App.Aprobacion.ViewModels
                     Orden.IdSucursal = Codigo;
                     Orden.NomCentroCosto = Nombre;
                     NombreSucursal = Nombre;
+                    GetPresupuesto();
                     break;
                 case Enumeradores.eCombo.VIAJE:
                     Orden.IdViaje = Codigo;
                     Orden.NomViaje = Nombre;
                     NomViaje = Nombre;
+                    GetPresupuesto();
                     break;
                 case Enumeradores.eCombo.SOLICITANTE:
                     Orden.IdSolicitante = Codigo;
@@ -251,7 +285,7 @@ namespace Core.App.Aprobacion.ViewModels
 
         private async void BuscarSolicitante()
         {
-            MainViewModel.GetInstance().ComboCatalogos = new ComboCatalogosViewModel(Enumeradores.eCombo.SOLICITANTE);
+            MainViewModel.GetInstance().ComboCatalogos = new ComboCatalogosViewModel(Enumeradores.eCombo.SOLICITANTE, "O");
             await App.Navigator.PushAsync(new ComboCatalogosPage());
         }
 
@@ -262,7 +296,7 @@ namespace Core.App.Aprobacion.ViewModels
 
         private async void BuscarSucursal()
         {
-            MainViewModel.GetInstance().ComboCatalogos = new ComboCatalogosViewModel(Enumeradores.eCombo.BARCO);
+            MainViewModel.GetInstance().ComboCatalogos = new ComboCatalogosViewModel(Enumeradores.eCombo.BARCO, "O");
             await App.Navigator.PushAsync(new ComboCatalogosPage());
         }
 
@@ -273,7 +307,7 @@ namespace Core.App.Aprobacion.ViewModels
 
         private async void BuscarViaje()
         {
-            MainViewModel.GetInstance().ComboCatalogos = new ComboCatalogosViewModel(Enumeradores.eCombo.VIAJE);
+            MainViewModel.GetInstance().ComboCatalogos = new ComboCatalogosViewModel(Enumeradores.eCombo.VIAJE, "O");
             await App.Navigator.PushAsync(new ComboCatalogosPage());
         }
         public ICommand BuscarBodegaCommand
@@ -283,7 +317,7 @@ namespace Core.App.Aprobacion.ViewModels
 
         private async void BuscarBodega()
         {
-            MainViewModel.GetInstance().ComboCatalogos = new ComboCatalogosViewModel(Enumeradores.eCombo.BODEGA);
+            MainViewModel.GetInstance().ComboCatalogos = new ComboCatalogosViewModel(Enumeradores.eCombo.BODEGA, "O");
             await App.Navigator.PushAsync(new ComboCatalogosPage());
         }
 
@@ -369,6 +403,17 @@ namespace Core.App.Aprobacion.ViewModels
                     return;
                 }
 
+                if (string.IsNullOrEmpty(this.Duracion.ToString()))
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        "Ingrese la duración de la orden",
+                        "Aceptar");
+                    return;
+                }
+
                 Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
                 if (!con.IsSuccess)
                 {
@@ -388,12 +433,49 @@ namespace Core.App.Aprobacion.ViewModels
                         Settings.UrlConexionActual = UrlDistinto;
                 }
 
+                #region ValidacionProveedor
+                var response_pro = await apiService.GetObject<ProveedorModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Proveedor", "CODIGO="+this.Orden.IdProveedor);
+                if (!response_pro.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        response_pro.Message,
+                        "Aceptar");
+                    return;
+                }
+                var proveedor = (ProveedorModel)response_pro.Result;
+                if (proveedor == null || string.IsNullOrEmpty(proveedor.Codigo))
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        "El proveedor seleccionado no existe.",
+                        "Aceptar");
+                    return;
+                }
+                decimal DuracionAcumulada = (proveedor.DuracionAcumulada == null ? 0 : Convert.ToDecimal(proveedor.DuracionAcumulada));
+                if (proveedor.Duracion > 0 && proveedor.Duracion < (DuracionAcumulada + Duracion))
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        "Ha superado la duración en días que el proveedor puede ser contratado {"+proveedor.Duracion+"} para órdenes de globales de la compañía.",
+                        "Aceptar");
+                    return;
+                }
+                #endregion
+
                 this.Orden.Usuario = Settings.IdUsuario;
                 this.Orden.Comentario = Comentario;
                 this.Orden.Fecha = Fecha;
                 this.Orden.Valor = Valor.ToString();
                 this.Orden.ValorIva = ValorIva.ToString();
                 this.Orden.TipoDocumento = TipoSelectedIndex == "Orden de trabajo" ? "OT" : "OK";
+                this.Orden.Duracion = Duracion;
+
+
 
                 var response_sinc = await apiService.Post<OrdenModel>(
                     Settings.UrlConexionActual,
@@ -410,10 +492,43 @@ namespace Core.App.Aprobacion.ViewModels
                         "Aceptar");
                     return;
                 }
+
+                #region Actualizo filtros
+                Settings.Solicitante = this.Orden.IdSolicitante;
+                Settings.Bodega = this.Orden.IdBodega;
+                Settings.Viaje = this.Orden.IdViaje;
+                Settings.Sucursal = this.Orden.IdSucursal;
+
+                Settings.NombreViaje = this.Orden.NomViaje;
+                Settings.NombreSucursal = this.Orden.NomCentroCosto;
+                Settings.NombreSolicitante = this.Orden.NombreSolicitante;
+                Settings.NombreBodega = this.Orden.NombreBodega;
+
+
+                FiltroModel filtro = new FiltroModel
+                {
+                    Usuario = Settings.IdUsuario,
+                    Sucursal = Settings.Sucursal,
+                    Viaje = Settings.Viaje,
+                    Bodega = Settings.Bodega,
+                    Solicitante = Settings.Solicitante
+                };
+
+
+                var response_fil = await apiService.Post<FiltroModel>(
+                Settings.UrlConexionActual,
+                Settings.RutaCarpeta,
+                "Filtro",
+                filtro);
+                #endregion
+
+
                 await Application.Current.MainPage.DisplayAlert(
                         "Alerta",
                         Orden.NumeroOrden > 0 ? "Se ha modificado la orden exitósamente" : "Se ha creado la orden exitósamente" ,
                         "Aceptar");
+
+
 
                 MainViewModel.GetInstance().MisOrdenesTrabajo.LoadLista();
                 await App.Navigator.Navigation.PopAsync();
@@ -427,6 +542,42 @@ namespace Core.App.Aprobacion.ViewModels
 
                 return;
             }
+        }
+
+        private async void GetPresupuesto()
+        {
+            this.Presupuesto = 0;
+            this.Aprobado = 0;
+            this.Pendiente = 0;
+            this.Saldo = 0;
+
+            if (string.IsNullOrEmpty(Orden.IdSucursal))
+            {
+                return;
+            }
+            if (string.IsNullOrEmpty(Orden.IdViaje))
+            {
+                return;
+            }
+            this.Orden.TipoDocumento = TipoSelectedIndex == "Orden de trabajo" ? "OT" : "OK";
+            var response_pro = await apiService.GetObject<PresupuestoModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Presupuesto", "BARCO=" + this.Orden.IdSucursal+"&VIAJE="+this.Orden.IdViaje+"&CINV_TDOC="+this.Orden.TipoDocumento);
+            if (!response_pro.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    response_pro.Message,
+                    "Aceptar");
+                return;
+            }
+            var Presu = (PresupuestoModel)response_pro.Result;
+            if(Presu != null)
+            {
+                this.Presupuesto = Presu.Presupuesto;
+                this.Aprobado = Presu.Aprobado;
+                this.Pendiente = Presu.Pendiente;
+                this.Saldo = Presu.Saldo;
+            }
+
         }
         #endregion
     }

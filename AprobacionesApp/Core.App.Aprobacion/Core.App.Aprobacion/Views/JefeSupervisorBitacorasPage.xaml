@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Core.App.Aprobacion.Views.JefeSupervisorBitacorasPage"
@@ -14,6 +14,11 @@
                 Placeholder="Buscar..."
                 HeightRequest="50">
             </SearchBar>
+            <Picker
+                    ItemsSource="{Binding ListaColores}"
+                    SelectedItem="{Binding ColorSelectedIndex, Mode=TwoWay}"
+                    Title="Estado">
+                </Picker>
             <ListView          
                 BackgroundColor="Silver"
                 HasUnevenRows="True"
@@ -27,6 +32,7 @@
                             <Frame                                
                                 HasShadow="True"
                                 CornerRadius="20"
+                                BackgroundColor="{Binding Color, Mode=TwoWay}"
                                 Margin="5">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -46,7 +52,7 @@
                                             <Label
                                                 FontAttributes="Bold"
                                                 Text="{Binding Estado}"
-                                                TextColor="{Binding Color}"
+                                                TextColor="Black"
                                                 HorizontalOptions="End">
                                             </Label>
                                         </StackLayout>
@@ -61,6 +67,12 @@
                                             HorizontalOptions="StartAndExpand"
                                             Text="{Binding Descripcion}"
                                             TextColor="Black">
+                                        </Label>
+                                        <Label
+                                            FontAttributes="None"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="{Binding MensajeAnulados}"
+                                            TextColor="Red">
                                         </Label>
                                     </StackLayout>
                                     <Image

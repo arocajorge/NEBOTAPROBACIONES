@@ -74,7 +74,8 @@ namespace Core.App.Aprobacion.ViewModels
                 Comentario = l.Comentario,
                 EstadoJefe = l.EstadoJefe,
                 EstadoSupervisor = l.EstadoSupervisor,
-                Imagen = l.Imagen
+                Imagen = l.Imagen,
+                Color = l.Color
             });
             return temp;
         }
@@ -112,18 +113,11 @@ namespace Core.App.Aprobacion.ViewModels
                     else
                         Settings.UrlConexionActual = UrlDistinto;
                 }
-                string parameters ="USUARIO=" + Settings.IdUsuario;
+                string parameters = "USUARIO=" + Settings.IdUsuario;
                 if (!string.IsNullOrEmpty(Settings.Sucursal)) parameters += "&BARCO=" + Settings.Sucursal;
-                if (!string.IsNullOrEmpty(Settings.Bodega)) parameters += "&BODEGA=" + Settings.Bodega;
                 if (!string.IsNullOrEmpty(Settings.Viaje)) parameters += "&VIAJE=" + Settings.Viaje;
-                if (!string.IsNullOrEmpty(Settings.NumeroOrden)) parameters += "&CINV_NUM=" + Settings.NumeroOrden;
-                if (!string.IsNullOrEmpty(Settings.EstadoJefe)) parameters += "&ESTADOJEFE=" + Settings.EstadoJefe;
-                if (!string.IsNullOrEmpty(Settings.EstadoSupervisor)) parameters += "&ESTADOSUPERVISOR=" + Settings.EstadoSupervisor;
                 DateTime FechaIni = Convert.ToDateTime(Settings.FechaInicio);
-                DateTime FechaFin = DateTime.Now.Date;
-
                 parameters += "&DIAINI=" + FechaIni.Day + "&MESINI=" + FechaIni.Month + "&ANIOINI=" + FechaIni.Year;
-                parameters += "&DIAFIN=" + FechaFin.Day + "&MESFIN=" + FechaFin.Month + "&ANIOFIN=" + FechaFin.Year;
 
                 var response_cs = await apiService.GetList<OrdenModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "AprobacionJefeSup", parameters);
                 if (!response_cs.IsSuccess)
@@ -143,15 +137,24 @@ namespace Core.App.Aprobacion.ViewModels
                            "No existen resultados para los filtros seleccionados ",//+parameters,
                            "Aceptar");
                 }
-                _lstOrden.ForEach(l => l.Imagen = (Settings.RolApro == "J" ?
-                ((l.EstadoJefe == null || l.EstadoJefe.Trim().ToLower() == "pendiente") 
-                ? "ic_access_time.png" 
-                : (l.EstadoJefe.Trim().ToLower() == "aprobado" ? "ic_assignment_turned_in.png" : "ic_assignment_late.png")) :
+                _lstOrden.ForEach(l =>
+                {
+                    l.Imagen = (Settings.RolApro == "J" ?
+                    ((l.EstadoJefe == null || l.EstadoJefe.Trim().ToLower() == "pendiente")
+                    ? "ic_access_time.png"
+                    : (l.EstadoJefe.Trim().ToLower() == "aprobado" ? "ic_assignment_turned_in.png" : "ic_assignment_late.png")) :
 
-                ((l.EstadoSupervisor == null  || l.EstadoSupervisor.Trim().ToLower() == "pendiente") 
-                ? "ic_access_time.png" 
-                : (l.EstadoSupervisor.Trim().ToLower() == "aprobado" 
-                ? "ic_assignment_turned_in.png" : "ic_assignment_late.png"))));
+                    ((l.EstadoSupervisor == null || l.EstadoSupervisor.Trim().ToLower() == "pendiente")
+                    ? "ic_access_time.png"
+                    : (l.EstadoSupervisor.Trim().ToLower() == "aprobado"
+                    ? "ic_assignment_turned_in.png" : "ic_assignment_late.png")));
+
+                    l.Color = (l.EstadoSupervisor.ToLower() == "aprobado" ? "LightGreen" : 
+                    (l.EstadoSupervisor.ToLower() == "anulado" ? "Red" : 
+                    (l.EstadoSupervisor.ToLower() == "pendiente" && l.EstadoJefe.ToLower() == "aprobado" ? "Yellow" :
+                    (l.EstadoSupervisor.ToLower() == "aprobado parcial" ? "CornflowerBlue" :
+                    ("White")))));
+                });
 
                 this.LstOrdenes = new ObservableCollection<OrdenItemViewModel>(ToOrdenItemModel());
                 IsRefreshing = false;

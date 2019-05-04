@@ -1,3 +1,4 @@
+using System;
 using Core.App.Aprobacion.Helpers;
 using Core.App.Aprobacion.Models;
 using Core.App.Aprobacion.Services;
@@ -88,6 +89,29 @@ namespace Core.App.Aprobacion
                     var usuario = (UsuarioModel)response_cs.Result;
                     if (usuario != null)
                     {
+                        #region Carga filtros
+                        var response_fil = await apiService.GetObject<FiltroModel>(Settings.UrlConexionActual, Settings.RutaCarpeta, "Filtro", "USUARIO=" + Settings.IdUsuario);
+                        if (!response_fil.IsSuccess)
+                        {
+                            MainViewModel.GetInstance().NoHayConexion = new NoHayConexionViewModel();
+                            MainPage = new NavigationPage(new NoHayConexionPage());
+                            return;
+                        }
+
+                        var filtro = (FiltroModel)response_fil.Result;
+                        Settings.Sucursal = filtro.Sucursal;
+                        Settings.Bodega = filtro.Bodega;
+                        Settings.Viaje = filtro.Viaje;
+                        Settings.Solicitante = filtro.Solicitante;
+                        Settings.FechaInicio = DateTime.Now.Date.AddMonths(-2).ToShortDateString();
+
+                        Settings.NombreViaje = filtro.NombreViaje;
+                        Settings.NombreBodega = filtro.NombreBodega;
+                        Settings.NombreSucursal = filtro.NombreBarco;
+                        Settings.NombreSolicitante = filtro.NombreSolicitante;
+                        #endregion
+
+
                         if (string.IsNullOrEmpty(usuario.RolApro))
                         {
                             MainViewModel.GetInstance().Login = new LoginViewModel();
@@ -112,18 +136,10 @@ namespace Core.App.Aprobacion
                         }
                         if (usuario.MenuFiltro == "JefeSupervisorOrdenesPage")
                         {
-                            if (string.IsNullOrEmpty(Settings.FechaInicio))
-                            {
-                                MainViewModel.GetInstance().FiltroJefeSupervisor = new JefeSupervisorFiltroViewModel(usuario.RolApro.Trim().ToUpper());
-                                MainPage = new NavigationPage(new JefeSupervisorFiltroPage());
-                                return;
-                            }
-                            else
-                            {
-                                MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
-                                MainPage = new JefeSupervisorMasterPage();
-                                return;
-                            }
+
+                            MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
+                            MainPage = new JefeSupervisorMasterPage();
+                            return;
                         }
                         if (usuario.MenuFiltro == "ReferidosOrdenesNominaPage")
                         {

@@ -23,6 +23,17 @@ namespace Core.App.Aprobacion.ViewModels
             App.Navigator.Navigation.PushAsync(new JefeSupervisorBitacoraPage());
         }
 
+        public ICommand SelectLineaCommand
+        {
+            get { return new RelayCommand(SelectLinea); }
+        }
+        private void SelectLinea()
+        {
+            App.MasterJefeSupervisor.IsPresented = false;
+            MainViewModel.GetInstance().JefeSupervisorBitacora = new JefeSupervisorBitacoraViewModel(this);
+            App.Navigator.Navigation.PushAsync(new JefeSupervisorBitacoraPage());
+        }
+
         public ICommand SelectCumplimientoCommand
         {
             get { return new RelayCommand(SelectCumplimiento); }
@@ -33,6 +44,18 @@ namespace Core.App.Aprobacion.ViewModels
             App.MasterCumplimiento.IsPresented = false;
             MainViewModel.GetInstance().CumplimientoLineas = new CumplimientoLineasViewModel(this);
             App.Navigator.Navigation.PushAsync(new CumplimientoLineasPage());
+        }
+
+        public ICommand SelectBitacoraCreacionCommand
+        {
+            get { return new RelayCommand(SelectBitacoraCreacion); }
+        }
+
+        private void SelectBitacoraCreacion()
+        {
+            App.MasterJefeSupervisor.IsPresented = false;
+            MainViewModel.GetInstance().CreacionLineas = new CreacionLineasViewModel(this);
+            App.Navigator.Navigation.PushAsync(new CreacionLineasPage());
         }
 
         public ICommand AprobarCommand
@@ -86,6 +109,60 @@ namespace Core.App.Aprobacion.ViewModels
                 MainViewModel.GetInstance().CumplimientoLineas.LoadLista();
                 MainViewModel.GetInstance().CumplimientoBitacoras.LoadLista();
             }            
+        }
+
+        public ICommand DesaprobarCommand
+        {
+            get { return new RelayCommand(Desaprobar); }
+        }
+
+        private async void Desaprobar()
+        {
+            ApiService apiService = new ApiService();
+            Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
+            if (!con.IsSuccess)
+            {
+                string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
+                con = await apiService.CheckConnection(UrlDistinto);
+                if (!con.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        con.Message,
+                        "Aceptar");
+                    return;
+                }
+                else
+                    Settings.UrlConexionActual = UrlDistinto;
+            }
+
+            this.Usuario = Settings.IdUsuario;
+            this.Estado = null;
+
+            var response_sinc = await apiService.Post<BitacoraModel>(
+                Settings.UrlConexionActual,
+                Settings.RutaCarpeta,
+                "BitacorasJefeSup",
+                this);
+
+            if (!response_sinc.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    response_sinc.Message,
+                    "Aceptar");
+                return;
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    "Actualización de estado exitosa",
+                    "Aceptar");
+
+                MainViewModel.GetInstance().CumplimientoLineas.LoadLista();
+                MainViewModel.GetInstance().CumplimientoBitacoras.LoadLista();
+            }
         }
         #endregion
     }

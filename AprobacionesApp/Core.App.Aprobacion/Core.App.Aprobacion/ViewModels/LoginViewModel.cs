@@ -105,8 +105,10 @@
 
             if (ValidarUsuarioServicio && string.IsNullOrEmpty(Settings.UrlConexionActual))
             {
+                   //Settings.UrlConexionInterna = string.IsNullOrEmpty(Settings.UrlConexionInterna) ? "http://192.168.1.103:20000" : Settings.UrlConexionInterna;
+                   //Settings.UrlConexionExterna = string.IsNullOrEmpty(Settings.UrlConexionExterna) ? "http://192.168.1.103:20000" : Settings.UrlConexionExterna;
+
                 Settings.UrlConexionExterna = string.IsNullOrEmpty(Settings.UrlConexionExterna) ? "http://190.110.211.82:20000" : Settings.UrlConexionExterna;
-                //Settings.UrlConexionExterna = string.IsNullOrEmpty(Settings.UrlConexionExterna) ? "http://192.168.1.122" : Settings.UrlConexionExterna;
                 Settings.UrlConexionInterna = string.IsNullOrEmpty(Settings.UrlConexionInterna) ? "http://192.168.1.7:20000" : Settings.UrlConexionInterna;
                 Settings.RutaCarpeta = string.IsNullOrEmpty(Settings.RutaCarpeta) ? "/Api" : Settings.RutaCarpeta;
                 Settings.UrlConexionActual = Settings.UrlConexionExterna;
@@ -188,7 +190,7 @@
                         }
                         else
                         {
-                            MainViewModel.GetInstance().JefeSupervisorBitacoras = new JefeSupervisorBitacorasViewModel();
+                            MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
                             Application.Current.MainPage = new JefeSupervisorMasterPage();
                             return;
                         }

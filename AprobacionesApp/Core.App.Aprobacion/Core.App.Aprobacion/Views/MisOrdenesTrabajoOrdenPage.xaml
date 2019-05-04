@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Core.App.Aprobacion.Views.MisOrdenesTrabajoOrdenPage">
@@ -32,6 +32,17 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
                         <Label
                             Grid.Column="0"
                             Grid.Row="0"
@@ -141,8 +152,28 @@
                             TextColor="Black"
                             Text="{Binding NombreSolicitante, Mode=TwoWay}">
                         </Label>
+                        
                     </Grid>
-
+                    <Grid>
+                            <Grid.ColumnDefinitions>
+                               <ColumnDefinition Width="*"/>
+                               <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            FontAttributes="Bold"
+                            VerticalOptions="CenterAndExpand"
+                            FontSize="Medium"
+                            Text="Duración:">
+                        </Label>
+                        <Entry
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Text="{Binding Duracion, Mode=TwoWay}"
+                            Keyboard="Numeric">                            
+                        </Entry>
+                        </Grid>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -192,6 +223,7 @@
                             FontAttributes="Bold"
                             VerticalOptions="CenterAndExpand"
                             FontSize="Large"
+                            TextColor="Blue"
                             Text="Total:">
                         </Label>
                         <Label
@@ -199,11 +231,78 @@
                             Grid.Row="0"
                             FontSize="Large"
                             FontAttributes="Bold"
+                            TextColor="Blue"
                             VerticalOptions="CenterAndExpand"
                             HorizontalOptions="EndAndExpand"
                             Text="{Binding ValorOrden, StringFormat='{0:N2}'}">
                         </Label>
+                        
                     </Grid>
+                    <StackLayout 
+                        Orientation="Horizontal">
+                        <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Presupuesto: "
+                            TextColor="Black"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Medium"
+                            Text="{Binding Presupuesto, StringFormat='{0:N2}'}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                         </StackLayout>
+                            <StackLayout 
+                        Orientation="Horizontal">
+                        <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Aprobado: "
+                            TextColor="Black"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Medium"
+                            Text="{Binding Aprobado, StringFormat='{0:N2}'}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                         </StackLayout>
+                                <StackLayout 
+                        Orientation="Horizontal">
+                        <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Pendiente: "
+                            TextColor="Black"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Medium"
+                            Text="{Binding Pendiente, StringFormat='{0:N2}'}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                                     </StackLayout>
+                                    <StackLayout 
+                        Orientation="Horizontal">
+                            <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Saldo: "
+                            TextColor="Black"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Medium"
+                            Text="{Binding Saldo, StringFormat='{0:N2}'}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                        </StackLayout>
+                    
                     <Label
                             FontSize="Medium"
                             FontAttributes="Bold"

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Core.App.Aprobacion.Views.AprobacionGerentePage"
@@ -29,19 +29,29 @@
                         Text="{Binding Estado}"
                         HorizontalTextAlignment="Center"
                         TextColor="{Binding Color}">
-                    </Label>
-                    
-                    <Label
+                    </Label> 
+                     <Label
                             FontSize="Medium"
                             FontAttributes="Bold"
                             Text="Fecha: "
                             TextColor="Black"></Label>
                     <Label
+                            VerticalOptions="EndAndExpand"
                             FontSize="Medium"
                             Text="{Binding Orden.Fecha, StringFormat='{0:dd/MM/yyyy}'}"
                             TextColor="Black">
                     </Label>
-
+                        <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            Text="Duración: "
+                            TextColor="Black"></Label>
+                    <Label
+                            FontSize="Medium"
+                            VerticalOptions="EndAndExpand"
+                            Text="{Binding Orden.Duracion, StringFormat='{0:N0} días'}"
+                            TextColor="Black">
+                    </Label>
                     <Label
                             FontSize="Medium"
                             FontAttributes="Bold"
@@ -189,19 +199,85 @@
                     <StackLayout 
                         Orientation="Horizontal">
                         <Label
-                            FontSize="Medium"
+                            FontSize="Large"
                             FontAttributes="Bold"
-                            Text="Total: "
+                            Text="Total orden: "
+                            TextColor="Blue"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Large"
+                            Text="{Binding Orden.ValorOrden, StringFormat='{0:N2}'}"
+                            TextColor="Blue"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                         </StackLayout>
+                        
+                        <StackLayout 
+                        Orientation="Horizontal">
+                        <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="Presupuesto: "
                             TextColor="Black"
                             HorizontalOptions="StartAndExpand">
                         </Label>
                         <Label                            
-                            FontSize="Medium"
-                            Text="{Binding Orden.ValorOrden, StringFormat='{0:N2}'}"
+                            FontSize="Large"
+                            Text="{Binding Orden.Presupuesto, StringFormat='{0:N2}'}"
                             TextColor="Black"
                             HorizontalTextAlignment="End">
                         </Label>
-                    </StackLayout>                    
+                         </StackLayout>
+                            <StackLayout 
+                        Orientation="Horizontal">
+                        <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="Aprobado: "
+                            TextColor="Black"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Large"
+                            Text="{Binding Orden.Aprobado, StringFormat='{0:N2}'}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                         </StackLayout>
+                                <StackLayout 
+                        Orientation="Horizontal">
+                        <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="Pendiente: "
+                            TextColor="Black"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Large"
+                            Text="{Binding Orden.Pendiente, StringFormat='{0:N2}'}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                                     </StackLayout>
+                                    <StackLayout 
+                        Orientation="Horizontal">
+                            <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="Saldo: "
+                            TextColor="Black"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Large"
+                            Text="{Binding Orden.Saldo, StringFormat='{0:N2}'}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                    </StackLayout>
+                    
                     <ActivityIndicator
                             IsRunning="{Binding IsRunning, Mode=TwoWay}"
                             VerticalOptions="CenterAndExpand">
@@ -217,6 +293,7 @@
                             TextColor="Black">
                     </Entry>
                     <StackLayout
+                        IsVisible="{Binding Orden.EsAprobacion}"
                         Orientation="Horizontal">                        
                         <Button
                             BackgroundColor="CornflowerBlue"
@@ -237,8 +314,17 @@
                         </Button>
                     </StackLayout>
                     <Button
+                            BackgroundColor="CornflowerBlue"
+                            TextColor="White"
+                            Command="{Binding ModificarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                        IsVisible="{Binding Orden.EsModificacion}"
+                            Text="Actualizar"
+                            HorizontalOptions="FillAndExpand">
+                    </Button>
+                    <Button
                             BackgroundColor="Gray"
-                            TextColor="Black"
+                            TextColor="White"
                             Command="{Binding PasarCommand}"
                             IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                             Text="Pasar"

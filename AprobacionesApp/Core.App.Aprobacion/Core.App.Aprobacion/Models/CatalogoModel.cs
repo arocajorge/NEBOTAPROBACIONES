@@ -12,5 +12,6 @@ namespace Core.App.Aprobacion.Models
         [JsonProperty("Descripcion")]
         public string Descripcion { get; set; }
         public Enumeradores.eCombo Combo { get; set; }
+        public string Pantalla { get; set; }
     }
 }

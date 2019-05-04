@@ -15,7 +15,18 @@ namespace Core.App.Aprobacion.ViewModels
         private void SelectCatalogo()
         {
             App.MasterJefeSupervisor.IsPresented = false;
-            MainViewModel.GetInstance().MisOrdenesTrabajoOrden.SetCombo(this.Codigo.ToString(), this.Descripcion, this.Combo);
+            if (this.Pantalla == "O")
+            {
+                MainViewModel.GetInstance().MisOrdenesTrabajoOrden.SetCombo(this.Codigo, this.Descripcion, this.Combo);
+            }
+            else
+                if (this.Pantalla == "B")
+            {
+                MainViewModel.GetInstance().CreacionBitacora.SetCombo(this.Codigo, this.Descripcion, this.Combo);
+            }
+            else
+                MainViewModel.GetInstance().MisPedidosPedido.SetCombo(this.Codigo, this.Descripcion, this.Combo);
+
             App.Navigator.Navigation.PopAsync();
         }
         #endregion

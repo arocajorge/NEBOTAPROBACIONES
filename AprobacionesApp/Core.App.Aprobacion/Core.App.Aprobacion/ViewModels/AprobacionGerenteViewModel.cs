@@ -125,6 +125,9 @@
             });
             ListaDetalle = new ObservableCollection<OrdenDetalleModel>(Orden.lst);
             Height = Orden.lst == null ? 0 : Orden.lst.Count * 50;
+            if (Orden.EsModificacion)
+                Orden.EsAprobacion = false;
+
         }
         public AprobacionGerenteViewModel()
         {
@@ -188,6 +191,7 @@
                 Orden = (OrdenModel)response_cs.Result;
                 if (Orden != null && Orden.NumeroOrden != 0)
                 {
+                    
                     string TipoDocumento = Orden.TipoDocumento;
                     switch (TipoDocumento)
                     {
@@ -216,7 +220,8 @@
                         NoEsChatarraVisible = true;
                         EsChatarraVisible = false;
                     }
-
+                    Orden.EsAprobacion = true;
+                    Orden.EsModificacion = false;
                     MostrarAnular = true;
                     if (Orden.Estado.Trim().ToUpper() == "X")
                     {
@@ -245,7 +250,7 @@
 
                     Orden.lst.ForEach(q => q.SecuenciaDetalle = q.Linea - 1);
                     ListaDetalle = new ObservableCollection<OrdenDetalleModel>(Orden.lst);
-                    
+
                     IsEnabled = true;
                     IsRunning = false;
                 }
@@ -275,6 +280,13 @@
             get
             {
                 return new RelayCommand(Aprobar);
+            }
+        }
+        public ICommand ModificarCommand
+        {
+            get
+            {
+                return new RelayCommand(Modificar);
             }
         }
 
@@ -336,6 +348,66 @@
             this.IsEnabled = true;
             this.IsRunning = false;
             
+        }
+
+        private async void Modificar()
+        {
+            this.IsEnabled = false;
+            this.IsRunning = true;
+            if (string.IsNullOrEmpty(this.Orden.Observacion))
+            {
+                this.Orden.Observacion = string.Empty;
+            }
+
+            Response con = await apiService.CheckConnection(Settings.UrlConexionActual);
+            if (!con.IsSuccess)
+            {
+                string UrlDistinto = Settings.UrlConexionActual == Settings.UrlConexionExterna ? Settings.UrlConexionInterna : Settings.UrlConexionExterna;
+                con = await apiService.CheckConnection(UrlDistinto);
+                if (!con.IsSuccess)
+                {
+                    this.IsEnabled = true;
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Alerta",
+                        con.Message,
+                        "Aceptar");
+                    return;
+                }
+                else
+                    Settings.UrlConexionActual = UrlDistinto;
+            }
+
+            this.Orden.Usuario = Settings.IdUsuario;
+            this.Orden.Estado = "P";
+            this.Orden.lst = new System.Collections.Generic.List<OrdenDetalleModel>(ListaDetalle);
+            var response_sinc = await apiService.Post<OrdenModel>(
+                Settings.UrlConexionActual,
+                Settings.RutaCarpeta,
+                "OrdenTrabajoDet",
+                this.Orden);
+            if (!response_sinc.IsSuccess)
+            {
+                this.IsEnabled = true;
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    response_sinc.Message,
+                    "Aceptar");
+                return;
+            }
+
+            await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    "Actualización de chatarra exitosa",
+                    "Aceptar");
+
+
+            CargarOrden();
+
+            this.IsEnabled = true;
+            this.IsRunning = false;
+
         }
 
         public ICommand ReprobarCommand

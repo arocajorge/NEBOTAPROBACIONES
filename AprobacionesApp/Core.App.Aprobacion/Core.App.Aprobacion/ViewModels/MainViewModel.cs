@@ -42,6 +42,16 @@ namespace Core.App.Aprobacion.ViewModels
         public CumplimientoFiltroViewModel CumplimientoFiltro { get; set; }
         public CumplimientoBitacorasViewModel CumplimientoBitacoras { get; set; }
         public CumplimientoLineasViewModel CumplimientoLineas { get; set; }
+        public ProveedorViewModel Proveedor { get; set; }
+        public MisPedidosViewModel MisPedidos { get; set; }
+        public MisPedidosPedidoViewModel MisPedidosPedido { get; set; }
+        public AprobacionPedidoViewModel AprobacionPedido { get; set; }
+        public MiBonoViewModel MiBono { get; set; }
+        public CreacionBitacorasViewModel CreacionBitacoras { get; set; }
+        public CreacionBitacoraViewModel CreacionBitacora { get; set; }
+        public CreacionLineasViewModel CreacionLineas { get; set; }
+        public CreacionLineaViewModel CreacionLinea { get; set; }
+
         #endregion
 
         #region Combos
@@ -87,19 +97,29 @@ namespace Core.App.Aprobacion.ViewModels
                         : (item.Menu == "ReferidosOrdenesNominaPage" ? "ic_filter_1"
                         : (item.Menu == "ReferidosFiltroPage" ? "ic_location_on"
                         : (item.Menu == "MisOrdenesTrabajoPage" ? "ic_filter_3" 
-                        : (item.Menu == "AprobacionGerentePage" ? "ic_filter_1"
-                        : (item.Menu == "CumplimientoFiltroPage" ? "ic_filter_2"
-                        : ""))))))),
+                        : (item.Menu == "AprobacionGerentePage" ? "ic_check_box_white"
+                        : (item.Menu == "CumplimientoFiltroPage" ? "ic_filter_1"
+                        : (item.Menu == "MisPedidosPage" ? "ic_filter_4"
+                        : (item.Menu == "ComboProveedoresPage" ? "ic_supervised_user_circle"
+                        : (item.Menu == "AprobacionPedidoPage" ? "ic_check_box_white"
+                        : (item.Menu == "MiBonoPage" ? "ic_attach_money"
+                        : (item.Menu == "CreacionBitacorasPage" ? "ic_filter_5"
+                        : "")))))))))))),
                     PageName = item.Menu,
                     Title = item.Menu == "JefeSupervisorOrdenesPage" ? "Ordenes"
                         : (item.Menu == "JefeSupervisorBitacorasPage" ? "Bitácoras"
                         : (item.Menu == "JefeSupervisorFiltroPage" ? "Filtros"
                         : (item.Menu == "ReferidosOrdenesNominaPage" ? "Referidos"
                         : (item.Menu == "ReferidosFiltroPage" ? "Filtros"
-                        : (item.Menu == "MisOrdenesTrabajoPage" ? "Mis Ordenes de trabajo"
+                        : (item.Menu == "MisOrdenesTrabajoPage" ? "Mis órdenes de trabajo"
                         : (item.Menu == "AprobacionGerentePage" ? "Aprobación órdenes"
                         : (item.Menu == "CumplimientoFiltroPage" ? "Bitácoras"
-                        : "")))))))
+                        : (item.Menu == "MisPedidosPage" ? "Mis pedidos"
+                        : (item.Menu == "ComboProveedoresPage" ? "Proveedores"
+                        : (item.Menu == "AprobacionPedidoPage" ? "Aprobación pedidos"
+                        : (item.Menu == "MiBonoPage" ? "Mi bono"
+                        : (item.Menu == "CreacionBitacorasPage" ? "Mis bitácoras"
+                        : ""))))))))))))
                 });
             }
             this.Menus.Add(new JefeSupervisorMenuItemViewModel
@@ -189,6 +209,15 @@ namespace Core.App.Aprobacion.ViewModels
             }
         }
 
+        public void ModificarProveedor(string Codigo, decimal Duracion)
+        {
+            foreach (var item in ListaProveedores)
+            {
+                if (item.Codigo == Codigo)
+                    item.Duracion = Duracion;
+            }
+        }
+
         #endregion
 
         #region Comandos
@@ -230,9 +259,119 @@ namespace Core.App.Aprobacion.ViewModels
         {
             try
             {
-                OrdenModel Orden = new OrdenModel { Fecha = DateTime.Now.Date, Titulo = "Nueva Orden" };
+                OrdenModel Orden = new OrdenModel { Fecha = DateTime.Now.Date, Titulo = "Nueva Orden", IdSucursal = Settings.Sucursal, IdViaje = Settings.Viaje, NomCentroCosto = Settings.NombreSucursal, NomViaje = Settings.NombreViaje,
+                    IdSolicitante = Settings.Solicitante,
+                    IdBodega = Settings.Bodega,
+                        NombreBodega = Settings.NombreBodega,
+                    NombreSolicitante = Settings.NombreSolicitante
+                };
                 GetInstance().MisOrdenesTrabajoOrden = new MisOrdenesTrabajoOrdenViewModel(Orden);
                 await App.Navigator.PushAsync(new MisOrdenesTrabajoOrdenPage());
+            }
+            catch (System.Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                       "Alerta",
+                       ex.Message,
+                       "Aceptar");
+                return;
+            }
+
+        }
+
+        public ICommand NuevaPedidoCommand
+        {
+            get
+            {
+                return new RelayCommand(NuevaPedido);
+            }
+        }
+
+        private async void NuevaPedido()
+        {
+            try
+            {
+                var Orden = new PedidoModel { Fecha = DateTime.Now.Date, Titulo = "Nuevo pedido", IdSucursal = Settings.Sucursal, IdViaje = Settings.Viaje, NombreSucursal = Settings.NombreSucursal, NombreViaje = Settings.NombreViaje,
+                    IdSolicitante = Settings.Solicitante,
+                    IdBodega = Settings.Bodega,
+                    NombreBodega = Settings.NombreBodega, NombreEmpleado = Settings.NombreSolicitante };
+                GetInstance().MisPedidosPedido = new MisPedidosPedidoViewModel(Orden);
+                await App.Navigator.PushAsync(new MisPedidosPedidoPage());
+            }
+            catch (System.Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                       "Alerta",
+                       ex.Message,
+                       "Aceptar");
+                return;
+            }
+
+        }
+
+
+        public ICommand NuevaBitacoraCommand
+        {
+            get
+            {
+                return new RelayCommand(NuevaBitacora);
+            }
+        }
+
+        private async void NuevaBitacora()
+        {
+            try
+            {
+                var Orden = new BitacoraModel
+                {
+                    Barco = Settings.Sucursal,
+                    NomBarco = Settings.NombreSucursal,
+                    Viaje = Settings.Viaje,
+                    NomViaje = Settings.NombreViaje,
+                    FechaArribo = DateTime.Now.Date,
+                    FechaZarpe = DateTime.Now.Date,
+                    Titulo = "Nueva bitácora"
+                };
+
+                GetInstance().CreacionBitacora = new CreacionBitacoraViewModel(Orden);
+                await App.Navigator.PushAsync(new CreacionBitacoraPage());
+            }
+            catch (System.Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                       "Alerta",
+                       ex.Message,
+                       "Aceptar");
+                return;
+            }
+
+        }
+
+        public ICommand NuevaLineaCommand
+        {
+            get
+            {
+                return new RelayCommand(NuevaLinea);
+            }
+        }
+
+        private async void NuevaLinea()
+        {
+            try
+            {
+                var Orden = new BitacoraModel
+                {
+                    Barco = Settings.Sucursal,
+                    NomBarco = Settings.NombreSucursal,
+                    Viaje = Settings.Viaje,
+                    NomViaje = Settings.NombreViaje,
+                    FechaArribo = DateTime.Now.Date,
+                    FechaZarpe = DateTime.Now.Date,
+                    Titulo = "Nueva obra"
+                };
+
+                GetInstance().CreacionLinea = new CreacionLineaViewModel(Orden);
+                await App.Navigator.PushAsync(new CreacionLineaPage());
             }
             catch (System.Exception ex)
             {

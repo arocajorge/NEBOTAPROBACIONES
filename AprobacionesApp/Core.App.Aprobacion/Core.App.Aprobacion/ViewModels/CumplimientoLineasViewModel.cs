@@ -21,9 +21,26 @@ namespace Core.App.Aprobacion.ViewModels
         private ApiService apiService;
         private bool _IsRefreshing;
         private BitacoraModel Bitacora;
+        private ObservableCollection<string> _ListaColores;
+        private string _ColorSelectedIndex;
         #endregion
 
         #region Propiedades
+        public ObservableCollection<string> ListaColores
+        {
+            get { return this._ListaColores; }
+            set { SetValue(ref this._ListaColores, value); }
+        }
+        public string ColorSelectedIndex
+        {
+            get { return this._ColorSelectedIndex; }
+
+            set
+            {
+                SetValue(ref this._ColorSelectedIndex, value);
+                Buscar();
+            }
+        }
         public bool IsRefreshing
         {
             get { return this._IsRefreshing; }
@@ -57,13 +74,15 @@ namespace Core.App.Aprobacion.ViewModels
             Bitacora = model;
             apiService = new ApiService();
             LoadLista();
+            CargarColores();
         }
         #endregion
 
         #region Metodos
         private IEnumerable<BitacoraItemViewModel> ToBitacoraItemModel()
         {
-            var temp = _lstBitacora.Select(l => new BitacoraItemViewModel
+            if(_lstBitacora != null)
+            return _lstBitacora.Select(l => new BitacoraItemViewModel
             {
                 Id = l.Id,
                 Viaje = l.Viaje,
@@ -82,10 +101,25 @@ namespace Core.App.Aprobacion.ViewModels
                 ImagenJefe = l.ImagenJefe,
                 ImagenSupervisor = l.ImagenSupervisor,
                 NumeroOrden = l.NumeroOrden,
-                
-            });
-            return temp;
+                Duracion = l.Duracion == null ? 0 : l.Duracion,
+                FechaAproJefe = l.FechaAproJefe,
+                FechaAproSupervisor = l.FechaAproSupervisor,
+                FechaOT = l.FechaOT,
+                Tipo = l.Tipo,
+
+                DuracionReal =  l.FechaOT == null ? 0 :
+                (l.FechaAproJefe == null && l.FechaAproSupervisor == null ? (DateTime.Now.Date - Convert.ToDateTime(l.FechaOT).Date).TotalDays : 
+                (l.FechaAproJefe != null ? (Convert.ToDateTime(l.FechaAproJefe).Date - Convert.ToDateTime(l.FechaOT).Date).TotalDays :
+                (l.FechaAproSupervisor != null ? (Convert.ToDateTime(l.FechaAproSupervisor).Date - Convert.ToDateTime(l.FechaOT).Date).TotalDays :
+                (DateTime.Now.Date - Convert.ToDateTime(l.FechaOT).Date).TotalDays))),
+
+
+                DiferenciaDiasZA = l.FechaAproJefe == null || l.FechaZarpe == null ? 0 : (Convert.ToDateTime(l.FechaAproJefe).Date - Convert.ToDateTime(l.FechaZarpe).Date).TotalDays,
+                DiferenciaDiasZRA = l.FechaAproSupervisor == null || l.FechaZarpe == null ? 0 : (Convert.ToDateTime(l.FechaAproSupervisor).Date - Convert.ToDateTime(l.FechaZarpe).Date).TotalDays
+            });else
+            return new List<BitacoraItemViewModel>();
         }
+
         public async void LoadLista()
         {
             IsRefreshing = true;
@@ -145,14 +179,14 @@ namespace Core.App.Aprobacion.ViewModels
                 {
                     q.ImagenJefe = q.EstadoJefe == "P" ? "ic_check_box" : "ic_check_box_outline_blank";
                     q.ImagenSupervisor = (q.EstadoSupervisor == "P" || q.EstadoSupervisor == "T") ? "ic_check_box" : "ic_check_box_outline_blank";
-                    q.Color = 
-                    q.EstadoSupervisor == "P" ? "LightGreen" :
-                    (q.EstadoSupervisor == "T" ? "CornflowerBlue" :
-                    ((q.EstadoJefe == "P" && q.EstadoSupervisor != "P" && q.EstadoSupervisor != "T") ? "Yellow" : "White"));
+                    q.Color =
+                     q.EstadoSupervisor == "P" ? "LightGreen" :
+                     (q.EstadoSupervisor == "T" ? "CornflowerBlue" :
+                     (q.EstadoSupervisor == "X" ? "Red" :
+                     (q.EstadoSupervisor == "A" || String.IsNullOrEmpty(q.EstadoSupervisor)) && q.EstadoJefe == "P" ? "Yellow" : "White"));
                 });
                 _lstBitacora = _lstBitacora.OrderBy(q => q.Linea).ToList();
-                
-                this.LstBitacoras = new ObservableCollection<BitacoraItemViewModel>(ToBitacoraItemModel());
+                 Buscar();
                 IsRefreshing = false;
             }
             catch (Exception ex)
@@ -182,12 +216,44 @@ namespace Core.App.Aprobacion.ViewModels
             IsRefreshing = true;
             try
             {
-                if (string.IsNullOrEmpty(filter))
+                string ColorEstado = string.Empty;
+                switch (ColorSelectedIndex)
+                {
+                    case "Todo":
+                        ColorEstado = "";
+                        break;
+                    case "Amarillo / Pendiente":
+                        ColorEstado = "Yellow";
+                        break;
+                    case "Azul / Parcialmente cumplido":
+                        ColorEstado = "CornflowerBlue";
+                        break;
+                    case "Rojo / Anulado":
+                        ColorEstado = "Red";
+                        break;
+                    case "Blanco / No realizado":
+                        ColorEstado = "White";
+                        break;
+                    case "Verde / Cumplido":
+                        ColorEstado = "LightGreen";
+                        break;
+                    default:
+                        ColorEstado = "";
+                        break;
+                }
+
+                string filtro = filter ?? "";
+                if (string.IsNullOrEmpty(filtro) && string.IsNullOrEmpty(ColorEstado))
                     this.LstBitacoras = new ObservableCollection<BitacoraItemViewModel>(ToBitacoraItemModel());
+                if(string.IsNullOrEmpty(filtro) && !string.IsNullOrEmpty(ColorEstado))
+                    this.LstBitacoras = new ObservableCollection<BitacoraItemViewModel>(
+                        ToBitacoraItemModel().Where(q => q.Color.Contains(ColorEstado)
+                        ).OrderBy(q => q.Linea));
                 else
                     this.LstBitacoras = new ObservableCollection<BitacoraItemViewModel>(
-                        ToBitacoraItemModel().Where(q => q.Contratista.ToLower().Contains(filter.ToLower()) || q.Linea.ToString().Contains(filter.ToLower()) || q.Descripcion.ToLower().Contains(filter.ToLower())
-                        || q.NumeroOrden.Contains(filter.ToLower())
+                        ToBitacoraItemModel().Where(q => q.Contratista.ToLower().Contains(filtro.ToLower()) || q.Linea.ToString().Contains(filtro.ToLower()) || q.Descripcion.ToLower().Contains(filtro.ToLower())
+                        || q.NumeroOrden.Contains(filtro.ToLower())
+                        ||  q.Color.Contains(ColorEstado)
                         ).OrderBy(q => q.Linea));
                 IsRefreshing = false;
             }
@@ -200,6 +266,20 @@ namespace Core.App.Aprobacion.ViewModels
                            "Aceptar");
                 return;
             }
+        }
+        #endregion
+
+        #region Metodos
+        private void CargarColores()
+        {
+            ListaColores = new ObservableCollection<string>();
+            ListaColores.Add("Todo");
+            ListaColores.Add("Amarillo / Pendiente");
+            ListaColores.Add("Blanco / No realizado");
+            ListaColores.Add("Verde / Cumplido");
+            ListaColores.Add("Rojo / Anulado");
+            ListaColores.Add("Azul / Parcialmente cumplido");
+            ColorSelectedIndex = "Todo";
         }
         #endregion
     }

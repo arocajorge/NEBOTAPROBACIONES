@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Core.App.Aprobacion.Views.JefeSupervisorBitacoraPage"
@@ -23,7 +23,7 @@
                         FontAttributes="Bold"
                         Text="{Binding Bitacora.Estado}"
                         HorizontalTextAlignment="Center"
-                        TextColor="{Binding Bitacora.Color}">
+                        TextColor="Black">
                     </Label>
 
                     <Label
@@ -46,7 +46,12 @@
                             Text="{Binding Bitacora.Descripcion}"                        
                             TextColor="Black">
                     </Label>
-
+                    <Picker
+                        FontSize="Medium"
+                        ItemsSource="{Binding ListaTipoOrden}"
+                        SelectedItem="{Binding TipoSelectedIndex, Mode=TwoWay}"                        
+                        Title="Seleccione el Tipo">
+                    </Picker>
                     
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -103,12 +108,26 @@
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
                                     <StackLayout
-                                        Grid.Column="0">                                        
-                                        <StackLayout 
-                                            Orientation="Horizontal">
+                                        Grid.Column="0">
                                             <Label
                                                 FontAttributes="Bold"
-                                                Text="{Binding CinvNum, StringFormat='OT No.{0}'}"
+                                                Text="{Binding Estado, Mode=TwoWay}"
+                                                TextColor="{Binding ColorEstado, Mode=TwoWay}"
+                                                VerticalOptions="CenterAndExpand"
+                                                VerticalTextAlignment="Center"
+                                                HorizontalOptions="Start">
+                                            </Label>
+                                        <StackLayout
+                                            Orientation="Horizontal">
+                                             <Label
+                                                FontAttributes="Bold"
+                                                Text="{Binding Tipo}"
+                                                TextColor="Black"
+                                                HorizontalOptions="Start">
+                                            </Label>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                Text="{Binding CinvNum, StringFormat='No.{0}'}"
                                                 TextColor="Black"
                                                 HorizontalOptions="Start">
                                             </Label>
@@ -160,6 +179,14 @@
                             IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                             Text="Incumplida"
                             IsVisible="{Binding EsSupervisor, Mode=TwoWay}"
+                            HorizontalOptions="FillAndExpand">
+                        </Button>
+                        <Button
+                            BackgroundColor="White"
+                            TextColor="Black"
+                            Command="{Binding DesaprobarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Desaprobar"
                             HorizontalOptions="FillAndExpand">
                         </Button>
                     </StackLayout>                    
