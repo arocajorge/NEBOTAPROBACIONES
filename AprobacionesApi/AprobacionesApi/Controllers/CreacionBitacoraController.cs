@@ -18,7 +18,7 @@ namespace AprobacionesApi.Controllers
             try
             {
                 var Entity = db.CAB_BITACORA.Where(q => q.BARCO == value.BARCO && q.VIAJE == value.VIAJE).FirstOrDefault();
-                if(Entity == null)
+                if (Entity == null)
                 {
                     db.CAB_BITACORA.Add(new CAB_BITACORA
                     {
@@ -34,7 +34,8 @@ namespace AprobacionesApi.Controllers
                         FECHA_ZARPE = value.FECHA_ZARPE,
                         FECHA_ZARPE_REAL = value.FECHA_ZARPE_REAL
                     });
-                }else
+                }
+                else
                 {
                     Entity.FECHA_ARRIBO = value.FECHA_ARRIBO;
                     Entity.FECHA_ZARPE = value.FECHA_ZARPE;

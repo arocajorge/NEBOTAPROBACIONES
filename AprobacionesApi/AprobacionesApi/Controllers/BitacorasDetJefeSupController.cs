@@ -26,7 +26,7 @@ namespace AprobacionesApi.Controllers
                     VALOR = q.VALOR,
                     CUMPLIMIENTO = q.CUMPLIMIENTO,
                     TIPO = q.TIPO,
-                    CINV_NUM = q.CINV_NUM ?? 0,
+                    CINV_NUM = (int)(q.CINV_NUM ?? 0),
                     NOMPROVEEDOR = q.NOMPROVEEDOR,
                     CINV_COM1 = q.CINV_COM1,
                     COLOR_ESTADO = q.COLOR_ESTADO,

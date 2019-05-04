@@ -54,5 +54,8 @@ namespace AprobacionesApi.Data
         public DbSet<TBCINV_FILTROS_APP> TBCINV_FILTROS_APP { get; set; }
         public DbSet<VW_FILTROS_APP> VW_FILTROS_APP { get; set; }
         public DbSet<VW_PEDIDOS_APP> VW_PEDIDOS_APP { get; set; }
+        public DbSet<VW_PRESUPUESTO_APP> VW_PRESUPUESTO_APP { get; set; }
+        public DbSet<CAB_BITACORA_PARAM> CAB_BITACORA_PARAM { get; set; }
+        public DbSet<CAB_BITACORA_PARAM_OP4> CAB_BITACORA_PARAM_OP4 { get; set; }
     }
 }

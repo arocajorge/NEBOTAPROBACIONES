@@ -42,5 +42,13 @@ namespace AprobacionesApi.Models
         public string NOM_OBRAS { get; set; }
         public List<BitacoraModel> ListaBitacoras { get; set; }
         public decimal? DURACION { get; set; }
+
+        #region Presupuesto
+        public decimal PRESUPUESTO { get; set; }
+        public decimal APROBADO { get; set; }
+        public decimal PENDIENTE { get; set; }
+        public decimal SALDO { get; set; }
+        #endregion
+
     }
 }

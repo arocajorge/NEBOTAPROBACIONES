@@ -17,10 +17,11 @@ namespace AprobacionesApi.Models
         public string NOMPROVEEDOR { get; set; }
         public string DETALLEOT { get; set; }
         public bool ELIMINAR { get; set; }
-        public decimal CINV_NUM { get; set; }
+        public int CINV_NUM { get; set; }
         public string CINV_COM1 { get; set; }
         public string TIPO { get; set; }
         public string COLOR_ESTADO { get; internal set; }
         public string CINV_ST { get; internal set; }
+        public short? ST_EMPLEADO { get; set; }
     }
 }

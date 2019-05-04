@@ -34,6 +34,9 @@
         <EntityTypeShape EntityType="ModelGeneral.TBCINV_FILTROS_APP" Width="1.5" PointX="19.375" PointY="15.75" />
         <EntityTypeShape EntityType="ModelGeneral.VW_FILTROS_APP" Width="1.5" PointX="21.375" PointY="0.75" />
         <EntityTypeShape EntityType="ModelGeneral.VW_PEDIDOS_APP" Width="1.5" PointX="16.375" PointY="20.75" />
+        <EntityTypeShape EntityType="ModelGeneral.VW_PRESUPUESTO_APP" Width="1.5" PointX="21.375" PointY="8.75" />
+        <EntityTypeShape EntityType="ModelGeneral.CAB_BITACORA_PARAM" Width="1.5" PointX="21.375" PointY="12.75" />
+        <EntityTypeShape EntityType="ModelGeneral.CAB_BITACORA_PARAM_OP4" Width="1.5" PointX="21.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
