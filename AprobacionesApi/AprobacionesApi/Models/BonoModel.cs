@@ -16,8 +16,11 @@ namespace AprobacionesApi.Models
         public string OPCION2 { get; set; }
         public decimal OP2_PREMIO { get; set; }
         public string OPCION3 { get; set; }
+        public string OPCION3_VERDE { get; set; }
         public decimal OP3_VERDE { get; set; }
+        public string OPCION3_AZUL { get; set; }
         public decimal OP3_AZUL { get; set; }
+        public string OPCION3_ROJO { get; set; }
         public decimal OP3_ROJO { get; set; }
         public string OPCION4 { get; set; }
         public decimal OP4_PREMIO { get; set; }
@@ -25,5 +28,6 @@ namespace AprobacionesApi.Models
         public Nullable<System.DateTime> FECHA_ZARPE { get; set; }
         public Nullable<System.DateTime> FECHA_ZARPE_REAL { get; set; }
         public decimal TOTAL { get; set; }
+        public string COLOR { get; set; }
     }
 }

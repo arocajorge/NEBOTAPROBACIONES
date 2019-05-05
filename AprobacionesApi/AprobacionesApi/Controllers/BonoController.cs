@@ -21,7 +21,11 @@ namespace AprobacionesApi.Controllers
                     OPCION1 = "ASIGNACION DE ORDENES",
                     OPCION2 = "CUMPLIMIENTO RAPIDO",
                     OPCION3 = "CALIFICACION DE OBRAS CUMPLIDAS",
-                    OPCION4 = "COMISION GLOBAL"                    
+                    OPCION4 = "COMISION GLOBAL",
+
+                    OPCION3_VERDE = "(+) Bien hechas",
+                    OPCION3_AZUL = "(-) Hechas a medias",
+                    OPCION3_ROJO = "(-) No realizada"
                 };
 
                 var bitacora = db.VW_BITACORAS_APP.Where(q => q.BARCO == BARCO && q.VIAJE == VIAJE).FirstOrDefault();
@@ -59,11 +63,16 @@ namespace AprobacionesApi.Controllers
                 #region Opcion 3
                 decimal TotalObras = db.DET_BITACORA.Where(q => q.ID == bitacora.ID && q.LINEA_STCUMPLI2 != null && !q.DESCRIPCION.Contains("REASIGNADA")).Count();
                 decimal op3_verde = db.DET_BITACORA.Where(q => q.ID == bitacora.ID && q.LINEA_STCUMPLI2 == "P").Count();
+                Bono.OPCION3_VERDE += "("+op3_verde.ToString()+"):";
                 decimal op3_azul = db.DET_BITACORA.Where(q => q.ID == bitacora.ID && q.LINEA_STCUMPLI2 == "T").Count();
+                Bono.OPCION3_AZUL += "(" + op3_azul.ToString() + "):";
                 decimal op3_rojo = db.DET_BITACORA.Where(q => q.ID == bitacora.ID && q.LINEA_STCUMPLI2 == "X").Count();
+                Bono.OPCION3_ROJO += "(" + op3_rojo.ToString() + "):";
 
                 decimal ValorPorObra = Math.Round(param.OP3_TOTAL / TotalObras,2,MidpointRounding.AwayFromZero);
-                
+
+                param.OP3_ROJO = param.OP3_ROJO ?? 0;
+
                 Bono.OP3_VERDE = Math.Round(ValorPorObra * op3_verde,2,MidpointRounding.AwayFromZero);
                 Bono.OP3_AZUL = Math.Round(Convert.ToDecimal(((double)ValorPorObra * ((double)param.OP3_AZUL/100.00))) * op3_azul,2,MidpointRounding.AwayFromZero);
                 Bono.OP3_ROJO = Math.Round(Convert.ToDecimal(((double)ValorPorObra * ((double)param.OP3_ROJO / 100.00))) * op3_rojo, 2, MidpointRounding.AwayFromZero);
@@ -93,11 +102,14 @@ namespace AprobacionesApi.Controllers
                         Bono.OP4_PREMIO = param.OP4_COMISION;
                 }
                 #endregion
-                Bono.TOTAL = Bono.OP1_PREMIO - Bono.OP1_MULTA + Bono.OP2_PREMIO + Bono.OP3_VERDE - Bono.OP3_AZUL + Bono.OP4_PREMIO;
+                Bono.TOTAL = Bono.OP1_PREMIO - Bono.OP1_MULTA + Bono.OP2_PREMIO + Bono.OP3_VERDE - Bono.OP3_AZUL - Bono.OP3_ROJO + Bono.OP4_PREMIO;
 
                 Bono.FECHA_ARRIBO = bitacora.FECHA_ARRIBO;
                 Bono.FECHA_ZARPE = bitacora.FECHA_ZARPE;
                 Bono.FECHA_ZARPE_REAL = bitacora.FECHA_ZARPE_REAL;
+
+                Bono.COLOR = Bono.TOTAL > 0 ? "Green" : (Bono.TOTAL == 0 ? "Black" : "Red");
+
                 return Bono;
             }
             catch (Exception ex)
@@ -110,7 +122,7 @@ namespace AprobacionesApi.Controllers
                         ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
                         INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
                         FECHA = DateTime.Now,
-                        PROCESO = "BonoBitacora/GET",
+                        PROCESO = "Bono/GET",
                         SECUENCIA = ID
                     });
                     Error.SaveChanges();
