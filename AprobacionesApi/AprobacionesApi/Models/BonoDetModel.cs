@@ -12,5 +12,7 @@ namespace AprobacionesApi.Models
         public DateTime? FECHA { get; set; }
         public int? DIAS { get; set; }
         public string COLOR { get; set; }
+        public string TIPO { get; set; }
+        public int NUMERO_ORDEN { get; set; }
     }
 }

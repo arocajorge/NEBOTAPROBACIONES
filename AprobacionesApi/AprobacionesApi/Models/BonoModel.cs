@@ -29,5 +29,8 @@ namespace AprobacionesApi.Models
         public Nullable<System.DateTime> FECHA_ZARPE_REAL { get; set; }
         public decimal TOTAL { get; set; }
         public string COLOR { get; set; }
+
+        public int OP2_CAN_PREMIO { get; set; }
+        public int OP2_CAN_MULTA { get; set; }
     }
 }

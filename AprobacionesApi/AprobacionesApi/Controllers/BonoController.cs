@@ -47,7 +47,10 @@ namespace AprobacionesApi.Controllers
                 var dias = (Bono.FECHA_ARRIBO - Bono.FECHA_ZARPE).Value.TotalDays;
                 var lst = db.VW_BITACORAS_APP.Where(q => q.ID == bitacora.ID && q.FECHA_OT != null && !q.DESCRIPCION.Contains("REASIGNADA")).GroupBy(q => new { q.NUMERO_ORDEN, q.FECHA_ARRIBO, q.FECHA_OT }).ToList();
                 var premio_op1 = lst.Where(q => (double)param.OP1_INICIO <= (q.Key.FECHA_ARRIBO - q.Key.FECHA_OT).Value.TotalDays && (q.Key.FECHA_ARRIBO - q.Key.FECHA_OT).Value.TotalDays <= (double)param.OP1_FIN).Select(q=> new { Dias = (q.Key.FECHA_ARRIBO - q.Key.FECHA_OT).Value.TotalDays, Orden = q.Key.NUMERO_ORDEN }).ToList();
-                var multa_op1 = lst.Where(q => (double)param.OP1_FIN < (q.Key.FECHA_ARRIBO - q.Key.FECHA_OT).Value.TotalDays).Select(q => new { Dias = (q.Key.FECHA_ARRIBO - q.Key.FECHA_OT).Value.TotalDays, Orden = q.Key.NUMERO_ORDEN }).ToList();
+                var multa_op1 = lst.Where(q => (double)param.OP1_INICIO > (q.Key.FECHA_ARRIBO - q.Key.FECHA_OT).Value.TotalDays || (q.Key.FECHA_ARRIBO - q.Key.FECHA_OT).Value.TotalDays > (double)param.OP1_FIN).Select(q => new { Dias = (q.Key.FECHA_ARRIBO - q.Key.FECHA_OT).Value.TotalDays, Orden = q.Key.NUMERO_ORDEN }).ToList();
+
+                Bono.OP2_CAN_PREMIO = premio_op1.Count;
+                Bono.OP2_CAN_MULTA = (int)multa_op1.Sum(q => q.Dias);
 
                 Bono.OP1_PREMIO = premio_op1.Count * param.OP1_PREMIO;
                 Bono.OP1_MULTA = (decimal)multa_op1.Sum(q=> q.Dias) * param.OP1_MULTA;
@@ -55,7 +58,7 @@ namespace AprobacionesApi.Controllers
                 #endregion
 
                 #region Opción 2
-                decimal premio_op2 = db.DET_BITACORA.AsEnumerable().Where(q => q.ID == bitacora.ID && q.LINEA_FECCUMPLI1 != null && param.OP2_INICIO <= (bitacora.FECHA_ZARPE - q.LINEA_FECCUMPLI1).Value.Days && (bitacora.FECHA_ZARPE - q.LINEA_FECCUMPLI1).Value.Days <= param.OP2_FIN).Count();
+                decimal premio_op2 = db.DET_BITACORA.AsEnumerable().Where(q => q.ID == bitacora.ID && q.LINEA_FECCUMPLI1 != null && param.OP2_INICIO <= (bitacora.FECHA_ZARPE.Value.Date - q.LINEA_FECCUMPLI1.Value.Date).Days && (bitacora.FECHA_ZARPE.Value.Date - q.LINEA_FECCUMPLI1.Value.Date).Days <= param.OP2_FIN).Count();
 
                 Bono.OP2_PREMIO = premio_op2 * param.OP2_PREMIO;
                 #endregion
@@ -74,8 +77,8 @@ namespace AprobacionesApi.Controllers
                 param.OP3_ROJO = param.OP3_ROJO ?? 0;
 
                 Bono.OP3_VERDE = Math.Round(ValorPorObra * op3_verde,2,MidpointRounding.AwayFromZero);
-                Bono.OP3_AZUL = Math.Round(Convert.ToDecimal(((double)ValorPorObra * ((double)param.OP3_AZUL/100.00))) * op3_azul,2,MidpointRounding.AwayFromZero);
-                Bono.OP3_ROJO = Math.Round(Convert.ToDecimal(((double)ValorPorObra * ((double)param.OP3_ROJO / 100.00))) * op3_rojo, 2, MidpointRounding.AwayFromZero);
+                Bono.OP3_AZUL = Math.Round(Convert.ToDecimal(((double)param.OP3_TOTAL * ((double)param.OP3_AZUL/100.00))) * op3_azul,2,MidpointRounding.AwayFromZero);
+                Bono.OP3_ROJO = Math.Round(Convert.ToDecimal(((double)param.OP3_TOTAL * ((double)param.OP3_ROJO / 100.00))) * op3_rojo, 2, MidpointRounding.AwayFromZero);
                 #endregion
 
                 #region Opcion 4
@@ -102,6 +105,7 @@ namespace AprobacionesApi.Controllers
                         Bono.OP4_PREMIO = param.OP4_COMISION;
                 }
                 #endregion
+                Bono.OP1_MULTA = Math.Abs(Bono.OP1_MULTA);
                 Bono.TOTAL = Bono.OP1_PREMIO - Bono.OP1_MULTA + Bono.OP2_PREMIO + Bono.OP3_VERDE - Bono.OP3_AZUL - Bono.OP3_ROJO + Bono.OP4_PREMIO;
 
                 Bono.FECHA_ARRIBO = bitacora.FECHA_ARRIBO;
