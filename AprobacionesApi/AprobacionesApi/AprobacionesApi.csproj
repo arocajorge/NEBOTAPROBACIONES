@@ -115,6 +115,7 @@
     <Compile Include="Controllers\BitacorasDetJefeSupController.cs" />
     <Compile Include="Controllers\BitacorasJefeSupController.cs" />
     <Compile Include="Controllers\BonoController.cs" />
+    <Compile Include="Controllers\BonoDetController.cs" />
     <Compile Include="Controllers\CatalogosController.cs" />
     <Compile Include="Controllers\ControlBitacoraController.cs" />
     <Compile Include="Controllers\CreacionBitacoraController.cs" />
@@ -248,6 +249,7 @@
     </Compile>
     <Compile Include="Models\BitacoraDetModel.cs" />
     <Compile Include="Models\BitacoraModel.cs" />
+    <Compile Include="Models\BonoDetModel.cs" />
     <Compile Include="Models\BonoModel.cs" />
     <Compile Include="Models\CatalogoModel.cs" />
     <Compile Include="Models\FiltroModel.cs" />

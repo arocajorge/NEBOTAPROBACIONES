@@ -114,13 +114,16 @@ namespace AprobacionesApi.Controllers
                 var linea = db.DET_BITACORA.Where(q => q.ID == value.ID && q.LINEA == value.LINEA).FirstOrDefault();
                 if (linea == null)
                     return;
-
+                
                 var usuario = db.USUARIOS.Where(q => q.USUARIO.ToLower() == value.LOGIN.ToLower()).FirstOrDefault();
                 if (usuario == null)
                     return;                
 
                 if (usuario.ROL_APRO == "J")
                 {
+                    if (linea.LINEA_STCUMPLI1 == value.ESTADOAPRO)
+                        return;
+
                     linea.LINEA_FECCUMPLI1 = DateTime.Now;
                     linea.LINEA_STCUMPLI1 = value.ESTADOAPRO;
                     linea.LINEA_LOGINCUMPLI1 = usuario.USUARIO;
@@ -128,8 +131,7 @@ namespace AprobacionesApi.Controllers
                 else
                 {
                     if (string.IsNullOrEmpty(value.ESTADOAPRO))
-                    {
-
+                    { 
                         linea.LINEA_FECCUMPLI1 = null;
                         linea.LINEA_STCUMPLI1 = null;
                         linea.LINEA_LOGINCUMPLI1 = null;
@@ -140,6 +142,9 @@ namespace AprobacionesApi.Controllers
                     }
                     else
                     {
+                        if (linea.LINEA_STCUMPLI2 == value.ESTADOAPRO)
+                            return;
+
                         linea.LINEA_FECCUMPLI2 = DateTime.Now;
                         linea.LINEA_STCUMPLI2 = value.ESTADOAPRO;
                         linea.LINEA_LOGINCUMPLI2 = usuario.USUARIO;
