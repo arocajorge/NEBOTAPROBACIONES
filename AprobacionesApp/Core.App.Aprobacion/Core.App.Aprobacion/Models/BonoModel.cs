@@ -67,5 +67,8 @@ namespace Core.App.Aprobacion.Models
 
         [JsonProperty("TOTAL")]
         public double Total { get; set; }
+
+        [JsonProperty("COLOR")]
+        public string Color { get; set; }
     }
 }

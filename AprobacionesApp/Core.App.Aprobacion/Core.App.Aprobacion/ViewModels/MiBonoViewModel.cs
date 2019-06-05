@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Windows.Input;
 using Core.App.Aprobacion.Helpers;
 using Core.App.Aprobacion.Models;
 using Core.App.Aprobacion.Services;
+using Core.App.Aprobacion.Views;
+using GalaSoft.MvvmLight.Command;
 using Xamarin.Forms;
 
 namespace Core.App.Aprobacion.ViewModels
@@ -81,6 +84,41 @@ namespace Core.App.Aprobacion.ViewModels
 
                 return;
             }
+        }
+        #endregion
+
+        #region Comandos
+        public ICommand VerDetalleOpcion1Command
+        {
+            get { return new RelayCommand(VerDetalleOpcion1); }
+        }
+
+        private async void VerDetalleOpcion1()
+        {
+            MainViewModel.GetInstance().MiBonoDetalle = new MiBonoDetalleViewModel(Bono.Id,"OPCION1");
+            await App.Navigator.PushAsync(new MiBonoDetallePage());
+        }
+
+        public ICommand VerDetalleOpcion2Command
+        {
+            get { return new RelayCommand(VerDetalleOpcion2); }
+        }
+
+        private async void VerDetalleOpcion2()
+        {
+            MainViewModel.GetInstance().MiBonoDetalle = new MiBonoDetalleViewModel(Bono.Id, "OPCION2");
+            await App.Navigator.PushAsync(new MiBonoDetallePage());
+        }
+
+        public ICommand VerDetalleOpcion3Command
+        {
+            get { return new RelayCommand(VerDetalleOpcion3); }
+        }
+
+        private async void VerDetalleOpcion3()
+        {
+            MainViewModel.GetInstance().MiBonoDetalle = new MiBonoDetalleViewModel(Bono.Id, "OPCION3");
+            await App.Navigator.PushAsync(new MiBonoDetallePage());
         }
         #endregion
     }

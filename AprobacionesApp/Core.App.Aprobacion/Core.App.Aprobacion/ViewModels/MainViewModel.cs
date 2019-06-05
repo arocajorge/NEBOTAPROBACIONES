@@ -51,6 +51,7 @@ namespace Core.App.Aprobacion.ViewModels
         public CreacionBitacoraViewModel CreacionBitacora { get; set; }
         public CreacionLineasViewModel CreacionLineas { get; set; }
         public CreacionLineaViewModel CreacionLinea { get; set; }
+        public MiBonoDetalleViewModel MiBonoDetalle { get; set; }
 
         #endregion
 

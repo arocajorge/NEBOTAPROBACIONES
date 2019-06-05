@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Core.App.Aprobacion.Views.MiBonoDetallePage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Detalle">
+    <ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding MiBonoDetalle}"
+            Padding="5">
+            <SearchBar
+                SearchCommand="{Binding BuscarCommand}"
+                Text="{Binding filter, Mode=TwoWay}"
+                Placeholder="Buscar..."
+                HeightRequest="50">
+            </SearchBar>
+            <ListView
+                BackgroundColor="White"
+                HasUnevenRows="True"
+                RefreshCommand="{Binding RefreshCommand}"
+                IsRefreshing="{Binding IsRefreshing,Mode=TwoWay}"
+                ItemsSource="{Binding LstCatalogo}"
+                SeparatorVisibility="Default">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame                                
+                                HasShadow="True"
+                                CornerRadius="20"
+                                BackgroundColor="{Binding Color, Mode=TwoWay}"
+                                Margin="5">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                
+                                    <StackLayout
+                                        Grid.Row="0"
+                                        Orientation="Horizontal">
+                                        <Label
+                                    Text="{Binding Titulo}"
+                                    FontAttributes="Bold"
+                                    TextColor="Black"
+                                    FontSize="Medium">
+                                </Label>
+                                
+                                <Label
+                                    HorizontalOptions="CenterAndExpand"
+                                    Text="{Binding Fecha, StringFormat='{0:dd/MM/yyyy}'}"
+                                    TextColor="Black"
+                                    FontSize="Medium">
+                                </Label>
+                                
+                                <Label
+                                    Text="{Binding Dias}"
+                                    FontAttributes="Bold"
+                                    TextColor="Black"
+                                    FontSize="Medium">
+                                </Label>
+                                    </StackLayout>
+                                
+                                
+                                <Label
+                                    Grid.Row="1"
+                                    Text="{Binding Descripcion}"
+                                    FontAttributes="Bold"
+                                    TextColor="Black"
+                                    FontSize="Medium">
+                                </Label>
+                            </Grid>
+                           </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

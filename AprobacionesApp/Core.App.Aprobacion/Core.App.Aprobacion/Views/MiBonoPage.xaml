@@ -27,7 +27,7 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Label
                             Grid.Column="0"
@@ -35,14 +35,14 @@
                             FontSize="Medium"
                             FontAttributes="Bold"
                             Text="Fecha arribo: "
-                            HorizontalOptions="StartAndExpand"
                             TextColor="Black">
                             </Label>
                             <Label
                             Grid.Column="1"
                             Grid.Row="0"
                             FontSize="Medium"
-                            Text="{Binding Bono.FechaArribo, StringFormat='{0:dd/MM/yyyy}'}"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding Bono.FechaArribo, StringFormat='{0:dd/MM/yyyy hh:mm}'}"
                             TextColor="Black">
                             </Label> 
                          <Label
@@ -51,14 +51,15 @@
                             FontSize="Medium"
                             FontAttributes="Bold"
                             Text="Fecha zarpe: "
-                            HorizontalOptions="StartAndExpand"
+                            
                                 TextColor="Black">
                             </Label>
                             <Label
                             Grid.Column="1"
                             Grid.Row="1"
                             FontSize="Medium"
-                            Text="{Binding Bono.FechaZarpe, StringFormat='{0:dd/MM/yyyy}'}"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding Bono.FechaZarpe, StringFormat='{0:dd/MM/yyyy hh:mm}'}"
                             TextColor="Black">
                             </Label>   
                          <Label
@@ -66,7 +67,6 @@
                             Grid.Row="2"
                             FontSize="Medium"
                             FontAttributes="Bold"
-                            HorizontalOptions="StartAndExpand"
                             Text="Fecha zarpe real: "
                             TextColor="Black">
                             </Label>
@@ -74,18 +74,36 @@
                             Grid.Column="1"
                             Grid.Row="2"
                             FontSize="Medium"
-                            Text="{Binding Bono.FechaZarpeReal, StringFormat='{0:dd/MM/yyyy}'}"
+                            HorizontalOptions="EndAndExpand"
+                            Text="{Binding Bono.FechaZarpeReal, StringFormat='{0:dd/MM/yyyy hh:mm}'}"
                             TextColor="Black">
                             </Label>  
                     </Grid>
                         
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
                         <Label
+                            Grid.Column="0"
                             FontSize="Large"
                             FontAttributes="Bold"
                             Text="{Binding Bono.Opcion1}"
                             HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
                             TextColor="Black">
                         </Label>
+                        <Button
+                            Grid.Column="1"
+                            Command="{Binding VerDetalleOpcion1Command}"
+                            HorizontalOptions="End"                            
+                            Image="ic_search">
+                        </Button>
+                    </Grid>
+                        
+                        
+                    
                          <StackLayout 
                             Orientation="Horizontal">
                             <Label
@@ -118,13 +136,27 @@
                             HorizontalTextAlignment="End">
                         </Label>
                     </StackLayout>
+                       <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
                         <Label
+                            Grid.Column="0"
                             FontSize="Large"
                             FontAttributes="Bold"
                             Text="{Binding Bono.Opcion2}"
                             HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
                             TextColor="Black">
                         </Label>
+                        <Button
+                            Grid.Column="1"
+                            Command="{Binding VerDetalleOpcion2Command}"
+                            HorizontalOptions="End"                            
+                            Image="ic_search">
+                        </Button>
+                    </Grid>
                       <StackLayout 
                            Orientation="Horizontal">
                             <Label
@@ -142,13 +174,26 @@
                         </Label>
                     </StackLayout>
                     
+                        <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
                         <Label
+                            Grid.Column="0"
                             FontSize="Large"
                             FontAttributes="Bold"
                             Text="{Binding Bono.Opcion3}"
                             HorizontalTextAlignment="Center"
                             TextColor="Black">
                         </Label>
+                        <Button
+                            Grid.Column="1"
+                            Command="{Binding VerDetalleOpcion3Command}"
+                            HorizontalOptions="End"                            
+                            Image="ic_search">
+                        </Button>
+                    </Grid>
                         <StackLayout 
                             Orientation="Horizontal">
                             <Label
@@ -232,7 +277,7 @@
                             FontAttributes="Bold"
                             Text="{Binding Bono.Total, StringFormat='{0:C2}'}"
                             HorizontalTextAlignment="Center"
-                            TextColor="Black">
+                            TextColor="{Binding Bono.Color}">
                         </Label>
                     </StackLayout>
                 </ScrollView>
