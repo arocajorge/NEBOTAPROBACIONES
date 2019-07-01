@@ -82,7 +82,7 @@ namespace AprobacionesApi.Controllers
                 #endregion
 
                 #region Opcion 4
-                var HorasOP4 = (Bono.FECHA_ZARPE - Bono.FECHA_ZARPE_REAL).Value.TotalHours;
+                var HorasOP4 = (Bono.FECHA_ZARPE_REAL - Bono.FECHA_ZARPE).Value.TotalHours;
                 //Valido que sean 24 horas
                 var DiasOP4 = Convert.ToDecimal(Math.Truncate(HorasOP4 / 24));
                 var OP4 = db.CAB_BITACORA_PARAM_OP4.Where(q => q.ID == bitacora.ID && q.OP4_INI <= DiasOP4 && DiasOP4 <= q.OP4_FIN).FirstOrDefault();

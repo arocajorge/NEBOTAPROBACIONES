@@ -63,20 +63,33 @@ namespace AprobacionesApi.Controllers
                         break;
                     case "OPCION3":
                         decimal TotalObras = db.DET_BITACORA.Where(q => q.ID == bitacora.ID && q.LINEA_STCUMPLI2 != null && !q.DESCRIPCION.Contains("REASIGNADA")).Count();
-                        decimal ValorPorObra = Math.Round(param.OP3_TOTAL / TotalObras, 2, MidpointRounding.AwayFromZero);
-
-                        Lista = db.DET_BITACORA.AsEnumerable().Where(q => q.ID == bitacora.ID && q.LINEA_STCUMPLI2 != null && !q.DESCRIPCION.Contains("REASIGNADA")).Select(q => new BonoDetModel
+                        if (TotalObras != 0)
                         {
-                            TITULO = "No. " + q.LINEA.ToString(),
-                            FECHA = q.LINEA_FECCUMPLI2,
-                            DIAS = null,
-                            COLOR = (q.LINEA_STCUMPLI2 == "P" ? "LightGreen" :
+                            decimal ValorPorObra = Math.Round(param.OP3_TOTAL / TotalObras, 2, MidpointRounding.AwayFromZero);
+                            Lista = db.DET_BITACORA.AsEnumerable().Where(q => q.ID == bitacora.ID && q.LINEA_STCUMPLI2 != null && !q.DESCRIPCION.Contains("REASIGNADA")).Select(q => new BonoDetModel
+                            {
+                                TITULO = "No. " + q.LINEA.ToString(),
+                                FECHA = q.LINEA_FECCUMPLI2,
+                                DIAS = null,
+                                COLOR = (q.LINEA_STCUMPLI2 == "P" ? "LightGreen" :
                             (q.LINEA_STCUMPLI2 == "T" ? "LightBlue" :
                             (q.LINEA_STCUMPLI2 == "X" ? "Red" : "White"))),
-                            DESCRIPCION = q.DESCRIPCION+" \n"+ (q.LINEA_STCUMPLI2 == "P" ? "+" + ValorPorObra.ToString() :
+                                DESCRIPCION = q.DESCRIPCION + " \n" + (q.LINEA_STCUMPLI2 == "P" ? "+" + ValorPorObra.ToString() :
                             (q.LINEA_STCUMPLI2 == "T" ? "-" + Math.Round(Convert.ToDecimal(((double)param.OP3_TOTAL * ((double)param.OP3_AZUL / 100.00))), 2, MidpointRounding.AwayFromZero).ToString() :
                             (q.LINEA_STCUMPLI2 == "X" ? "-" + Math.Round(Convert.ToDecimal(((double)param.OP3_TOTAL * ((double)param.OP3_ROJO / 100.00))), 2, MidpointRounding.AwayFromZero).ToString() : "White")))
-                        }).ToList();
+                            }).ToList();
+                        }else
+                        {
+                            Lista.Add(new BonoDetModel
+                            {
+                                TITULO = "No existen obras revisadas por un supervisor",
+                                FECHA = DateTime.Now.Date,
+                                DIAS = null,
+                                COLOR = "White",
+                                DESCRIPCION = null
+                            });
+                        }
+                        
                         break;
                 }
 
