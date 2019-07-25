@@ -17,6 +17,8 @@ namespace AprobacionesApi.Controllers
         {
             try
             {
+                CINV_TDOC = (CINV_TDOC == "OC") ? "OC" : "OT";
+
                 var Presupuesto = db.VW_PRESUPUESTO_APP.Where(q => q.BARCO == BARCO && q.VIAJE == VIAJE && q.CINV_TDOC == CINV_TDOC).Select(q => new PresupuestoModel
                 {
                     BARCO = q.BARCO,
