@@ -46,5 +46,6 @@ namespace AprobacionesApi.Data
         public string CONTACTO { get; set; }
         public Nullable<decimal> DURACION { get; set; }
         public string USUARIO_ULTMOD { get; set; }
+        public Nullable<short> STOMITEPRESUP { get; set; }
     }
 }
