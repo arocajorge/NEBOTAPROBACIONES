@@ -55,6 +55,19 @@
                     <Label
                             FontSize="Medium"
                             FontAttributes="Bold"
+                            Text="Pedido: "
+                            IsVisible="{Binding EsChatarraVisible, Mode=TwoWay}"
+                            TextColor="Black"></Label>
+                    <Label
+                            FontSize="Medium"
+                            VerticalOptions="EndAndExpand"
+                            IsVisible="{Binding EsChatarraVisible, Mode=TwoWay}"
+                            Text="{Binding Orden.Pedido, StringFormat='{0:N0}'}"
+                            TextColor="Black">
+                    </Label>
+                    <Label
+                            FontSize="Medium"
+                            FontAttributes="Bold"
                             Text="Barco: "
                             TextColor="Black">
                     </Label>

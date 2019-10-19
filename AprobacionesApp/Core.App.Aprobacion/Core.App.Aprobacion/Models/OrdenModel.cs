@@ -64,6 +64,8 @@
         public string NombreObras { get; set; }
         [JsonProperty("DURACION")]
         public decimal? Duracion { get; set; }
+        [JsonProperty("CINV_PEDIDO")]
+        public int? Pedido { get; set; }
 
         #region Presupuesto
         [JsonProperty("PRESUPUESTO")]
