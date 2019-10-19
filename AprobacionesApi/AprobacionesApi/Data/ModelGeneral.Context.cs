@@ -42,8 +42,6 @@ namespace AprobacionesApi.Data
         public DbSet<TBNOM_ORDEN_NOMINA_DET> TBNOM_ORDEN_NOMINA_DET { get; set; }
         public DbSet<VW_BITACORAS_CUMPLIMIENTO_APP> VW_BITACORAS_CUMPLIMIENTO_APP { get; set; }
         public DbSet<ARPROVEEDOR> ARPROVEEDOR { get; set; }
-        public DbSet<VW_ORDENES_TRABAJO_TOTAL_APP> VW_ORDENES_TRABAJO_TOTAL_APP { get; set; }
-        public DbSet<VW_ORDENES_TRABAJO_TOTAL_APS> VW_ORDENES_TRABAJO_TOTAL_APS { get; set; }
         public DbSet<VW_ORDENES_TRABAJO_APP> VW_ORDENES_TRABAJO_APP { get; set; }
         public DbSet<TBCINV> TBCINV { get; set; }
         public DbSet<TBDPED> TBDPED { get; set; }
@@ -57,5 +55,7 @@ namespace AprobacionesApi.Data
         public DbSet<VW_PRESUPUESTO_APP> VW_PRESUPUESTO_APP { get; set; }
         public DbSet<CAB_BITACORA_PARAM> CAB_BITACORA_PARAM { get; set; }
         public DbSet<CAB_BITACORA_PARAM_OP4> CAB_BITACORA_PARAM_OP4 { get; set; }
+        public DbSet<VW_ORDENES_TRABAJO_TOTAL_APP> VW_ORDENES_TRABAJO_TOTAL_APP { get; set; }
+        public DbSet<VW_ORDENES_TRABAJO_TOTAL_APS> VW_ORDENES_TRABAJO_TOTAL_APS { get; set; }
     }
 }

@@ -40,7 +40,8 @@ namespace AprobacionesApi.Controllers
                         VALOR_OC = q.VALOR_OC,
                         NOM_CENTROCOSTO = q.NOM_CENTROCOSTO,
                         NOM_VIAJE = q.NOM_VIAJE,
-                        DURACION = q.DURACION
+                        DURACION = q.DURACION,
+                        CINV_PEDIDO = q.CINV_PEDIDO
                     }).FirstOrDefault();
                 }
                 else
@@ -70,7 +71,8 @@ namespace AprobacionesApi.Controllers
                                  VALOR_OC = q.VALOR_OC,
                                  NOM_CENTROCOSTO = q.NOM_CENTROCOSTO,
                                  NOM_VIAJE = q.NOM_VIAJE,
-                                 DURACION = q.DURACION
+                                 DURACION = q.DURACION,
+                                 CINV_PEDIDO = q.CINV_PEDIDO
                              }).FirstOrDefault();
 
                     if (orden == null)
@@ -104,6 +106,7 @@ namespace AprobacionesApi.Controllers
                                      NOM_CENTROCOSTO = q.NOM_CENTROCOSTO,
                                      NOM_VIAJE = q.NOM_VIAJE,
                                      DURACION = q.DURACION,
+                                     CINV_PEDIDO = q.CINV_PEDIDO
                                  }).FirstOrDefault();
                     }
                 }

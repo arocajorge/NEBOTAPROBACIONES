@@ -22,8 +22,6 @@
         <EntityTypeShape EntityType="ModelGeneral.TBNOM_ORDEN_NOMINA_DET" Width="1.5" PointX="17.375" PointY="0.75" />
         <EntityTypeShape EntityType="ModelGeneral.VW_BITACORAS_CUMPLIMIENTO_APP" Width="1.5" PointX="17.375" PointY="15.75" />
         <EntityTypeShape EntityType="ModelGeneral.ARPROVEEDOR" Width="1.5" PointX="0.75" PointY="11.75" />
-        <EntityTypeShape EntityType="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APP" Width="1.5" PointX="11.75" PointY="16.75" />
-        <EntityTypeShape EntityType="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APS" Width="1.5" PointX="14.375" PointY="15.75" />
         <EntityTypeShape EntityType="ModelGeneral.VW_ORDENES_TRABAJO_APP" Width="1.5" PointX="19.375" PointY="0.75" />
         <EntityTypeShape EntityType="ModelGeneral.TBCINV" Width="1.5" PointX="0.75" PointY="19.75" />
         <EntityTypeShape EntityType="ModelGeneral.TBDPED" Width="1.5" PointX="19.375" PointY="19.75" />
@@ -37,6 +35,8 @@
         <EntityTypeShape EntityType="ModelGeneral.VW_PRESUPUESTO_APP" Width="1.5" PointX="21.375" PointY="8.75" />
         <EntityTypeShape EntityType="ModelGeneral.CAB_BITACORA_PARAM" Width="1.5" PointX="21.375" PointY="12.75" />
         <EntityTypeShape EntityType="ModelGeneral.CAB_BITACORA_PARAM_OP4" Width="1.5" PointX="21.375" PointY="4.75" />
+        <EntityTypeShape EntityType="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APP" Width="1.5" PointX="13.375" PointY="15.75" />
+        <EntityTypeShape EntityType="ModelGeneral.VW_ORDENES_TRABAJO_TOTAL_APS" Width="1.5" PointX="21.375" PointY="17.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
