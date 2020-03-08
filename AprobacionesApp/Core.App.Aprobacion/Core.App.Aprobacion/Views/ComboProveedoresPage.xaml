@@ -36,7 +36,7 @@
                                     <Label
                                         FontAttributes="None"
                                         Text="{Binding Nombre}"
-                                        TextColor="Black"
+                                        TextColor="{Binding Color}"
                                         HorizontalOptions="StartAndExpand">
                                     </Label>
                                  </StackLayout>

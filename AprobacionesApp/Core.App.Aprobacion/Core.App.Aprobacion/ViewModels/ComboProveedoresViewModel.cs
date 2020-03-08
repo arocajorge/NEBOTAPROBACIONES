@@ -80,6 +80,7 @@ namespace Core.App.Aprobacion.ViewModels
                 ModificaProveedor = ModificaProveedor,
                 Duracion = l.Duracion,
                 Telefonos = l.Telefonos,
+                Color =  Settings.RolApro == "G" ? l.Color : "Black"
             });
             return temp;
         }

@@ -19,7 +19,7 @@
                             VerticalOptions="EndAndExpand"
                             FontSize="Medium"
                             Text="{Binding Proveedor.Nombre}"
-                            TextColor="Black">
+                            TextColor="{Binding Proveedor.Color}">
                     </Label>
                     <Label
                             FontSize="Medium"

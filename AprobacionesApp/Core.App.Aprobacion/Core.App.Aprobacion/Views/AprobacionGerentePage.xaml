@@ -99,7 +99,7 @@
                     <Label
                             FontSize="Medium"
                             Text="{Binding Orden.NombreProveedor}"
-                            TextColor="Black">
+                            TextColor="{Binding Orden.ColorProveedor}">
                         </Label>
                     
                     
