@@ -95,6 +95,10 @@ namespace Core.App.Aprobacion.ViewModels
                         MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
                         Application.Current.MainPage = new JefeSupervisorMasterPage();
                         break;
+                    case "AprobacionOrdenPage":
+                        MainViewModel.GetInstance().AprobacionOrden = new AprobacionOrdenViewModel();
+                        await App.Navigator.PushAsync(new AprobacionOrdenPage());
+                        break;
                     case "AprobacionPedidoPage":
                         MainViewModel.GetInstance().AprobacionPedido = new AprobacionPedidoViewModel();
                         await App.Navigator.PushAsync(new AprobacionPedidoPage());

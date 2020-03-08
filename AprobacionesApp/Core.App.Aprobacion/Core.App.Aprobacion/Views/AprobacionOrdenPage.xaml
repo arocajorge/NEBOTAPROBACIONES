@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Core.App.Aprobacion.Views.AprobacionGerentePage"
+             x:Class="Core.App.Aprobacion.Views.AprobacionOrdenPage"
               BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Aprobación">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem
-            Icon="ic_search"
-            Command="{Binding BuscarOrdenCommand}"/>
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout
-            BindingContext="{Binding AprobacionGerente}">
+            BindingContext="{Binding AprobacionOrden}">
             <ScrollView>
                 <StackLayout
                     Padding="35">
@@ -39,30 +34,6 @@
                             VerticalOptions="EndAndExpand"
                             FontSize="Medium"
                             Text="{Binding Orden.Fecha, StringFormat='{0:dd/MM/yyyy}'}"
-                            TextColor="Black">
-                    </Label>
-                        <Label
-                            FontSize="Medium"
-                            FontAttributes="Bold"
-                            Text="Duración: "
-                            TextColor="Black"></Label>
-                    <Label
-                            FontSize="Medium"
-                            VerticalOptions="EndAndExpand"
-                            Text="{Binding Orden.Duracion, StringFormat='{0:N0} días'}"
-                            TextColor="Black">
-                    </Label>
-                    <Label
-                            FontSize="Medium"
-                            FontAttributes="Bold"
-                            Text="Pedido: "
-                            IsVisible="{Binding EsChatarraVisible, Mode=TwoWay}"
-                            TextColor="Black"></Label>
-                    <Label
-                            FontSize="Medium"
-                            VerticalOptions="EndAndExpand"
-                            IsVisible="{Binding EsChatarraVisible, Mode=TwoWay}"
-                            Text="{Binding Orden.Pedido, StringFormat='{0:N0}'}"
                             TextColor="Black">
                     </Label>
                     <Label
@@ -141,14 +112,6 @@
                             Text="Detalle: "
                             TextColor="Black">                            
                         </Label>
-                        <Label
-                            FontSize="Medium"
-                            FontAttributes="Bold"
-                            Text="Chatarra "
-                            HorizontalOptions="EndAndExpand"
-                            TextColor="Black"
-                            IsVisible="{Binding EsChatarraVisible, Mode=TwoWay}">
-                        </Label>
                     </StackLayout>
                     
                     
@@ -177,10 +140,6 @@
                                             FontSize="Small"
                                             HorizontalOptions="CenterAndExpand">
                                         </Label>
-                                        <Switch
-                                            IsToggled="{Binding EsChatarra, Mode=TwoWay}"
-                                            HorizontalOptions="End">
-                                        </Switch>
                                     </StackLayout>                                        
                                     </ViewCell>
                                 </DataTemplate>
@@ -226,70 +185,6 @@
                         </Label>
                          </StackLayout>
                         
-                        <StackLayout 
-                        Orientation="Horizontal">
-                        <Label
-                            FontSize="Large"
-                            FontAttributes="Bold"
-                            Text="Presupuesto: "
-                            TextColor="Black"
-                            HorizontalOptions="StartAndExpand">
-                        </Label>
-                        <Label                            
-                            FontSize="Large"
-                            Text="{Binding Orden.Presupuesto, StringFormat='{0:N2}'}"
-                            TextColor="Black"
-                            HorizontalTextAlignment="End">
-                        </Label>
-                         </StackLayout>
-                            <StackLayout 
-                        Orientation="Horizontal">
-                        <Label
-                            FontSize="Large"
-                            FontAttributes="Bold"
-                            Text="Aprobado: "
-                            TextColor="Black"
-                            HorizontalOptions="StartAndExpand">
-                        </Label>
-                        <Label                            
-                            FontSize="Large"
-                            Text="{Binding Orden.Aprobado, StringFormat='{0:N2}'}"
-                            TextColor="Black"
-                            HorizontalTextAlignment="End">
-                        </Label>
-                         </StackLayout>
-                                <StackLayout 
-                        Orientation="Horizontal">
-                        <Label
-                            FontSize="Large"
-                            FontAttributes="Bold"
-                            Text="Pendiente: "
-                            TextColor="Black"
-                            HorizontalOptions="StartAndExpand">
-                        </Label>
-                        <Label                            
-                            FontSize="Large"
-                            Text="{Binding Orden.Pendiente, StringFormat='{0:N2}'}"
-                            TextColor="Black"
-                            HorizontalTextAlignment="End">
-                        </Label>
-                                     </StackLayout>
-                                    <StackLayout 
-                        Orientation="Horizontal">
-                            <Label
-                            FontSize="Large"
-                            FontAttributes="Bold"
-                            Text="Saldo: "
-                            TextColor="Black"
-                            HorizontalOptions="StartAndExpand">
-                        </Label>
-                        <Label                            
-                            FontSize="Large"
-                            Text="{Binding Orden.Saldo, StringFormat='{0:N2}'}"
-                            TextColor="Black"
-                            HorizontalTextAlignment="End">
-                        </Label>
-                    </StackLayout>
                     
                     <ActivityIndicator
                             IsRunning="{Binding IsRunning, Mode=TwoWay}"
@@ -326,23 +221,6 @@
                             HorizontalOptions="FillAndExpand">
                         </Button>
                     </StackLayout>
-                    <Button
-                            BackgroundColor="CornflowerBlue"
-                            TextColor="White"
-                            Command="{Binding ModificarCommand}"
-                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
-                        IsVisible="{Binding Orden.EsModificacion}"
-                            Text="Actualizar"
-                            HorizontalOptions="FillAndExpand">
-                    </Button>
-                    <Button
-                            BackgroundColor="Gray"
-                            TextColor="White"
-                            Command="{Binding PasarCommand}"
-                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
-                            Text="Pasar"
-                            HorizontalOptions="FillAndExpand">
-                    </Button>
                 </StackLayout>
             </ScrollView>
         </StackLayout>
