@@ -18,7 +18,7 @@ namespace AprobacionesApi.Controllers
             {
                 List<OrdenModel> Lista;
 
-                Lista = db.VW_ORDENES_TRABAJO_TOTAL_APP.Where(q => q.CINV_ST == "A" && q.CINV_LOGIN == CINV_LOGIN.ToUpper() && (q.CINV_TDOC == "OT" || q.CINV_TDOC == "OK")).Select(q => new OrdenModel
+                Lista = db.VW_ORDENES_TRABAJO_TOTAL_APP.Where(q => q.CINV_ST == "D" && q.CINV_LOGIN == CINV_LOGIN.ToUpper() && (q.CINV_TDOC == "OT" || q.CINV_TDOC == "OK")).Select(q => new OrdenModel
                 {
                     CINV_SEC = q.CINV_SEC,
 
@@ -102,6 +102,10 @@ namespace AprobacionesApi.Controllers
                 }
                 value.CINV_COM1 = arregloString.Count() > 0 ? (arregloString[0].Length > 190 ? arregloString[0].Substring(0,190) : arregloString[0]) : "";
 
+                var usuario = db.USUARIOS.Where(q => q.USUARIO == value.CINV_LOGIN.ToUpper()).FirstOrDefault();
+                if (usuario == null)
+                    return;
+
                 if (value.CINV_NUM  == 0)
                 {                    
                     db.TBCINV.Add(new TBCINV
@@ -123,7 +127,7 @@ namespace AprobacionesApi.Controllers
                         CINV_COM4 = value.CINV_COM4,
                         CINV_TASA = 1,
                         CINV_LOGIN = value.CINV_LOGIN.ToUpper(),
-                        CINV_ST = "A",
+                        CINV_ST = usuario.ROL_CINVST ?? "D",
                         CINV_FECLLEGADA = value.CINV_FECING,
                         CINV_TDIV = "D",
                         CODIGOTR = value.CODIGOTR,
@@ -161,7 +165,7 @@ namespace AprobacionesApi.Controllers
                     var orden = db.TBCINV.Where(q => q.CINV_TDOC == value.CINV_TDOC && q.CINV_NUM == value.CINV_NUM).FirstOrDefault();
                     if(orden != null)
                     {
-                        if (orden.CINV_ST != "A") return;
+                        if (orden.CINV_ST != "D") return;
 
                         orden.CINV_BOD = value.CINV_BOD;
                         orden.CINV_FECING = value.CINV_FECING;
@@ -217,7 +221,7 @@ namespace AprobacionesApi.Controllers
                     Error.APP_LOGERROR.Add(new APP_LOGERROR
                     {
                         ERROR = ex == null ? string.Empty : (ex.Message.Length > 1000 ? ex.Message.Substring(0, 1000) : ex.Message),
-                        INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.Message.Length > 1000 ? ex.InnerException.Message.Substring(0, 1000) : ex.InnerException.Message),
+                        INNER = ex.InnerException == null ? string.Empty : (ex.InnerException.InnerException.Message.Length > 1000 ? ex.InnerException.InnerException.Message.Substring(0, 1000) : ex.InnerException.InnerException.Message),
                         FECHA = DateTime.Now,
                         PROCESO = "CreacionOrdenTrabajo/POST",
                         SECUENCIA = ID

@@ -25,5 +25,6 @@ namespace AprobacionesApi.Data
         public string GERCRE { get; set; }
         public string ROL_APRO { get; set; }
         public string ROL_CODIGO { get; set; }
+        public string ROL_CINVST { get; set; }
     }
 }

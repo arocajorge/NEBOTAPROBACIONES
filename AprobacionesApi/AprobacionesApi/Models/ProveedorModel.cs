@@ -18,5 +18,6 @@ namespace AprobacionesApi.Models
         public string IDENTIFICACION { get; set; }
         public decimal? DURACION { get; set; }
         public decimal? DURACIONACUMULADA { get; set; }
+        public string Color { get; set; }
     }
 }

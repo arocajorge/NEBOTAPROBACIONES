@@ -49,6 +49,7 @@ namespace AprobacionesApi.Models
         public decimal APROBADO { get; set; }
         public decimal PENDIENTE { get; set; }
         public decimal SALDO { get; set; }
+        public string COLOR_PROVEEDOR { get; internal set; }
         #endregion
 
     }

@@ -41,7 +41,8 @@ namespace AprobacionesApi.Controllers
                         NOM_CENTROCOSTO = q.NOM_CENTROCOSTO,
                         NOM_VIAJE = q.NOM_VIAJE,
                         DURACION = q.DURACION,
-                        CINV_PEDIDO = q.CINV_PEDIDO
+                        CINV_PEDIDO = q.CINV_PEDIDO,
+                        CINV_ID = q.CINV_ID
                     }).FirstOrDefault();
                 }
                 else
@@ -72,7 +73,8 @@ namespace AprobacionesApi.Controllers
                                  NOM_CENTROCOSTO = q.NOM_CENTROCOSTO,
                                  NOM_VIAJE = q.NOM_VIAJE,
                                  DURACION = q.DURACION,
-                                 CINV_PEDIDO = q.CINV_PEDIDO
+                                 CINV_PEDIDO = q.CINV_PEDIDO,
+                                 CINV_ID = q.CINV_ID
                              }).FirstOrDefault();
 
                     if (orden == null)
@@ -106,7 +108,8 @@ namespace AprobacionesApi.Controllers
                                      NOM_CENTROCOSTO = q.NOM_CENTROCOSTO,
                                      NOM_VIAJE = q.NOM_VIAJE,
                                      DURACION = q.DURACION,
-                                     CINV_PEDIDO = q.CINV_PEDIDO
+                                     CINV_PEDIDO = q.CINV_PEDIDO,
+                                     CINV_ID = q.CINV_ID
                                  }).FirstOrDefault();
                     }
                 }
@@ -199,6 +202,10 @@ namespace AprobacionesApi.Controllers
                     orden.PENDIENTE = presupuesto.PENDIENTE ?? 0;
                     orden.SALDO = presupuesto.SALDO ?? 0;
                 }
+                
+                    var ProveedorColor = db.ARPROVEEDOR_COLOR.Where(q => q.CODIGO == orden.CINV_ID).FirstOrDefault();
+                    orden.COLOR_PROVEEDOR = ProveedorColor != null ? ProveedorColor.COLOR : "Black";
+                
 
                 return orden;
             }

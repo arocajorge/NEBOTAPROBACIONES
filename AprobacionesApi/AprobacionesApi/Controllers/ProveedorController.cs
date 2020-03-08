@@ -14,30 +14,42 @@ namespace AprobacionesApi.Controllers
         {
             try
             {
-                List<ProveedorModel> Lista;
+                List<ProveedorModel> Lista = new List<ProveedorModel>();
 
-                Lista = db.ARPROVEEDOR.Where(q => q.ESTADO == "Activo").Select(q=> new ProveedorModel
-                {
-                    CODIGO = q.CODIGO,
-                    CEDULA = q.CEDULA,
-                    RUC = q.RUC,
-                    APELLIDO = q.APELLIDO,
-                    NOMBRE = q.NOMBRE,
-                    DURACION = q.DURACION,
-                    E_MAIL = q.E_MAIL,
-                    TELEFONOS = q.TELEFONOS
-                }).ToList();
-                Lista.ForEach(q =>
-                {
-                    q.CEDULA = string.IsNullOrEmpty(q.CEDULA) ? string.Empty : q.CEDULA.Trim();
-                    q.RUC = string.IsNullOrEmpty(q.RUC) ? string.Empty : q.RUC.Trim();
-                    q.IDENTIFICACION = q.CEDULA != "." && q.CEDULA.Trim().Length > 3 ? q.CEDULA : q.RUC;
-                    q.APELLIDO = string.IsNullOrEmpty(q.APELLIDO) && q.APELLIDO.Trim().Length > 2 ? string.Empty : q.APELLIDO.Trim();
-                    q.NOMBRE = string.IsNullOrEmpty(q.NOMBRE) ? string.Empty : q.NOMBRE.Trim();
-                    q.NOMBRE += " " + q.APELLIDO;
-                    q.NOMBRE = q.NOMBRE.Trim();
-                });
+                var lst = (from q in db.ARPROVEEDOR
+                          join c in db.ARPROVEEDOR_COLOR
+                          on q.CODIGO equals c.CODIGO into col
+                          from colo in col.DefaultIfEmpty()
+                          where q.ESTADO == "Activo"
+                          select new
+                          {
+                              Proveedor = q,
+                              Color = colo == null ? "Black" : colo.COLOR
+                          }).ToList();
 
+                foreach (var q in lst)
+                {
+                    q.Proveedor.CEDULA = string.IsNullOrEmpty(q.Proveedor.CEDULA) ? string.Empty : q.Proveedor.CEDULA.Trim();
+                    q.Proveedor.RUC = string.IsNullOrEmpty(q.Proveedor.RUC) ? string.Empty : q.Proveedor.RUC.Trim();
+                    q.Proveedor.APELLIDO = string.IsNullOrEmpty(q.Proveedor.APELLIDO) && q.Proveedor.APELLIDO.Trim().Length > 2 ? string.Empty : q.Proveedor.APELLIDO.Trim();
+                    q.Proveedor.NOMBRE = string.IsNullOrEmpty(q.Proveedor.NOMBRE) ? string.Empty : q.Proveedor.NOMBRE.Trim();
+                    q.Proveedor.NOMBRE += " " + q.Proveedor.APELLIDO;
+                    q.Proveedor.NOMBRE = q.Proveedor.NOMBRE.Trim();
+
+                    Lista.Add(new ProveedorModel
+                    {
+                        CODIGO = q.Proveedor.CODIGO,
+                        CEDULA = q.Proveedor.CEDULA,
+                        RUC = q.Proveedor.RUC,
+                        APELLIDO = q.Proveedor.APELLIDO,
+                        NOMBRE = q.Proveedor.NOMBRE,
+                        DURACION = q.Proveedor.DURACION,
+                        E_MAIL = q.Proveedor.E_MAIL,
+                        TELEFONOS = q.Proveedor.TELEFONOS,
+                        IDENTIFICACION = q.Proveedor.CEDULA != "." && q.Proveedor.CEDULA.Trim().Length > 3 ? q.Proveedor.CEDULA : q.Proveedor.RUC,
+                        Color = q.Color
+                    });
+                }
 
                 return Lista;
             }

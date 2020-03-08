@@ -60,5 +60,8 @@ namespace AprobacionesApi.Data
         public Nullable<decimal> DURACION { get; set; }
         public Nullable<short> CINV_STPRESUP { get; set; }
         public Nullable<int> CINV_PEDIDO { get; set; }
+        public Nullable<System.DateTime> CINV_FECCUMPLIJP { get; set; }
+        public string CINV_COMENCUMPLIJP { get; set; }
+        public string CINV_LOGINCUMPLIJP { get; set; }
     }
 }
