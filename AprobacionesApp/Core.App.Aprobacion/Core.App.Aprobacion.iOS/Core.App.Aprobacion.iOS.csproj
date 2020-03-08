@@ -27,8 +27,8 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>iPhone Distribution: Jorge Aroca (S27X3S56M2)</CodesignKey>
-    <CodesignProvision>Indigo Ad-Hoc</CodesignProvision>
+    <CodesignKey>iPhone Developer: Jorge Aroca (3V4J3U5X7G)</CodesignKey>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
     <MtouchFloat32>true</MtouchFloat32>
     <OptimizePNGs>true</OptimizePNGs>
     <CodesignExtraArgs />
@@ -57,11 +57,11 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>iPhone Distribution: Jorge Aroca (S27X3S56M2)</CodesignKey>
+    <CodesignKey>iPhone Developer: Jorge Aroca (3V4J3U5X7G)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>
     </CodesignEntitlements>
-    <CodesignProvision>Indigo Ad-Hoc</CodesignProvision>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
     <CodesignExtraArgs />
     <CodesignResourceRules />
     <OptimizePNGs>true</OptimizePNGs>
@@ -78,12 +78,12 @@
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer: Jorge Aroca (3V4J3U5X7G)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
     <CodesignExtraArgs />
     <CodesignResourceRules />
     <OptimizePNGs>true</OptimizePNGs>
     <MtouchFloat32>true</MtouchFloat32>
     <BuildIpa>true</BuildIpa>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -94,14 +94,14 @@
     <ConsolePause>False</ConsolePause>
     <MtouchArch>ARM64</MtouchArch>
     <BuildIpa>True</BuildIpa>
-    <CodesignProvision>Indigo Ad-Hoc</CodesignProvision>
-    <CodesignKey>iPhone Distribution: Jorge Aroca (S27X3S56M2)</CodesignKey>
+    <CodesignKey>iPhone Developer: Jorge Aroca (3V4J3U5X7G)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignExtraArgs />
     <CodesignResourceRules>
     </CodesignResourceRules>
     <MtouchFloat32>false</MtouchFloat32>
     <OptimizePNGs>true</OptimizePNGs>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>none</DebugType>

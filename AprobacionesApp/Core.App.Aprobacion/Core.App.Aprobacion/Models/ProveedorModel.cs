@@ -26,6 +26,9 @@
         [JsonProperty("DURACIONACUMULADA")]
         public decimal? DuracionAcumulada { get; set; }
 
+        [JsonProperty("Color")]
+        public string Color { get; set; }
+
         public string Identificacion { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -52,6 +53,7 @@ namespace Core.App.Aprobacion.ViewModels
         public CreacionLineasViewModel CreacionLineas { get; set; }
         public CreacionLineaViewModel CreacionLinea { get; set; }
         public MiBonoDetalleViewModel MiBonoDetalle { get; set; }
+        public AprobacionOrdenViewModel AprobacionOrden { get; set; }
 
         #endregion
 
@@ -87,7 +89,7 @@ namespace Core.App.Aprobacion.ViewModels
         public async Task loadMenu(List<UsuarioMenuModel> Lista)
         {
             this.Menus = new ObservableCollection<JefeSupervisorMenuItemViewModel>();
-
+            
             foreach (var item in Lista)
             {
                 this.Menus.Add(new JefeSupervisorMenuItemViewModel
@@ -105,7 +107,8 @@ namespace Core.App.Aprobacion.ViewModels
                         : (item.Menu == "AprobacionPedidoPage" ? "ic_check_box_white"
                         : (item.Menu == "MiBonoPage" ? "ic_attach_money"
                         : (item.Menu == "CreacionBitacorasPage" ? "ic_filter_5"
-                        : "")))))))))))),
+                        : (item.Menu == "AprobacionOrdenPage" ? "ic_filter_5"
+                        : ""))))))))))))),
                     PageName = item.Menu,
                     Title = item.Menu == "JefeSupervisorOrdenesPage" ? "Ordenes"
                         : (item.Menu == "JefeSupervisorBitacorasPage" ? "Bitácoras"
@@ -120,9 +123,12 @@ namespace Core.App.Aprobacion.ViewModels
                         : (item.Menu == "AprobacionPedidoPage" ? "Aprobación pedidos"
                         : (item.Menu == "MiBonoPage" ? "Mi bono"
                         : (item.Menu == "CreacionBitacorasPage" ? "Mis bitácoras"
-                        : ""))))))))))))
+                        : (item.Menu == "AprobacionOrdenPage" ? "Aprobación órdenes"
+                        : "")))))))))))))
                 });
             }
+
+            this.Menus = new ObservableCollection<JefeSupervisorMenuItemViewModel>(this.Menus.OrderBy(q => q.Icon).ToList());
             this.Menus.Add(new JefeSupervisorMenuItemViewModel
             {
                 Icon = "ic_exit_to_app",

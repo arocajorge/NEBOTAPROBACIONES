@@ -67,6 +67,9 @@
         [JsonProperty("CINV_PEDIDO")]
         public int? Pedido { get; set; }
 
+        [JsonProperty("COLOR_PROVEEDOR")]
+        public string ColorProveedor { get; set; }
+
         #region Presupuesto
         [JsonProperty("PRESUPUESTO")]
         public decimal Presupuesto { get; set; }

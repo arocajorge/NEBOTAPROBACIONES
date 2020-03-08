@@ -27,6 +27,7 @@
     </Compile>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\AprobacionGerentePage %28copia%29.xaml.cs">
       <SubType>Code</SubType>
+      <DependentUpon>AprobacionOrdenPage.xaml</DependentUpon>
     </Compile>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\MiBonoPage.xaml.cs">
       <SubType>Code</SubType>
