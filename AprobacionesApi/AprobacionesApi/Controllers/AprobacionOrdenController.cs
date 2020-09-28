@@ -114,6 +114,16 @@ namespace AprobacionesApi.Controllers
                 if (orden.lst != null)
                     orden.lst.ForEach(q => { q.TOTAL = ((orden.CINV_TDOC == "OT" || orden.CINV_TDOC == "OK" || orden.CINV_TDOC == "OR") ? Convert.ToDecimal(q.CINV_COM3, provider) + Convert.ToDecimal(q.CINV_COM4, provider) : (q.DINV_COS + (q.DINV_ICE == null ? 0 : Convert.ToDecimal(q.DINV_ICE, provider)))) + q.DINV_IVA; orden.NOM_VIAJE = q.NOM_VIAJE; });
 
+                string Tipo = orden.CINV_TDOC == "OT" || orden.CINV_TDOC == "OK" ? "OT" : orden.CINV_TDOC;
+                var presupuesto = db.VW_PRESUPUESTO_APP.Where(q => q.CINV_TDOC == Tipo && q.BARCO == orden.CODIGOTR && q.VIAJE == orden.CINV_FPAGO).FirstOrDefault();
+                if (presupuesto != null)
+                {
+                    orden.PRESUPUESTO = Tipo == "OC" ? presupuesto.PRESUP_OC : presupuesto.PRESUP_OT;
+                    orden.APROBADO = presupuesto.APROBADO ?? 0;
+                    orden.PENDIENTE = presupuesto.PENDIENTE ?? 0;
+                    orden.SALDO = presupuesto.SALDO ?? 0;
+                }
+
                 return orden;
             }
             catch (Exception ex)
@@ -146,10 +156,27 @@ namespace AprobacionesApi.Controllers
                 var Entity = db.TBCINV.Where(q => q.CINV_NUM == value.CINV_NUM && q.CINV_TDOC == value.CINV_TDOC).FirstOrDefault();
                 if (Entity != null)
                 {
-                    Entity.CINV_FECCUMPLIJP = DateTime.Now.Date;
-                    Entity.CINV_COMENCUMPLIJP = value.CINV_MOTIVOANULA;
-                    Entity.CINV_ST = value.CINV_ST;
-                    Entity.CINV_LOGINCUMPLIJP = usuario.USUARIO;
+                    if (value.CINV_ST == "PASAR")
+                    {
+                        var query = db.TBCINV_APP_ORDENES_SALTADAS.ToList();
+                        int ID = query.Count == 0 ? 1 : query.Max(q => q.ID) + 1;
+                        db.TBCINV_APP_ORDENES_SALTADAS.Add(new TBCINV_APP_ORDENES_SALTADAS
+                        {
+                            ID = ID,
+                            CINV_NUM = value.CINV_NUM,
+                            CINV_TDOC = value.CINV_TDOC,
+                            USUARIO = usuario.USUARIO,
+                        });
+                    }
+                    else
+                    {
+                        Entity.CINV_FECCUMPLIJP = DateTime.Now.Date;
+                        Entity.CINV_COMENCUMPLIJP = value.CINV_MOTIVOANULA;
+                        Entity.CINV_ST = value.CINV_ST;
+                        Entity.CINV_LOGINCUMPLIJP = usuario.USUARIO;
+
+                        db.Database.ExecuteSqlCommand("DELETE TBCINV_APP_ORDENES_SALTADAS WHERE CINV_TDOC = '" + value.CINV_TDOC + "' AND CINV_NUM = " + value.CINV_NUM.ToString());
+                    }
                 }
 
                 db.SaveChanges();

@@ -140,7 +140,6 @@ namespace Core.WindowsService
 
             if (Estado.Trim() == "P")
             {
-
                 if (!string.IsNullOrEmpty(info.E_MAIL))
                 {
                     string[] array = info.E_MAIL.Split(';');

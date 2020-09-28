@@ -193,11 +193,11 @@ namespace AprobacionesApi.Controllers
                     orden.ListaBitacoras.ForEach(q => orden.NOM_OBRAS += q.LINEA.ToString() + ".- " + q.DESCRIPCION + "\n");
                     orden.NOM_OBRAS = string.IsNullOrEmpty(orden.NOM_OBRAS) ? "" : orden.NOM_OBRAS.Trim();
                 }
-
-                var presupuesto = db.VW_PRESUPUESTO_APP.Where(q => q.CINV_TDOC == orden.CINV_TDOC && q.BARCO == orden.CODIGOTR && q.VIAJE == orden.CINV_FPAGO).FirstOrDefault();
+                string Tipo = orden.CINV_TDOC == "OT" || orden.CINV_TDOC == "OK" ? "OT" : orden.CINV_TDOC;
+                var presupuesto = db.VW_PRESUPUESTO_APP.Where(q => q.CINV_TDOC == Tipo && q.BARCO == orden.CODIGOTR && q.VIAJE == orden.CINV_FPAGO).FirstOrDefault();
                 if (presupuesto != null)
                 {
-                    orden.PRESUPUESTO = orden.CINV_TDOC == "OC" ? presupuesto.PRESUP_OC : presupuesto.PRESUP_OT;
+                    orden.PRESUPUESTO = Tipo == "OC" ? presupuesto.PRESUP_OC : presupuesto.PRESUP_OT;
                     orden.APROBADO = presupuesto.APROBADO ?? 0;
                     orden.PENDIENTE = presupuesto.PENDIENTE ?? 0;
                     orden.SALDO = presupuesto.SALDO ?? 0;
