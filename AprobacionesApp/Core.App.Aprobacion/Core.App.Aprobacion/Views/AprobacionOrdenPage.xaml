@@ -184,7 +184,70 @@
                             HorizontalTextAlignment="End">
                         </Label>
                          </StackLayout>
-                        
+                       <StackLayout 
+                        Orientation="Horizontal">
+                        <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="Presupuesto: "
+                            TextColor="Black"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Large"
+                            Text="{Binding Orden.Presupuesto, StringFormat='{0:N2}'}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                         </StackLayout>
+                            <StackLayout 
+                        Orientation="Horizontal">
+                        <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="Aprobado: "
+                            TextColor="Black"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Large"
+                            Text="{Binding Orden.Aprobado, StringFormat='{0:N2}'}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                         </StackLayout>
+                                <StackLayout 
+                        Orientation="Horizontal">
+                        <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="Pendiente: "
+                            TextColor="Black"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Large"
+                            Text="{Binding Orden.Pendiente, StringFormat='{0:N2}'}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                                     </StackLayout>
+                                    <StackLayout 
+                        Orientation="Horizontal">
+                            <Label
+                            FontSize="Large"
+                            FontAttributes="Bold"
+                            Text="Saldo: "
+                            TextColor="Black"
+                            HorizontalOptions="StartAndExpand">
+                        </Label>
+                        <Label                            
+                            FontSize="Large"
+                            Text="{Binding Orden.Saldo, StringFormat='{0:N2}'}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="End">
+                        </Label>
+                    </StackLayout> 
                     
                     <ActivityIndicator
                             IsRunning="{Binding IsRunning, Mode=TwoWay}"
@@ -221,6 +284,14 @@
                             HorizontalOptions="FillAndExpand">
                         </Button>
                     </StackLayout>
+                    <Button
+                            BackgroundColor="Gray"
+                            TextColor="White"
+                            Command="{Binding PasarCommand}"
+                            IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                            Text="Pasar"
+                            HorizontalOptions="FillAndExpand">
+                    </Button>
                 </StackLayout>
             </ScrollView>
         </StackLayout>

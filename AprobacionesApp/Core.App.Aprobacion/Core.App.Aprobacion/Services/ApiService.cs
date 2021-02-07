@@ -36,7 +36,7 @@
                     Message = "Verifique su conexión a internet"
                 };
             }
-
+            /*
             var isReachable = await CrossConnectivity.Current.IsRemoteReachable(urlServidor);
             if (!isReachable)
             {
@@ -46,7 +46,7 @@
                     Message = "No se puede conectar al servidor"
                 };
             }
-
+            */
             var response_cs = await GetObject<bool>(IPCompleta, Settings.RutaCarpeta, "ValidarConexion", "");
             if (!response_cs.IsSuccess)
             {

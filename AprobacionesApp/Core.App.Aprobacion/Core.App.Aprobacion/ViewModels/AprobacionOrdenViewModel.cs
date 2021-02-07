@@ -256,8 +256,16 @@
                 }
                 else
                 {
-                    MainViewModel.GetInstance().NoHayOrdenesPendientes = new NoHayOrdenesPendientesViewModel();
-                    Application.Current.MainPage = new NoHayOrdenesMasterPage();
+                    await Application.Current.MainPage.DisplayAlert(
+                    "Alerta",
+                    "No hay ordenes pendientes de aprobar",
+                    "Aceptar");
+
+                    if (MainViewModel.GetInstance().Menus.Where(q=> q.PageName == "JefeSupervisorOrdenesPage").Count() > 0)
+                    {
+                        MainViewModel.GetInstance().JefeSupervisorOrdenes = new JefeSupervisorOrdenesViewModel();
+                        Application.Current.MainPage = new JefeSupervisorMasterPage();
+                    }
                 }
             }
             catch (System.Exception ex)
